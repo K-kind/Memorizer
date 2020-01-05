@@ -12,9 +12,7 @@ jobs:
           MYSQL_HOST: 127.0.0.1
       - image: circleci/mysql:5.7
         environment:
-          MYSQL_USER: root
           MYSQL_DB: myapp_test
-          MYSQL_PASSWORD: password
     working_directory: ~/repo
     steps:
       - checkout
@@ -42,9 +40,7 @@ jobs:
           MYSQL_HOST: 127.0.0.1
       - image: circleci/mysql:5.7
         environment:
-          MYSQL_USER: root
           MYSQL_DB: myapp_test
-          MYSQL_PASSWORD: password
     working_directory: ~/repo
     steps:
       - checkout
