@@ -9,7 +9,6 @@ jobs:
       - image: circleci/ruby:2.6.5-node-browsers-legacy
         environment:
           RAILS_ENV: test
-          MYSQL_HOST: 127.0.0.1
       - image: circleci/mysql:5.7
         environment:
           MYSQL_DB: myapp_test
@@ -37,7 +36,6 @@ jobs:
       - image: circleci/ruby:2.6.5-node-browsers-legacy
         environment:
           RAILS_ENV: test
-          MYSQL_HOST: 127.0.0.1
       - image: circleci/mysql:5.7
         environment:
           MYSQL_DB: myapp_test
