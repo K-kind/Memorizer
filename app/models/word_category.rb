@@ -1,0 +1,2 @@
+class WordCategory < ApplicationRecord
+end

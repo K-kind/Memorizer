@@ -21,7 +21,8 @@ services:
       - ./environments/db.env
     command: bundle exec puma -C config/puma.rb
     volumes:
-      - .:/myapp:cached
+      # 開発環境のみsync-volumeにしたい
+      - sync-volume:/myapp
       - public-data:/myapp/public
       - tmp-data:/myapp/tmp
       - log-data:/myapp/log
@@ -56,3 +57,5 @@ volumes:
   tmp-data:
   log-data:
   db-data:
+  sync-volume:
+    external: true

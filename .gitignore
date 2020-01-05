@@ -32,3 +32,4 @@ yarn-debug.log*
 
 *.env
 .DS_Store
+.docker-sync/
