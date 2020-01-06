@@ -18,5 +18,17 @@ p 3 分散学習のサイクルをサポート。
 
 a href='#' 新規登録
 
-= form_with :model @user, local: true do |f|
+= form_with model: @user, url: user_path, local: true do |f|
   = render 'shared/error_messages', object: f.object
+  = f.label :name
+  = f.text_field :name
+  = f.label :email
+  = f.email_field :email
+  = f.label :email_confirm
+  = f.email_field :email_confirm
+  = f.label :password
+  = f.password_field :password
+  = f.label :password_confirm
+  = f.password_field :password_confirm
+  = f.label :user_skill_id
+  = f.collection_select :user_skill_id, UserSkill.all, :id, :skill, {include_blank: '選択してください'}
