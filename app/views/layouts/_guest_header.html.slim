@@ -1,7 +1,8 @@
 header.header
   .container
     .header-left
-      h3.header-left__logo Memorizer
+      h3.header-left__logo
+        = link_to 'Memorizer', about_path
     ul.header-right
       li.header-right__list
         a href='#'
@@ -14,6 +15,6 @@ header.header
           = fa_icon 'caret-down'
         ul.user-menu
           li.user-menu__list
-            = link_to '新規登録', about_path, method: :destroy
+            = link_to '新規登録', about_path
           li.user-menu__list
             = link_to '学習一覧', user_path
