@@ -11,5 +11,7 @@ html
     = render 'layouts/logged_in_header'
     .main
       .container
+        - flash.each do |message_type, message|
+          = content_tag(:div, message, class: "flash__#{message_type}")
         = yield
     = render 'layouts/footer'
