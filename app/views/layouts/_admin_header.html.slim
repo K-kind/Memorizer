@@ -3,10 +3,11 @@ header.header
     .header-left
       h3.header-left__logo
         = link_to 'Memorizer', admin_users_path
-    ul.header-right
-      li.header-right__list
-        = link_to 'ユーザー一覧', admin_users_path
-      li.header-right__list
-        = link_to '学習内容一覧', admin_learns_path
-      li.header-right__list
-        = link_to 'ログアウト', logout_path, method: :delete
+    -if admin_logged_in?
+      ul.header-right
+        li.header-right__list
+          = link_to 'ユーザー一覧', admin_users_path
+        li.header-right__list
+          = link_to '学習内容一覧', admin_learns_path
+        li.header-right__list
+          = link_to 'ログアウト', admin_logout_path, method: :delete
