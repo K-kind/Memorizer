@@ -15,9 +15,9 @@
         user:
           name: ユーザー名
           email: メールアドレス
-          email_confirmation: 確認用メールアドレス
+          email_confirmation: メールアドレス（確認）
           password: パスワード
-          password_confirmation: 確認用パスワード
+          password_confirmation: パスワード（確認）
           user_skill_id: スキル
           user_skill: スキル
         user_skill:

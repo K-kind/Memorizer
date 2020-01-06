@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   
   resource :user, only: [:new, :create, :show, :update, :destroy]
   resources :later_lists, only: [:create, :destroy]
+  resources :account_activations, only: [:edit]
   resources :learns, controller: :learned_contents do
     member do
       get :question

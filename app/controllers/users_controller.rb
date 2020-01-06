@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      @user.send_activation_email
       flash[:info] = '仮登録が完了しました。本登録完了のために、メールをご確認ください。' 
       log_in @user
       redirect_to @user
