@@ -20,7 +20,7 @@ header.header
             = link_to 'ランキング', communities_ranking_path
       li.header-right__list
         a.header-right__toggler--user href='#'
-          | Keita Katahira(Lv.20)
+          | #{current_user.name}(Lv.20)
           = fa_icon 'caret-down'
         ul.user-menu
           li.user-menu__list

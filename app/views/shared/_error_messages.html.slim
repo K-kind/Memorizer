@@ -1,0 +1,7 @@
+- if object.errors.any?
+  .error-explanation
+    .error-count
+      | #{object.errors.count}件の入力エラーがあります。
+    ul
+    - object.errors.full_messages.each do |message|
+      li = message

@@ -8,7 +8,10 @@ html
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   body
-    = render 'layouts/logged_in_header'
+    - if logged_in?
+      = render 'layouts/logged_in_header'
+    - else
+      = render 'layouts/guest_header'
     .main
       .container
         - flash.each do |message_type, message|
