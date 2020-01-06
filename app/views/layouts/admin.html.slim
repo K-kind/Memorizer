@@ -2,10 +2,14 @@ doctype html
 html
   head
     title
-      | Myapp Admin
+      | Memorizer Admin
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   body
-    = yield
+    = render 'layouts/admin_header'
+    .main
+      .container
+        = yield
+    = render 'layouts/admin_footer'

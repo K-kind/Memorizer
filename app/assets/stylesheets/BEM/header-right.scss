@@ -1,0 +1,16 @@
+.header-right {
+  float: right;
+  line-height: 52px;
+  &__list {
+    float: left;
+    margin-left: 15px;
+  }
+  &__toggler {
+    &--community {
+      padding: 0 36px;
+    }
+    &--user {
+      font-size: 14px;
+    }
+  }
+}
