@@ -1,0 +1,30 @@
+header.header
+  .container
+    .header-left
+      h3.header-left__logo Memorizer
+    ul.header-right
+      li.header-right__list
+        a href='#'
+          = fa_icon 'edit lg'
+      li.header-right__list
+        a.header-right__toggler--community href='#'
+          = fa_icon 'users lg'
+          = fa_icon 'caret-down'
+        ul.community-menu
+          li.community-menu__list
+            = link_to '単語を探す', communities_words_path
+          li.community-menu__list
+            = link_to 'みんなの問題', communities_questions_path
+          li.community-menu__list
+            = link_to 'ランキング', communities_ranking_path
+      li.header-right__list
+        a.header-right__toggler--user href='#'
+          | Keita Katahira(Lv.20)
+          = fa_icon 'caret-down'
+        ul.user-menu
+          li.user-menu__list
+            = link_to 'マイページ', user_path
+          li.user-menu__list
+            = link_to '学習一覧', user_path
+          li.user-menu__list
+            = link_to 'ログアウト', logout_path, method: :destroy

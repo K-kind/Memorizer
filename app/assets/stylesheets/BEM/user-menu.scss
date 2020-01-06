@@ -1,0 +1,10 @@
+.user-menu {
+  display: none;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  background-color: #FFF;
+  padding: 10px;
+  &__list {
+    font-size: 14px;
+    line-height: 30px;
+  }
+}

@@ -1,0 +1,19 @@
+header.header
+  .container
+    .header-left
+      h3.header-left__logo Memorizer
+    ul.header-right
+      li.header-right__list
+        a href='#'
+          = fa_icon 'edit lg'
+      li.header-right__list
+        = link_to 'ログイン', login_path
+      li.header-right__list
+        a.header-right__toggler--user href='#'
+          | ゲストユーザー
+          = fa_icon 'caret-down'
+        ul.user-menu
+          li.user-menu__list
+            = link_to '新規登録', about_path, method: :destroy
+          li.user-menu__list
+            = link_to '学習一覧', user_path
