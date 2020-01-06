@@ -62,5 +62,5 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 
   # wrong number of argumentsのエラー対策
-  config.render_views 
+  config.render_views
 end
