@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-UserSkill.find_or_create_by!(skill: '高校英語')
+UserSkill.find_or_create_by!(skill: '高校受験')
 UserSkill.find_or_create_by!(skill: '大学受験')
 UserSkill.find_or_create_by!(skill: '難関大学')
 UserSkill.find_or_create_by!(skill: 'TOEIC600点台')
