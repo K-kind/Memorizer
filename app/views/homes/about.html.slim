@@ -1,2 +1,22 @@
-h1 Homes#about
-p Find me in app/views/homes/about.html.slim
+h1 Memorizerとは
+p Memorizerは効率的な英単語学習をサポートします。
+ul
+  p 3つのステップ
+  li 1. 英英辞書で単語を学習、画像も出る
+  li 2. 自分で問題を作成
+  li 3. サイクルにしたがって復習
+
+p 1 英語学習者のための英英辞典"Merriam-Webster's Lerner's Dictionary"を利用。<br>
+  程良い難易度の英語で分かりやすく説明されていて、より英語に慣れることができます。<br>
+  =>試してみる
+
+p 2 アクティブラーニング
+
+p 3 分散学習のサイクルをサポート。
+
+= link_to '学習を体験', new_learn_path
+
+a href='#' 新規登録
+
+= form_with :model @user, local: true do |f|
+  = render 'shared/error_messages', object: f.object
