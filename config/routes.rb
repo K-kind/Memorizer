@@ -16,7 +16,8 @@ Rails.application.routes.draw do
   resources :later_lists, only: [:create, :destroy]
   resources :learns, controller: :learned_contents do
     member do
-      get :question, :answer
+      get :question
+      post :answer
     end
   end
 
