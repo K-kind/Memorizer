@@ -1,2 +1,8 @@
-h1 Admin::Sessions#new
-p Find me in app/views/admin/sessions/new.html.slim
+h1 管理者ログイン
+
+= form_with url: admin_login_path do |f|
+  = f.label :email
+  = f.email_field :email
+  = f.label :password
+  = f.password_field :password
+  = f.submit 'ログイン'
