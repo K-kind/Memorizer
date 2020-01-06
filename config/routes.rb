@@ -1,16 +1,13 @@
 Rails.application.routes.draw do
   root    'homes#top'
   get     '/about',     to: 'homes#about'
-  
   get     '/login',     to: 'sessions#new'
   post    '/login',     to: 'sessions#create'
   delete  '/logout',    to: 'sessions#destroy'
   get     '/auth/failure',             to: 'sessions#auth_failure'
   get     '/auth/:provider/callback',  to: 'sessions#create'
-  
   post    '/result',    to: 'searches#result'
   post    '/pixabay',    to: 'searches#pixabay'
-
   get     'communities/words'
   get     'communities/questions'
   get     'communities/ranking'
