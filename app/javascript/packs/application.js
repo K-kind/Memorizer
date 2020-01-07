@@ -65,4 +65,31 @@ $(document).on('turbolinks:load', function () {
     $('#name-form').focus();
     return false;
   });
+
+  $(document).on('click', '.audio-button', function () {
+    $(this).parent().find('audio')[0].play();
+  });
+
+  $(document).on('click', '.more_lists', function () {
+    $(this).parent().find('li').slideDown(180);
+    $(this).parent().append('<a class="hide_lists">[-]</a>');
+    $(this).remove();
+    return false;
+  });
+  $(document).on('click', '.hide_lists', function () {
+    $(this).parent().find('li:nth-of-type(n+4)').slideUp(180);
+    $(this).parent().append('<a class="more_lists">[+]</a>');
+    $(this).remove();
+    return false;
+  });
 });
+
+// function moreList () {
+//   if ($('.json-field ul li:nth-of-type(n+4)')) {
+//     $('.json-field ul li:nth-of-type(n+4)').each(function(index, element){
+//       $(element).parent().find('.more_lists').remove();
+//       $(element).parent().append('<div class="more_lists">もっとあります</div>');
+//       $(element).hide();
+//     });
+//   }
+// }

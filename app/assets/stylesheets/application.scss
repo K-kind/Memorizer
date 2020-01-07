@@ -30,3 +30,82 @@
   height: 120%;
   width: 100%;
  }
+
+ .dictionary-field, .thesaurus-field {
+  max-width: 550px;
+  li {
+    list-style: disc;
+    margin-left: 20px;
+  }
+  p, span, li {
+    font-size: 16px;
+    line-height: 1.2em;
+  }
+  ul {
+    margin-bottom: 12px;
+    padding-left: 25px;
+    li {
+      margin-bottom: 5px;
+    }
+  }
+  p {
+    padding: 6px;
+  }
+}
+.gray {
+  color: gray;
+}
+.word-class {
+  font-style: italic;
+  color: orange;
+}
+.italic {
+  font-style: italic;
+}
+.upcase {
+  text-transform: uppercase;
+}
+.audio-button {
+  color: #D40218;
+  cursor: pointer;
+}
+.more_lists, .hide_lists {
+  display: block;
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+}
+
+.dictionary_box, .thesaurus_box {
+  max-height: 620px;
+  overflow-y: scroll;
+}
+.dictionary-word-tab, .thesaurus-word-tab {
+  cursor: pointer;
+  background-color: #ddd;
+  border-radius: 3px;
+  padding: 3px;
+  margin-right: 5px;
+}
+.webster-toggler {
+  a {
+    cursor: pointer;
+    background-color: #ddd;
+    border-radius: 3px;
+    padding: 3px;
+    margin-right: 1px;
+  }
+}
+.thesaurus-word-lists {
+  overflow-x: auto;
+  white-space: nowrap;
+  -ms-overflow-style: none;
+  scrollbar-width: none; 
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.hidden {
+  display: none;
+}

@@ -1,0 +1,373 @@
+| $('.dictionary-field').html('');
+| $('.thesaurus-field').html('');
+| $('#images-result').html('');
+
+- if @not_english
+  | $('.dictionary-field').append('<p>\"#{@word}\"は英語ではありません</p>');
+- elsif @dictionary_error_status
+  | $('.dictionary-field').append('<p>通信エラー:#{@dictionary_error_status}が発生しました。再度お試しください。</p>');
+- elsif @word_suggestion
+  | $('.dictionary-field').append('<p>\"#{@word}\"の検索結果:0件</p>');
+  | $('.dictionary-field').append('<p>\"#{@word}\"と似た単語</p>');
+  | $('.dictionary-field').append('<p>#{@word_suggestion.join(', ')}</p>');
+- else
+  | $('.dictionary-field').append('#{link_to "画像検索", pixabay_path(word: @word), method: :post, remote: true}');
+  | $('.webster-toggler').removeClass('hidden');
+  | $('.dictionary-field').append("<div class='dictionary-word-lists'></div>");
+  - @dictionary_data.each_with_index do |container, container_index|
+    / 4つ以上の関連のない語を省く
+    - if container.dig('meta', 'id') =~ Regexp.new(@word) || container_index <= 2
+      - dictionary_box = "#{@word}-#{container_index}"
+      | $('.dictionary-field').append("<div class='#{dictionary_box} dictionary_box dictionary_box_#{@word} hidden'></div>");
+      | $('.#{dictionary_box}').append("<div class='dictionary-heading'></div>");
+      | $('.#{dictionary_box}').append("<div class='dictionary-content'></div>");
+      | $('.#{dictionary_box} .dictionary-heading').append("<strong class='dictionary-heading__word'>#{container.dig('meta', 'id')&.parse_tokens}</strong>");
+      - if container.dig('hwi', 'prs', 0, 'ipa')
+        | $('.#{dictionary_box} .dictionary-heading').append("<span class='gray dictionary-heading__span'>/#{container.dig('hwi', 'prs', 0, 'ipa')&.parse_tokens}/</span>");
+      - if container.dig('hwi', 'altprs', 0, 'ipa')
+        | $('.#{dictionary_box} .dictionary-heading').append("<span class='gray dictionary-heading__span'>/#{container.dig('hwi', 'altprs', 0, 'ipa')&.parse_tokens}/</span>");
+      - if file_name = container.dig('hwi', 'prs', 0, 'sound', 'audio')
+        / searches_helperでword_wav_urlを定義
+        | $('.#{dictionary_box} .dictionary-heading').append("<span class='dictionary-heading__span'><audio src='#{word_wav_url(file_name)}' preload=’none’></audio><a class='audio-button fa fa-volume-up fa-lg'></a></span>");
+      | $('.#{dictionary_box} .dictionary-heading').append("<span class='word-class dictionary-heading__span'>#{container.dig('fl')&.parse_tokens}</span>");
+      / 変形
+      - if container.dig('ins')
+        | $('.#{dictionary_box} .dictionary-content').append("<p class='ins_#{container_index} word-sub-heading'></p>");
+      - container.dig('ins')&.each_with_index do |ins, ins_index| 
+        - if ins.dig('il')
+          | $('.ins_#{container_index}').append("<span class='gray italic'>#{ins.dig('il')&.parse_tokens}</span>");
+          | $('.ins_#{container_index}').append("<strong>#{ins.dig('if')&.parse_tokens} </strong>");
+        - else
+          | $('.ins_#{container_index}').append("<strong>#{ins.dig('if')&.parse_tokens} </strong>");
+        - if ins.dig('prs', 0, 'ipa')
+          | $('.ins_#{container_index}').append("<span class='gray'>/#{ins.dig('prs', 0, 'ipa')&.parse_tokens}/ </span>");
+          - if ins_wav = ins.dig('prs', 0, 'sound', 'audio')
+            | $('.ins_#{container_index}').append("<span><audio src='#{word_wav_url(ins_wav)}' preload=’none’></audio><a class='audio-button fa fa-volume-up fa-lg'></a></span>");
+
+      / [count]など
+      - if container.dig('gram') || container.dig('def', 0, 'sls')
+        | $('.#{dictionary_box} .dictionary-content').append("<p class='gram_#{container_index}'></p>");
+      - if container.dig('gram')
+        | $('.gram_#{container_index}').append("<span>[<span class='gray'>#{container.dig('gram')&.parse_tokens}</span>]</span>");
+      | $('.gram_#{container_index}').append("<i>#{container.dig('def', 0, 'sls')&.join(', ')&.parse_tokens}</i>");
+      - container.dig('def', 0, 'sseq')&.each_with_index do |sseq, sseq_index|
+        - sseq.each_with_index do |child_sseq, child_sseq_index|
+          | $('.#{dictionary_box} .dictionary-content').append("<p class='def_#{container_index}_#{sseq_index}_#{child_sseq_index}'></p>");
+          | if (typeof $defHeading === 'undefined') { let $defHeading; }
+          | $defHeading = $('.def_#{container_index}_#{sseq_index}_#{child_sseq_index}');
+          | $defHeading.append("<strong>#{child_sseq.dig(1, 'sn')&.parse_tokens} </strong>");
+          | $defHeading.append("<strong class='italic'>#{child_sseq.dig(1, 'bnote')&.parse_tokens}</strong>");
+          / 1a[+ object]などの[]がある時の区別
+          - if child_sseq.dig(1, 'sgram')
+            | $defHeading.append("<span>[<span class='gray'>#{child_sseq.dig(1, 'sgram')&.parse_tokens}</span>] </span>");
+          | $defHeading.append("<span class='italic'>#{child_sseq.dig(1, 'sls')&.join(', ')&.parse_tokens}</span>");
+          - child_sseq.dig(1, 'dt')&.each_with_index do |dt, dt_index| 
+            / 1a : などの小見出し
+            - if dt_index == 0 && dt.dig(0) == 'text'
+              | $defHeading.append("<span>#{dt.dig(1)&.parse_tokens}</span>");
+            / 見出しがunsの場合
+            - elsif dt_index == 0 && dt.dig(0) == 'uns'
+              | $defHeading.append("<span>—#{dt.dig(1, 0, 0, 1)&.parse_tokens}</span>");
+              - if dt.dig(1, 0, 1, 1)
+                | $('.#{dictionary_box} .dictionary-content').append("<ul class='uns_#{container_index}_#{sseq_index}_#{child_sseq_index}_#{dt_index}'></ul>");
+                - dt.dig(1, 0, 1, 1).each do |uns_vis|
+                  | $('.#{dictionary_box} .uns_#{container_index}_#{sseq_index}_#{child_sseq_index}_#{dt_index}').append("<li>#{uns_vis.dig('t')&.parse_tokens}</li>");
+            - else
+              / [no object]、例文、see alsoを区別
+              - case dt.dig(0)
+              - when 'text'
+                | $('.#{dictionary_box} .dictionary-content').append("<p>#{dt.dig(1)&.parse_tokens}</p>");
+              - when 'wsgram'
+                | $('.#{dictionary_box} .dictionary-content').append("<p>[<span class='gray'>#{dt.dig(1)&.parse_tokens}</span>]</p>");
+              - when 'vis'
+                / 例文のcollection
+                | $('.#{dictionary_box} .dictionary-content').append("<ul class='vis_#{container_index}_#{sseq_index}_#{child_sseq_index}_#{dt_index}'></ul>");
+                - dt.dig(1)&.each do |vis|
+                  | $('.#{dictionary_box} .vis_#{container_index}_#{sseq_index}_#{child_sseq_index}_#{dt_index}').append("<li>#{vis.dig('t')&.parse_tokens}</li>");
+              - when 'uns'
+                / —oftenなどの例文のcollection
+                - dt.dig(1)&.each_with_index do |uns, uns_index|
+                  - uns.each_with_index do |child_uns, child_uns_index|
+                    - case child_uns.dig(0)
+                    - when 'text'
+                      | $('.#{dictionary_box} .dictionary-content').append("<p>—#{child_uns.dig(1)&.parse_tokens}</p>");
+                    - when 'vis'
+                      | $('.#{dictionary_box} .dictionary-content').append("<ul class='uns_vis_#{container_index}_#{sseq_index}_#{child_sseq_index}_#{dt_index}_#{uns_index}_#{child_uns_index}'></ul>");
+                      - child_uns.dig(1)&.each do |grand_child_uns|
+                        | $('.#{dictionary_box} .uns_vis_#{container_index}_#{sseq_index}_#{child_sseq_index}_#{dt_index}_#{uns_index}_#{child_uns_index}').append("<li>#{grand_child_uns.dig('t')&.parse_tokens}</li>");
+              / ◊ How are you doing?など
+              - when 'snote'
+                - dt.dig(1).each_with_index do |snote, snote_index|
+                  - case snote.dig(0)
+                  - when 't'
+                    | $('.#{dictionary_box} .dictionary-content').append("<p>◊ #{snote.dig(1)&.parse_tokens}</p>");
+                  - when 'vis'
+                    | $('.#{dictionary_box} .dictionary-content').append("<ul class='snote_vis_#{container_index}_#{sseq_index}_#{child_sseq_index}_#{dt_index}_#{snote_index}'></ul>");
+                    - snote.dig(1)&.each do |snote_vis|
+                      | $('.#{dictionary_box} .snote_vis_#{container_index}_#{sseq_index}_#{child_sseq_index}_#{dt_index}_#{snote_index}').append("<li>#{snote_vis.dig('t')&.parse_tokens}</li>");
+
+      /lead to [phrasal verb]などの熟語 dros
+      - container.dig('dros')&.each_with_index do |dros, dros_index|
+        | $('.#{dictionary_box} .dictionary-content').append("<p class='dros_#{container_index}_#{dros_index}'></p>");
+        | if (typeof $drosHeading === 'undefined') { let $drosHeading; }
+        | $drosHeading = $('.dros_#{container_index}_#{dros_index}');
+        | $drosHeading.append("<strong>#{dros.dig('drp')&.parse_tokens}</strong>");
+        - if dros.dig('gram')
+          | $drosHeading.append("<span> [<span class='gray'>#{dros.dig('gram')&.parse_tokens}</span>] </span>");
+        - if dros.dig('rsl')
+          | $drosHeading.append("<span class='gray italic'> (#{dros.dig('rsl')&.parse_tokens})</span>");
+        / lead someone a merry chase (US) old-fashioned or British lead someone a (merry) danceなど
+        - dros.dig('vrs')&.each do |vrs|
+          | $('.#{dictionary_box} .dictionary-content').append("<p><strong>#{vrs.dig('va')&.parse_tokens}</strong> <span class='gray italic'>#{vrs.dig('vl')&.parse_tokens} </span></p>");
+        / sphrasevがdef直下にある時
+        - if dros.dig('def', 0, 'sphrasev', 'phrs') || dros.dig('def', 0, 'sls')
+          | $('.#{dictionary_box} .dictionary-content').append("<p class='sphrasev_#{container_index}_#{dros_index}'></p>");
+        - dros.dig('def', 0, 'sphrasev', 'phrs')&.each do |phrs|
+          | $('.sphrasev_#{container_index}_#{dros_index}').append("<strong>#{phrs.dig('pva')&.parse_tokens} </strong>");
+        | $('.sphrasev_#{container_index}_#{dros_index}').append("<i>#{dros.dig('def', 0, 'sls')&.join(', ')&.parse_tokens} </i>");
+
+        - dros.dig('def', 0, 'sseq')&.each_with_index do |sseq, sseq_index|
+          - sseq&.each_with_index do |child_sseq, child_sseq_index|
+            / lead off or lead (something) off or lead off (something)など
+            - if child_sseq.dig(1, 'sphrasev', 'phrs')
+              | $('.#{dictionary_box} .dictionary-content').append("<p class='phrs_#{container_index}_#{dros_index}_#{sseq_index}_#{child_sseq_index}'></p>");
+              | if (typeof $phrsHeading === 'undefined') { let $phrsHeading; }
+              | $phrsHeading = $('.phrs_#{container_index}_#{dros_index}_#{sseq_index}_#{child_sseq_index}');
+              - child_sseq.dig(1, 'sphrasev', 'phrs').each do |phrs|
+                | $phrsHeading.append("<span>#{phrs.dig('pvl')&.parse_tokens} </span>");
+                | $phrsHeading.append("<strong>#{phrs.dig('pva')&.parse_tokens} </strong>");
+            / dros dt内のhaeding
+            | $('.#{dictionary_box} .dictionary-content').append("<p class='dros_dt_#{container_index}_#{dros_index}_#{sseq_index}_#{child_sseq_index}'></p>");
+            | if (typeof $drosDtHeading === 'undefined') { let $drosDtHeading; }
+            | $drosDtHeading = $('.dros_dt_#{container_index}_#{dros_index}_#{sseq_index}_#{child_sseq_index}');
+            | $drosDtHeading.append("<strong>#{child_sseq.dig(1, 'sn')&.parse_tokens} </strong>");
+            - child_sseq.dig(1, 'vrs')&.each do |vrs|
+              | $drosDtHeading.append("<span class='gray italic'>#{vrs.dig('vl')&.parse_tokens} </span>");
+              | $drosDtHeading.append("<strong>#{vrs.dig('va')&.parse_tokens} </strong>");
+            / 1 do up (something) or do (something) upなど
+            - child_sseq.dig(1, 'phrasev')&.each do |phrasev|
+              | $drosDtHeading.append("<span>#{phrasev.dig('pvl')&.parse_tokens} </span>");
+              | $drosDtHeading.append("<strong>#{phrasev.dig('pva')&.parse_tokens} </strong>");
+            | $drosDtHeading.append("<span class='gray italic'>#{child_sseq.dig(1, 'sls')&.join(', ')&.parse_tokens} </span>");
+            - child_sseq.dig(1, 'dt')&.each_with_index do |dt, dt_index|
+              - if dt_index == 0 && dt.dig(0) == 'text'
+                | $drosDtHeading.append("<span>#{dt.dig(1)&.parse_tokens}</span>");
+              - elsif dt_index == 0 && dt.dig(0) == 'uns'
+                | $drosDtHeading.append("<span>#{dt.dig(1, 0, 0, 1)&.parse_tokens}</span>");
+                | $('.#{dictionary_box} .dictionary-content').append("<ul class='dros_uns_#{container_index}_#{dros_index}_#{sseq_index}_#{child_sseq_index}_#{dt_index}'></ul>");
+                - dt.dig(1, 0, 1, 1)&.each do |uns_vis|
+                  | $('.#{dictionary_box} .dros_uns_#{container_index}_#{dros_index}_#{sseq_index}_#{child_sseq_index}_#{dt_index}').append("<li>#{uns_vis.dig('t')&.parse_tokens}</li>");
+              - else
+                - case dt.dig(0)
+                - when 'text'
+                  | $('.#{dictionary_box} .dictionary-content').append("<p>—#{dt.dig(1)&.parse_tokens}</p>");
+                - when 'wsgram'
+                  | $('.#{dictionary_box} .dictionary-content').append("<p>[<span class='gray'>#{dt.dig(1)&.parse_tokens}</span>]</p>");
+                - when 'vis'
+                  / 例文のcollection
+                  | $('.#{dictionary_box} .dictionary-content').append("<ul class='dros_uns_#{container_index}_#{dros_index}_#{sseq_index}_#{child_sseq_index}_#{dt_index}'></ul>");
+                  - dt.dig(1).each do |vis|
+                    | $('.#{dictionary_box} .dros_uns_#{container_index}_#{dros_index}_#{sseq_index}_#{child_sseq_index}_#{dt_index}').append("<li>#{vis.dig('t')&.parse_tokens}</li>");
+                - when 'uns'
+                  / —oftenなどの例文のcollection
+                  - dt.dig(1).each_with_index do |uns, uns_index|
+                    - uns.each_with_index do |child_uns, child_uns_index|
+                      - case child_uns.dig(0)
+                      - when 'text'
+                        | $('.#{dictionary_box} .dictionary-content').append("<p>—#{child_uns.dig(1)&.parse_tokens}</p>");
+                      - when 'vis'
+                        | $('.#{dictionary_box} .dictionary-content').append("<ul class='uns_vis_#{container_index}_#{dros_index}_#{sseq_index}_#{child_sseq_index}_#{dt_index}_#{uns_index}_#{child_uns_index}'></ul>");
+                        - child_uns.dig(1).each do |grand_child_uns|
+                          | $('.#{dictionary_box} .uns_vis_#{container_index}_#{dros_index}_#{sseq_index}_#{child_sseq_index}_#{dt_index}_#{uns_index}_#{child_uns_index}').append("<li>#{grand_child_uns.dig('t')&.parse_tokens}</li>");
+                - when 'snote'
+                  - dt.dig(1)&.each_with_index do |snote, snote_index|
+                    - case snote.dig(0)
+                    - when 't'
+                      | $('.#{dictionary_box} .dictionary-content').append("<p>◊ #{snote.dig(1)&.parse_tokens}</p>");
+                    - when 'vis'
+                      | $('.#{dictionary_box} .dictionary-content').append("<ul class='snote_vis_#{container_index}_#{dros_index}_#{sseq_index}_#{child_sseq_index}_#{dt_index}_#{snote_index}'></ul>");
+                      - snote.dig(1)&.each do |snote_vis|
+                        | $('.#{dictionary_box} .snote_vis_#{container_index}_#{dros_index}_#{sseq_index}_#{child_sseq_index}_#{dt_index}_#{snote_index}').append("<li>#{snote_vis.dig('t')&.parse_tokens}</li>");
+
+      / compareなど
+      - container.dig('dxnls')&.each do |dxnls|
+        | $('.#{dictionary_box} .dictionary-content').append("<p>—#{dxnls&.parse_tokens}</p>");
+
+      / starlessなど uros
+      - container.dig('uros')&.each_with_index do |uros, uros_index|
+        | $('.#{dictionary_box} .dictionary-content').append("<p class='uros_#{container_index}_#{uros_index} word-sub-heading'></p>");
+        | $('.uros_#{container_index}_#{uros_index}').append("<strong>—#{uros.dig('ure')&.parse_tokens} </strong>");
+        - if uros.dig('prs', 0, 'ipa')
+          | $('.uros_#{container_index}_#{uros_index}').append("<span class='gray'>/#{uros.dig('prs', 0, 'ipa')&.parse_tokens}/ </span>");
+        - if uros_wav = uros.dig('prs', 0, 'sound', 'audio')
+          | $('.uros_#{container_index}_#{uros_index}').append("<span><audio src='#{word_wav_url(uros_wav)}' preload=’none’></audio><a class='audio-button fa fa-volume-up fa-lg'></a></span>");
+        | $('.uros_#{container_index}_#{uros_index}').append("<strong class='gray italic'>#{uros.dig('fl')&.parse_tokens}</strong>");
+        - if uros.dig('gram')
+          | $('.uros_#{container_index}_#{uros_index}').append("<span>[<span class='gray'>#{uros.dig('gram')&.parse_tokens}</span>]</span>");
+        - if uros.dig('ins')
+          | $('.uros_#{container_index}_#{uros_index}').append("<span>, <i class='gray'>#{uros.dig('ins', 0, 'il')&.parse_tokens} </i></span>");
+          | $('.uros_#{container_index}_#{uros_index}').append("<strong>#{uros.dig('ins', 0, 'if')&.parse_tokens} </strong>");
+        - uros.dig('utxt')&.each_with_index do |utxt, utxt_index|
+          - case utxt.dig(0)
+          - when 'wsgram'
+            | $('.#{dictionary_box} .dictionary-content').append("<p>[#{utxt.dig(1)&.parse_tokens}]</p>");
+          - when 'vis'
+            | $('.#{dictionary_box} .dictionary-content').append("<ul class='utxt_vis_#{container_index}_#{uros_index}_#{utxt_index}'></ul>");
+            - utxt.dig(1)&.each do |vis|
+              | $('.#{dictionary_box} .utxt_vis_#{container_index}_#{uros_index}_#{utxt_index}').append("<li>#{vis.dig('t')&.parse_tokens}</li>");
+
+  - if @thesaurus_error_status
+    | $('.thesaurus-field').append('<p>通信エラー:#{@thesaurus_error_status}が発生しました。再度お試しください。</p>');
+  - elsif @no_thesaurus
+    | $('.thesaurus-field').append('<p>\"#{@word}\"のthesaurusは見つかりませんでした。</p>');
+  - elsif @thesaurus_data
+    | $('.thesaurus-field').append('<div class="thesaurus-word-lists"></div>');
+    - @thesaurus_data.each_with_index do |container, container_index|
+      - thesaurus_box = "thesaurus-#{@word}-#{container_index}"
+      | $('.thesaurus-field').append('<div class="#{thesaurus_box} thesaurus_box thesaurus_box_#{@word} hidden"></div>');
+      | $('.#{thesaurus_box}').append('<h2 class="hwi_#{container_index} thesaurus-heading"></h2>');
+      | $('.#{thesaurus_box}').append('<div class="thesaurus-content"></div>');
+      | $('.hwi_#{container_index}').append('<strong class="thesaurus-heading__word">#{container.dig('hwi', 'hw')&.parse_tokens}</strong>');
+      | $('.hwi_#{container_index}').append('<span class="word-class">#{container.dig('fl')&.parse_tokens}</span>');
+      - container.dig('def', 0, 'sseq')&.each_with_index do |sseq, sseq_index|
+        - sseq.each_with_index do |child_sseq, child_sseq_index|
+          - sseq_class = "sseq_#{container_index}_#{sseq_index}_#{child_sseq_index}"
+          | $('.#{thesaurus_box} .thesaurus-content').append('<p class="#{sseq_class}"></p>');
+          | $('.#{sseq_class}').append('<strong>#{child_sseq.dig(1, 'sn')&.parse_tokens}</strong>');
+          - if child_sseq.dig(1, 'sls')
+            | $('.#{sseq_class}').append('<i> #{child_sseq.dig(1, 'sls').join(', ')&.parse_tokens} </i>');
+          - child_sseq.dig(1, 'dt')&.each_with_index do |dt, dt_index|
+            - if dt_index == 0 && dt.dig(0) == 'text'
+              | $('.#{sseq_class}').append("<span>: #{dt.dig(1)&.parse_tokens}</span>");
+            - elsif dt_index == 0 && dt.dig(0) == 'uns'
+              | $('.#{sseq_class}').append("<span>: #{dt.dig(1, 0, 0, 1)&.parse_tokens}</span>");
+              - dt.dig(1, 0, 1, 1)&.each do |uns_vis|
+                | $('.#{thesaurus_box} .thesaurus-content').append("<li>#{uns_vis.dig('t')&.parse_tokens}</li>");
+            - else
+              - case dt.dig(0)
+              - when 'text'
+                | $('.#{thesaurus_box} .thesaurus-content').append("<p>—#{dt.dig(1)&.parse_tokens}</p>");
+              - when 'wsgram'
+                | $('.#{thesaurus_box} .thesaurus-content').append("<p>[<span class='gray'>#{dt.dig(1)&.parse_tokens}</span>]</p>");
+              - when 'vis'
+                / 例文のcollection
+                - dt.dig(1)&.each do |vis|
+                  | $('.#{thesaurus_box} .thesaurus-content').append("<li>#{vis.dig('t')&.parse_tokens}</li>");
+              - when 'uns'
+                / —oftenなどの例文のcollection
+                - dt.dig(1)&.each do |uns|
+                  - uns.each do |child_uns|
+                    - case child_uns.dig(0)
+                    - when 'text'
+                      | $('.#{thesaurus_box} .thesaurus-content').append("<p>—#{child_uns.dig(1)&.parse_tokens}</p>");
+                    - when 'vis'
+                      - child_uns.dig(1).each do |grand_child_uns|
+                        | $('.#{thesaurus_box} .thesaurus-content').append("<li>#{grand_child_uns.dig('t')&.parse_tokens}</li>");
+              - when 'snote'
+                - dt.dig(1)&.each do |snote|
+                  - case snote.dig(0)
+                  - when 't'
+                    | $('.#{thesaurus_box} .thesaurus-content').append("<p>◊ #{snote.dig(1)&.parse_tokens}</p>");
+                  - when 'vis'
+                    - snote.dig(1)&.each do |snote_vis|
+                      | $('.#{thesaurus_box} .thesaurus-content').append("<li>#{snote_vis.dig('t')&.parse_tokens}</li>");
+
+          / 保存したjsonのハッシュの順番に依存しない
+          - list_name_array = ['syn_list', 'rel_list', 'phrase_list', 'near_list', 'ant_list']
+          - list_name_array.each do |list_name|
+            - lists = child_sseq.dig(1, list_name)
+            - case list_name
+            - when 'syn_list'
+              - heading = 'Synonyms for'
+            - when 'rel_list'
+              - heading = 'Words Related to'
+            - when 'phrase_list'
+              - heading = 'Phrases Synonymous with'
+            - when 'near_list'
+              - heading = 'Near Antonyms for'
+            - when 'ant_list'
+              - heading = 'Antonyms for'
+            - if lists
+              | $('.#{thesaurus_box} .thesaurus-content').append("<h3>#{heading} <i>#{container.dig('hwi', 'hw')&.parse_tokens}</i></h3>");
+              - lists.each_with_index do |list, list_index|
+                - list_container = "#{list_name}_#{container_index}_#{sseq_index}_#{child_sseq_index}_#{list_index}"
+                | $('.#{thesaurus_box} .thesaurus-content').append("<div class='#{list_container}'></div>");
+                - list.each_with_index do |child_list, child_list_index|
+                  - if child_list_index + 1 != list.length
+                    / (also sovran)など
+                    - if child_list.dig('wsls')
+                      | $('.#{list_container}').append("<span>#{child_list.dig('wd')&.parse_tokens}</span>");
+                      | $('.#{list_container}').append("<span> [<i>#{child_list.dig('wsls').join(', ')&.parse_tokens}</i>], </span>");
+                    - elsif child_list.dig('wvrs')
+                      | $('.#{list_container}').append("<span>#{child_list.dig('wd')&.parse_tokens}</span>");
+                      | $('.#{list_container}').append("<span>(<i>#{child_list.dig('wvrs', 0, 'wvl')&.parse_tokens} </i><span>#{child_list.dig('wvrs', 0, 'wva')&.parse_tokens}</span>), </span>");
+                    - else
+                      | $('.#{list_container}').append("<span>#{child_list.dig('wd')&.parse_tokens}, </span>");
+                  - else
+                    - if child_list.dig('wsls')
+                      | $('.#{list_container}').append("<span>#{child_list.dig('wd')&.parse_tokens}</span>");
+                      | $('.#{list_container}').append("<span> [<i>#{child_list.dig('wsls').join(', ')&.parse_tokens}</i>]</span>");
+                    - elsif child_list.dig('wvrs')
+                      | $('.#{list_container}').append("<span>#{child_list.dig('wd')&.parse_tokens}</span>");
+                      | $('.#{list_container}').append("<span>(<i>#{child_list.dig('wvrs', 0, 'wvl')&.parse_tokens} </i><span>#{child_list.dig('wvrs', 0, 'wva')&.parse_tokens}</span>)</span>");
+                    - else
+                      | $('.#{list_container}').append("<span>#{child_list.dig('wd')&.parse_tokens}</span>");
+
+  | if ($('.dictionary-field ul li:nth-of-type(n+4)')) {
+  |   $('.dictionary-field ul li:nth-of-type(n+4)').each(function(index, element){
+  |     $(element).parent().find('.more_lists').remove();
+  |     $(element).parent().append('<a class="more_lists">[+]</a>');
+  |     $(element).hide();
+  |   });
+  | }
+
+  | $('.dictionary_box_#{@word}').each(function (index, element) {
+  |   if (index == 0) {
+  |     $(element).removeClass('hidden');
+  |   }
+  |   var dictionaryWordHtml = $(element).find('.dictionary-heading__word').html();
+  |   $('.dictionary-word-lists').append(`<a class='dictionary-word-tab' data-index=${index}>${dictionaryWordHtml}</a>`);
+  | });
+
+  | $('.thesaurus_box_#{@word}').each(function (index, element) {
+  |   if (index == 0) {
+  |     $(element).removeClass('hidden');
+  |   }
+  |   var thesaurusWordHtml = $(element).find('.thesaurus-heading__word').text();
+  |   var thesaurusWordClass = $(element).find('.word-class').text();
+  |   if (thesaurusWordHtml === '#{@word}') {
+  |     $('.thesaurus-word-lists').append(`<a class='thesaurus-word-tab' data-index=${index}>${thesaurusWordClass}</a>`);
+  |   } else {
+  |     $('.thesaurus-word-lists').append(`<a class='thesaurus-word-tab' data-index=${index}>${thesaurusWordHtml}</a>`);
+  |   }
+  | });
+
+  | $(document).on('click', '.dictionary-word-tab', function () {
+  |   var clickedIndex = $(this).data('index');
+  |   $('.dictionary_box_#{@word}').each(function (index, element) {
+  |     $(element).addClass('hidden');
+  |     if (index === clickedIndex) {
+  |       $(element).removeClass('hidden');
+  |     }
+  |   });
+  | });
+  | $(document).on('click', '.thesaurus-word-tab', function () {
+  |   var clickedIndex = $(this).data('index');
+  |   $('.thesaurus_box_#{@word}').each(function (index, element) {
+  |     $(element).addClass('hidden');
+  |     if (index === clickedIndex) {
+  |       $(element).removeClass('hidden');
+  |     }
+  |   });
+  | });
+
+  | $(document).on('click', '.dictionary-toggler', function () {
+  |   $('.thesaurus-field').addClass('hidden');
+  |   $('.dictionary-field').removeClass('hidden');
+  |   return false;
+  | });
+  | $(document).on('click', '.thesaurus-toggler', function () {
+  |   $('.dictionary-field').addClass('hidden');
+  |   $('.thesaurus-field').removeClass('hidden');
+  |   return false;
+  | });

@@ -1,2 +1,18 @@
 h1 LearnedContents#new
-p Find me in app/views/learned_contents/new.html.slim
+= form_with url: result_path do |f|
+  = f.text_field :word, placeholder: 'Search word'
+  = f.submit '検索'
+
+= form_with url: row_path, local: true do |f|
+  = f.text_field :word, placeholder: 'row_json'
+  = f.submit '検索'
+
+div#images-result
+
+.result-html style='background: pink' 
+.webster-toggler.hidden
+  a.dictionary-toggler DICTIONARY
+  a.thesaurus-toggler THESAURUS
+.dictionary-field
+
+.thesaurus-field.hidden
