@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   root    'homes#top'
   get     '/about',     to: 'homes#about'
-  get     '/login',     to: 'sessions#new'
   post    '/login',     to: 'sessions#create'
   delete  '/logout',    to: 'sessions#destroy'
   get     '/auth/failure',             to: 'sessions#auth_failure'
@@ -11,7 +10,7 @@ Rails.application.routes.draw do
   get     'communities/words'
   get     'communities/questions'
   get     'communities/ranking'
-  
+
   resource :user, only: [:new, :create, :show, :update, :destroy]
   resources :later_lists, only: [:create, :destroy]
   resources :account_activations, only: [:edit]

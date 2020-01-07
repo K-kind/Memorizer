@@ -3,14 +3,16 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
-    if @user.save
-      @user.send_activation_email
-      flash[:info] = '仮登録が完了しました。本登録完了のために、メールをご確認ください。' 
-      log_in @user
-      redirect_to @user
-    else
-      render 'homes/about'
+    @new_user = User.new(user_params)
+    respond_to do |format|
+      if @new_user.save
+        @new_user.send_activation_email
+        flash[:info] = '仮登録が完了しました。本登録完了のために、メールをご確認ください。'
+        log_in @new_user
+        format.html { redirect_to user_url }
+      else
+        format.js { render 'error' }
+      end
     end
   end
 
@@ -26,6 +28,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :email_confirmation, :password, :password_confirmation, :user_skill_id)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :user_skill_id)
   end
 end

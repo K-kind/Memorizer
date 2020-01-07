@@ -3,6 +3,5 @@ class HomesController < ApplicationController
   end
 
   def about
-    @user = User.new
   end
 end
