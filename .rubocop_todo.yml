@@ -14,15 +14,6 @@ Layout/ExtraSpacing:
   Exclude:
     - 'config/routes.rb'
 
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: AllowInHeredoc.
-Layout/TrailingWhitespace:
-  Exclude:
-    - 'app/controllers/users_controller.rb'
-    - 'app/models/user.rb'
-    - 'config/routes.rb'
-
 # Offense count: 2
 Metrics/AbcSize:
   Max: 17

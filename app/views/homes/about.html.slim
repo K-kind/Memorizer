@@ -16,20 +16,4 @@ p 3 分散学習のサイクルをサポート。
 
 = link_to '学習を体験', new_learn_path
 
-a href='#' 新規登録
-
-= form_with model: @user, url: user_path, local: true do |f|
-  = render 'shared/error_messages', object: f.object
-  = f.label :name
-  = f.text_field :name, autofocus: true
-  = f.label :email
-  = f.email_field :email
-  = f.label :email_confirmation
-  = f.email_field :email_confirmation
-  = f.label :password
-  = f.password_field :password
-  = f.label :password_confirmation
-  = f.password_field :password_confirmation
-  = f.label :user_skill_id
-  = f.collection_select :user_skill_id, UserSkill.all, :id, :skill, {include_blank: '選択してください'}
-  = f.submit '登録'
+= link_to '新規登録', '#', class: 'signup-link'

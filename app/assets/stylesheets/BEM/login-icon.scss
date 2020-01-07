@@ -1,0 +1,28 @@
+.login-icon {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 25px; 
+  %__btn {
+    display: inline-block;
+    width: 80px;
+    height: 38px;
+    line-height: 38px;
+    text-align: center;
+    color: #FFF;
+    border-radius: 3px;
+  }
+  &__btn {
+    &--twitter {
+      @extend %__btn;
+      background-color: #55ACEE;
+    }
+    &--google {
+      @extend %__btn;
+      background-color: #DD4B39;
+    }
+    &--facebook {
+      @extend %__btn;
+      background-color: #4C5A9C;
+    }
+  }
+}

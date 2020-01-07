@@ -4,13 +4,15 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by(email: params[:email].downcase)
-    if user&.authenticate(params[:password])
-      log_in user
-      params[:remember_me] == '1' ? remember(user) : forget(user)
-      redirect_back_or user
-    else
-      flash.now[:danger] = 'メールアドレスとパスワードの組み合わせが正しくありません'
-      render 'new'
+    respond_to do |format|
+      if user&.authenticate(params[:password])
+        log_in user
+        params[:remember_me] == '1' ? remember(user) : forget(user)
+        format.html { redirect_back_or user }
+      else
+        @error_message = 'メールアドレスとパスワードの組み合わせが不正です。'
+        format.js { render 'error' }
+      end
     end
   end
 
