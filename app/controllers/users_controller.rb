@@ -1,7 +1,4 @@
 class UsersController < ApplicationController
-  def new
-  end
-
   def create
     @new_user = User.new(user_params)
     respond_to do |format|

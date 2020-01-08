@@ -7,11 +7,13 @@ Rails.application.routes.draw do
   get     '/auth/:provider/callback',  to: 'sessions#create'
   post    '/result',    to: 'searches#result'
   post    '/pixabay',    to: 'searches#pixabay'
+  # 開発用
+  post    '/row',    to: 'searches#row'
   get     'communities/words'
   get     'communities/questions'
   get     'communities/ranking'
 
-  resource :user, only: [:new, :create, :show, :update, :destroy]
+  resource :user, only: [:create, :show, :update, :destroy]
   resources :later_lists, only: [:create, :destroy]
   resources :account_activations, only: [:edit]
   resources :learns, controller: :learned_contents do
