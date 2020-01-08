@@ -20,8 +20,8 @@
   | if (!$('.consulted-word-#{@word}').length) {
   |   $('#consulted-words').append("<li><a class='consulted-word consulted-word-#{@word}'>#{@word}</a></li>");
   / 新規学習の単語selectに加える
-  |   if ($('#main_word').length) {
-  |     $('#main_word').append("<option value='#{@word}'>#{@word}</option>");
+  |   if ($('#learned_content_main_word').length) {
+  |     $('#learned_content_main_word').append("<option value='#{@word}'>#{@word}</option>");
   |   }
   | }
   - word_field_index = "word-field-#{@word}"

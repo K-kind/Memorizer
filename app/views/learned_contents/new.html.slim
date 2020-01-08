@@ -12,11 +12,19 @@ h1 Learn new word
   .learn-grid-container__webster
     #webster-field
   .learn-grid-container__right
+    .learn-grid-container__study
+      = fa_icon 'edit', class: 'learn-grid-container__edit-icon'
+      .learn-grid-container__study-field
+        = form_with model:@learned_content, url: learns_path do |f|
+          .learn-grid-container__select
+            = f.label :main_word
+            = f.select :main_word, [], {}, { class: 'main-word-select' }
+            .hidden-forms
+          = f.rich_text_area :content
+          = f.select :related_image, [], {}, { id: 'related_image', multiple: true ,class: 'hidden' }
+          = f.submit
+          .learn-grid-container__saved-images
+          / <select id='related_image' name='related_image' multiple></select>
     .learn-grid-container__pixabay
       .pixabay-btn
       #images-result
-    .learn-grid-container__study
-      = fa_icon 'edit 2x'
-      = form_with url: learns_path do |f|
-        = f.label :main_word
-        = f.select :main_word, []

@@ -10,18 +10,43 @@
   }
   &__pixabay {
     background-color: skyblue;
-    min-height: 240px;
+    max-height: 240px;
   }
   &__study {
+    position: relative;
+  }
+  &__edit-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #FFF;
+    font-size: 25px!important;
+  }
+  &__study-field {
     min-height: 450px;
-    max-height: 450px;
+    max-height: 460px;
     overflow-y: scroll;
     border-radius: 3px;
     background-color: #FFF;
-    margin: 10px;
+    padding: 26px 10px 10px 10px;
+  }
+  &__select {
+    padding-bottom: 15px;
+    padding-left: 26px;
+    label {
+      padding-right: 8px;
+    }
+  }
+  &__saved-images {
+    max-height: 110px;
+    overflow-y: scroll;
   }
 }
 #images-result {
   max-height: 200px;
   overflow-y: scroll;
+}
+.main-word-select {
+  min-width: 120px;
+  font-size: 14px;
 }

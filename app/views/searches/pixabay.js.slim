@@ -5,5 +5,5 @@
   - if @images_data['totalHits'] == 0
     | $('#images-result').append("<p>\"#{@word}\"に関連する画像は0件でした。</p>")
   - else
-    - @images_data['hits']&.each do |hit|
-      | $('#images-result').append("<a href='#{hit["largeImageURL"]}' target='_blank' rel=”noopener”><img src='#{hit["previewURL"]}' alt='image of #{@word}'></a>");
+    - @images_data['hits']&.each_with_index do |hit, index|
+      | $('#images-result').append("<span><a class='pixabay-image' data-index='image_#{@word}_#{index}' href='#{hit["largeImageURL"]}' target='_blank' rel=”noopener”><img class='thumbnail-image' src='#{hit["previewURL"]}' alt='image of #{@word}'></a><a class='image-save-btn far fa-star'></a></span>");

@@ -109,6 +109,34 @@ $(document).on('turbolinks:load', function () {
   $(document).on('click', '.api-info__closer', function () {
     $('.api-info').html('');
   });
+  $(document).on('click', '.image-save-btn', function () {
+    let $parent = $(this).parent();
+    $(this).remove();
+    let largeImageLink = $parent.find('.pixabay-image').attr('href');
+    let thumbnailImageLink = $parent.find('.thumbnail-image').attr('src');
+    $('#related_image').append(`<option value="${largeImageLink} ${thumbnailImageLink}" selected>`);
+    let $saved = $('<span></span>');
+    $saved.append('<span class="saved-image"></span>');
+    $saved.find('.saved-image').append($parent.html());
+    $saved.find('.saved-image').append("<a class='image-unsave-times fas fa-times'></a>");
+    $('.learn-grid-container__saved-images').append($saved.html());
+    $parent.append("<a class='image-unsave-star fa fa-star'></a>");
+  });
+  $(document).on('click', '.image-unsave-star', function () {
+    let $parent = $(this).parent();
+    $(this).remove();
+    let index = $parent.find('.pixabay-image').attr('data-index');
+    $(`.learn-grid-container__saved-images [data-index=${index}]`).parent().remove();
+    $parent.append("<a class='image-save-btn far fa-star'></a>");
+  });
+  $(document).on('click', '.image-unsave-times', function () {
+    let $parent = $(this).parent();
+    let index = $parent.find('.pixabay-image').attr('data-index');
+    $parent.remove();
+    let $originalParent = $(`#images-result [data-index=${index}]`).parent();
+    $originalParent.append("<a class='image-save-btn far fa-star'></a>");
+    $originalParent.find('.image-unsave-star').remove();
+  });
 });
 
 // function moreList () {
@@ -120,3 +148,5 @@ $(document).on('turbolinks:load', function () {
 //     });
 //   }
 // }
+require("trix")
+require("@rails/actiontext")

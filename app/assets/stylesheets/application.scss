@@ -19,8 +19,12 @@
    box-sizing: border-box;
    margin: 0;
    padding: 0;
-   list-style: none;
- }
+  }
+  header, footer {
+    li {
+       list-style: none;
+    }
+  }
  #overlay {
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 2;
@@ -108,4 +112,26 @@
 
 .hidden {
   display: none;
+}
+
+.trix-button--icon-attach {
+  display: none;
+}
+.trix-button {
+  padding-left: 0!important;
+  padding-right: 0!important;
+  width: 36px!important;
+}
+.trix-button-group {
+  margin: 0!important;
+  margin-bottom: 5px!important;
+}
+.trix-button-group-spacer {
+  display: none!important;
+}
+.trix-button-group--file-tools {
+  display: none!important;
+}
+trix-editor {
+  // height: 100px!important;
 }

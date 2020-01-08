@@ -21,7 +21,8 @@ class SearchesController < ApplicationController
   end
 
   def pixabay
-    response_from_pixabay(params[:word])
+    @word = params[:word]
+    response_from_pixabay(@word)
     respond_to do |format|
       format.js
     end
