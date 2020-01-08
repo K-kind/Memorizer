@@ -3,6 +3,7 @@ class SearchesController < ApplicationController
     @word = params[:word]
     # 英数字、空白のみ検索
     if @word =~ /^[\w\s]+$/
+      @word = @word.gsub(/[\s]/, '_')
       if (word_definition = WordDefinition.find_by(word: @word))
         @dictionary_data = word_definition.dictionary_data
         @thesaurus_data = word_definition.thesaurus_data
@@ -13,6 +14,7 @@ class SearchesController < ApplicationController
     else
       @not_english = true
     end
+    @main = params[:main]
     respond_to do |format|
       format.js
     end

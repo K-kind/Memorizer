@@ -1,3 +1,4 @@
+| $('#images-result').html('');
 - if @images_error_status
   | $('#images-result').append("<p>通信エラー:#{@images_error_status}が発生しました。画像が取得できませんでした。</p>")
 - elsif @images_data

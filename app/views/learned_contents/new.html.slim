@@ -1,18 +1,16 @@
 h1 LearnedContents#new
 = form_with url: result_path do |f|
   = f.text_field :word, placeholder: 'Search word'
-  = f.submit '検索'
+  = f.hidden_field :main, value: true
+  = f.submit '検索', id: 'consult-submit'
 
-= form_with url: row_path, local: true do |f|
-  = f.text_field :word, placeholder: 'row_json'
-  = f.submit '検索'
+/ = form_with url: row_path, local: true do |f|
+/   = f.text_field :word, placeholder: 'row_json'
+/   = f.submit '検索'
 
 div#images-result
 
-.result-html style='background: pink' 
-.webster-toggler.hidden
-  a.dictionary-toggler DICTIONARY
-  a.thesaurus-toggler THESAURUS
-.dictionary-field
+.api-info
+.pixabay-btn
+.webster-field
 
-.thesaurus-field.hidden

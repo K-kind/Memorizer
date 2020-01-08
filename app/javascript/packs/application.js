@@ -82,6 +82,29 @@ $(document).on('turbolinks:load', function () {
     $(this).remove();
     return false;
   });
+  $(document).on('click', '.dictionary-toggler', function () {
+    $('.thesaurus-field').addClass('hidden');
+    $('.dictionary-field').removeClass('hidden');
+    return false;
+  });
+  $(document).on('click', '.thesaurus-toggler', function () {
+    $('.dictionary-field').addClass('hidden');
+    $('.thesaurus-field').removeClass('hidden');
+    return false;
+  });
+  $(document).on('click', '.consulted-word', function () {
+    let $clickedConsultedWord = $(this).text();
+    $('.word-field').addClass('hidden');
+    $('.word-field-' + $clickedConsultedWord).removeClass('hidden');
+    return false;
+  });
+  $(document).on('click', '#consult-submit', function () {
+    let $searchedWord = $('#word').val().replace(/[\s]/, '_');
+    if ($('.word-field-' + $searchedWord).length) {
+      $('.word-field-' + $searchedWord).removeClass('hidden');
+      return false;
+    }
+  });
 });
 
 // function moreList () {
