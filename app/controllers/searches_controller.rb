@@ -27,34 +27,34 @@ class SearchesController < ApplicationController
     end
   end
 
-  def row
-    word = params[:word]
-    if (word_definition = WordDefinition.find_by(word: word))
-      @dictionary_data = word_definition.dictionary_data
-      @thesaurus_data = word_definition.thesaurus_data
-    else
-      response_from_merriam(word)
-    end
-    render :json => @dictionary_data
-    # render :json => @thesaurus_data
-  end
+  # def row
+  #   word = params[:word]
+  #   if (word_definition = WordDefinition.find_by(word: word))
+  #     @dictionary_data = word_definition.dictionary_data
+  #     @thesaurus_data = word_definition.thesaurus_data
+  #   else
+  #     response_from_merriam(word)
+  #   end
+  #   render :json => @dictionary_data
+  #   # render :json => @thesaurus_data
+  # end
 
   private
 
   def response_from_merriam(word)
     learner_api_key = Rails.application.credentials.webster[:learners_api_key]
     learner_response = Unirest.get "https://www.dictionaryapi.com/api/v3/references/learners/json/#{word}?key=#{learner_api_key}",
-            headers:{ "Accept" => "application/json" }
+            headers: { 'Accept' => 'application/json' }
     @dictionary_data = learner_response.body
 
     thesaurus_api_key = Rails.application.credentials.webster[:thesaurus_api_key]
     thesaurus_response = Unirest.get "https://dictionaryapi.com/api/v3/references/thesaurus/json/#{word}?key=#{thesaurus_api_key}",
-            headers:{ "Accept" => "application/json" }
+            headers: { 'Accept' => 'application/json' }
     @thesaurus_data = thesaurus_response.body
 
     if learner_response.code == 200 && thesaurus_response.code == 200
       if @dictionary_data&.dig(0, 'meta', 'id')
-        word_definition = WordDefinition.create!(word: word, dictionary_data: @dictionary_data, thesaurus_data: @thesaurus_data)
+        WordDefinition.create!(word: word, dictionary_data: @dictionary_data, thesaurus_data: @thesaurus_data)
       else
         @word_suggestion = @dictionary_data
       end
@@ -70,7 +70,7 @@ class SearchesController < ApplicationController
     pixabay_api_key = Rails.application.credentials.pixabay[:api_key]
     option = '&orientation=horizontal&per_page=30'
     pixabay_response = Unirest.get "https://pixabay.com/api/?key=#{pixabay_api_key}&q=#{word}#{option}",
-              headers:{ "Accept" => "application/json" }
+              headers: { 'Accept' => 'application/json' }
     if pixabay_response.code == 200
       @images_data = pixabay_response.body
     else
