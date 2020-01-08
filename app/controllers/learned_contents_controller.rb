@@ -3,6 +3,7 @@ class LearnedContentsController < ApplicationController
   end
 
   def new
+    @learned_content = LearnedContent.new
   end
 
   def create

@@ -1,11 +1,22 @@
 h1 Learn new word
-= form_with url: result_path do |f|
-  = f.text_field :word, placeholder: 'Search word'
-  = f.hidden_field :main, value: true
-  = f.submit '検索', id: 'consult-submit'
+
+.new-word-search
+  = form_with url: result_path do |f|
+    = f.text_field :word, placeholder: 'Search word'
+    = f.hidden_field :main, value: true
+    = f.submit '検索', id: 'consult-submit'
 
 .api-info
-.pixabay-btn
-#webster-field
 
-div#images-result
+.learn-grid-container
+  .learn-grid-container__webster
+    #webster-field
+  .learn-grid-container__right
+    .learn-grid-container__pixabay
+      .pixabay-btn
+      #images-result
+    .learn-grid-container__study
+      = fa_icon 'edit 2x'
+      = form_with url: learns_path do |f|
+        = f.label :main_word
+        = f.select :main_word, []

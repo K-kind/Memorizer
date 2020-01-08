@@ -106,6 +106,9 @@ $(document).on('turbolinks:load', function () {
       return false;
     }
   });
+  $(document).on('click', '.api-info__closer', function () {
+    $('.api-info').html('');
+  });
 });
 
 // function moreList () {

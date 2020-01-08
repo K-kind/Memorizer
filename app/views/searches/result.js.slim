@@ -3,11 +3,11 @@
 | $('.word-field').addClass('hidden');
 
 - if @not_english
-  | $('.api-info').append('<p>\"#{@word}\"は英語ではありません</p>');
+  | $('.api-info').append('<p>\"#{@word}\"は英語ではありません<i class="fa fa-times api-info__closer"></i></p>');
 - elsif @dictionary_error_status
-  | $('.api-info').append('<p>通信エラー:#{@dictionary_error_status}が発生しました。再度お試しください。</p>');
+  | $('.api-info').append('<p>通信エラー:#{@dictionary_error_status}が発生しました。再度お試しください。<i class="fa fa-times api-info__closer"></i></p>');
 - elsif @word_suggestion
-  | $('.api-info').append('<p>\"#{@word}\"の検索結果:0件</p>');
+  | $('.api-info').append('<p>\"#{@word}\"の検索結果:0件<i class="fa fa-times api-info__closer"></i></p>');
   | $('.api-info').append('<p>\"#{@word}\"と似た単語</p>');
   | $('.api-info').append('<p>#{@word_suggestion.join(', ')}</p>');
 - else
@@ -19,6 +19,10 @@
   / 既に調べた単語は追加しない
   | if (!$('.consulted-word-#{@word}').length) {
   |   $('#consulted-words').append("<li><a class='consulted-word consulted-word-#{@word}'>#{@word}</a></li>");
+  / 新規学習の単語selectに加える
+  |   if ($('#main_word').length) {
+  |     $('#main_word').append("<option value='#{@word}'>#{@word}</option>");
+  |   }
   | }
   - word_field_index = "word-field-#{@word}"
   | $('#webster-field').append("<div class='word-field #{word_field_index}'></div>");
@@ -228,7 +232,7 @@
               | $('.#{dictionary_box} .utxt_vis_#{@word}_#{container_index}_#{uros_index}_#{utxt_index}').append("<li>#{vis.dig('t')&.parse_tokens}</li>");
 
   - if @thesaurus_error_status
-    | $('.api-info').append('<p>通信エラー:#{@thesaurus_error_status}が発生しました。再度お試しください。</p>');
+    | $('.api-info').append('<p>通信エラー:#{@thesaurus_error_status}が発生しました。再度お試しください。<i class="fa fa-times api-info__closer"></i></p>');
   - elsif @thesaurus_data
     | $('.#{word_field_index}').append('<div class="thesaurus-field"></div>');
     - if @no_thesaurus

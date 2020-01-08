@@ -1,0 +1,27 @@
+.learn-grid-container {
+  display: flex;
+  &__webster {
+    background-color: pink;
+    width: 50%;
+    min-height: 700px;
+  }
+  &__right {
+    width: 50%;
+  }
+  &__pixabay {
+    background-color: skyblue;
+    min-height: 240px;
+  }
+  &__study {
+    min-height: 450px;
+    max-height: 450px;
+    overflow-y: scroll;
+    border-radius: 3px;
+    background-color: #FFF;
+    margin: 10px;
+  }
+}
+#images-result {
+  max-height: 200px;
+  overflow-y: scroll;
+}
