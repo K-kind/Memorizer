@@ -33,7 +33,7 @@ class LearnedContentsController < ApplicationController
     @learned_content = LearnedContent.find(params[:id])
     @word = @learned_content.word_definition.word
   end
-  
+
   def edit
     @word = @learned_content.word_definition.word
     @word_array = @learned_content.word_array(@word)

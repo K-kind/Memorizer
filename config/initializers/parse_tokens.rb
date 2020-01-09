@@ -8,7 +8,7 @@ class String
       .gsub(/([a-zA-Z]+):([\d]+)/, '<sup>\2</sup>\1')
       .html_safe
   end
-  
+
   # response.bodyがstringの場合にnilを返す
   def dig(*)
   end
