@@ -1,5 +1,5 @@
 class LearnedContentsController < ApplicationController
-  # after_action :call_main_word_definition, only: [:show]
+  before_action :set_learned_content, only: [:show, :edit]
 
   def index
   end
@@ -33,8 +33,13 @@ class LearnedContentsController < ApplicationController
     @learned_content = LearnedContent.find(params[:id])
     @word = @learned_content.word_definition.word
   end
-
+  
   def edit
+    @word = @learned_content.word_definition.word
+    @main_word_select = [@word]
+    @learned_content.related_words.each do |related_word|
+      @main_word_select << related_word.word_definition.word
+    end
   end
 
   def update
@@ -49,14 +54,7 @@ class LearnedContentsController < ApplicationController
     params.require(:learned_content).permit(:content, :word_category_id, :is_public, questions_attributes: [:question, :answer])
   end
 
-  def call_main_word_definition
-    # @learned_content = LearnedContent.find(params[:id])
-    # word_definition = @learned_content.word_definition
-    # @dictionary_data = word_definition.dictionary_data
-    # @thesaurus_data = word_definition.thesaurus_data
-    # @no_thesaurus = true unless @thesaurus_data&.dig(0, 'meta', 'id')
-    # # respond_to do |format|
-    # #   format.js { render 'searches/result' }
-    # # end
+  def set_learned_content
+    @learned_content = LearnedContent.find(params[:id])
   end
 end
