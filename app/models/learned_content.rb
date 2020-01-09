@@ -9,6 +9,7 @@ class LearnedContent < ApplicationRecord
 
   has_rich_text :content
   accepts_nested_attributes_for :questions
+  # enum is_public: { Public: true, Private: false }
 
   def create_related_images(related_image_array)
     related_image_array.each_with_index do |related_image, index|

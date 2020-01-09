@@ -14,7 +14,8 @@ class SearchesController < ApplicationController
     else
       @not_english = true
     end
-    @main = params[:main]
+    @type = params[:type]
+    @learned_content = LearnedContent.find(params[:learned_content_id]) if params[:learned_content_id]
     respond_to do |format|
       format.js
     end

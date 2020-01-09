@@ -1,2 +1,39 @@
-h1 LearnedContents#show
-p Find me in app/views/learned_contents/show.html.slim
+h1 LearnedContent for #{@word}
+= link_to '', result_path(word: @word, type: 'show_main', learned_content_id: params[:id]), method: :post, remote: true, id: 'hidden_result_link'
+
+.learn-grid-container
+  .learn-grid-container__webster
+    #webster-field
+  .learn-grid-container__right
+    .learn-grid-container__study
+      = fa_icon 'book-open', class: 'learn-grid-container__edit-icon'
+      .learn-grid-container__study-field
+        .learn-grid-container__main-word
+          span Main word: 
+          = @word
+        .learn-grid-container__related-words
+          span Related words:
+          - @learned_content.related_words.each do |related_word|
+            span= related_word.word_definition.word
+        .learn-grid-container__trix-content
+          == @learned_content.content
+        - @learned_content.questions.each do |question|
+          .learn-grid-container__question--show
+            | Q
+            = simple_format question.question
+            | A
+            p= question.answer
+        .learn-grid-container__category--show
+          | Category: #{@learned_content.word_category.category}
+        .learn-grid-container__public--show
+          - if @learned_content.is_public
+            | Public
+          - else
+            | Private
+      .learn-grid-container__saved-images--show
+        - @learned_content.related_images.each do |related_image|
+          = content_tag(:span) do
+            = link_to related_image.large_image_link, target: '_blank', rel: 'noopener' do
+              = image_tag related_image.image_link, alt: "saved image"
+    = link_to 'Edit', edit_learn_path(@learned_content)
+    = link_to 'New', new_learn_path
