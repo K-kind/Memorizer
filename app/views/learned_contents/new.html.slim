@@ -1,16 +1,44 @@
-h1 LearnedContents#new
-= form_with url: result_path do |f|
-  = f.text_field :word, placeholder: 'Search word'
-  = f.hidden_field :main, value: true
-  = f.submit '検索', id: 'consult-submit'
+h1 Learn new word
 
-/ = form_with url: row_path, local: true do |f|
-/   = f.text_field :word, placeholder: 'row_json'
-/   = f.submit '検索'
-
-div#images-result
+.new-word-search
+  = form_with url: result_path do |f|
+    = f.text_field :word, placeholder: 'Search word'
+    = f.hidden_field :main, value: true
+    = f.submit '検索', id: 'consult-submit'
 
 .api-info
-.pixabay-btn
-.webster-field
 
+.learn-grid-container
+  .learn-grid-container__webster
+    #webster-field
+  .learn-grid-container__right
+    .learn-grid-container__study
+      = fa_icon 'edit', class: 'learn-grid-container__edit-icon'
+      .learn-grid-container__study-field
+        = form_with model:@learned_content, url: learns_path do |f|
+          .learn-grid-container__select
+            = f.label :main_word
+            = f.select :main_word, [], {}, { class: 'main-word-select' }
+            .hidden-forms
+          = f.rich_text_area :content, value: 'afdafafdsaf'
+          = f.select :related_image, [], {}, { id: 'related_image', multiple: true ,class: 'hidden' }
+          = f.select :related_word, [], {}, { id: 'related_word', multiple: true ,class: 'hidden' }
+          .learn-grid-container__saved-images
+          .learn-grid-container__question
+          = f.fields_for :questions, @learned_content.questions.build do |qf|
+            = qf.label :question, class: 'learn-grid-container__question-label'
+            = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 3
+            = qf.label :answer, class: 'learn-grid-container__answer-label'
+            = qf.text_field :answer, class: 'learn-grid-container__answer-field'
+          .learn-grid-container__category
+            = f.label :word_category_id
+            = f.collection_select :word_category_id, WordCategory.all, :id, :category, {}, {class: ''}
+          .learn-grid-container__public
+            = f.radio_button :is_public, true
+            = f.label :is_public, 'public', value: true
+            = f.radio_button :is_public, false
+            = f.label :is_public, 'private', value: false
+          = f.submit
+    .learn-grid-container__pixabay
+      .pixabay-btn
+      #images-result
