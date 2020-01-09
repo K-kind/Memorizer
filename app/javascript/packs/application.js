@@ -164,4 +164,13 @@ $(document).on('turbolinks:load', function () {
     document.getElementById('hidden_result_link').click();
     document.getElementById('hidden_result_link').remove();
   }
+
+  $(document).off('click', '.remove-word-btn');
+  $(document).on('click', '.remove-word-btn', function () {
+    let word = $(this).attr('data-word');
+    $(`.main-word-select option[value="${word}"]`).remove();
+    $(`#related_word option[value="${word}"]`).remove();
+    $(`.word-field-${word}`).remove();
+    $(this).parent().remove();
+  });
 });

@@ -12,6 +12,7 @@ class LearnedContent < ApplicationRecord
   # enum is_public: { Public: true, Private: false }
 
   def create_related_images(related_image_array)
+    self.related_images.destroy_all
     related_image_array.each_with_index do |related_image, index|
       unless index.zero?
         image_links = related_image.split(' ')
@@ -21,11 +22,20 @@ class LearnedContent < ApplicationRecord
   end
 
   def create_related_words(related_word_array)
+    self.related_words.destroy_all
     related_word_array.each_with_index do |related_word, index|
       unless index.zero? || self.word_definition.word == related_word
         word_definition_id = WordDefinition.find_by(word: related_word).id
         self.related_words.create!(word_definition_id: word_definition_id)
       end
     end
+  end
+
+  def word_array(word)
+    array = [word]
+    self.related_words.each do |related_word|
+      array << related_word.word_definition.word
+    end
+    array
   end
 end
