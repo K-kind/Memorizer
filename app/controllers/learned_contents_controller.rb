@@ -1,5 +1,5 @@
 class LearnedContentsController < ApplicationController
-  before_action :set_learned_content, only: [:show, :edit, :update]
+  before_action :set_learned_content, only: [:show, :edit, :update, :question, :answer]
 
   def index
   end
@@ -27,6 +27,11 @@ class LearnedContentsController < ApplicationController
   end
 
   def answer
+    @my_answers = params[:answers]
+    @similarity_array = []
+    @learned_content.questions.each_with_index do |question, index|
+      @similarity_array << question.answer_similarity(@my_answers[index][:answer])
+    end
   end
 
   def show
