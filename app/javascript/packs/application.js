@@ -8,7 +8,8 @@ require('turbolinks').start()
 require('@rails/activestorage').start()
 require('channels')
 require('jquery')
-
+require("trix")
+require("@rails/actiontext")
 
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
@@ -22,6 +23,7 @@ $(document).on('turbolinks:load', function () {
     $('.community-menu').fadeToggle('fast');
     return false;
   });
+
   $('.header-right__toggler--user').on('click', function () {
     $('.user-menu').fadeToggle('fast');
     return false;
@@ -33,12 +35,14 @@ $(document).on('turbolinks:load', function () {
     $('#email-form').focus();
     return false;
   });
+
   $('.signup-link').on('click', function () {
     $('#signup-form').fadeIn('fast');
     $('body').append('<div id="overlay">');
     $('#name-form').focus();
     return false;
   });
+
   $('.login-form__closer').on('click', function () {
     $('.login-form').fadeOut('fast');
     setTimeout(() => {
@@ -46,6 +50,7 @@ $(document).on('turbolinks:load', function () {
     }, 100);
     return false;
   });
+
   $(document).on('click', '#overlay', function () {
     $('.login-form').fadeOut('fast');
     setTimeout(() => {
@@ -59,6 +64,7 @@ $(document).on('turbolinks:load', function () {
     $('#email-form').focus();
     return false;
   });
+
   $('#signup-toggler').on('click', function () {
     $('#login-form').hide();
     $('#signup-form').fadeIn('fast');
@@ -76,28 +82,33 @@ $(document).on('turbolinks:load', function () {
     $(this).remove();
     return false;
   });
+
   $(document).on('click', '.hide_lists', function () {
     $(this).parent().find('li:nth-of-type(n+4)').slideUp(180);
     $(this).parent().append('<a class="more_lists">[+]</a>');
     $(this).remove();
     return false;
   });
+
   $(document).on('click', '.dictionary-toggler', function () {
     $('.thesaurus-field').addClass('hidden');
     $('.dictionary-field').removeClass('hidden');
     return false;
   });
+
   $(document).on('click', '.thesaurus-toggler', function () {
     $('.dictionary-field').addClass('hidden');
     $('.thesaurus-field').removeClass('hidden');
     return false;
   });
+
   $(document).on('click', '.consulted-word', function () {
     let $clickedConsultedWord = $(this).text();
     $('.word-field').addClass('hidden');
     $('.word-field-' + $clickedConsultedWord).removeClass('hidden');
     return false;
   });
+
   $(document).on('click', '#consult-submit', function () {
     let $searchedWord = $('#word').val().replace(/[\s]/, '_');
     if ($('.word-field-' + $searchedWord).length) {
@@ -106,9 +117,12 @@ $(document).on('turbolinks:load', function () {
       return false;
     }
   });
+
   $(document).on('click', '.api-info__closer', function () {
     $('.api-info').html('');
   });
+
+  $(document).off('click', '.image-save-btn');
   $(document).on('click', '.image-save-btn', function () {
     let $parent = $(this).parent();
     $(this).remove();
@@ -123,6 +137,8 @@ $(document).on('turbolinks:load', function () {
     $('.learn-grid-container__saved-images').append($saved.html());
     $parent.append("<a class='image-unsave-star fa fa-star'></a>");
   });
+
+  $(document).off('click', '.image-unsave-star');
   $(document).on('click', '.image-unsave-star', function () {
     let $parent = $(this).parent();
     $(this).remove();
@@ -131,6 +147,8 @@ $(document).on('turbolinks:load', function () {
     $parent.append("<a class='image-save-btn far fa-star'></a>");
     $(`option[data-index=${index}]`).remove();
   });
+
+  $(document).off('click', '.image-unsave-times');
   $(document).on('click', '.image-unsave-times', function () {
     let $parent = $(this).parent();
     let index = $parent.find('.pixabay-image').attr('data-index');
@@ -140,16 +158,9 @@ $(document).on('turbolinks:load', function () {
     $originalParent.find('.image-unsave-star').remove();
     $(`option[data-index=${index}]`).remove();
   });
-});
 
-// function moreList () {
-//   if ($('.json-field ul li:nth-of-type(n+4)')) {
-//     $('.json-field ul li:nth-of-type(n+4)').each(function(index, element){
-//       $(element).parent().find('.more_lists').remove();
-//       $(element).parent().append('<div class="more_lists">もっとあります</div>');
-//       $(element).hide();
-//     });
-//   }
-// }
-require("trix")
-require("@rails/actiontext")
+  if (document.getElementById('hidden_result_link')) {
+    document.getElementById('hidden_result_link').click();
+    document.getElementById('hidden_result_link').remove();
+  }
+});

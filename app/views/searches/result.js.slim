@@ -11,22 +11,33 @@
   | $('.api-info').append('<p>\"#{@word}\"と似た単語</p>');
   | $('.api-info').append('<p>#{@word_suggestion.join(', ')}</p>');
 - else
-  | $('.pixabay-btn').html('#{link_to "画像検索", pixabay_path(word: @word), method: :post, remote: true}');
+  | if ($('.pixabay-btn').length) {
+  |   $('.pixabay-btn').html('#{link_to "画像検索", pixabay_path(word: @word), method: :post, remote: true}');
+  | }
   / 調べた単語リストを作成
   | if (!$('#consulted-words').length) {
   |   $('#webster-field').append("<ul id='consulted-words'></div>");
   | }
-  / 既に調べた単語は追加しない
-  | if (!$('.consulted-word-#{@word}').length) {
-  |   $('#consulted-words').append("<li><a class='consulted-word consulted-word-#{@word}'>#{@word}</a></li>");
-  / 新規学習の単語selectに加える
-  |   if ($('#learned_content_main_word').length) {
-  |     $('#learned_content_main_word').append("<option value='#{@word}'>#{@word}</option>");
-  |   }
-  |   if ($('#related_word').length) {
-  |     $('#related_word').append("<option value='#{@word}' selected>#{@word}</option>");
-  |   }
-  | }
+  - if @type == 'show_main'
+    | $('#consulted-words').append("<li><a class='consulted-word consulted-word-#{@word}'>#{@word}</a></li>");
+    - @learned_content.related_words.each do |related_word|
+      - word = related_word.word_definition.word
+      | $('#consulted-words').append('<li class="show_sub-#{word}">#{link_to word, result_path(word: word, type: "show_sub"), method: :post, remote: true}</li>');
+  - elsif @type == 'show_sub'
+    | $('.show_sub-#{@word}').html("<li><a class='consulted-word consulted-word-#{@word} not-consulted'>#{@word}</a></li>");
+  - elsif @type == 'main'
+    / 既に調べた単語は追加しない
+    | if (!$('.consulted-word-#{@word}').length) {
+    |   $('#consulted-words').append("<li><a class='consulted-word consulted-word-#{@word}'>#{@word}</a></li>");
+    / 新規学習の単語selectに加える
+    |   if ($('#learned_content_main_word').length) {
+    |     $('#learned_content_main_word').append("<option value='#{@word}'>#{@word}</option>");
+    |   }
+    / 単語をまとめて送る
+    |   if ($('#related_word').length) {
+    |     $('#related_word').append("<option value='#{@word}' selected>#{@word}</option>");
+    |   }
+    | }
   - word_field_index = "word-field-#{@word}"
   | $('#webster-field').append("<div class='word-field #{word_field_index}'></div>");
   | $('.#{word_field_index}').append("<div class='webster-toggler'><a class='dictionary-toggler'>DICTIONARY</a><a class='thesaurus-toggler'>THESAURUS</a></div>");
