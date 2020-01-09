@@ -11,6 +11,6 @@ class Question < ApplicationRecord
     correct_answer = correct_answer.downcase
     levenshtein = ((1 - Levenshtein.normalized_distance(my_answer, correct_answer)) * 100).floor
     trigram = (Trigram.compare(my_answer, correct_answer) * 100).floor
-    (levenshtein > trigram) ? levenshtein : trigram
+    levenshtein > trigram ? levenshtein : trigram
   end
 end
