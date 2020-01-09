@@ -18,17 +18,25 @@
   | if (!$('#consulted-words').length) {
   |   $('#webster-field').append("<ul id='consulted-words'></div>");
   | }
+  / DBに保存されているデータをセレクトに含める
   - if @type == 'show_main'
-    | $('#consulted-words').append("<li><a class='consulted-word consulted-word-#{@word}'>#{@word}</a></li>");
-    - @learned_content.related_words.each do |related_word|
+    | $('#consulted-words').append("<li><a class='consulted-word consulted-word-#{@word}'>#{@word}</a><a class='fas fa-times remove-word-btn' data-word='#{@word}'></a></li>");
+    | $('#related_word option').prop('selected', true);
+    - @learned_content.related_words&.each do |related_word|
       - word = related_word.word_definition.word
-      | $('#consulted-words').append('<li class="show_sub-#{word}">#{link_to word, result_path(word: word, type: "show_sub"), method: :post, remote: true}</li>');
+      | $('#consulted-words').append('<li class="show_sub-#{word}">#{link_to word, result_path(word: word, type: "show_sub"), method: :post, remote: true, class: "consulted-word-#{word}"}<a class="fas fa-times remove-word-btn" data-word="#{word}"></a></li>');
+    - @learned_content.related_images&.each_with_index do |related_image, index|
+      - image_link = related_image.image_link
+      - large_image_link = related_image.large_image_link
+      - image_word = related_image.word
+      | $('#related_image').append("<option data-index='saved_image_#{index}' value='#{large_image_link} #{image_link} #{image_word}' selected></option>");
+      | $('.learn-grid-container__saved-images').append("<span class='saved-image'><a class='pixabay-image' data-index='saved_image_#{index}' data-word='#{image_word}' href='#{large_image_link}' target='_blank' rel=”noopener”><img class='thumbnail-image' src='#{image_link}' alt='image of #{image_word}'></a><a class='image-unsave-times fas fa-times'></a></span>");
   - elsif @type == 'show_sub'
-    | $('.show_sub-#{@word}').html("<li><a class='consulted-word consulted-word-#{@word} not-consulted'>#{@word}</a></li>");
+    | $('.show_sub-#{@word}').html("<li><a class='consulted-word consulted-word-#{@word}'>#{@word}</a><a class="fas fa-times remove-word-btn" data-word="#{@word}"></a></li>");
   - elsif @type == 'main'
     / 既に調べた単語は追加しない
     | if (!$('.consulted-word-#{@word}').length) {
-    |   $('#consulted-words').append("<li><a class='consulted-word consulted-word-#{@word}'>#{@word}</a></li>");
+    |   $('#consulted-words').append("<li><a class='consulted-word consulted-word-#{@word}'>#{@word}</a><a class='fas fa-times remove-word-btn' data-word='#{@word}'></a></li>");
     / 新規学習の単語selectに加える
     |   if ($('#learned_content_main_word').length) {
     |     $('#learned_content_main_word').append("<option value='#{@word}'>#{@word}</option>");
@@ -258,16 +266,16 @@
         | $('.#{word_field_index} .thesaurus-field').append('<div class="#{thesaurus_box} thesaurus_box thesaurus_box_#{@word} hidden"></div>');
         | $('.#{thesaurus_box}').append('<h2 class="hwi_#{@word}_#{container_index} thesaurus-heading"></h2>');
         | $('.#{thesaurus_box}').append('<div class="thesaurus-content"></div>');
-        | $('.hwi_#{@word}_#{container_index}').append('<strong class="thesaurus-heading__word">#{container.dig('hwi', 'hw')&.parse_tokens}</strong>');
-        | $('.hwi_#{@word}_#{container_index}').append('<span class="word-class">#{container.dig('fl')&.parse_tokens}</span>');
+        | $('.hwi_#{@word}_#{container_index}').append("<strong class='thesaurus-heading__word'>#{container.dig('hwi', 'hw')&.parse_tokens}</strong>");
+        | $('.hwi_#{@word}_#{container_index}').append("<span class='word-class'>#{container.dig('fl')&.parse_tokens}</span>");
         - container.dig('def', 0, 'sseq')&.each_with_index do |sseq, sseq_index|
           - sseq.each_with_index do |child_sseq, child_sseq_index|
             - sseq_class = "sseq_#{@word}_#{container_index}_#{sseq_index}_#{child_sseq_index}"
             | $('.#{thesaurus_box} .thesaurus-content').append('<h3 class="thesaurus-definition">Definition</h3>');
             | $('.#{thesaurus_box} .thesaurus-content').append('<p class="#{sseq_class}"></p>');
-            | $('.#{sseq_class}').append('<strong>#{child_sseq.dig(1, 'sn')&.parse_tokens}</strong>');
+            | $('.#{sseq_class}').append("<strong>#{child_sseq.dig(1, 'sn')&.parse_tokens}</strong>");
             - if child_sseq.dig(1, 'sls')
-              | $('.#{sseq_class}').append('<i> #{child_sseq.dig(1, 'sls').join(', ')&.parse_tokens} </i>');
+              | $('.#{sseq_class}').append("<i> #{child_sseq.dig(1, 'sls').join(', ')&.parse_tokens} </i>");
             - child_sseq.dig(1, 'dt')&.each_with_index do |dt, dt_index|
               - if dt_index == 0 && dt.dig(0) == 'text'
                 | $('.#{sseq_class}').append("<span>: #{dt.dig(1)&.parse_tokens}</span>");

@@ -129,7 +129,8 @@ $(document).on('turbolinks:load', function () {
     let largeImageLink = $parent.find('.pixabay-image').attr('href');
     let thumbnailImageLink = $parent.find('.thumbnail-image').attr('src');
     let index = $parent.find('.pixabay-image').attr('data-index');
-    $('#related_image').append(`<option data-index="${index}" value="${largeImageLink} ${thumbnailImageLink}" selected></option>`);
+    let word = $parent.find('.pixabay-image').attr('data-word');
+    $('#related_image').append(`<option data-index="${index}" value="${largeImageLink} ${thumbnailImageLink} ${word}" selected></option>`);
     let $saved = $('<span></span>');
     $saved.append('<span class="saved-image"></span>');
     $saved.find('.saved-image').append($parent.html());
@@ -163,4 +164,13 @@ $(document).on('turbolinks:load', function () {
     document.getElementById('hidden_result_link').click();
     document.getElementById('hidden_result_link').remove();
   }
+
+  $(document).off('click', '.remove-word-btn');
+  $(document).on('click', '.remove-word-btn', function () {
+    let word = $(this).attr('data-word');
+    $(`.main-word-select option[value="${word}"]`).remove();
+    $(`#related_word option[value="${word}"]`).remove();
+    $(`.word-field-${word}`).remove();
+    $(this).parent().remove();
+  });
 });

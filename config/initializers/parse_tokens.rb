@@ -1,7 +1,7 @@
 class String
   def parse_tokens
     gsub(/\{it\}|\{\/it\}|\{bc\}|\{phrase\}|\{\/phrase\}|\{ldquo\}|\{rdquo\}|\{dx\}|\{\/dx\}|\*/,
-      '{it}' => '<i>', '{/it}' => '</i>', '{bc}' => '<strong>: </strong>',
+      '{it}' => '<i>', '{/it}' => '\</i\>', '{bc}' => '<strong>: </strong>',
       '{phrase}' => '<strong>', '{/phrase}' => '</strong>', '{ldquo}' => '“', '{rdquo}' => '”',
       '{dx}' => '—', '{/dx}' => '', '*' => '')
       .gsub(/\{dxt\|([^\|]+)\|\|([^\}]*)\}/, '<span class=\"upcase\">\1</span> <i>\2</i>')

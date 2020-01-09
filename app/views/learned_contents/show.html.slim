@@ -31,9 +31,9 @@ h1 LearnedContent for #{@word}
           - else
             | Private
       .learn-grid-container__saved-images--show
-        - @learned_content.related_images.each do |related_image|
+        - @learned_content.related_images&.each do |related_image|
           = content_tag(:span) do
             = link_to related_image.large_image_link, target: '_blank', rel: 'noopener' do
-              = image_tag related_image.image_link, alt: "saved image"
+              = image_tag related_image.image_link, alt: "image of #{related_image.word}"
     = link_to 'Edit', edit_learn_path(@learned_content)
     = link_to 'New', new_learn_path

@@ -1,5 +1,5 @@
 class LearnedContentsController < ApplicationController
-  # after_action :call_main_word_definition, only: [:show]
+  before_action :set_learned_content, only: [:show, :edit, :update]
 
   def index
   end
@@ -35,9 +35,22 @@ class LearnedContentsController < ApplicationController
   end
 
   def edit
+    @word = @learned_content.word_definition.word
+    @word_array = @learned_content.word_array(@word)
   end
 
   def update
+    @learned_content.word_definition = WordDefinition.find_by(word: params[:learned_content][:main_word])
+    respond_to do |format|
+      if @learned_content.update(learned_content_params)
+        @learned_content.create_related_images(params[:learned_content][:related_image])
+        @learned_content.create_related_words(params[:learned_content][:related_word])
+        flash[:success] = '学習内容が更新されました。'
+        format.html { redirect_to learn_url(@learned_content) }
+      else
+        format.js { render 'error' }
+      end
+    end
   end
 
   def destroy
@@ -46,17 +59,10 @@ class LearnedContentsController < ApplicationController
   private
 
   def learned_content_params
-    params.require(:learned_content).permit(:content, :word_category_id, :is_public, questions_attributes: [:question, :answer])
+    params.require(:learned_content).permit(:content, :word_category_id, :is_public, questions_attributes: [:question, :answer, :id])
   end
 
-  def call_main_word_definition
-    # @learned_content = LearnedContent.find(params[:id])
-    # word_definition = @learned_content.word_definition
-    # @dictionary_data = word_definition.dictionary_data
-    # @thesaurus_data = word_definition.thesaurus_data
-    # @no_thesaurus = true unless @thesaurus_data&.dig(0, 'meta', 'id')
-    # # respond_to do |format|
-    # #   format.js { render 'searches/result' }
-    # # end
+  def set_learned_content
+    @learned_content = LearnedContent.find(params[:id])
   end
 end
