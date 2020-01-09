@@ -20,11 +20,25 @@ h1 Learn new word
             = f.label :main_word
             = f.select :main_word, [], {}, { class: 'main-word-select' }
             .hidden-forms
-          = f.rich_text_area :content
+          = f.rich_text_area :content, value: 'afdafafdsaf'
           = f.select :related_image, [], {}, { id: 'related_image', multiple: true ,class: 'hidden' }
-          = f.submit
+          = f.select :related_word, [], {}, { id: 'related_word', multiple: true ,class: 'hidden' }
           .learn-grid-container__saved-images
-          / <select id='related_image' name='related_image' multiple></select>
+          .learn-grid-container__question
+          = f.fields_for :questions, @learned_content.questions.build do |qf|
+            = qf.label :question, class: 'learn-grid-container__question-label'
+            = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 3
+            = qf.label :answer, class: 'learn-grid-container__answer-label'
+            = qf.text_field :answer, class: 'learn-grid-container__answer-field'
+          .learn-grid-container__category
+            = f.label :word_category_id
+            = f.collection_select :word_category_id, WordCategory.all, :id, :category, {}, {class: ''}
+          .learn-grid-container__public
+            = f.radio_button :is_public, true
+            = f.label :is_public, 'public', value: true
+            = f.radio_button :is_public, false
+            = f.label :is_public, 'private', value: false
+          = f.submit
     .learn-grid-container__pixabay
       .pixabay-btn
       #images-result

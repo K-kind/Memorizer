@@ -13,3 +13,7 @@ UserSkill.find_or_create_by!(skill: 'TOEIC600点台')
 UserSkill.find_or_create_by!(skill: 'TOEIC700点台')
 UserSkill.find_or_create_by!(skill: 'TOEIC800点台')
 UserSkill.find_or_create_by!(skill: 'TOEIC900点台')
+
+WordCategory.find_or_create_by!(category: 'General')
+WordCategory.find_or_create_by!(category: 'Science')
+WordCategory.find_or_create_by!(category: 'Technology')

@@ -28,7 +28,7 @@
     overflow-y: scroll;
     border-radius: 3px;
     background-color: #FFF;
-    padding: 26px 10px 10px 10px;
+    padding: 18px 10px 10px 10px;
   }
   &__select {
     padding-bottom: 15px;
@@ -41,12 +41,52 @@
     max-height: 110px;
     overflow-y: scroll;
   }
+  &__question {
+  }
+  &__question-label {
+    display: block;
+  }
+  &__question-area {
+    width: 100%;
+    margin-bottom: 8px;
+    padding: 5px 12px;
+    border-radius: 3px;
+    outline: none;
+    border: 1px solid #bbb;
+    font-size: 14px;
+  }
+  &__answer-field {
+    width: 100%;
+    padding: 4px 12px;
+    border-radius: 2px;
+    outline: none;
+    border: 1px solid #bbb;
+    font-size: 14px;
+  }
+  &__category {
+    padding-left: 20px;
+    padding-top: 10px;
+    select {
+      font-size: 14px;
+      margin-left: 5px;
+    }
+  }
+  &__public {
+    padding-left: 20px;
+    padding-top: 10px;
+    input[type=radio] {
+      margin-right: 3px;
+    }
+    label {
+      margin-right: 10px;
+    }
+  }
 }
 #images-result {
   max-height: 200px;
   overflow-y: scroll;
 }
 .main-word-select {
-  min-width: 120px;
+  min-width: 110px;
   font-size: 14px;
 }

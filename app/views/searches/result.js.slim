@@ -23,6 +23,9 @@
   |   if ($('#learned_content_main_word').length) {
   |     $('#learned_content_main_word').append("<option value='#{@word}'>#{@word}</option>");
   |   }
+  |   if ($('#related_word').length) {
+  |     $('#related_word').append("<option value='#{@word}' selected>#{@word}</option>");
+  |   }
   | }
   - word_field_index = "word-field-#{@word}"
   | $('#webster-field').append("<div class='word-field #{word_field_index}'></div>");

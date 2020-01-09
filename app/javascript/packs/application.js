@@ -114,7 +114,8 @@ $(document).on('turbolinks:load', function () {
     $(this).remove();
     let largeImageLink = $parent.find('.pixabay-image').attr('href');
     let thumbnailImageLink = $parent.find('.thumbnail-image').attr('src');
-    $('#related_image').append(`<option value="${largeImageLink} ${thumbnailImageLink}" selected>`);
+    let index = $parent.find('.pixabay-image').attr('data-index');
+    $('#related_image').append(`<option data-index="${index}" value="${largeImageLink} ${thumbnailImageLink}" selected></option>`);
     let $saved = $('<span></span>');
     $saved.append('<span class="saved-image"></span>');
     $saved.find('.saved-image').append($parent.html());
@@ -128,6 +129,7 @@ $(document).on('turbolinks:load', function () {
     let index = $parent.find('.pixabay-image').attr('data-index');
     $(`.learn-grid-container__saved-images [data-index=${index}]`).parent().remove();
     $parent.append("<a class='image-save-btn far fa-star'></a>");
+    $(`option[data-index=${index}]`).remove();
   });
   $(document).on('click', '.image-unsave-times', function () {
     let $parent = $(this).parent();
@@ -136,6 +138,7 @@ $(document).on('turbolinks:load', function () {
     let $originalParent = $(`#images-result [data-index=${index}]`).parent();
     $originalParent.append("<a class='image-save-btn far fa-star'></a>");
     $originalParent.find('.image-unsave-star').remove();
+    $(`option[data-index=${index}]`).remove();
   });
 });
 
