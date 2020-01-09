@@ -12,16 +12,16 @@ class LearnedContent < ApplicationRecord
 
   def create_related_images(related_image_array)
     related_image_array.each_with_index do |related_image, index|
-      unless index == 0
+      unless index.zero?
         image_links = related_image.split(' ')
         self.related_images.create!(large_image_link: image_links[0], image_link: image_links[1])
       end
     end
   end
-  
+
   def create_related_words(related_word_array)
     related_word_array.each_with_index do |related_word, index|
-      unless index == 0 || self.word_definition.word == related_word
+      unless index.zero? || self.word_definition.word == related_word
         word_definition_id = WordDefinition.find_by(word: related_word).id
         self.related_words.create!(word_definition_id: word_definition_id)
       end
