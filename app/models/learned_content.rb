@@ -15,7 +15,7 @@ class LearnedContent < ApplicationRecord
     related_image_array.each_with_index do |related_image, index|
       unless index.zero?
         image_links = related_image.split(' ')
-        self.related_images.create!(large_image_link: image_links[0], image_link: image_links[1])
+        self.related_images.create!(large_image_link: image_links[0], image_link: image_links[1], word: image_links[2])
       end
     end
   end
