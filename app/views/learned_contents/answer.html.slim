@@ -1,2 +1,15 @@
-h1 LearnedContents#answer
-p Find me in app/views/learned_contents/answer.html.slim
+h1 Answer
+
+.question-container
+  - @learned_content.questions.each_with_index do |question, index|
+    = simple_format question.question
+    p My answer 
+    = @my_answers[index][:answer]
+
+    p Answer
+    = question.answer
+
+    p Answer similarity
+    p #{@similarity_array[index]}%
+
+  = link_to "Review \"#{@learned_content.word_definition.word}\"", learn_path(@learned_content)

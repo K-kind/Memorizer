@@ -1,2 +1,10 @@
-h1 LearnedContents#question
-p Find me in app/views/learned_contents/question.html.slim
+h1 Question
+
+.question-container
+  = form_with url: answer_learn_path(@learned_content), local: true do |f|
+    - @learned_content.questions.each do |question|
+      = simple_format question.question
+
+      = f.label 'answers[][answer]'
+      = f.text_field 'answers[][answer]'
+    = f.submit 'submit'
