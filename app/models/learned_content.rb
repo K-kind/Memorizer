@@ -9,7 +9,6 @@ class LearnedContent < ApplicationRecord
 
   has_rich_text :content
   accepts_nested_attributes_for :questions
-  # enum is_public: { Public: true, Private: false }
 
   def create_related_images(related_image_array)
     self.related_images.destroy_all
@@ -47,5 +46,20 @@ class LearnedContent < ApplicationRecord
     end
     sum_of_similarity = similarity_array.inject(0){ |sum, similarity| sum + similarity }
     sum_of_similarity / similarity_array.length
+  end
+
+  def set_next_cycle
+    case review_histories.not_again.count
+    when 1
+      update(till_next_review: 7)
+    when 2
+      update(till_next_review: 16)
+    when 3
+      update(till_next_review: 35)
+    when 4
+      update(till_next_review: 62)
+    when 5
+      update(till_next_review: 10000, completed: true)
+    end
   end
 end

@@ -30,7 +30,10 @@ class LearnedContentsController < ApplicationController
     @learned_content.attributes = learned_content_params
     if @learned_content.save(context: :question)
       average_similarity = @learned_content.average_similarity
-      @learned_content.review_histories.create(similarity_ratio: average_similarity)
+      if @learned_content.till_next_review <= 0
+        review_history = @learned_content.review_histories.create(similarity_ratio: average_similarity)
+        @learned_content.set_next_cycle
+      end
     else
       render 'question'
     end
