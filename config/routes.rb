@@ -7,8 +7,6 @@ Rails.application.routes.draw do
   get     '/auth/:provider/callback',  to: 'sessions#create'
   post    '/result',    to: 'searches#result'
   post    '/pixabay',    to: 'searches#pixabay'
-  # 開発用
-  post    '/row',    to: 'searches#row'
   get     'communities/words'
   get     'communities/questions'
   get     'communities/ranking'

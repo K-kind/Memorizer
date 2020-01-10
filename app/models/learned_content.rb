@@ -38,4 +38,14 @@ class LearnedContent < ApplicationRecord
     end
     array
   end
+
+  # 平均の計算に先立って、各similarityもセットされる
+  def average_similarity
+    similarity_array = []
+    questions.each do |question|
+      similarity_array << question.calculate_similarity
+    end
+    sum_of_similarity = similarity_array.inject(0){ |sum, similarity| sum + similarity }
+    sum_of_similarity / similarity_array.length
+  end
 end

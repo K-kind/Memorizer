@@ -27,10 +27,12 @@ class LearnedContentsController < ApplicationController
   end
 
   def answer
-    @my_answers = params[:answers]
-    @similarity_array = []
-    @learned_content.questions.each_with_index do |question, index|
-      @similarity_array << question.answer_similarity(@my_answers[index][:answer])
+    @learned_content.attributes = learned_content_params
+    if @learned_content.save(context: :question)
+      average_similarity = @learned_content.average_similarity
+      @learned_content.review_histories.create(similarity_ratio: average_similarity)
+    else
+      render 'question'
     end
   end
 
@@ -64,7 +66,7 @@ class LearnedContentsController < ApplicationController
   private
 
   def learned_content_params
-    params.require(:learned_content).permit(:content, :word_category_id, :is_public, questions_attributes: [:question, :answer, :id])
+    params.require(:learned_content).permit(:content, :word_category_id, :is_public, questions_attributes: [:question, :answer, :my_answer, :id])
   end
 
   def set_learned_content
