@@ -1,0 +1,12 @@
+= fa_icon "times", class: 'login-form__closer'
+- if params[:type] == 'question'
+  h3 問題全文
+  ul
+    - learned_content.questions.each do |question|
+      li= question.question
+
+  = link_to '問題を解く', question_learn_path(learned_content)
+- else
+  - learned_content.review_histories.each_with_index do |review_history, index|
+    p 復習#{index + 1}回目
+    div #{review_history.similarity_ratio}%

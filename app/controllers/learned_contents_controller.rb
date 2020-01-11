@@ -1,8 +1,9 @@
 class LearnedContentsController < ApplicationController
-  before_action :set_learned_content, only: [:show, :edit, :update, :question, :answer]
+  before_action :set_learned_content, only: [:show, :edit, :update, :question, :answer, :question_show]
   before_action :set_calendar_today, only: [:create, :answer]
 
   def index
+    @learned_contents = current_user.learned_contents.latest.page(params[:page])
   end
 
   def new
@@ -68,6 +69,12 @@ class LearnedContentsController < ApplicationController
   end
 
   def destroy
+  end
+
+  def question_show
+    respond_to do |format|
+      format.js
+    end
   end
 
   private
