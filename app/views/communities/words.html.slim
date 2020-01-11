@@ -1,2 +1,14 @@
-h1 Communities#words
-p Find me in app/views/communities/words.html.slim
+h1 最近検索された単語
+
+div
+  = form_with url: communities_words_path, method: :get, remote: true, id: 'community-word-form' do |f|
+    = f.hidden_field :remote, value: true
+    div
+      = f.label :user_skill
+      = f.collection_select :user_skill, UserSkill.all, :id, :skill, {include_blank: 'All'}, {class: 'community-word-select'}
+    div
+      = f.label :word_category
+      = f.collection_select :word_category, WordCategory.all, :id, :category, {include_blank: 'All'}, {class: 'community-word-select'}
+#community-word-table
+  = render 'community_word_table'
+#webster-field

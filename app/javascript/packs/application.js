@@ -224,6 +224,10 @@ $(document).on('turbolinks:load', function () {
       eventTextColor: '#000000',
     });
   }
+
+  $('.community-word-select').on('change', function () {
+    Rails.fire($('#community-word-form')[0], 'submit');
+  });
 });
 function CalendarPartial(date) {
   $('#hidden-link').html(`<a id="hidden-link-to-date" href="homes/calendar?date=${date}" data-remote="true"></a>`);
