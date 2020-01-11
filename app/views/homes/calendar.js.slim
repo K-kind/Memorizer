@@ -1,1 +1,3 @@
-| alert('hello');
+| $('#calendar-modal').html('#{escape_javascript(render('calendar_show', calendar: @calendar))}');
+| $('body').append('<div id="overlay">');
+| $('#calendar-modal').fadeIn('fast');

@@ -46,8 +46,8 @@ $(document).on('turbolinks:load', function () {
     return false;
   });
 
-  $('.login-form__closer').on('click', function () {
-    $('.login-form').fadeOut('fast');
+  $(document).on('click', '.login-form__closer', function () {
+    $('.login-form, #calendar-modal').fadeOut('fast');
     setTimeout(() => {
       $('#overlay').remove();
     }, 100);
@@ -55,7 +55,7 @@ $(document).on('turbolinks:load', function () {
   });
 
   $(document).on('click', '#overlay', function () {
-    $('.login-form').fadeOut('fast');
+    $('.login-form, #calendar-modal').fadeOut('fast');
     setTimeout(() => {
       $(this).remove();
     }, 100);
@@ -192,6 +192,10 @@ $(document).on('turbolinks:load', function () {
 
     $('#calendar').fullCalendar({
       events: '/top.json',
+      eventClick: function(event) { 
+        CalendarPartial(event.start);
+        return false;
+      } ,
       //カレンダー上部を年月で表示させる
       titleFormat: 'YYYY年 M月',
       //曜日を日本語表示
@@ -202,8 +206,6 @@ $(document).on('turbolinks:load', function () {
           center: 'title',
           right: 'today prev,next'
       },
-      //終了時刻がないイベントの表示間隔
-      defaultTimedEventDuration: '03:00:00',
       buttonText: {
           prev: '前',
           next: '次',
@@ -223,26 +225,8 @@ $(document).on('turbolinks:load', function () {
     });
   }
 });
-
-
-// $(function () {
-//   $(document).on('turbolinks:load', function () {
-//     if ($('#calendar').length) {
-//       function eventCalendar() {
-//         return $('#calendar').fullCalendar({});
-//       };
-//       function clearCalendar() {
-//         $('#calendar').html('');
-//       };
-      
-//       $(document).on('turbolinks:load', function () {
-//         eventCalendar();
-//       });
-//       $(document).on('turbolinks:before-cache', clearCalendar);
-
-//       $('#calendar').fullCalendar({
-//         events: '/events.json'
-//       });
-//     }
-//   });
-// });
+function CalendarPartial(date) {
+  $('#hidden-link').html(`<a id="hidden-link-to-date" href="homes/calendar?date=${date}" data-remote="true"></a>`);
+  $('#hidden-link-to-date')[0].click();
+  $('#hidden-link').html('');
+};

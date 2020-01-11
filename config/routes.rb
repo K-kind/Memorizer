@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   root    'homes#top'
   # json用
   get     '/top',       to: 'homes#top'
-  get     '/homes/:id/calendar', to: 'homes#calendar', as: 'calendar'
+  get     '/homes/calendar', to: 'homes#calendar', as: 'calendar'
   get     '/about',     to: 'homes#about'
   post    '/login',     to: 'sessions#create'
   delete  '/logout',    to: 'sessions#destroy'

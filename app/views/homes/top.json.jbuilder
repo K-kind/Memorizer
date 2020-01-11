@@ -7,5 +7,5 @@ json.array!(@calendars) do |calendar|
     json.title "復習すべき数: #{current_user.learned_contents.to_review_this_day(calendar.calendar_date).count}"
   end
   json.start calendar.calendar_date
-  # json.url calendar_url(calendar, format: :js)
+  json.url calendar_url(calendar, format: :js)
 end
