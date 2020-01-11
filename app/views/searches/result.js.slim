@@ -33,7 +33,7 @@
       | $('.learn-grid-container__saved-images').append("<span class='saved-image'><a class='pixabay-image' data-index='saved_image_#{index}' data-word='#{image_word}' href='#{large_image_link}' target='_blank' rel=”noopener”><img class='thumbnail-image' src='#{image_link}' alt='image of #{image_word}'></a><a class='image-unsave-times fas fa-times'></a></span>");
   - elsif @type == 'show_sub'
     | $('.show_sub-#{@word}').html("<li><a class='consulted-word consulted-word-#{@word}'>#{@word}</a><a class="fas fa-times remove-word-btn" data-word="#{@word}"></a></li>");
-  - elsif @type == 'main'
+  - else
     / 既に調べた単語は追加しない
     | if (!$('.consulted-word-#{@word}').length) {
     |   $('#consulted-words').append("<li><a class='consulted-word consulted-word-#{@word}'>#{@word}</a><a class='fas fa-times remove-word-btn' data-word='#{@word}'></a></li>");
