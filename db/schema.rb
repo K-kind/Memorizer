@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_10_102901) do
+ActiveRecord::Schema.define(version: 2020_01_11_041259) do
 
   create_table "action_text_rich_texts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name", null: false
@@ -51,6 +51,15 @@ ActiveRecord::Schema.define(version: 2020_01_10_102901) do
     t.index ["email"], name: "index_admins_on_email", unique: true
   end
 
+  create_table "calendars", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.date "calendar_date"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id", null: false
+    t.index ["calendar_date"], name: "index_calendars_on_calendar_date"
+    t.index ["user_id"], name: "index_calendars_on_user_id"
+  end
+
   create_table "consulted_words", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.integer "word_definition", null: false
@@ -77,6 +86,8 @@ ActiveRecord::Schema.define(version: 2020_01_10_102901) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "imported", default: false
     t.boolean "completed", default: false
+    t.bigint "calendar_id", null: false
+    t.index ["calendar_id"], name: "index_learned_contents_on_calendar_id"
     t.index ["user_id"], name: "index_learned_contents_on_user_id"
     t.index ["word_category_id"], name: "index_learned_contents_on_word_category_id"
     t.index ["word_definition_id"], name: "index_learned_contents_on_word_definition_id"
@@ -116,6 +127,8 @@ ActiveRecord::Schema.define(version: 2020_01_10_102901) do
     t.integer "similarity_ratio"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "calendar_id", null: false
+    t.index ["calendar_id"], name: "index_review_histories_on_calendar_id"
     t.index ["learned_content_id"], name: "index_review_histories_on_learned_content_id"
   end
 
@@ -163,8 +176,10 @@ ActiveRecord::Schema.define(version: 2020_01_10_102901) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "calendars", "users"
   add_foreign_key "consulted_words", "users"
   add_foreign_key "later_lists", "users"
+  add_foreign_key "learned_contents", "calendars"
   add_foreign_key "learned_contents", "users"
   add_foreign_key "learned_contents", "word_categories"
   add_foreign_key "learned_contents", "word_definitions"
@@ -172,6 +187,7 @@ ActiveRecord::Schema.define(version: 2020_01_10_102901) do
   add_foreign_key "related_images", "learned_contents"
   add_foreign_key "related_words", "learned_contents"
   add_foreign_key "related_words", "word_definitions"
+  add_foreign_key "review_histories", "calendars"
   add_foreign_key "review_histories", "learned_contents"
   add_foreign_key "users", "user_skills"
 end
