@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   root    'homes#top'
+  # json用
+  get     '/top',       to: 'homes#top'
+  get     '/homes/calendar', to: 'homes#calendar', as: 'calendar'
   get     '/about',     to: 'homes#about'
   post    '/login',     to: 'sessions#create'
   delete  '/logout',    to: 'sessions#destroy'
@@ -7,8 +10,6 @@ Rails.application.routes.draw do
   get     '/auth/:provider/callback',  to: 'sessions#create'
   post    '/result',    to: 'searches#result'
   post    '/pixabay',    to: 'searches#pixabay'
-  # 開発用
-  post    '/row',    to: 'searches#row'
   get     'communities/words'
   get     'communities/questions'
   get     'communities/ranking'

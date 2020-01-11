@@ -1,10 +1,13 @@
 h1 Question
 
 .question-container
-  = form_with url: answer_learn_path(@learned_content), local: true do |f|
+  = form_with model: @learned_content, url: answer_learn_path(@learned_content), method: :post, local: true do |f|
     - @learned_content.questions.each do |question|
       = simple_format question.question
 
-      = f.label 'answers[][answer]'
-      = f.text_field 'answers[][answer]'
+      = f.fields_for :questions, question do |qf|
+        = render 'shared/error_messages', object: question
+        = qf.label :my_answer
+        = qf.text_field :my_answer
+      p "#{question.my_answer}"
     = f.submit 'submit'

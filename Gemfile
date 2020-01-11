@@ -77,3 +77,7 @@ gem 'omniauth-google-oauth2'
 gem 'omniauth-facebook'
 gem 'omniauth-rails_csrf_protection', '~> 0.1'
 gem 'omniauth-twitter'
+
+# カレンダー
+gem 'fullcalendar-rails'
+# gem 'momentjs-rails'

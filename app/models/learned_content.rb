@@ -6,10 +6,12 @@ class LearnedContent < ApplicationRecord
   belongs_to :user
   belongs_to :word_category
   belongs_to :word_definition
+  belongs_to :calendar
 
   has_rich_text :content
   accepts_nested_attributes_for :questions
-  # enum is_public: { Public: true, Private: false }
+  scope :to_review_today, -> { where('till_next_review <= 0') }
+  scope :to_review_this_day, ->(date) { where('till_next_review = ?', (date - Time.zone.today).to_i) }
 
   def create_related_images(related_image_array)
     self.related_images.destroy_all
@@ -37,5 +39,30 @@ class LearnedContent < ApplicationRecord
       array << related_word.word_definition.word
     end
     array
+  end
+
+  # 平均の計算に先立って、各similarityもセットされる
+  def average_similarity
+    similarity_array = []
+    questions.each do |question|
+      similarity_array << question.calculate_similarity
+    end
+    sum_of_similarity = similarity_array.inject(0) { |sum, similarity| sum + similarity }
+    sum_of_similarity / similarity_array.length
+  end
+
+  def set_next_cycle
+    case review_histories.not_again.count
+    when 1
+      update(till_next_review: 7)
+    when 2
+      update(till_next_review: 16)
+    when 3
+      update(till_next_review: 35)
+    when 4
+      update(till_next_review: 62)
+    when 5
+      update(till_next_review: 10000, completed: true)
+    end
   end
 end

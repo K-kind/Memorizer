@@ -1,15 +1,15 @@
 h1 Answer
 
 .question-container
-  - @learned_content.questions.each_with_index do |question, index|
+  - @learned_content.questions.each do |question|
     = simple_format question.question
     p My answer 
-    = @my_answers[index][:answer]
+    = question.my_answer
 
     p Answer
     = question.answer
 
     p Answer similarity
-    p #{@similarity_array[index]}%
+    p #{question.similarity}%
 
   = link_to "Review \"#{@learned_content.word_definition.word}\"", learn_path(@learned_content)
