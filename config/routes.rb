@@ -19,8 +19,9 @@ Rails.application.routes.draw do
   resources :account_activations, only: [:edit]
   resources :learns, controller: :learned_contents do
     member do
-      get :question
-      post :answer
+      get   :question
+      post  :answer
+      get   :question_show
     end
   end
 

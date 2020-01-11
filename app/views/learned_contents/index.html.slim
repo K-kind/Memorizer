@@ -1,2 +1,22 @@
-h1 LearnedContents#index
-p Find me in app/views/learned_contents/index.html.slim
+h1 学習一覧
+
+table
+  thead
+    tr
+      th 問題
+      th 復習回数
+      th 次の復習まで
+      th カテゴリー
+      th
+  tbody
+    - @learned_contents.each do |learned_content|
+      tr
+        td= link_to learned_content.questions.first.question, question_show_learn_path(learned_content, type: 'question'), remote: true
+        td= link_to learned_content.review_histories.count, question_show_learn_path(learned_content, type: 'reviewd_times'), remote: true
+        td #{learned_content.till_next_review}日
+        td= learned_content.word_category.category
+        td
+
+= paginate @learned_contents
+
+#calendar-modal

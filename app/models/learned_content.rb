@@ -12,6 +12,7 @@ class LearnedContent < ApplicationRecord
   accepts_nested_attributes_for :questions
   scope :to_review_today, -> { where('till_next_review <= 0') }
   scope :to_review_this_day, ->(date) { where('till_next_review = ?', (date - Time.zone.today).to_i) }
+  scope :latest, -> { order(id: 'DESC') }
 
   def create_related_images(related_image_array)
     self.related_images.destroy_all
