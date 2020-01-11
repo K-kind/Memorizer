@@ -34,7 +34,7 @@ class LearnedContentsController < ApplicationController
     if @learned_content.save(context: :question)
       average_similarity = @learned_content.average_similarity
       if @learned_content.till_next_review <= 0
-        review_history = @learned_content.review_histories.create(similarity_ratio: average_similarity, calendar_id: @calendar_today.id)
+        @learned_content.review_histories.create(similarity_ratio: average_similarity, calendar_id: @calendar_today.id)
         @learned_content.set_next_cycle
         set_calendar_to_review(@learned_content.till_next_review)
       end
@@ -83,7 +83,7 @@ class LearnedContentsController < ApplicationController
   def set_calendar_today
     @calendar_today = current_user.calendars.find_by(calendar_date: Time.zone.today)
   end
-  
+
   def set_calendar_to_review(till_next_review)
     current_user.calendars.find_or_create_by!(calendar_date: Time.zone.today + till_next_review)
   end
