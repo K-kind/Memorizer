@@ -1,6 +1,8 @@
 class SearchesController < ApplicationController
   def result
     @word = params[:word]
+    @type = params[:type]
+    @learned_content = LearnedContent.find(params[:learned_content_id]) if params[:learned_content_id]
     # 英数字、空白のみ検索
     if @word =~ /^[\w\s]+$/
       @word = @word.gsub(/[\s]/, '_')
@@ -14,8 +16,6 @@ class SearchesController < ApplicationController
     else
       @not_english = true
     end
-    @type = params[:type]
-    @learned_content = LearnedContent.find(params[:learned_content_id]) if params[:learned_content_id]
     respond_to do |format|
       format.js
     end
