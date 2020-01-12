@@ -9,11 +9,13 @@ jobs:
       - image: circleci/ruby:2.6.5-node-browsers-legacy
         environment:
           RAILS_ENV: test
+          MYSQL_PASSWORD: ''
           MYSQL_HOST: 127.0.0.1
       - image: circleci/mysql:5.7
         environment:
           MYSQL_DATABASE: myapp_test
           MYSQL_ROOT_HOST: '%'
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
     working_directory: ~/memorizer
     steps:
       - checkout
@@ -38,10 +40,12 @@ jobs:
       - image: circleci/ruby:2.6.5-node-browsers-legacy
         environment:
           RAILS_ENV: test
+          MYSQL_PASSWORD: ''
           MYSQL_HOST: 127.0.0.1
       - image: circleci/mysql:5.7
         environment:
           MYSQL_DATABASE: myapp_test
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
           MYSQL_ROOT_HOST: '%'
     working_directory: ~/memorizer
     steps:
