@@ -9,13 +9,15 @@ jobs:
       - image: circleci/ruby:2.6.5-node-browsers-legacy
         environment:
           RAILS_ENV: test
-          MYSQL_PASSWORD: ''
           MYSQL_HOST: 127.0.0.1
+          MYSQL_USERNAME: 'root'
+          MYSQL_PASSWORD: ''
+          MYSQL_PORT: 3306
       - image: circleci/mysql:5.7
         environment:
           MYSQL_DATABASE: myapp_test
-          MYSQL_ROOT_HOST: '%'
           MYSQL_ALLOW_EMPTY_PASSWORD: true
+          MYSQL_ROOT_HOST: '%'
     working_directory: ~/memorizer
     steps:
       - checkout
@@ -40,8 +42,10 @@ jobs:
       - image: circleci/ruby:2.6.5-node-browsers-legacy
         environment:
           RAILS_ENV: test
-          MYSQL_PASSWORD: ''
           MYSQL_HOST: 127.0.0.1
+          MYSQL_USERNAME: 'root'
+          MYSQL_PASSWORD: ''
+          MYSQL_PORT: 3306
       - image: circleci/mysql:5.7
         environment:
           MYSQL_DATABASE: myapp_test
@@ -61,6 +65,8 @@ jobs:
           paths:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+      - run: rm ./config/database.yml
+      - run: mv ./config/database.yml.ci ./config/database.yml
       - run:
           name: Wait for DB
           command: dockerize -wait tcp://127.0.0.1:3306 -timeout 120s
