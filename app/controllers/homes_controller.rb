@@ -1,5 +1,6 @@
 class HomesController < ApplicationController
   protect_from_forgery except: :calendar
+  before_action :logged_in_user, only: [:top, :calendar]
 
   def top
     @calendars = current_user.calendars
