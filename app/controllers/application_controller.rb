@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
     return if logged_in?
 
     store_location
-    flash[:danger] = 'ログインが必要です'
+    flash[:danger] = 'ログインが必要です' unless session[:forwarding_url] == root_url
     redirect_to about_url
   end
 end
