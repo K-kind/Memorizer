@@ -3,7 +3,7 @@ class LaterListsController < ApplicationController
 
   def index
   end
-  
+
   def create
     @new_list = current_user.later_lists.create(later_list_params)
     if @new_list.valid?
@@ -15,7 +15,7 @@ class LaterListsController < ApplicationController
     @later_lists = current_user.later_lists.page(last_page).per(15)
     render 'index'
   end
-  
+
   def destroy
     LaterList.find(params[:id]).destroy
     render 'index'
