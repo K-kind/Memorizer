@@ -1,0 +1,14 @@
+table
+    thead
+      tr
+        th 順位
+        th ユーザー
+        th 単語学習数
+    tbody
+      - @users.each_with_index do |user, index|
+        tr
+          td= index + 1
+          td= user.name
+          td= user.learned_contents.all_or_monthly(@period).count
+
+= paginate @users, remote: true

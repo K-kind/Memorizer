@@ -225,8 +225,8 @@ $(document).on('turbolinks:load', function () {
     });
   }
 
-  $('.community-word-select').on('change', function () {
-    Rails.fire($('#community-word-form')[0], 'submit');
+  $('.onclick-select').on('change', function () {
+    Rails.fire($('#onclick-form')[0], 'submit');
   });
 });
 function CalendarPartial(date) {
