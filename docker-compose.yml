@@ -8,7 +8,7 @@ services:
       # 開発環境のみsync-volumeを使用
       - .:/myapp
       - public-data:/myapp/public
-      - tmp-data:/myapp/tmp/sockets
+      - tmp-data:/myapp/tmp/sock
     ports:
       - "3000:3000"
 
@@ -17,7 +17,7 @@ services:
       context: containers/nginx
     volumes:
       - public-data:/myapp/public
-      - tmp-data:/myapp/tmp/sockets
+      - tmp-data:/myapp/tmp/sock
     ports:
       - 80:80
     depends_on:
