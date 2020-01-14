@@ -14,6 +14,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    @user_skills = UserSkill.all
   end
 
   def update

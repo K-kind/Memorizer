@@ -1,2 +1,41 @@
-h1 Users#show
-p Find me in app/views/users/show.html.slim
+h1 マイページ
+
+h2 ユーザー情報
+
+= form_with model: current_user, url: user_path do |f|
+  table
+    tbody
+      tr
+        th ユーザー名
+        td
+          = current_user.name
+          = f.text_field :name
+      tr
+        th ログイン方法
+        td メールかSNS
+      tr
+        th メールアドレス
+        td
+          = current_user.email
+          = f.email_field :email
+      tr
+        th 現在のスキル
+        td
+          = current_user.user_skill.skill
+          = f.collection_select :user_skill_id, @user_skills, :id, :skill
+
+a href='#' 編集する
+= link_to '退会する', user_path, method: :delete, data: {confirm: '本当に退会しますか？'}
+
+div
+  div
+    strong レベル
+    span Lv.#{}
+  div
+    strong 単語学習数
+    span= current_user.learned_contents.count
+    span 総合ランキング #{User.joins(:learned_contents).group(:user_id).having('count(`learned_contents`.`id`) > ?', current_user.learned_contents.count).length + 1} / #{User.where(activated: true).count} 位
+    span 月間ランキング #{User.joins(:learned_contents).where('learned_contents.created_at >= ?', Time.current.beginning_of_month).group(:user_id).having('count(`learned_contents`.`id`) > ?', current_user.learned_contents.where('learned_contents.created_at >= ?', Time.current.beginning_of_month).count).length + 1} / #{User.where(activated: true).count} 位
+  div
+    strong 単語復習回数
+    span= current_user.review_histories.count
