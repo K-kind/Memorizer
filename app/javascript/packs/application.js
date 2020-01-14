@@ -48,6 +48,7 @@ $(document).on('turbolinks:load', function () {
 
   $(document).on('click', '.login-form__closer', function () {
     $('.login-form, #calendar-modal').fadeOut('fast');
+    $('#later-list-modal').html('');
     setTimeout(() => {
       $('#overlay').remove();
     }, 100);
@@ -56,6 +57,7 @@ $(document).on('turbolinks:load', function () {
 
   $(document).on('click', '#overlay', function () {
     $('.login-form, #calendar-modal').fadeOut('fast');
+    $('#later-list-modal').html('');
     setTimeout(() => {
       $(this).remove();
     }, 100);

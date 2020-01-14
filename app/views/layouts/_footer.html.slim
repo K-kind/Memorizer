@@ -8,7 +8,11 @@ footer.footer
       li.footer-left__list
         =link_to 'お問い合わせ', '#'
     .footer-right
-      a.footer-right__link href='#'
-        =fa_icon 'bookmark lg'
+      - if logged_in?
+        = link_to later_lists_path, remote: true, class: 'footer-right__link' do
+          =fa_icon 'bookmark lg'
       a.footer-right__link href='#'
         =fa_icon 'search lg'
+  
+  - if logged_in?
+    #later-list-modal
