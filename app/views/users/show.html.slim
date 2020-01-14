@@ -1,2 +1,21 @@
-h1 Users#show
-p Find me in app/views/users/show.html.slim
+h1 マイページ
+
+h2 ユーザー情報
+
+#user-info
+  = render 'user_info'
+
+= link_to '退会する', user_path, method: :delete, data: {confirm: '本当に退会しますか？'}
+
+div
+  div
+    strong レベル
+    span Lv.#{}
+  div
+    strong 単語学習数
+    span= current_user.learned_contents.count
+    span 総合ランキング #{overall_ranking} / #{@active_users.count} 位
+    span 月間ランキング #{monthly_ranking} / #{@active_users.count} 位
+  div
+    strong 単語復習回数
+    span= current_user.review_histories.count

@@ -8,18 +8,33 @@ class UsersController < ApplicationController
         log_in @new_user
         format.html { redirect_to user_url }
       else
-        format.js { render 'error' }
+        format.js { render 'signup_error' }
       end
     end
   end
 
   def show
+    @user_skills = UserSkill.all
+    @active_users = User.where(activated: true)
   end
 
   def update
+    respond_to do |format|
+      if current_user.update(user_params)
+        flash[:success] = 'ユーザー情報を更新しました'
+        format.html { redirect_to user_url }
+      else
+        @user_skills = UserSkill.all
+        format.js
+      end
+    end
   end
 
   def destroy
+    user = current_user
+    log_out
+    user.destroy
+    redirect_to about_url
   end
 
   private
