@@ -31,6 +31,10 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    user = current_user
+    log_out
+    user.destroy
+    redirect_to about_url
   end
 
   private
