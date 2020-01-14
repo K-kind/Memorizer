@@ -1,13 +1,14 @@
 h1 最近検索された単語
 
 div
-  = form_with url: communities_words_path, method: :get, id: 'community-word-form' do |f|
+  = search_form_for @q, url: communities_words_path, remote: true, id: 'community-word-form' do |f|
     div
-      = f.label :user_skill
-      = f.collection_select :user_skill, @user_skills, :id, :skill, {include_blank: 'All'}, {class: 'community-word-select'}
+      = f.label :user_user_skill_id_eq
+      = f.collection_select :user_user_skill_id_eq, @user_skills, :id, :skill, {include_blank: 'All'}, {class: 'community-word-select'}
     div
-      = f.label :word_category
-      = f.collection_select :word_category, @word_categories, :id, :category, {include_blank: 'All'}, {class: 'community-word-select'}
+      = f.label :word_category_id_eq
+      = f.collection_select :word_category_id_eq, @word_categories, :id, :category, {include_blank: 'All'}, {class: 'community-word-select'}
+
 #community-words-table
   = render 'community_words_table'
 #webster-field

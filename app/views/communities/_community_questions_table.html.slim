@@ -5,7 +5,7 @@ table
       th カテゴリー
       th 作成者のスキル
       th いいね数
-      th 作成日()
+      th= sort_link @q, :created_at, '作成日', {}, { remote: true }
   tbody
     - @learned_contents.each do |learned_content|
       tr
