@@ -34,11 +34,11 @@ class CommunitiesController < ApplicationController
   end
 
   def ranking
-    if params[:period] == '月間'
+    if params[:period] == '総合'
+      @users = User.joins(:learned_contents).group(:user_id).order('count(`learned_contents`.`id`) desc').page(params[:page]).per(20)
+    else
       @users = User.joins(:learned_contents).where('learned_contents.created_at >= ?', Time.current.beginning_of_month).group(:user_id).order('count(`learned_contents`.`id`) desc').page(params[:page]).per(20)
       @period = true
-    else
-      @users = User.joins(:learned_contents).group(:user_id).order('count(`learned_contents`.`id`) desc').page(params[:page]).per(20)
     end
     respond_to do |format|
       format.html
