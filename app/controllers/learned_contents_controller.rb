@@ -1,5 +1,6 @@
 class LearnedContentsController < ApplicationController
   before_action :set_learned_content, only: [:show, :edit, :update, :question, :answer, :question_show]
+  before_action :set_collection_selects, only: [:new, :edit]
   before_action :set_calendar_today, only: [:create, :answer]
 
   def index
@@ -87,8 +88,12 @@ class LearnedContentsController < ApplicationController
     @learned_content = LearnedContent.find(params[:id])
   end
 
+  def set_collection_selects
+    @word_categories = WordCategory.all
+  end
+
   def set_calendar_today
-    @calendar_today = current_user.calendars.find_by(calendar_date: Time.zone.today)
+    @calendar_today = current_user.calendars.find_or_create_by!(calendar_date: Time.zone.today)
   end
 
   def set_calendar_to_review(till_next_review)

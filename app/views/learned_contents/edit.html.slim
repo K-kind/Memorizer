@@ -33,7 +33,7 @@ h1 LearnedContent for #{@word} -- Edit
             = qf.text_field :answer, class: 'learn-grid-container__answer-field'
           .learn-grid-container__category
             = f.label :word_category_id
-            = f.collection_select :word_category_id, WordCategory.all, :id, :category, {}, {class: ''}
+            = f.collection_select :word_category_id, @word_categories, :id, :category, {}, {class: ''}
           .learn-grid-container__public
             = f.radio_button :is_public, true
             = f.label :is_public, 'public', value: true

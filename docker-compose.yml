@@ -1,50 +1,28 @@
 version: '3'
 services:
-  db:
-    image: mysql:5.7
-    volumes:
-      - db-data:/var/lib/mysql
-    ports:
-      - "3306:3306"
-    
   app:
     build:
       context: .
     command: bundle exec puma -C config/puma.rb
     volumes:
       # 開発環境のみsync-volumeを使用
-      - sync-volume:/myapp
+      - .:/myapp
       - public-data:/myapp/public
-      - tmp-data:/myapp/tmp
-      - log-data:/myapp/log
+      - tmp-data:/myapp/tmp/sock
     ports:
       - "3000:3000"
-    depends_on:
-      - db
-    environment:
-      - "SELENIUM_DRIVER_URL=http://selenium_chrome:4444/wd/hub"
 
   web:
     build:
       context: containers/nginx
     volumes:
       - public-data:/myapp/public
-      - tmp-data:/myapp/tmp
+      - tmp-data:/myapp/tmp/sock
     ports:
       - 80:80
     depends_on:
       - app
 
-  selenium_chrome:
-    image: selenium/standalone-chrome-debug
-    logging:
-      driver: none
-
-# 名前付きボリューム: ホストOSの“/var/lib/docker/volumes”
 volumes:
   public-data:
   tmp-data:
-  log-data:
-  db-data:
-  sync-volume:
-    external: true

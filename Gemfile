@@ -66,6 +66,7 @@ gem 'font-awesome-rails'
 gem 'html2slim'
 gem 'jquery-rails'
 gem 'kaminari'
+gem 'ransack'
 gem 'slim-rails'
 
 # 機能用gem
