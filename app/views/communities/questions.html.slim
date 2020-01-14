@@ -1,13 +1,13 @@
 h1 みんなの問題
 
 div
-  = search_form_for @q, url: communities_questions_path, remote: true, id: 'community-word-form' do |f|
+  = search_form_for @q, url: communities_questions_path, remote: true, id: 'onclick-form' do |f|
     div
       = f.label :user_user_skill_id_eq
-      = f.collection_select :user_user_skill_id_eq, @user_skills, :id, :skill, {include_blank: 'All'}, {class: 'community-word-select'}
+      = f.collection_select :user_user_skill_id_eq, @user_skills, :id, :skill, {include_blank: 'All'}, {class: 'onclick-select'}
     div
       = f.label :word_category_id_eq
-      = f.collection_select :word_category_id_eq, @word_categories, :id, :category, {include_blank: 'All'}, {class: 'community-word-select'}
+      = f.collection_select :word_category_id_eq, @word_categories, :id, :category, {include_blank: 'All'}, {class: 'onclick-select'}
       
 #community-questions-table
   = render 'community_questions_table'

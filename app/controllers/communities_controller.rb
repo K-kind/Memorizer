@@ -34,13 +34,19 @@ class CommunitiesController < ApplicationController
   end
 
   def ranking
+    if params[:period] == '月間'
+      @users = User.joins(:learned_contents).where('learned_contents.created_at >= ?', Time.current.beginning_of_month).group(:user_id).order('count(`learned_contents`.`id`) desc').page(params[:page]).per(20)
+      @period = true
+    else
+      @users = User.joins(:learned_contents).group(:user_id).order('count(`learned_contents`.`id`) desc').page(params[:page]).per(20)
+    end
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   private
-
-  def search_params
-    # params.require(:q).permit(:user_user_skill_id_eq, :word_category_id_eq)
-  end
 
   def set_collection_selects
     @user_skills = UserSkill.all

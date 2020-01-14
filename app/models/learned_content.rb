@@ -7,12 +7,19 @@ class LearnedContent < ApplicationRecord
   belongs_to :word_category
   belongs_to :word_definition
   belongs_to :calendar
-
   has_rich_text :content
   accepts_nested_attributes_for :questions
+
   scope :to_review_today, -> { where('till_next_review <= 0') }
   scope :to_review_this_day, ->(date) { where('till_next_review = ?', (date - Time.zone.today).to_i) }
   scope :latest, -> { order(id: 'DESC') }
+  scope :all_or_monthly, ->(monthly) do
+    if monthly
+      where('created_at >= ?', Time.current.beginning_of_month)
+    else
+      all
+    end
+  end
 
   def create_related_images(related_image_array)
     self.related_images.destroy_all
