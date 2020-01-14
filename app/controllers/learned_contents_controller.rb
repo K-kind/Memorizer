@@ -88,7 +88,7 @@ class LearnedContentsController < ApplicationController
   end
 
   def set_calendar_today
-    @calendar_today = current_user.calendars.find_by(calendar_date: Time.zone.today)
+    @calendar_today = current_user.calendars.find_or_create_by!(calendar_date: Time.zone.today)
   end
 
   def set_calendar_to_review(till_next_review)

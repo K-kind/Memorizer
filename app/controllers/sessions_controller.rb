@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
       if user&.authenticate(params[:password])
         log_in user
         params[:remember_me] == '1' ? remember(user) : forget(user)
-        format.html { redirect_back_or user }
+        format.html { redirect_back_or root_url }
       else
         @error_message = 'メールアドレスとパスワードの組み合わせが不正です。'
         format.js { render 'error' }
