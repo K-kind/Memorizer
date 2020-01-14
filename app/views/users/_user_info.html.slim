@@ -1,0 +1,24 @@
+= form_with model: current_user, url: user_path, id: 'user-info-form' do |f|
+  = render 'shared/error_messages', object: f.object
+  table
+    tbody
+      tr
+        th ユーザー名
+        td
+          = current_user.name
+          = f.text_field :name
+      tr
+        th ログイン方法
+        td メールかSNS
+      tr
+        th メールアドレス
+        td
+          = current_user.email
+          = f.email_field :email
+      tr
+        th 現在のスキル
+        td
+          = current_user.user_skill.skill
+          = f.collection_select :user_skill_id, @user_skills, :id, :skill
+a href='#' 編集する
+= submit_tag '保存する', form: 'user-info-form'
