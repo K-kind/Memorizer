@@ -88,3 +88,5 @@ gem 'omniauth-twitter'
 # カレンダー
 gem 'fullcalendar-rails'
 # gem 'momentjs-rails'
+
+gem 'whenever'
