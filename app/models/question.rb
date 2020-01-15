@@ -13,7 +13,11 @@ class Question < ApplicationRecord
     current_answer = my_answer.downcase
     correct_answer = answer.downcase
     levenshtein = ((1 - Levenshtein.normalized_distance(current_answer, correct_answer)) * 100).floor
-    trigram = (Trigram.compare(current_answer, correct_answer) * 100).floor
+    trigram = if current_answer.length >= 3 && correct_answer.length >= 3
+                (Trigram.compare(current_answer, correct_answer) * 100).floor
+              else
+                0
+              end
     self.similarity = levenshtein > trigram ? levenshtein : trigram
   end
 end

@@ -1,6 +1,11 @@
 = fa_icon 'times', class: 'login-form__closer'
 - to_review_list = current_user.learned_contents.to_review_this_day(calendar.calendar_date)
-- if to_review_list.any?
+- if calendar.calendar_date == Time.zone.today
+  h3 復習すべき問題
+  ul
+    - current_user.learned_contents.to_review_today.each do |to_review|
+      li= to_review.questions.first.question
+- elsif to_review_list.any?
   h3 復習すべき問題
   ul
     - to_review_list.each do |to_review|

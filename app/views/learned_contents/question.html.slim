@@ -2,12 +2,13 @@ h1 Question
 
 .question-container
   = form_with model: @learned_content, url: answer_learn_path(@learned_content), method: :post, local: true do |f|
+    = f.hidden_field :today, value: @today
     - @learned_content.questions.each do |question|
       = simple_format question.question
 
       = f.fields_for :questions, question do |qf|
         = render 'shared/error_messages', object: question
         = qf.label :my_answer
-        = qf.text_field :my_answer
+        = qf.text_field :my_answer, autocomplete: 'off'
       p "#{question.my_answer}"
     = f.submit 'submit'

@@ -36,6 +36,15 @@ h1 LearnedContent for #{@word}
               = image_tag related_image.image_link, alt: "image of #{related_image.word}"
     = link_to 'Edit', edit_learn_path(@learned_content)
     = link_to 'New', new_learn_path
+    p 次の復習まで: #{@learned_content.till_next_review > 0 ? @learned_content.till_next_review : 0} 日
+    - if @today == '1'
+      div
+        = form_with url: again_learn_path(@learned_content), id: 'onclick-form' do |f|
+          = f.label :again
+          = f.check_box :again, class: 'onclick-select'
+        - if contents_to_review_today.any?
+          = link_to '次の問題', question_learn_path(contents_to_review_today.till_next_asc.first, today: 1)
+        = link_to  '復習を終了', root_path
 
 / メイン単語の辞書を表示
 = link_to '', result_path(word: @word, type: 'show_main', learned_content_id: params[:id]), method: :post, remote: true, id: 'hidden_result_link'

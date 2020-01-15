@@ -231,6 +231,7 @@ $(document).on('turbolinks:load', function () {
     Rails.fire($('#onclick-form')[0], 'submit');
   });
 });
+// カレンダーイベントクリックで、modal表示用リンクを生成してクリックする
 function CalendarPartial(date) {
   $('#hidden-link').html(`<a id="hidden-link-to-date" href="homes/calendar?date=${date}" data-remote="true"></a>`);
   $('#hidden-link-to-date')[0].click();

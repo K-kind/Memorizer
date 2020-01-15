@@ -1,9 +1,18 @@
 h1 Homes#top
-
-p 本日の復習数: <span>#{reviewed_count_today} 残り:#{contents_to_review_today}</span>
-p 本日の新規学習数: <span>#{learned_contents_today}</span>
+div
+  p
+    | 本日の復習数: 
+    span #{reviewed_count_today} 残り:#{contents_to_review_today.count}
+    - if contents_to_review_today.count > 0
+      = link_to '復習スタート', question_learn_path(contents_to_review_today.till_next_asc.first, today: 1)
+  p
+    | 本日の新規学習数: 
+    span= learned_contents_today
+    = link_to '新規学習', new_learn_path
 
 #calendar
 
 #calendar-modal
+
+/ clendar-modal表示用のリンク
 #hidden-link.hidden

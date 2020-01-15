@@ -4,7 +4,7 @@ module HomesHelper
   end
 
   def contents_to_review_today
-    current_user.learned_contents.to_review_today.count
+    current_user.learned_contents.to_review_today
   end
 
   def learned_contents_today
