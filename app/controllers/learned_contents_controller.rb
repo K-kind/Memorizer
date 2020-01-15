@@ -34,9 +34,28 @@ class LearnedContentsController < ApplicationController
   end
 
   def answer
-    @learned_content.attributes = learned_content_params
     @today = params[:learned_content][:today]
+    # 仮想属性my_answerのバリデーション
+    @learned_content.attributes = learned_content_params
     if @learned_content.save(context: :question)
+      if @learned_content.user != current_user
+        original_content = @learned_content
+        @learned_content = original_content.dup
+        @learned_content.update(
+          user_id: current_user.id,
+          calendar_id: @calendar_today.id,
+          imported: true,
+          till_next_review: 1
+        )
+      end
+      if original_content
+        duplicate_children(original_content, @learned_content)
+        set_calendar_to_review(@learned_content.till_next_review)
+        # 仮想属性my_answerをimportした問題に入れる
+        @learned_content.questions.each_with_index do |question, index|
+          question.my_answer = params[:learned_content][:questions_attributes][index.to_s][:my_answer]
+        end
+      end
       average_similarity = @learned_content.average_similarity
       if @learned_content.till_next_review <= 0
         @learned_content.review_histories.create(similarity_ratio: average_similarity, calendar_id: @calendar_today.id)
@@ -113,5 +132,15 @@ class LearnedContentsController < ApplicationController
 
   def set_calendar_to_review(till_next_review)
     current_user.calendars.find_or_create_by!(calendar_date: Time.zone.today + till_next_review)
+  end
+
+  def duplicate_children(original_content, learned_content)
+    ['related_image', 'related_word', 'question'].each do |model|
+      original_content.send("#{model}s").each do |object|
+        duplicated = object.dup
+        duplicated.learned_content = learned_content
+        duplicated.save
+      end
+    end
   end
 end
