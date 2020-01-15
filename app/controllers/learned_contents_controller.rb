@@ -9,6 +9,7 @@ class LearnedContentsController < ApplicationController
 
   def new
     @learned_content = LearnedContent.new
+    @default_word = params[:default_word]
   end
 
   def create

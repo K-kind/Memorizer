@@ -1,5 +1,5 @@
 .login-form id='signup-form'
-  = fa_icon "times", class: 'login-form__closer'
+  = fa_icon 'times', class: 'login-form__closer'
   h2.login-form__heading 新規登録
   = form_with model: (@new_user ? @new_user : User.new), url: user_path do |f|
     .login-form__error

@@ -42,3 +42,6 @@ h1 Learn new word
     .learn-grid-container__pixabay
       .pixabay-btn
       #images-result
+
+- if @default_word
+  = link_to '', result_path(word: @default_word), method: :post, remote: true, id: 'hidden_result_link'

@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   get     'communities/ranking'
 
   resource :user, only: [:create, :show, :update, :destroy]
-  resources :later_lists, only: [:create, :destroy]
+  resources :later_lists, only: [:index, :create, :destroy]
   resources :account_activations, only: [:edit]
   resources :learns, controller: :learned_contents do
     member do

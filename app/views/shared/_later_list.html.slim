@@ -1,0 +1,15 @@
+.later-list-container
+  = fa_icon 'times', class: 'login-form__closer'
+  h3 あとで学習する
+  .later-list-top
+    = form_with model: @new_list do |f|
+      = render 'shared/error_messages', object: f.object
+      = f.text_field :word
+      = f.submit
+  ul.later-list-bottom
+    - @later_lists.each do |later_list|
+      li
+        = link_to later_list.word, new_learn_path(default_word: later_list.word)
+        = link_to later_list_path(later_list), method: :delete, remote: true do
+          = fa_icon 'times'
+  = paginate @later_lists, remote: true, :params => { :controller => 'later_lists', :action => 'index' }
