@@ -9,7 +9,7 @@
   ul.later-list-bottom
     - @later_lists.each do |later_list|
       li
-        span= later_list.word
+        = link_to later_list.word, new_learn_path(default_word: later_list.word)
         = link_to later_list_path(later_list), method: :delete, remote: true do
           = fa_icon 'times'
   = paginate @later_lists, remote: true, :params => { :controller => 'later_lists', :action => 'index' }
