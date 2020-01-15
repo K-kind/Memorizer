@@ -403,3 +403,7 @@
 
   | $('.thesaurus-field').addClass('hidden');
   | $('.dictionary-field').removeClass('hidden');
+
+  / コミュニティ：単語を探すページのリンクを生成
+  - if @type == 'community_word'
+    | $('#community-words-link').html('#{escape_javascript(render 'communities/community_words_link')}')

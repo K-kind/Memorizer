@@ -1,5 +1,4 @@
 h1 LearnedContent for #{@word}
-= link_to '', result_path(word: @word, type: 'show_main', learned_content_id: params[:id]), method: :post, remote: true, id: 'hidden_result_link'
 
 .learn-grid-container
   .learn-grid-container__webster
@@ -37,3 +36,6 @@ h1 LearnedContent for #{@word}
               = image_tag related_image.image_link, alt: "image of #{related_image.word}"
     = link_to 'Edit', edit_learn_path(@learned_content)
     = link_to 'New', new_learn_path
+
+/ メイン単語の辞書を表示
+= link_to '', result_path(word: @word, type: 'show_main', learned_content_id: params[:id]), method: :post, remote: true, id: 'hidden_result_link'
