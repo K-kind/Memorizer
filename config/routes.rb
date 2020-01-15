@@ -20,8 +20,9 @@ Rails.application.routes.draw do
   resources :learns, controller: :learned_contents do
     member do
       get   :question
-      post  :answer
       get   :question_show
+      post  :answer
+      post  :again
     end
   end
 

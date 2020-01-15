@@ -12,6 +12,7 @@ class LearnedContent < ApplicationRecord
 
   scope :to_review_today, -> { where('till_next_review <= 0') }
   scope :to_review_this_day, ->(date) { where('till_next_review = ? AND till_next_review >= 1', (date - Time.zone.today).to_i) }
+  scope :till_next_asc, -> { order(till_next_review: 'ASC') }
   scope :latest, -> { order(id: 'DESC') }
   scope :all_or_monthly, ->(monthly) do
     if monthly

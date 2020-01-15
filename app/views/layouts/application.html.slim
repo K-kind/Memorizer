@@ -15,7 +15,7 @@ html
       = render 'layouts/guest_header'
     .main
       .container
-        - flash.each do |message_type, message|
-          = content_tag(:div, message, class: "flash__#{message_type}")
+        #flash-box
+          = render 'shared/flash'
         = yield
     = render 'layouts/footer'

@@ -30,16 +30,18 @@ class LearnedContentsController < ApplicationController
   end
 
   def question
+    @today = params[:today]
   end
 
   def answer
     @learned_content.attributes = learned_content_params
+    @today = params[:learned_content][:today]
     if @learned_content.save(context: :question)
       average_similarity = @learned_content.average_similarity
       if @learned_content.till_next_review <= 0
         @learned_content.review_histories.create(similarity_ratio: average_similarity, calendar_id: @calendar_today.id)
         @learned_content.set_next_cycle
-        set_calendar_to_review(@learned_content.till_next_review)
+        set_calendar_to_review(@learned_content.till_next_review) unless @learned_content.completed?
       end
     else
       render 'question'
@@ -49,6 +51,7 @@ class LearnedContentsController < ApplicationController
   def show
     @learned_content = LearnedContent.find(params[:id])
     @word = @learned_content.word_definition.word
+    @today = params[:today]
   end
 
   def edit
@@ -76,6 +79,17 @@ class LearnedContentsController < ApplicationController
   def question_show
     respond_to do |format|
       format.js
+    end
+  end
+
+  def again
+    learned_content = LearnedContent.find(params[:id])
+    if params[:again] == '1'
+      learned_content.review_histories.last.update(again: true)
+      @message = 'この問題をもう一度同じサイクルで復習します。'
+    else
+      learned_content.review_histories.last.update(again: false)
+      @message = 'この問題は次の復習サイクルに進みます。'
     end
   end
 
