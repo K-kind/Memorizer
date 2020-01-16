@@ -5,19 +5,20 @@ class User < ApplicationRecord
   has_many :review_histories, through: :learned_contents
   has_many :calendars, dependent: :destroy
   has_many :favorites, dependent: :destroy
-  belongs_to :user_skill
+  belongs_to :user_skill, optional: true
 
   attr_accessor :remember_token, :activation_token
-  before_save   :downcase_email
+  before_save   :downcase_email, unless: :uid?
   before_create :create_activation_digest
   has_secure_password
-  validates :name, presence: true, length: { maximum: 15 }
+  validates :name, presence: true, length: { maximum: 20 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 255 },
                     unless: :uid?,
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }
-  validates :password, presence: true, unless: :uid?, length: { minimum: 6 }, allow_nil: true
+  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+  validates :user_skill, presence: true, unless: :uid?
 
   class << self
     def digest(string)
@@ -28,6 +29,19 @@ class User < ApplicationRecord
 
     def new_token
       SecureRandom.urlsafe_base64
+    end
+
+    def find_or_create_from_auth(auth)
+      provider = auth[:provider]
+      uid = auth[:uid]
+      name = auth[:info][:name]
+
+      find_or_create_by!(provider: provider, uid: uid) do |user|
+        user.name = name
+        if user.password.nil?
+          user.password = user.password_confirmation = SecureRandom.hex(9)
+        end
+      end
     end
   end
 

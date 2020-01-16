@@ -70,6 +70,8 @@ gem 'ransack'
 gem 'slim-rails'
 
 # 機能用gem
+gem 'fullcalendar-rails'
+# gem 'momentjs-rails'
 gem 'levenshtein'
 gem 'trigram'
 gem 'unirest'
@@ -78,18 +80,12 @@ gem 'unirest'
 gem 'awesome_rails_console'
 gem 'pry-rails'
 
-# SNSログイン用
+# 外部連携
+gem 'aws-ses'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-facebook'
 gem 'omniauth-rails_csrf_protection', '~> 0.1'
 gem 'omniauth-twitter'
 
-# カレンダー
-gem 'fullcalendar-rails'
-# gem 'momentjs-rails'
-
 gem 'whenever'
-
-# メール
-gem 'aws-ses'

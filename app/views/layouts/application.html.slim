@@ -11,6 +11,9 @@ html
   body
     - if logged_in?
       = render 'layouts/logged_in_header'
+      - if @no_user_skill
+        #set-user-skill
+          = link_to '', user_skill_user_path, remote: true, id: 'hidden_link'
     - else
       = render 'layouts/guest_header'
     .main
