@@ -1,5 +1,7 @@
 class LearnedContentsController < ApplicationController
-  before_action :set_learned_content, only: [:show, :edit, :update, :question, :answer, :question_show]
+  before_action :set_learned_content, only: [:show, :edit, :update, :destroy, :question, :answer, :question_show]
+  before_action :ensure_correct_user, only: [:show, :edit, :update, :destroy]
+  before_action :protect_private_contents, only: [:question, :answer, :question_show]
   before_action :set_collection_select, only: [:new, :edit]
   before_action :set_calendar_today, only: [:create, :answer]
 
@@ -31,12 +33,35 @@ class LearnedContentsController < ApplicationController
 
   def question
     @today = params[:today]
+    return unless (already_imported = current_user.learned_contents.find_by(imported_from: @learned_content.id))
+
+    @learned_content = already_imported
   end
 
   def answer
-    @learned_content.attributes = learned_content_params
     @today = params[:learned_content][:today]
+    # 仮想属性my_answerのバリデーション
+    @learned_content.attributes = learned_content_params
     if @learned_content.save(context: :question)
+      if @learned_content.user != current_user
+        original_content = @learned_content
+        @learned_content = original_content.dup
+        @learned_content.update(
+          user_id: current_user.id,
+          calendar_id: @calendar_today.id,
+          imported_from: original_content.id,
+          imported: true,
+          till_next_review: 1
+        )
+      end
+      if original_content
+        duplicate_children(original_content, @learned_content)
+        set_calendar_to_review(@learned_content.till_next_review)
+        # 仮想属性my_answerをimportした問題に入れる
+        @learned_content.questions.each_with_index do |question, index|
+          question.my_answer = params[:learned_content][:questions_attributes][index.to_s][:my_answer]
+        end
+      end
       average_similarity = @learned_content.average_similarity
       if @learned_content.till_next_review <= 0
         @learned_content.review_histories.create(similarity_ratio: average_similarity, calendar_id: @calendar_today.id)
@@ -103,6 +128,20 @@ class LearnedContentsController < ApplicationController
     @learned_content = LearnedContent.find(params[:id])
   end
 
+  def ensure_correct_user
+    return if @learned_content.user == current_user
+
+    flash[:danger] = '不正なURLです'
+    redirect_to root_url
+  end
+
+  def protect_private_contents
+    return unless @learned_content.user != current_user && @learned_content.is_public == false
+
+    flash[:danger] = '不正なURLです'
+    redirect_to root_url
+  end
+
   def set_collection_select
     @word_categories = WordCategory.all
   end
@@ -113,5 +152,15 @@ class LearnedContentsController < ApplicationController
 
   def set_calendar_to_review(till_next_review)
     current_user.calendars.find_or_create_by!(calendar_date: Time.zone.today + till_next_review)
+  end
+
+  def duplicate_children(original_content, learned_content)
+    ['related_image', 'related_word', 'question'].each do |model|
+      original_content.send("#{model}s").each do |object|
+        duplicated = object.dup
+        duplicated.learned_content = learned_content
+        duplicated.save
+      end
+    end
   end
 end
