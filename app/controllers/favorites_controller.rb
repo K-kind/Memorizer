@@ -5,7 +5,7 @@ class FavoritesController < ApplicationController
     @original_content.favorites.create(user_id: current_user.id)
     render 'favorite'
   end
-  
+
   def destroy
     @original_content.favorites.find_by(user_id: current_user.id).destroy
     render 'favorite'

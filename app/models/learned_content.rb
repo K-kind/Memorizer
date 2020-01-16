@@ -76,7 +76,7 @@ class LearnedContent < ApplicationRecord
     end
   end
 
-  def is_my_favorite?(user)
-    !!favorites.find_by(user_id: user.id)
+  def my_favorite?(user)
+    favorites.find_by(user_id: user.id).present?
   end
 end
