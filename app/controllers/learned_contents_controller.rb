@@ -33,9 +33,9 @@ class LearnedContentsController < ApplicationController
 
   def question
     @today = params[:today]
-    if (already_imported = current_user.learned_contents.find_by(imported_from: @learned_content.id))
-      @learned_content = already_imported
-    end
+    return unless (already_imported = current_user.learned_contents.find_by(imported_from: @learned_content.id))
+
+    @learned_content = already_imported
   end
 
   def answer
@@ -123,23 +123,23 @@ class LearnedContentsController < ApplicationController
   def learned_content_params
     params.require(:learned_content).permit(:content, :word_category_id, :is_public, questions_attributes: [:question, :answer, :my_answer, :id])
   end
-  
+
   def set_learned_content
     @learned_content = LearnedContent.find(params[:id])
   end
 
   def ensure_correct_user
-    if @learned_content.user != current_user
-      flash[:danger] = '不正なURLです'
-      redirect_to root_url
-    end
+    return if @learned_content.user == current_user
+
+    flash[:danger] = '不正なURLです'
+    redirect_to root_url
   end
 
   def protect_private_contents
-    if @learned_content.user != current_user && @learned_content.is_public == false
-      flash[:danger] = '不正なURLです'
-      redirect_to root_url
-    end
+    return unless @learned_content.user != current_user && @learned_content.is_public == false
+
+    flash[:danger] = '不正なURLです'
+    redirect_to root_url
   end
 
   def set_collection_select
