@@ -70,6 +70,7 @@ gem 'ransack'
 gem 'slim-rails'
 
 # 機能用gem
+gem 'chartkick'
 gem 'fullcalendar-rails'
 # gem 'momentjs-rails'
 gem 'levenshtein'
