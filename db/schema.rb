@@ -165,7 +165,7 @@ ActiveRecord::Schema.define(version: 2020_01_16_032526) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "activated_at"
-    t.integer "level_id"
+    t.integer "level_id", default: 1
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["user_skill_id"], name: "index_users_on_user_skill_id"
   end
