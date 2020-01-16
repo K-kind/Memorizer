@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_many :learned_contents, dependent: :destroy
   has_many :review_histories, through: :learned_contents
   has_many :calendars, dependent: :destroy
+  has_many :favorites, dependent: :destroy
   belongs_to :user_skill
 
   attr_accessor :remember_token, :activation_token

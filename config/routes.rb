@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   root    'homes#top'
-  # json用
-  get     '/top',       to: 'homes#top'
+  get     '/top',       to: 'homes#top' # json用
   get     '/homes/calendar', to: 'homes#calendar', as: 'calendar'
   get     '/about',     to: 'homes#about'
   post    '/login',     to: 'sessions#create'
@@ -18,6 +17,7 @@ Rails.application.routes.draw do
   resources :later_lists, only: [:index, :create, :destroy]
   resources :account_activations, only: [:edit]
   resources :learns, controller: :learned_contents do
+    resource :favorite, only: [:create, :destroy]
     member do
       get   :question
       get   :question_show
