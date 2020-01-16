@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
       if user&.authenticate(params[:password])
         log_in user
         params[:remember_me] == '1' ? remember(user) : forget(user)
-        flash[:success] = 'ログインしました。'
+        flash[:notice] = 'ログインしました。'
         format.html { redirect_back_or root_url }
       else
         @error_message = 'メールアドレスとパスワードの組み合わせが不正です。'
@@ -27,10 +27,10 @@ class SessionsController < ApplicationController
     user = User.find_or_create_from_auth(auth)
     log_in user
     if user.activated?
-      flash[:success] = 'ログインしました。'
+      flash[:notice] = 'ログインしました。'
     else
       user.activate
-      flash[:success] = 'アカウント認証に成功しました。'
+      flash[:notice] = 'アカウント認証に成功しました。'
     end
     redirect_back_or root_url
   end
