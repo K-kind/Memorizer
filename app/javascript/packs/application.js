@@ -230,6 +230,8 @@ $(document).on('turbolinks:load', function () {
   $('.onclick-select').on('change', function () {
     Rails.fire($('#onclick-form')[0], 'submit');
   });
+  $('#flash-box').fadeIn();
+  setTimeout("$('#flash-box').fadeOut('slow')", 1800);
 });
 // カレンダーイベントクリックで、modal表示用リンクを生成してクリックする
 function CalendarPartial(date) {

@@ -1,5 +1,7 @@
 class LearnedContentsController < ApplicationController
-  before_action :set_learned_content, only: [:show, :edit, :update, :question, :answer, :question_show]
+  before_action :set_learned_content, only: [:show, :edit, :update, :destroy, :question, :answer, :question_show]
+  before_action :ensure_correct_user, only: [:show, :edit, :update, :destroy]
+  before_action :protect_private_contents, only: [:question, :answer, :question_show]
   before_action :set_collection_select, only: [:new, :edit]
   before_action :set_calendar_today, only: [:create, :answer]
 
@@ -31,6 +33,9 @@ class LearnedContentsController < ApplicationController
 
   def question
     @today = params[:today]
+    if (already_imported = current_user.learned_contents.find_by(imported_from: @learned_content.id))
+      @learned_content = already_imported
+    end
   end
 
   def answer
@@ -44,6 +49,7 @@ class LearnedContentsController < ApplicationController
         @learned_content.update(
           user_id: current_user.id,
           calendar_id: @calendar_today.id,
+          imported_from: original_content.id,
           imported: true,
           till_next_review: 1
         )
@@ -117,9 +123,23 @@ class LearnedContentsController < ApplicationController
   def learned_content_params
     params.require(:learned_content).permit(:content, :word_category_id, :is_public, questions_attributes: [:question, :answer, :my_answer, :id])
   end
-
+  
   def set_learned_content
     @learned_content = LearnedContent.find(params[:id])
+  end
+
+  def ensure_correct_user
+    if @learned_content.user != current_user
+      flash[:danger] = '不正なURLです'
+      redirect_to root_url
+    end
+  end
+
+  def protect_private_contents
+    if @learned_content.user != current_user && @learned_content.is_public == false
+      flash[:danger] = '不正なURLです'
+      redirect_to root_url
+    end
   end
 
   def set_collection_select
