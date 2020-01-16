@@ -167,7 +167,7 @@ class LearnedContentsController < ApplicationController
     end
   end
 
-  def calculate_level(exp, now= nil)
+  def calculate_level(exp, now = nil)
     return unless current_user.level_up?(exp)
 
     if now
