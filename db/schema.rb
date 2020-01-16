@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_15_230136) do
+ActiveRecord::Schema.define(version: 2020_01_16_032526) do
 
   create_table "action_text_rich_texts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name", null: false
@@ -96,6 +96,12 @@ ActiveRecord::Schema.define(version: 2020_01_15_230136) do
     t.index ["word_definition_id"], name: "index_learned_contents_on_word_definition_id"
   end
 
+  create_table "levels", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.integer "threshold", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "questions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "learned_content_id", null: false
     t.text "question"
@@ -159,6 +165,7 @@ ActiveRecord::Schema.define(version: 2020_01_15_230136) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "activated_at"
+    t.integer "level_id", default: 1
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["user_skill_id"], name: "index_users_on_user_skill_id"
   end

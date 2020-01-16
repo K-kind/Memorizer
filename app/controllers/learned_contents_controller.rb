@@ -22,8 +22,9 @@ class LearnedContentsController < ApplicationController
       if @learned_content.save
         @learned_content.create_related_images(params[:learned_content][:related_image])
         @learned_content.create_related_words(params[:learned_content][:related_word])
+        calculate_level(5)
         set_calendar_to_review(@learned_content.till_next_review)
-        flash[:success] = '学習が記録されました。'
+        flash[:notice] = '学習が記録されました。'
         format.html { redirect_to learn_url(@learned_content) }
       else
         format.js { render 'error' }
@@ -61,12 +62,14 @@ class LearnedContentsController < ApplicationController
         @learned_content.questions.each_with_index do |question, index|
           question.my_answer = params[:learned_content][:questions_attributes][index.to_s][:my_answer]
         end
+        calculate_level(3, 'now')
       end
       average_similarity = @learned_content.average_similarity
       if @learned_content.till_next_review <= 0
         @learned_content.review_histories.create(similarity_ratio: average_similarity, calendar_id: @calendar_today.id)
         @learned_content.set_next_cycle
         set_calendar_to_review(@learned_content.till_next_review) unless @learned_content.completed?
+        exp_on_similarity(average_similarity)
       end
     else
       render 'question'
@@ -90,7 +93,7 @@ class LearnedContentsController < ApplicationController
       if @learned_content.update(learned_content_params)
         @learned_content.create_related_images(params[:learned_content][:related_image])
         @learned_content.create_related_words(params[:learned_content][:related_word])
-        flash[:success] = '学習内容が更新されました。'
+        flash[:notice] = '学習内容が更新されました。'
         format.html { redirect_to learn_url(@learned_content) }
       else
         format.js { render 'error' }
@@ -161,6 +164,26 @@ class LearnedContentsController < ApplicationController
         duplicated.learned_content = learned_content
         duplicated.save
       end
+    end
+  end
+
+  def calculate_level(exp, now = nil)
+    return unless current_user.level_up?(exp)
+
+    if now
+      flash.now[:level_up] = "Level UP! Lv.#{current_user.level_id}"
+    else
+      flash[:level_up] = "Level UP! Lv.#{current_user.level_id}"
+    end
+  end
+
+  def exp_on_similarity(average_similarity)
+    if average_similarity >= 90
+      calculate_level(4, 'now')
+    elsif average_similarity >= 50
+      calculate_level(3, 'now')
+    else
+      calculate_level(2, 'now')
     end
   end
 end

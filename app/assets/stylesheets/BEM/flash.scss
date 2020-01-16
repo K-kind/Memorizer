@@ -19,4 +19,8 @@
     @extend %flash;
     background-color: #ac3e3e;
   }
+  &__level_up {
+    @extend %flash;
+    background-color: #77cdf5;
+  }
 }

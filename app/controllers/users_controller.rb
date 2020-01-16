@@ -21,7 +21,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if current_user.update(user_params)
-        flash[:success] = 'ユーザー情報を更新しました'
+        flash[:notice] = 'ユーザー情報を更新しました'
         format.html { redirect_to user_url }
       else
         @user_skills = UserSkill.all

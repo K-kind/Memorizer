@@ -54,6 +54,13 @@ class User < ApplicationRecord
     UserMailer.account_activation(self).deliver_now
   end
 
+  def level_up?(added_exp)
+    update(exp: (exp + added_exp))
+    return unless Level.find(level_id).threshold <= exp
+
+    update(level_id: (level_id + 1))
+  end
+
   private
 
   def downcase_email

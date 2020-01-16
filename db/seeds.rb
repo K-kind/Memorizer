@@ -17,3 +17,16 @@ UserSkill.find_or_create_by!(skill: 'TOEIC900点台')
 WordCategory.find_or_create_by!(category: 'General')
 WordCategory.find_or_create_by!(category: 'Science')
 WordCategory.find_or_create_by!(category: 'Technology')
+
+# 最初だけ頻繁にレベルが上がり過ぎないようにする
+Level.find_or_create_by!(threshold: 7)
+Level.find_or_create_by!(threshold: 17)
+Level.find_or_create_by!(threshold: 32)
+Level.find_or_create_by!(threshold: 52)
+Level.find_or_create_by!(threshold: 77)
+# 6レベル以降はthresholdを緩やかに上げる
+300.times do |n|
+  id = n + 6
+  threshold = Level.find(id - 1).threshold + 20 + (id / 10).floor
+  Level.find_or_create_by!(threshold: threshold)
+end
