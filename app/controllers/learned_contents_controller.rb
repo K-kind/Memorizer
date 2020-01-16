@@ -1,4 +1,6 @@
 class LearnedContentsController < ApplicationController
+  before_action :logged_in_user, except: [:new]
+  before_action :confirm_user_skill, only: [:new]
   before_action :set_learned_content, only: [:show, :edit, :update, :destroy, :question, :answer, :question_show]
   before_action :ensure_correct_user, only: [:show, :edit, :update, :destroy]
   before_action :protect_private_contents, only: [:question, :answer, :question_show]

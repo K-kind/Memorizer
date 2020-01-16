@@ -1,5 +1,5 @@
 h1 LearnedContent for #{@word} -- Edit
-= link_to '', result_path(word: @word, type: 'show_main', learned_content_id: params[:id]), method: :post, remote: true, id: 'hidden_result_link'
+= link_to '', result_path(word: @word, type: 'show_main', learned_content_id: params[:id]), method: :post, remote: true, id: 'hidden_link'
 
 .new-word-search
   = form_with url: result_path do |f|

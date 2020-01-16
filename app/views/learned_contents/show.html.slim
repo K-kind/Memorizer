@@ -49,4 +49,4 @@ h1 LearnedContent for #{@word}
         = link_to  '復習を終了', root_path
 
 / メイン単語の辞書を表示
-= link_to '', result_path(word: @word, type: 'show_main', learned_content_id: params[:id]), method: :post, remote: true, id: 'hidden_result_link'
+= link_to '', result_path(word: @word, type: 'show_main', learned_content_id: params[:id]), method: :post, remote: true, id: 'hidden_link'

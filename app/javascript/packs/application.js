@@ -165,9 +165,9 @@ $(document).on('turbolinks:load', function () {
     $(`option[data-index=${index}]`).remove();
   });
 
-  if (document.getElementById('hidden_result_link')) {
-    document.getElementById('hidden_result_link').click();
-    document.getElementById('hidden_result_link').remove();
+  if (document.getElementById('hidden_link')) {
+    document.getElementById('hidden_link').click();
+    document.getElementById('hidden_link').remove();
   }
 
   $(document).off('click', '.remove-word-btn');
@@ -232,6 +232,7 @@ $(document).on('turbolinks:load', function () {
   });
   $('#flash-box').fadeIn();
   setTimeout("$('#flash-box').fadeOut('slow')", 1800);
+  $('#hidden-user-skill-link').fadeIn();
 });
 // カレンダーイベントクリックで、modal表示用リンクを生成してクリックする
 function CalendarPartial(date) {

@@ -6,16 +6,21 @@ Rails.application.routes.draw do
   post    '/login',     to: 'sessions#create'
   delete  '/logout',    to: 'sessions#destroy'
   get     '/auth/failure',             to: 'sessions#auth_failure'
-  get     '/auth/:provider/callback',  to: 'sessions#create'
-  post    '/result',    to: 'searches#result'
+  get     '/auth/:provider/callback',  to: 'sessions#auth_success'
+  post    '/result',     to: 'searches#result'
   post    '/pixabay',    to: 'searches#pixabay'
   get     'communities/words'
   get     'communities/questions'
   get     'communities/ranking'
 
-  resource :user, only: [:create, :show, :update, :destroy]
   resources :later_lists, only: [:index, :create, :destroy]
   resources :account_activations, only: [:edit]
+  resource :user, only: [:create, :show, :update, :destroy] do
+    member do
+      get :user_skill
+      post :set_user_skill
+    end
+  end
   resources :learns, controller: :learned_contents do
     resource :favorite, only: [:create, :destroy]
     member do

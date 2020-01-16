@@ -37,6 +37,15 @@ class UsersController < ApplicationController
     redirect_to about_url
   end
 
+  def user_skill
+    @user_skills = UserSkill.all
+  end
+
+  def set_user_skill
+    current_user.update!(user_skill_id: params[:user_skill_id])
+    @message = '登録が完了しました。'
+  end
+
   private
 
   def user_params
