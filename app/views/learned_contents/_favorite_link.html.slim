@@ -1,0 +1,8 @@
+- if @original_content.is_my_favorite?(current_user)
+  = link_to learn_favorite_path(@original_content), method: :delete, remote: true do
+    i class='fas fa-thumbs-up thumbs__yellow'
+- else
+  = link_to learn_favorite_path(@original_content), method: :post, remote: true do
+    i class='fas fa-thumbs-up thumbs__gray'
+
+span= @original_content.favorites.count

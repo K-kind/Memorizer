@@ -75,4 +75,8 @@ class LearnedContent < ApplicationRecord
       update(till_next_review: 10000, completed: true)
     end
   end
+
+  def is_my_favorite?(user)
+    !!favorites.find_by(user_id: user.id)
+  end
 end
