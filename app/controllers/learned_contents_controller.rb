@@ -71,6 +71,9 @@ class LearnedContentsController < ApplicationController
         set_calendar_to_review(@learned_content.till_next_review) unless @learned_content.completed?
         exp_on_similarity(average_similarity)
       end
+      if @learned_content.imported?
+        @original_content = LearnedContent.find_by(id: @learned_content.imported_from)
+      end
     else
       render 'question'
     end
@@ -80,6 +83,9 @@ class LearnedContentsController < ApplicationController
     @learned_content = LearnedContent.find(params[:id])
     @word = @learned_content.word_definition.word
     @today = params[:today]
+    if @learned_content.imported?
+      @original_content = LearnedContent.find_by(id: @learned_content.imported_from)
+    end
   end
 
   def edit

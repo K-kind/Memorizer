@@ -3,6 +3,7 @@ class LearnedContent < ApplicationRecord
   has_many :related_images, dependent: :destroy
   has_many :related_words, dependent: :destroy
   has_many :review_histories, dependent: :destroy
+  has_many :favorites, dependent: :destroy
   belongs_to :user
   belongs_to :word_category
   belongs_to :word_definition
@@ -73,5 +74,9 @@ class LearnedContent < ApplicationRecord
     when 5
       update(till_next_review: 10000, completed: true)
     end
+  end
+
+  def my_favorite?(user)
+    favorites.find_by(user_id: user.id).present?
   end
 end

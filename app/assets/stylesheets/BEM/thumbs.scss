@@ -1,0 +1,12 @@
+%thumbs {
+  font-size: 22px;
+}
+.thumbs {
+  @extend %thumbs;
+  &__yellow {
+    color: rgb(240, 207, 59)
+  }
+  &__gray {
+    color: #888;
+  }
+}

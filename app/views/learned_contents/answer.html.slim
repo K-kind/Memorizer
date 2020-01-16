@@ -17,6 +17,10 @@ h1 Answer
   - else
     = link_to "Review \"#{@learned_content.word_definition.word}\"", learn_path(@learned_content)
 
+  - if @original_content
+      #favorite-partial
+        = render 'favorite_link'
+
 - if contents_to_review_today.any?
   = link_to 'Next', question_learn_path(contents_to_review_today.till_next_asc.first, today: 1)
 - elsif @today == '1'
