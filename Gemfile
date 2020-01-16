@@ -90,3 +90,6 @@ gem 'fullcalendar-rails'
 # gem 'momentjs-rails'
 
 gem 'whenever'
+
+# メール
+gem 'aws-ses'

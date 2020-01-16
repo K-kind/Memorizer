@@ -64,6 +64,11 @@ GEM
       awesome_print
       pry-rails
       railties
+    aws-ses (0.6.0)
+      builder
+      mail (> 2.2.5)
+      mime-types
+      xml-simple
     bcrypt (3.1.13)
     bindex (0.8.1)
     bootsnap (1.4.5)
@@ -347,6 +352,7 @@ GEM
     websocket-extensions (0.1.4)
     whenever (1.0.0)
       chronic (>= 0.6.3)
+    xml-simple (1.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.2.2)
@@ -356,6 +362,7 @@ PLATFORMS
 
 DEPENDENCIES
   awesome_rails_console
+  aws-ses
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.4.2)
   byebug
