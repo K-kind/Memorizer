@@ -10,6 +10,8 @@ require('channels')
 require('jquery')
 require('trix')
 require('@rails/actiontext')
+require('chartkick')
+require('chart.js')
 import $ from 'jquery';
 import 'fullcalendar';
 // = require fullcalendar/lang/ja
