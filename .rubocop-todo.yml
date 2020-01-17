@@ -25,3 +25,9 @@ MethodLength:
 # 引数の数が多すぎる
 ParameterLists:
   Max: 12
+
+# routes.rbのブロック内の長さ
+Metrics/BlockLength:
+  Max: 39
+  Exclude:
+    - 'config/routes.rb'
