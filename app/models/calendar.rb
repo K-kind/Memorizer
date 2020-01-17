@@ -5,7 +5,7 @@ class Calendar < ApplicationRecord
 
   class << self
     def learn_chart(new_or_review, day)
-      (day.prev_month .. day).to_a.map do |d|
+      (day.prev_month..day).to_a.map do |d|
         [d, find_by(calendar_date: d)&.send(new_or_review)&.count]
       end
     end

@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     @user_skills = UserSkill.all
     @active_users = User.where(activated: true)
     @prev = params[:prev].to_i
-    day = @prev ? Time.zone.today.prev_month(months = @prev) : Time.zone.today
+    day = @prev ? Time.zone.today.prev_month(@prev) : Time.zone.today
     @new_learn_chart = current_user.calendars.learn_chart('learned_contents', day)
     @reviewed_chart = current_user.calendars.learn_chart('review_histories', day)
     respond_to do |format|
