@@ -1,6 +1,7 @@
 class CommunitiesController < ApplicationController
   before_action :logged_in_user
   before_action :set_collection_selects, only: [:words, :questions]
+  before_action :no_always_dictionary, only: [:words]
 
   def words
     @q = LearnedContent.where(imported: false).ransack(params[:q])

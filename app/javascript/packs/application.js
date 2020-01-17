@@ -49,7 +49,7 @@ $(document).on('turbolinks:load', function () {
   });
 
   $(document).on('click', '.login-form__closer', function () {
-    $('.login-form, #calendar-modal').fadeOut('fast');
+    $('.login-form, #calendar-modal, #always-modal').fadeOut('fast');
     $('#later-list-modal').html('');
     setTimeout(() => {
       $('#overlay').remove();
@@ -58,7 +58,7 @@ $(document).on('turbolinks:load', function () {
   });
 
   $(document).on('click', '#overlay', function () {
-    $('.login-form, #calendar-modal').fadeOut('fast');
+    $('.login-form, #calendar-modal, #always-modal').fadeOut('fast');
     $('#later-list-modal').html('');
     setTimeout(() => {
       $(this).remove();
@@ -116,6 +116,7 @@ $(document).on('turbolinks:load', function () {
     return false;
   });
 
+  // ページ内で同じ単語を再検索した場合、appendせずにhiddenをremoveする
   $(document).on('click', '#consult-submit', function () {
     let $searchedWord = $('#word').val().replace(/[\s]/, '_');
     if ($('.word-field-' + $searchedWord).length) {
@@ -236,6 +237,7 @@ $(document).on('turbolinks:load', function () {
   setTimeout("$('#flash-box').fadeOut('slow')", 1800);
   $('#hidden-user-skill-link').fadeIn();
 });
+
 // カレンダーイベントクリックで、modal表示用リンクを生成してクリックする
 function CalendarPartial(date) {
   $('#hidden-link').html(`<a id="hidden-link-to-date" href="homes/calendar?date=${date}" data-remote="true"></a>`);
