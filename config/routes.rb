@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   root    'homes#top'
   get     '/top',       to: 'homes#top' # カレンダーjson用
-  get     '/homes/calendar', to: 'homes#calendar', as: 'calendar'
+  get     '/homes/calendar', as: 'calendar'
+  get     'homes/always_dictionary'
   get     '/about',     to: 'homes#about'
   post    '/login',     to: 'sessions#create'
   delete  '/logout',    to: 'sessions#destroy'

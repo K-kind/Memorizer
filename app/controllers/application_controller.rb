@@ -16,4 +16,8 @@ class ApplicationController < ActionController::Base
 
     @no_user_skill = true
   end
+
+  def no_always_dictionary
+    @no_always_dictionary = true
+  end
 end

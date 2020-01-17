@@ -6,6 +6,7 @@ class LearnedContentsController < ApplicationController
   before_action :protect_private_contents, only: [:question, :answer, :question_show]
   before_action :set_collection_select, only: [:new, :edit]
   before_action :set_calendar_today, only: [:create, :answer]
+  before_action :no_always_dictionary, only: [:new, :show, :edit]
 
   def index
     @learned_contents = current_user.learned_contents.latest.page(params[:page])

@@ -19,4 +19,7 @@ class HomesController < ApplicationController
       format.js
     end
   end
+
+  def always_dictionary
+  end
 end

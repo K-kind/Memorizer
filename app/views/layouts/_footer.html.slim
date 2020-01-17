@@ -2,17 +2,19 @@ footer.footer
   .container
     ul.footer-left
       li.footer-left__list
-        =link_to 'Memorizerについて', about_path
+        = link_to 'Memorizerについて', about_path
       li.footer-left__list
-        =link_to 'ヘルプ', '#'
+        = link_to 'ヘルプ', '#'
       li.footer-left__list
-        =link_to 'お問い合わせ', '#'
-    .footer-right
-      - if logged_in?
-        = link_to later_lists_path, remote: true, class: 'footer-right__link' do
-          =fa_icon 'bookmark lg'
-      a.footer-right__link href='#'
-        =fa_icon 'search lg'
+        = link_to 'お問い合わせ', '#'
+    - unless !logged_in? && @no_always_dictionary
+      .footer-right
+        - if logged_in?
+          = link_to later_lists_path, remote: true, class: 'footer-right__link' do
+            = fa_icon 'bookmark lg'
+        - unless @no_always_dictionary
+          = link_to homes_always_dictionary_path, remote: true, class: 'footer-right__link' do
+            = fa_icon 'search lg'
   
   - if logged_in?
     #later-list-modal
