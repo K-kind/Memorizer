@@ -22,5 +22,9 @@
       i class='fab fa-google fa-lg'
     = link_to '/auth/facebook', method: :post, class: 'login-icon__btn--facebook' do
       i class='fab fa-facebook-f fa-lg'
+  = form_with url: sessions_sns_remember_path, id: 'onclick-form' do |f|
+    .login-form__check
+      = f.check_box :sns_remember, class: 'onclick-select'
+      = f.label :sns_remember, 'ログイン状態を保持する', class: 'login-form__check--label'
 
   p.login-form__toggle アカウントをお持ちでないですか？ #{link_to '新規登録', '#', id: 'signup-toggler'}

@@ -29,18 +29,6 @@ class SearchesController < ApplicationController
     end
   end
 
-  # def row
-  #   word = params[:word]
-  #   if (word_definition = WordDefinition.find_by(word: word))
-  #     @dictionary_data = word_definition.dictionary_data
-  #     @thesaurus_data = word_definition.thesaurus_data
-  #   else
-  #     response_from_merriam(word)
-  #   end
-  #   render :json => @dictionary_data
-  #   # render :json => @thesaurus_data
-  # end
-
   private
 
   def response_from_merriam(word)
