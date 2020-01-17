@@ -2,7 +2,8 @@ h1 マイページ
 
 h2 ユーザー情報
 
-= column_chart RugbyWorldCupHostCountry.pluck(:held_at, :total_attendance)
+#chart-container
+  =render 'chart'
 
 #user-info
   = render 'user_info'
@@ -12,7 +13,7 @@ h2 ユーザー情報
 div
   div
     strong レベル
-    span Lv.#{}
+    span Lv.#{current_user.level_id}
   div
     strong 単語学習数
     span= current_user.learned_contents.count
