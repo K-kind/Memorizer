@@ -229,7 +229,7 @@ $(document).on('turbolinks:load', function () {
     });
   }
 
-  $('.onclick-select').on('change', function () {
+  $(document).on('change', '.onclick-select', function () {
     Rails.fire($('#onclick-form')[0], 'submit');
   });
   $('#flash-box').fadeIn();

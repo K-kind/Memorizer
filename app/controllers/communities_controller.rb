@@ -1,4 +1,5 @@
 class CommunitiesController < ApplicationController
+  before_action :logged_in_user
   before_action :set_collection_selects, only: [:words, :questions]
 
   def words

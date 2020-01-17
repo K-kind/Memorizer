@@ -1,12 +1,13 @@
 class UsersController < ApplicationController
+  before_action :logged_in_user, except: [:create]
+
   def create
     @new_user = User.new(user_params)
     respond_to do |format|
       if @new_user.save
         @new_user.send_activation_email
-        flash[:info] = '仮登録完了メールを送信しました。ご確認ください。'
-        log_in @new_user
-        format.html { redirect_to user_url }
+        flash[:notice] = '仮登録完了メールを送信しました。ご確認ください。'
+        format.html { redirect_to about_url }
       else
         format.js { render 'signup_error' }
       end

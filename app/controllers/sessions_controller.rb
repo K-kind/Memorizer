@@ -6,10 +6,17 @@ class SessionsController < ApplicationController
     user = User.find_by(email: params[:email].downcase)
     respond_to do |format|
       if user&.authenticate(params[:password])
-        log_in user
-        params[:remember_me] == '1' ? remember(user) : forget(user)
-        flash[:notice] = 'ログインしました。'
-        format.html { redirect_back_or root_url }
+        if user.activated?
+          log_in user
+          params[:remember_me] == '1' ? remember(user) : forget(user)
+          flash[:notice] = 'ログインしました。'
+          format.html { redirect_back_or root_url }
+        else
+          message = 'アカウントが有効化されていません。'
+          message += '仮登録確認メールをご確認ください。'
+          flash[:danger] = message
+          format.html { redirect_to about_url }
+        end
       else
         @error_message = 'メールアドレスとパスワードの組み合わせが不正です。'
         format.js { render 'error' }
@@ -26,6 +33,10 @@ class SessionsController < ApplicationController
     auth = request.env['omniauth.auth']
     user = User.find_or_create_from_auth(auth)
     log_in user
+    if session[:sns_remember]
+      remember(user)
+      session[:sns_remember] = nil
+    end
     if user.activated?
       flash[:notice] = 'ログインしました。'
     else
@@ -38,5 +49,10 @@ class SessionsController < ApplicationController
   def auth_failure
     flash[:danger] = 'アカウント認証に失敗しました。'
     redirect_to about_url
+  end
+
+  # SNSログイン用のremember_meチェック
+  def sns_remember
+    session[:sns_remember] = params[:sns_remember] == '1' ? true : nil
   end
 end

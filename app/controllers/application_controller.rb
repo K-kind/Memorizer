@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   end
 
   def confirm_user_skill
-    return if current_user.user_skill_id
+    return if !current_user || current_user.user_skill_id
 
     @no_user_skill = true
   end

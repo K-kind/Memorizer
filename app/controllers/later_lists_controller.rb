@@ -1,4 +1,5 @@
 class LaterListsController < ApplicationController
+  before_action :logged_in_user
   before_action :set_list_instance, only: [:index, :destroy]
 
   def index

@@ -1,4 +1,5 @@
 class FavoritesController < ApplicationController
+  before_action :logged_in_user
   before_action :set_original_content
 
   def create

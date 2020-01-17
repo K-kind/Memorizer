@@ -1,12 +1,13 @@
 Rails.application.routes.draw do
   root    'homes#top'
-  get     '/top',       to: 'homes#top' # json用
+  get     '/top',       to: 'homes#top' # カレンダーjson用
   get     '/homes/calendar', to: 'homes#calendar', as: 'calendar'
   get     '/about',     to: 'homes#about'
   post    '/login',     to: 'sessions#create'
   delete  '/logout',    to: 'sessions#destroy'
   get     '/auth/failure',             to: 'sessions#auth_failure'
   get     '/auth/:provider/callback',  to: 'sessions#auth_success'
+  post    'sessions/sns_remember'
   post    '/result',     to: 'searches#result'
   post    '/pixabay',    to: 'searches#pixabay'
   get     'communities/words'
