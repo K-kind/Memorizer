@@ -17,10 +17,10 @@
 
   .login-icon
     = link_to '/auth/twitter', method: :post, class: 'login-icon__btn--twitter' do
-      = fa_icon "twitter lg"
+      i class='fab fa-twitter fa-lg'
     = link_to '/auth/google_oauth2', method: :post, class: 'login-icon__btn--google' do
-      = fa_icon "google lg"
+      i class='fab fa-google fa-lg'
     = link_to '/auth/facebook', method: :post, class: 'login-icon__btn--facebook' do
-      = fa_icon "facebook-f lg"
+      i class='fab fa-facebook-f fa-lg'
 
   p.login-form__toggle すでにアカウントをお持ちですか？ #{link_to 'ログイン', '#', id: 'login-toggler'}

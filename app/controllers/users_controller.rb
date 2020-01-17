@@ -4,7 +4,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @new_user.save
         @new_user.send_activation_email
-        flash[:info] = '仮登録が完了しました。本登録完了のために、メールをご確認ください。'
+        flash[:info] = '仮登録完了メールを送信しました。ご確認ください。'
         log_in @new_user
         format.html { redirect_to user_url }
       else
