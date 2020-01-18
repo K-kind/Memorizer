@@ -1,0 +1,9 @@
+h1 Memorizer
+p
+  - if @contact
+    | #{@user.name}様からお問い合わせがありました。<br>
+    = simple_format @contact.comment
+  - else
+    | #{@user.name}様がMemorizerにご登録くださいました。
+
+= link_to "ユーザー詳細ページ", admin_user_url(@user)

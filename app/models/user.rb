@@ -69,6 +69,10 @@ class User < ApplicationRecord
     UserMailer.account_activation(self).deliver_now
   end
 
+  def send_notification_email(contact = nil)
+    NotificationMailer.user_notification(self, contact).deliver_now
+  end
+
   def level_up?(added_exp)
     update(exp: (exp + added_exp))
     return unless Level.find(level_id).threshold <= exp
