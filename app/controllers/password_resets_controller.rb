@@ -3,8 +3,7 @@ class PasswordResetsController < ApplicationController
   before_action :valid_user, only: [:edit, :update]
   before_action :check_expiration, only: [:edit, :update]
 
-  def new
-  end
+  def new; end
 
   def create
     user = User.find_by(email: params[:email].downcase)
@@ -16,14 +15,12 @@ class PasswordResetsController < ApplicationController
         format.html { redirect_to about_url }
       end
     else
-      flash.now[:danger] = "Email address not found"
       @message = 'メールアドレスが見つかりません。'
       render 'error'
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if params[:user][:password].empty?
@@ -52,16 +49,16 @@ class PasswordResetsController < ApplicationController
   end
 
   def valid_user
-    unless (@user&.activated? && @user.authenticated?(:reset, params[:id]))
-      flash[:danger] = '無効なリンクです。'
-      redirect_to about_url
-    end
+    return if @user&.activated? && @user&.authenticated?(:reset, params[:id])
+
+    flash[:danger] = '無効なリンクです。'
+    redirect_to about_url
   end
 
   def check_expiration
-    if @user.password_reset_expired?
-      flash[:danger] = 'パスワードリセットリンクが有効期限切れです。'
-      redirect_to about_url
-    end
+    return unless @user.password_reset_expired?
+
+    flash[:danger] = 'パスワードリセットリンクが有効期限切れです。'
+    redirect_to about_url
   end
 end
