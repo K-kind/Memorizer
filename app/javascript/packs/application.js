@@ -50,11 +50,25 @@ $(document).on('turbolinks:load', function () {
 
   $(document).on('click', '.login-form__closer', function () {
     $('.login-form, #calendar-modal, #always-modal').fadeOut('fast');
-    $('#later-list-modal').html('');
     setTimeout(() => {
       $('#overlay').remove();
     }, 100);
     return false;
+  });
+
+  $(document).on('click', '.later-modal-closer', function () {
+    $('#later-list-modal').html('');
+    setTimeout(() => {
+      $('#later-overlay').remove();
+    }, 100);
+    return false;
+  });
+
+  $(document).on('click', '#later-overlay', function () {
+    $('#later-list-modal').html('');
+    setTimeout(() => {
+      $(this).remove();
+    }, 100);
   });
 
   $(document).on('click', '#overlay', function () {

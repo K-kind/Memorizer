@@ -41,6 +41,8 @@ class SessionsController < ApplicationController
       flash[:notice] = 'ログインしました。'
     else
       user.activate
+      user.notifications.create(to_admin: true, action: 1)
+      user.send_notification_email
       flash[:notice] = 'アカウント認証に成功しました。'
     end
     redirect_back_or root_url

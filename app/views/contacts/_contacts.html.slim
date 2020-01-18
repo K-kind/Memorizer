@@ -1,0 +1,15 @@
+ul
+  - @contacts.each do |contact|
+    li
+      - if contact.from_admin?
+        | 管理者からの返信
+      - else
+        | お問い合わせ内容
+      = simple_format contact.comment
+      = contact.created_at.strftime('%Y/%m/%d')
+      - if contact.from_admin? && yield(:admin_view) == 'admin' # adminはadminの投稿のみ削除
+        = link_to '削除', admin_user_contact_path(@user, contact), method: :delete, remote: true, data: { confirm: '返信を削除しますか？' }
+      - elsif !contact.from_admin? && yield(:admin_view) != 'admin'
+        = link_to '削除', contact_path(contact), method: :delete, remote: true, data: { confirm: 'お問い合わせ内容を削除してよろしいですか？' }
+
+= paginate @contacts

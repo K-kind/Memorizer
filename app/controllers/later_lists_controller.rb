@@ -7,6 +7,7 @@ class LaterListsController < ApplicationController
 
   def create
     @new_list = current_user.later_lists.create(later_list_params)
+    @sub_type = params[:sub_type] # alwaysの場合は、モーダル を2つ出す処理
     if @new_list.valid?
       @new_list = LaterList.new
       last_page = ((current_user.later_lists.count - 1) / 15 + 1).floor
