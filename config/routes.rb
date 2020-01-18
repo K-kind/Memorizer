@@ -16,8 +16,9 @@ Rails.application.routes.draw do
   post    '/result',     to: 'searches#result'
   post    '/pixabay',    to: 'searches#pixabay'
 
-  resources :later_lists, only: [:index, :create, :destroy]
   resources :account_activations, only: [:edit]
+  resources :contacts, only: [:index, :create, :destroy]
+  resources :later_lists, only: [:index, :create, :destroy]
   resource :user, only: [:create, :show, :update, :destroy] do
     member do
       get :user_skill

@@ -1,0 +1,7 @@
+= form_with model: @new_contact do |f|
+  = render 'shared/error_messages', object: f.object
+
+  = f.label :comment
+  = f.text_area :comment
+
+  = f.submit

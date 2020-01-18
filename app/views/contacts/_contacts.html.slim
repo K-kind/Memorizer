@@ -1,0 +1,9 @@
+ul
+  - @contacts.each do |contact|
+    li
+      - if contact.from_admin?
+        | 管理者からの返信
+      - else
+        | お問い合わせ内容
+      = simple_format contact.comment
+      = contact.created_at.strftime('%Y/%m/%d')

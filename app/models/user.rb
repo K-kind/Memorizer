@@ -1,11 +1,12 @@
 class User < ApplicationRecord
-  has_many :later_lists,      dependent: :destroy
+  has_many :calendars,        dependent: :destroy
   has_many :consulted_words,  dependent: :destroy
+  has_many :contacts,         dependent: :destroy
+  has_many :favorites,        dependent: :destroy
+  has_many :later_lists,      dependent: :destroy
   has_many :learned_contents, dependent: :destroy
   has_many :review_histories, through: :learned_contents
-  has_many :calendars, dependent: :destroy
-  has_many :favorites, dependent: :destroy
-  belongs_to :user_skill, optional: true
+  belongs_to :user_skill,     optional: true
 
   attr_accessor :remember_token, :activation_token
   before_save   :downcase_email, unless: :uid?
