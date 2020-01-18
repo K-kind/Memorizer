@@ -19,6 +19,9 @@ class ContactsController < ApplicationController
   end
 
   def destroy
+    contact = Contact.find(params[:id])
+    contact.destroy
+    @contacts = current_user.contacts
   end
 
   private
