@@ -1,5 +1,10 @@
 h1 ユーザー一覧
 
+- if @unckecked_notifications.any?
+  h2 通知
+  ul
+    - @unckecked_notifications.each do |notification|
+      li= link_to notification.user.name, admin_user_path(notification.user)
 div
   table
     thead
@@ -10,4 +15,3 @@ div
       - @users.each do |user|
         tr
           td= link_to user.name, admin_user_path(user)
-      

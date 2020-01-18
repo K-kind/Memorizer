@@ -6,6 +6,7 @@ class Admin::ContactsController < ApplicationController
     respond_to do |format|
       if @new_contact.save
         flash[:notice] = 'お問い合わせへの返信を送信しました。'
+        @user.notifications.create(contact_id: @new_contact.id)
         format.html { redirect_to admin_user_url(@user) }
       else
         format.js { render 'error' }

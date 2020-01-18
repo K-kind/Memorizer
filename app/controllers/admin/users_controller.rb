@@ -4,11 +4,13 @@ class Admin::UsersController < AdminController
 
   def index
     @users = User.all
+    @unckecked_notifications = Notification.admin_notify.unchecked
   end
 
   def show
     @contacts = @user.contacts.page(params[:page])
     @new_contact = Contact.new
+    @user.notifications.admin_notify.unchecked.update(checked: true)
   end
 
   def destroy

@@ -4,6 +4,11 @@ header.header
       h3.header-left__logo
         = link_to 'Memorizer', root_path
     ul.header-right
+      - if current_user.notifications.unchecked.user_notify.any?
+        li.header-right__list
+          = link_to contacts_path do
+            = fa_icon 'envelope lg'
+            = current_user.notifications.unchecked.user_notify.count
       li.header-right__list
         = link_to new_learn_path do
           = fa_icon 'edit lg'
