@@ -1,2 +1,5 @@
-- errors = @learned_content.errors.full_messages.join('\n')
-| alert('#{errors}');
+| $('#flash-box').html('');
+- @learned_content.errors.full_messages.each do |message|
+  | $('#flash-box').append('<div class="flash__danger">#{message}</div>');
+| $('#flash-box').fadeIn();
+| setTimeout("$('#flash-box').fadeOut('slow')", 1800);

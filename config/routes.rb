@@ -17,14 +17,9 @@ Rails.application.routes.draw do
   post    '/pixabay',    to: 'searches#pixabay'
 
   resources :account_activations, only: [:edit]
-  resources :contacts, only: [:index, :create, :destroy]
-  resources :later_lists, only: [:index, :create, :destroy]
-  resource :user, only: [:create, :show, :update, :destroy] do
-    member do
-      get :user_skill
-      post :set_user_skill
-    end
-  end
+  resources :contacts,            only: [:index, :create, :destroy]
+  resources :later_lists,         only: [:index, :create, :destroy]
+  resources :password_resets,     only: [:new, :create, :edit, :update]
   resources :learns, controller: :learned_contents do
     resource :favorite, only: [:create, :destroy]
     member do
@@ -32,6 +27,12 @@ Rails.application.routes.draw do
       get   :question_show
       post  :answer
       post  :again
+    end
+  end
+  resource :user, only: [:create, :show, :update, :destroy] do
+    member do
+      get :user_skill
+      post :set_user_skill
     end
   end
 
