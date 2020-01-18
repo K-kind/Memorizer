@@ -55,4 +55,12 @@ class SessionsController < ApplicationController
   def sns_remember
     session[:sns_remember] = params[:sns_remember] == '1' ? true : nil
   end
+
+  def test_login
+    number = (Time.zone.now.min / 10).floor # 分の10の位を取得
+    user = User.find_by(email: "test_user#{number}@memorizer.tech")
+    log_in user
+    flash[:notice] = "テストユーザー#{number}でログインしました。データは1時間ごとにリセットされます。"
+    redirect_back_or root_url
+  end
 end

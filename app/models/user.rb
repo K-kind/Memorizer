@@ -38,9 +38,7 @@ class User < ApplicationRecord
 
       find_or_create_by!(provider: provider, uid: uid) do |user|
         user.name = name
-        if user.password.nil?
-          user.password = user.password_confirmation = SecureRandom.hex(9)
-        end
+        user.password = SecureRandom.hex(9) if user.password.nil?
       end
     end
   end
