@@ -9,11 +9,12 @@ Rails.application.routes.draw do
   get     '/auth/failure',             to: 'sessions#auth_failure'
   get     '/auth/:provider/callback',  to: 'sessions#auth_success'
   post    'sessions/sns_remember'
-  post    '/result',     to: 'searches#result'
-  post    '/pixabay',    to: 'searches#pixabay'
+  get     'sessions/test_login'
   get     'communities/words'
   get     'communities/questions'
   get     'communities/ranking'
+  post    '/result',     to: 'searches#result'
+  post    '/pixabay',    to: 'searches#pixabay'
 
   resources :later_lists, only: [:index, :create, :destroy]
   resources :account_activations, only: [:edit]

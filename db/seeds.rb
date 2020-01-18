@@ -30,3 +30,20 @@ Level.find_or_create_by!(threshold: 77)
   threshold = Level.find(id - 1).threshold + 20 + (id / 10).floor
   Level.find_or_create_by!(threshold: threshold)
 end
+
+# 管理者を作成
+email = Rails.application.credentials.dig(:seed, :admin_email)
+password = Rails.application.credentials.dig(:seed, :admin_password)
+Admin.find_or_create_by!(email: email) do |admin|
+  admin.password = password.to_s
+end
+
+# テストユーザーを作成
+6.times do |n|
+  User.find_or_create_by!(email: "test_user#{n}@memorizer.tech") do |user|
+    user.password = Rails.application.credentials.dig(:seed, :test_password).to_s
+    user.name = "テストユーザー#{n}"
+    user.is_test_user = true
+    user.user_skill_id = UserSkill.fifth.id
+  end
+end

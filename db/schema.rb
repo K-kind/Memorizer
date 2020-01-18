@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_16_054333) do
+ActiveRecord::Schema.define(version: 2020_01_18_034135) do
 
   create_table "action_text_rich_texts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name", null: false
@@ -169,7 +169,7 @@ ActiveRecord::Schema.define(version: 2020_01_16_054333) do
     t.string "uid"
     t.string "provider"
     t.boolean "activated", default: false
-    t.boolean "signed_up", default: false
+    t.boolean "is_test_user", default: false
     t.datetime "last_action_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
