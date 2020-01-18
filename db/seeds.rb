@@ -35,13 +35,13 @@ end
 email = Rails.application.credentials.dig(:seed, :admin_email)
 password = Rails.application.credentials.dig(:seed, :admin_password)
 Admin.find_or_create_by!(email: email) do |admin|
-  admin.password = password.to_s
+  admin.password = password
 end
 
 # テストユーザーを作成
 6.times do |n|
   User.find_or_create_by!(email: "test_user#{n}@memorizer.tech") do |user|
-    user.password = Rails.application.credentials.dig(:seed, :test_password).to_s
+    user.password = Rails.application.credentials.dig(:seed, :test_password)
     user.name = "テストユーザー#{n}"
     user.is_test_user = true
     user.user_skill_id = UserSkill.fifth.id

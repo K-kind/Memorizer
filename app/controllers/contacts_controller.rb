@@ -2,7 +2,7 @@ class ContactsController < ApplicationController
   before_action :logged_in_user
 
   def index
-    @contacts = current_user.contacts
+    @contacts = current_user.contacts.page(params[:page])
     @new_contact = Contact.new
   end
 
@@ -21,7 +21,7 @@ class ContactsController < ApplicationController
   def destroy
     contact = Contact.find(params[:id])
     contact.destroy
-    @contacts = current_user.contacts
+    @contacts = current_user.contacts.page(params[:page])
   end
 
   private

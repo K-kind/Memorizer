@@ -1,2 +1,13 @@
-h1 Admin::Users#index
-p Find me in app/views/admin/users/index.html.slim
+h1 ユーザー一覧
+
+div
+  table
+    thead
+      tr
+        th ユーザー名
+
+    tbody
+      - @users.each do |user|
+        tr
+          td= link_to user.name, admin_user_path(user)
+      

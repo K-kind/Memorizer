@@ -1,4 +1,4 @@
-= form_with model: @new_contact do |f|
+= form_with model: @new_contact, url: yield(:contact_url) do |f|
   = render 'shared/error_messages', object: f.object
 
   = f.label :comment

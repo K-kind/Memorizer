@@ -39,7 +39,9 @@ Rails.application.routes.draw do
     get     '/login',     to: 'sessions#new'
     post    '/login',     to: 'sessions#create'
     delete  '/logout',    to: 'sessions#destroy'
-    resources :users, only: [:index, :destroy]
     resources :learns, only: [:index, :show, :destroy], controller: :learned_contents
+    resources :users, only: [:index, :destroy, :show] do
+      resources :contacts, only: [:create, :destroy]
+    end
   end
 end
