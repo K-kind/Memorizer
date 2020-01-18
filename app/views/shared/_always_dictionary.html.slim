@@ -4,5 +4,7 @@
     = form_with url: result_path do |f|
       = f.text_field :word, placeholder: 'Search word'
       = f.hidden_field :type, value: 'main'
+      = f.hidden_field :sub_type, value: 'always'
       = f.submit '検索', id: 'consult-submit'
   #webster-field
+  #default-word-link
