@@ -56,7 +56,7 @@ $(document).on('turbolinks:load', function () {
     return false;
   });
 
-  $(document).on('click', '.later-modal-closer', function () {
+  $(document).on('click', '.later-modal-closer, #later-overlay', function () {
     $('#later-list-modal').html('');
     setTimeout(() => {
       $('#later-overlay').remove();
@@ -64,11 +64,12 @@ $(document).on('turbolinks:load', function () {
     return false;
   });
 
-  $(document).on('click', '#later-overlay', function () {
-    $('#later-list-modal').html('');
+  $(document).on('click', '.reset-modal-closer, #reset-overlay', function () {
+    $('#password-reset-area').html('');
     setTimeout(() => {
-      $(this).remove();
+      $('#reset-overlay').remove();
     }, 100);
+    return false;
   });
 
   $(document).on('click', '#overlay', function () {

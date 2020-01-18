@@ -3,5 +3,5 @@ p
   | #{@user.name}様、Memorizerにご登録くださりありがとうございます。<br>
   ぜひ本アプリを英語の学習にご活用ください。
 
-= link_to "本登録はこちら", edit_account_activation_url(@user.activation_token,
+= link_to '本登録はこちら', edit_account_activation_url(@user.activation_token,
                                                     email: @user.email)
