@@ -93,6 +93,10 @@ class User < ApplicationRecord
     update(level_id: (level_id + 1))
   end
 
+  def save_consulted_word(word_definition)
+    consulted_words.find_or_create_by!(word_definition_id: word_definition.id)
+  end
+
   private
 
   def downcase_email
