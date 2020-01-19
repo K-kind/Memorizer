@@ -2,8 +2,8 @@ class Question < ApplicationRecord
   belongs_to :learned_content
   attr_accessor :my_answer
   attr_accessor :similarity
-  validates :question, presence: true, length: { maximum: 1000 }
-  validates :answer, presence: true, length: { maximum: 255 }
+  validates :question, presence: true, length: { maximum: 1000 }, if: :answer?
+  validates :answer, presence: true, length: { maximum: 255 }, if: :question?
   validates :my_answer, presence: true, length: { maximum: 255 }, on: :question
 
   # Levenshtein距離は順番に左右される

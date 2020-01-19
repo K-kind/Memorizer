@@ -14,7 +14,6 @@ require('chartkick')
 require('chart.js')
 import $ from 'jquery';
 import 'fullcalendar';
-// = require fullcalendar/lang/ja
 
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
@@ -244,6 +243,19 @@ $(document).on('turbolinks:load', function () {
     $(`#related_word option[value="${word}"]`).remove();
     $(`.word-field-${word}`).remove();
     $(this).parent().remove();
+  });
+  
+  // 新規学習時の問題boxの動的な追加、削除
+  $(document).on('click', '.add-next-box', function () {
+    $(this).parent().next().slideDown();
+    $(this).hide();
+    return false;
+  });
+  $(document).on('click', '.remove-question-box', function () {
+    $(this).parent().find('input[type="text"], textarea').val('');
+    $(this).parent().slideUp();
+    $(this).parent().prev().find('.add-next-box').show();
+    return false;
   });
 
   if ($('#calendar').length) {

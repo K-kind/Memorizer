@@ -14,6 +14,7 @@ class LearnedContentsController < ApplicationController
 
   def new
     @learned_content = LearnedContent.new
+    @new_question = @learned_content.questions.build
     @default_word = params[:default_word]
   end
 
@@ -21,8 +22,11 @@ class LearnedContentsController < ApplicationController
     @learned_content = current_user.learned_contents.build(learned_content_params)
     @learned_content.word_definition = WordDefinition.find_by(word: params[:learned_content][:main_word])
     @learned_content.calendar = @calendar_today
+    @learned_content.filter_valid_questions # 空白の問題はセーブしない
+    valid_question = params[:learned_content][:questions_attributes].values.any? { |question| !question[:question].blank? && !question[:answer].blank? }
     respond_to do |format|
-      if @learned_content.save
+      if @learned_content.valid? && valid_question
+        @learned_content.save
         @learned_content.create_related_images(params[:learned_content][:related_image])
         @learned_content.create_related_words(params[:learned_content][:related_word])
         calculate_level(5)
@@ -30,6 +34,7 @@ class LearnedContentsController < ApplicationController
         flash[:notice] = '学習が記録されました。'
         format.html { redirect_to learn_url(@learned_content) }
       else
+        @learned_content.errors[:base] <<  '1つ以上の問題を入力してください。' unless valid_question
         format.js { render 'error' }
       end
     end
@@ -98,13 +103,17 @@ class LearnedContentsController < ApplicationController
 
   def update
     @learned_content.word_definition = WordDefinition.find_by(word: params[:learned_content][:main_word])
+    @learned_content.attributes = learned_content_params
+    valid_question = params[:learned_content][:questions_attributes].values.any? { |question| !question[:question].blank? && !question[:answer].blank? }
     respond_to do |format|
-      if @learned_content.update(learned_content_params)
+      if @learned_content.valid? && valid_question
+        @learned_content.save
         @learned_content.create_related_images(params[:learned_content][:related_image])
         @learned_content.create_related_words(params[:learned_content][:related_word])
         flash[:notice] = '学習内容が更新されました。'
         format.html { redirect_to learn_url(@learned_content) }
       else
+        @learned_content.errors[:base] <<  '1つ以上の問題を入力してください。' unless valid_question
         format.js { render 'error' }
       end
     end

@@ -25,11 +25,27 @@ h1 Learn new word
           = f.select :related_word, [], {}, { id: 'related_word', multiple: true ,class: 'hidden' }
           .learn-grid-container__saved-images
           .learn-grid-container__question
-          = f.fields_for :questions, @learned_content.questions.build do |qf|
-            = qf.label :question, class: 'learn-grid-container__question-label'
-            = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 3
-            = qf.label :answer, class: 'learn-grid-container__answer-label'
-            = qf.text_field :answer, class: 'learn-grid-container__answer-field'
+            = f.fields_for :questions, @new_question do |qf|
+              = qf.label :question, class: 'learn-grid-container__question-label'
+              = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 3
+              = qf.label :answer, class: 'learn-grid-container__answer-label'
+              = qf.text_field :answer, class: 'learn-grid-container__answer-field'
+            a.add-next-box href='#' 追加
+          .learn-grid-container__question.hidden#second-box
+            = f.fields_for :questions, @new_question do |qf|
+              = qf.label :question, class: 'learn-grid-container__question-label'
+              = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 3
+              = qf.label :answer, class: 'learn-grid-container__answer-label'
+              = qf.text_field :answer, class: 'learn-grid-container__answer-field'
+            a.remove-question-box href='#' 削除
+            a.add-next-box href='#' 追加
+          .learn-grid-container__question.hidden#third-box
+            = f.fields_for :questions, @new_question do |qf|
+              = qf.label :question, class: 'learn-grid-container__question-label'
+              = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 3
+              = qf.label :answer, class: 'learn-grid-container__answer-label'
+              = qf.text_field :answer, class: 'learn-grid-container__answer-field'
+            a.remove-question-box href='#' 削除
           .learn-grid-container__category
             = f.label :word_category_id
             = f.collection_select :word_category_id, @word_categories, :id, :category, {}, {class: ''}
