@@ -16,6 +16,7 @@ class LearnedContentsController < ApplicationController
     @learned_content = LearnedContent.new
     @new_question = @learned_content.questions.build
     @default_word = params[:default_word]
+    @template = current_user&.learn_templates&.first
   end
 
   def create

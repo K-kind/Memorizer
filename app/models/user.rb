@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_many :favorites,        dependent: :destroy
   has_many :later_lists,      dependent: :destroy
   has_many :learned_contents, dependent: :destroy
+  has_many :learn_templates,  dependent: :destroy
   has_many :notifications,    dependent: :destroy
   has_many :review_histories, through: :learned_contents
   belongs_to :user_skill,     optional: true
