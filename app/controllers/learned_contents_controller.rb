@@ -34,7 +34,7 @@ class LearnedContentsController < ApplicationController
         flash[:notice] = '学習が記録されました。'
         format.html { redirect_to learn_url(@learned_content) }
       else
-        @learned_content.errors[:base] <<  '1つ以上の問題を入力してください。' unless valid_question
+        @learned_content.errors[:base] << '1つ以上の問題を入力してください。' unless valid_question
         format.js { render 'error' }
       end
     end
@@ -113,7 +113,7 @@ class LearnedContentsController < ApplicationController
         flash[:notice] = '学習内容が更新されました。'
         format.html { redirect_to learn_url(@learned_content) }
       else
-        @learned_content.errors[:base] <<  '1つ以上の問題を入力してください。' unless valid_question
+        @learned_content.errors[:base] << '1つ以上の問題を入力してください。' unless valid_question
         format.js { render 'error' }
       end
     end
