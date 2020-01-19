@@ -1,6 +1,8 @@
 | $('.api-info').html('');
 | $('#images-result').html('');
-| $('.word-field').addClass('hidden');
+| $('.word-field').addClass('hidden'); 
+/ 表示していた単語のボタンを灰色に
+| $('.consulted-word').removeClass('active-word');
 
 - if @not_english
   | $('.api-info').append('<p>\"#{@word}\"は英語ではありません<i class="fa fa-times api-info__closer"></i></p>');
@@ -12,7 +14,7 @@
   | $('.api-info').append('<p>#{@word_suggestion.join(', ')}</p>');
 - else
   | if ($('.pixabay-btn').length) {
-  |   $('.pixabay-btn').html('#{link_to "画像検索", pixabay_path(word: @word), method: :post, remote: true}');
+  |   $('.pixabay-btn').html('#{link_to "Images for \"#{@word}\"", pixabay_path(word: @word), method: :post, remote: true, id: "pixabay-link"}');
   | }
   / 調べた単語リストを作成
   | if (!$('#consulted-words').length) {
@@ -20,11 +22,11 @@
   | }
   / DBに保存されているデータをセレクトに含める
   - if @type == 'show_main'
-    | $('#consulted-words').append("<li><a class='consulted-word consulted-word-#{@word}'>#{@word}</a><a class='fas fa-times remove-word-btn' data-word='#{@word}'></a></li>");
+    | $('#consulted-words').append("<li class='none-list'><a class='consulted-word consulted-word-#{@word} active-word'>#{@word}</a><a class='fas fa-times remove-word-btn' data-word='#{@word}'></a></li>");
     | $('#related_word option').prop('selected', true);
     - @learned_content.related_words&.each do |related_word|
       - word = related_word.word_definition.word
-      | $('#consulted-words').append('<li class="show_sub-#{word}">#{link_to word, result_path(word: word, type: "show_sub"), method: :post, remote: true, class: "consulted-word-#{word}"}<a class="fas fa-times remove-word-btn" data-word="#{word}"></a></li>');
+      | $('#consulted-words').append('<li class="show_sub-#{word} none-list">#{link_to word, result_path(word: word, type: "show_sub"), method: :post, remote: true, class: "consulted-word-#{word}"}<a class="fas fa-times remove-word-btn" data-word="#{word}"></a></li>');
     - @learned_content.related_images&.each_with_index do |related_image, index|
       - image_link = related_image.image_link
       - large_image_link = related_image.large_image_link
@@ -32,11 +34,11 @@
       | $('#related_image').append("<option data-index='saved_image_#{index}' value='#{large_image_link} #{image_link} #{image_word}' selected></option>");
       | $('.learn-grid-container__saved-images').append("<span class='saved-image'><a class='pixabay-image' data-index='saved_image_#{index}' data-word='#{image_word}' href='#{large_image_link}' target='_blank' rel=”noopener”><img class='thumbnail-image' src='#{image_link}' alt='image of #{image_word}'></a><a class='image-unsave-times fas fa-times'></a></span>");
   - elsif @type == 'show_sub'
-    | $('.show_sub-#{@word}').html("<li><a class='consulted-word consulted-word-#{@word}'>#{@word}</a><a class="fas fa-times remove-word-btn" data-word="#{@word}"></a></li>");
+    | $('.show_sub-#{@word}').html("<li class='none-list'><a class='consulted-word consulted-word-#{@word}'>#{@word}</a><a class='fas fa-times remove-word-btn' data-word='#{@word}'></a></li>");
   - else
     / 既に調べた単語は追加しない
     | if (!$('.consulted-word-#{@word}').length) {
-    |   $('#consulted-words').append("<li><a class='consulted-word consulted-word-#{@word}'>#{@word}</a><a class='fas fa-times remove-word-btn' data-word='#{@word}'></a></li>");
+    |   $('#consulted-words').append("<li class='none-list'><a class='consulted-word consulted-word-#{@word} active-word'>#{@word}</a><a class='fas fa-times remove-word-btn' data-word='#{@word}'></a></li>");
     / 新規学習の単語selectに加える
     |   if ($('#learned_content_main_word').length) {
     |     $('#learned_content_main_word').append("<option value='#{@word}'>#{@word}</option>");
@@ -46,9 +48,9 @@
     |     $('#related_word').append("<option value='#{@word}' selected>#{@word}</option>");
     |   }
     | }
-  - word_field_index = "word-field-#{@word}"
+  - word_field_index = "word-field-#{@word}" #単語ごとの箱
   | $('#webster-field').append("<div class='word-field #{word_field_index}'></div>");
-  | $('.#{word_field_index}').append("<div class='webster-toggler'><a class='dictionary-toggler'>DICTIONARY</a><a class='thesaurus-toggler'>THESAURUS</a></div>");
+  | $('.#{word_field_index}').append("<div class='webster-toggler' data-word='#{@word}'><a class='dictionary-toggler active-toggler'>DICTIONARY</a><a class='thesaurus-toggler'>THESAURUS</a></div>");
   | $('.#{word_field_index}').append("<div class='dictionary-field'></div>");
   | $('.#{word_field_index} .dictionary-field').append("<div class='dictionary-word-lists'></div>");
   - @dictionary_data.each_with_index do |container, container_index|
@@ -256,7 +258,7 @@
   - if @thesaurus_error_status
     | $('.api-info').append('<p>通信エラー:#{@thesaurus_error_status}が発生しました。再度お試しください。<i class="fa fa-times api-info__closer"></i></p>');
   - elsif @thesaurus_data
-    | $('.#{word_field_index}').append('<div class="thesaurus-field"></div>');
+    | $('.#{word_field_index}').append('<div class="thesaurus-field hidden"></div>');
     - if @no_thesaurus
       | $('.#{word_field_index} .thesaurus-field').append('<p>\"#{@word}\"のthesaurusは見つかりませんでした。</p>');
     - else
@@ -361,48 +363,29 @@
   |   });
   | }
 
+  / 単語の意味のタブを作成し、indexをつける
   | $('.#{word_field_index} .dictionary_box_#{@word}').each(function (index, element) {
-  |   if (index == 0) {
-  |     $(element).removeClass('hidden');
-  |   }
   |   var dictionaryWordHtml = $(element).find('.dictionary-heading__word').html();
-  |   $('.#{word_field_index} .dictionary-word-lists').append(`<a class='dictionary-word-tab' data-index=${index}>${dictionaryWordHtml}</a>`);
-  | });
-
-  | $('.#{word_field_index} .thesaurus_box_#{@word}').each(function (index, element) {
+  |   $('.#{word_field_index} .dictionary-word-lists').append(`<a class='dictionary-word-tab' data-index=${index} data-word='#{@word}'>${dictionaryWordHtml}</a>`);
   |   if (index == 0) {
   |     $(element).removeClass('hidden');
+  |     $('.#{word_field_index} .dictionary-word-tab').addClass('active-word-tab');
   |   }
+  | });
+  / 単語の意味のタブを作成し、indexをつける(thesaurus)
+  | $('.#{word_field_index} .thesaurus_box_#{@word}').each(function (index, element) {
   |   var thesaurusWordHtml = $(element).find('.thesaurus-heading__word').text();
   |   var thesaurusWordClass = $(element).find('.word-class').text();
   |   if (thesaurusWordHtml === '#{@word}') {
-  |     $('.#{word_field_index} .thesaurus-word-lists').append(`<a class='thesaurus-word-tab' data-index=${index}>${thesaurusWordClass}</a>`);
+  |     $('.#{word_field_index} .thesaurus-word-lists').append(`<a class='thesaurus-word-tab' data-index=${index} data-word='#{@word}'>${thesaurusWordClass}</a>`);
   |   } else {
-  |     $('.#{word_field_index} .thesaurus-word-lists').append(`<a class='thesaurus-word-tab' data-index=${index}>${thesaurusWordHtml}</a>`);
+  |     $('.#{word_field_index} .thesaurus-word-lists').append(`<a class='thesaurus-word-tab' data-index=${index} data-word='#{@word}'>${thesaurusWordHtml}</a>`);
+  |   }
+  |   if (index == 0) {
+  |     $(element).removeClass('hidden');
+  |     $('.#{word_field_index} .thesaurus-word-tab').addClass('active-word-tab');
   |   }
   | });
-
-  | $(document).on('click', '.dictionary-word-tab', function () {
-  |   var clickedIndex = $(this).data('index');
-  |   $('.dictionary_box_#{@word}').each(function (index, element) {
-  |     $(element).addClass('hidden');
-  |     if (index === clickedIndex) {
-  |       $(element).removeClass('hidden');
-  |     }
-  |   });
-  | });
-  | $(document).on('click', '.thesaurus-word-tab', function () {
-  |   var clickedIndex = $(this).data('index');
-  |   $('.thesaurus_box_#{@word}').each(function (index, element) {
-  |     $(element).addClass('hidden');
-  |     if (index === clickedIndex) {
-  |       $(element).removeClass('hidden');
-  |     }
-  |   });
-  | });
-
-  | $('.thesaurus-field').addClass('hidden');
-  | $('.dictionary-field').removeClass('hidden');
 
   / コミュニティ：単語を探すページのリンクを生成
   - if @sub_type == 'default_word' || 'always'
