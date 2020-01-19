@@ -7,14 +7,14 @@ class SearchesController < ApplicationController
     # 英数字、空白のみ検索
     if @word =~ /^[\w\s]+$/
       @word = @word.gsub(/[\s]/, '_')
-      if (word_definition = WordDefinition.find_by(word: @word))
-        @dictionary_data = word_definition.dictionary_data
-        @thesaurus_data = word_definition.thesaurus_data
+      if (@word_definition = WordDefinition.find_by(word: @word))
+        @dictionary_data = @word_definition.dictionary_data
+        @thesaurus_data = @word_definition.thesaurus_data
         @no_thesaurus = true unless @thesaurus_data&.dig(0, 'meta', 'id')
       else
         response_from_merriam(@word)
       end
-      current_user&.save_consulted_word(word_definition) # 調べた単語リストに追加
+      current_user&.save_consulted_word(@word_definition) # 調べた単語リストに追加
     else
       @not_english = true
     end
@@ -46,7 +46,7 @@ class SearchesController < ApplicationController
 
     if learner_response.code == 200 && thesaurus_response.code == 200
       if @dictionary_data&.dig(0, 'meta', 'id')
-        word_definition = WordDefinition.create!(word: word, dictionary_data: @dictionary_data, thesaurus_data: @thesaurus_data)
+        @word_definition = WordDefinition.create!(word: word, dictionary_data: @dictionary_data, thesaurus_data: @thesaurus_data)
       else
         @word_suggestion = @dictionary_data
       end
