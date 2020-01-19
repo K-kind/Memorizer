@@ -14,6 +14,7 @@ class SearchesController < ApplicationController
       else
         response_from_merriam(@word)
       end
+      current_user&.save_consulted_word(word_definition) # 調べた単語リストに追加
     else
       @not_english = true
     end
@@ -45,7 +46,7 @@ class SearchesController < ApplicationController
 
     if learner_response.code == 200 && thesaurus_response.code == 200
       if @dictionary_data&.dig(0, 'meta', 'id')
-        WordDefinition.create!(word: word, dictionary_data: @dictionary_data, thesaurus_data: @thesaurus_data)
+        word_definition = WordDefinition.create!(word: word, dictionary_data: @dictionary_data, thesaurus_data: @thesaurus_data)
       else
         @word_suggestion = @dictionary_data
       end
