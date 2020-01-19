@@ -113,32 +113,81 @@ $(document).on('turbolinks:load', function () {
   });
 
   $(document).on('click', '.dictionary-toggler', function () {
-    $('.thesaurus-field').addClass('hidden');
-    $('.dictionary-field').removeClass('hidden');
+    let word = $(this).parent().attr('data-word'); // その単語だけの表示を変える
+    let $parentField = $(`.word-field-${word}`);
+    $parentField.find('.thesaurus-field').addClass('hidden');
+    $parentField.find('.dictionary-field').removeClass('hidden');
+    $(this).addClass('active-toggler');
+    $(this).parent().find('.thesaurus-toggler').removeClass('active-toggler');
     return false;
   });
-
+  
   $(document).on('click', '.thesaurus-toggler', function () {
-    $('.dictionary-field').addClass('hidden');
-    $('.thesaurus-field').removeClass('hidden');
+    let word = $(this).parent().attr('data-word');
+    let $parentField = $(`.word-field-${word}`);
+    $parentField.find('.dictionary-field').addClass('hidden');
+    $parentField.find('.thesaurus-field').removeClass('hidden');
+    $(this).addClass('active-toggler');
+    $(this).parent().find('.dictionary-toggler').removeClass('active-toggler');
     return false;
   });
 
+  // 検索した単語をクリックすると、その単語の箱がdisplayされる
   $(document).on('click', '.consulted-word', function () {
-    let $clickedConsultedWord = $(this).text();
+    let clickedConsultedWord = $(this).text();
     $('.word-field').addClass('hidden');
-    $('.word-field-' + $clickedConsultedWord).removeClass('hidden');
+    $('.word-field-' + clickedConsultedWord).removeClass('hidden');
+    $('.consulted-word').removeClass('active-word');
+    $(this).addClass('active-word');
+    if ($('#pixabay-link').length) { // 画像検索リンク
+      $('#pixabay-link').text(`Images for "${clickedConsultedWord}"`);
+      $('#pixabay-link').attr('href', `/pixabay?word=${clickedConsultedWord}`);
+    }
     return false;
   });
 
   // ページ内で同じ単語を再検索した場合、appendせずにhiddenをremoveする
   $(document).on('click', '#consult-submit', function () {
-    let $searchedWord = $('#word').val().replace(/[\s]/, '_');
-    if ($('.word-field-' + $searchedWord).length) {
+    let searchedWord = $('#word').val().replace(/[\s]/, '_');
+    if ($('.word-field-' + searchedWord).length) {
       $('.word-field').addClass('hidden');
-      $('.word-field-' + $searchedWord).removeClass('hidden');
-      return false;
+      $('.word-field-' + searchedWord).removeClass('hidden');
+      $('.consulted-word').removeClass('active-word'); // 表示している単語ボタン
+      $('.consulted-word-' + searchedWord).addClass('active-word');
+      if ($('#pixabay-link').length) { // 画像検索リンク
+        $('#pixabay-link').text(`Images for "${searchedWord}"`);
+        $('#pixabay-link').attr('href', `/pixabay?word=${searchedWord}`);
+      }
+      return false; // submitはしない
     }
+  });
+
+  // 単語の意味タブの挙動
+  $(document).on('click', '.dictionary-word-tab', function () {
+    var clickedIndex = $(this).data('index');
+    var word = $(this).data('word');
+    $(`.dictionary_box_${word}`).each(function (index, element) {
+      $(element).addClass('hidden');
+      if (index === clickedIndex) {
+        $(element).removeClass('hidden');
+      }
+    });
+    // タブ自体の色を変更
+    $(`.dictionary-word-tab[data-word="${word}"]`).removeClass('active-word-tab');
+    $(this).addClass('active-word-tab');
+  });
+  $(document).on('click', '.thesaurus-word-tab', function () {
+    var clickedIndex = $(this).data('index');
+    var word = $(this).data('word');
+    $(`.thesaurus_box_${word}`).each(function (index, element) {
+      $(element).addClass('hidden');
+      if (index === clickedIndex) {
+        $(element).removeClass('hidden');
+      }
+    });
+    // タブ自体の色を変更
+    $(`.thesaurus-word-tab[data-word="${word}"]`).removeClass('active-word-tab');
+    $(this).addClass('active-word-tab');
   });
 
   $(document).on('click', '.api-info__closer', function () {

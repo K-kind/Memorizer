@@ -67,3 +67,26 @@
     }
   }
 }
+
+.webster-toggler {
+  .active-toggler {
+    background-color: #66cdaa;
+    cursor: default;
+  }
+}
+.consulted-word {
+  background-color: #DDD;
+  cursor: pointer;  
+}
+.active-word {
+  background-color: #66cdaa;
+  cursor: default;  
+}
+.dictionary-word-tab.active-word-tab {
+  background-color: #E7F5F5;
+  cursor: default;  
+}
+.thesaurus-word-tab.active-word-tab {
+  background-color: #E7F5F5;
+  cursor: default;  
+}
