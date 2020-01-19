@@ -14,7 +14,6 @@ require('chartkick')
 require('chart.js')
 import $ from 'jquery';
 import 'fullcalendar';
-// = require fullcalendar/lang/ja
 
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
@@ -244,6 +243,47 @@ $(document).on('turbolinks:load', function () {
     $(`#related_word option[value="${word}"]`).remove();
     $(`.word-field-${word}`).remove();
     $(this).parent().remove();
+  });
+  
+  // 新規学習時の問題boxの動的な追加、削除
+  $(document).on('click', '.add-next-box', function () {
+    $(this).parent().next().slideDown();
+    $(this).hide();
+    return false;
+  });
+  $(document).on('click', '.remove-question-box', function () {
+    $(this).parent().find('input[type="text"], textarea').val('');
+    $(this).parent().slideUp();
+    $(this).parent().prev().find('.add-next-box').show();
+    return false;
+  });
+
+  // 問題のタイプごとの処理
+  $('.question-type-select').change(function () {
+    let $question = $('#learned_content_questions_attributes_0_question');
+    let $answer = $('#learned_content_questions_attributes_0_answer');
+    let word = $('#learned_content_main_word').find('option:selected').val();
+    if ($(this).find('option:selected').val() == 0) {
+      $question.val(``);
+      $answer.val(``);
+    } else if ($(this).find('option:selected').val() == 1) {
+      if ($question.val() == '') {
+        $question.val('[Image]What is the word related to these images?');
+      } else {
+        let original = $question.val();
+        $question.val(`[Image]${original}`);
+      }
+      if ($answer.val() == '') {
+        $answer.val(`${word}`);
+      }
+    } else if ($(this).find('option:selected').val() == 2) {
+      let definition1 = $(`[data-word="${word}"][data-type="definition"]`).eq(0).text();
+      let definition2 = $(`[data-word="${word}"][data-type="definition"]`).eq(1).text();
+      let definition3 = $(`[data-word="${word}"][data-type="definition"]`).eq(2).text();
+      let definition = definition1 + '\n' + definition2 + '\n' + definition3
+      $question.val(`${definition}`);
+      $answer.val(`${word}`);
+    }
   });
 
   if ($('#calendar').length) {

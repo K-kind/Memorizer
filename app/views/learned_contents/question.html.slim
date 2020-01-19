@@ -5,10 +5,15 @@ h1 Question
     = f.hidden_field :today, value: @today
     - @learned_content.questions.each do |question|
       = simple_format question.question
+      - if question.question_type == 1
+        div
+          - @learned_content.related_images.each do |related_image|
+            = link_to related_image.large_image_link, target: '_blank', rel: 'noopener' do
+              = image_tag related_image.large_image_link, height: '150'
 
       = f.fields_for :questions, question do |qf|
         = render 'shared/error_messages', object: question
         = qf.label :my_answer
         = qf.text_field :my_answer, autocomplete: 'off'
-      p "#{question.my_answer}"
+
     = f.submit 'submit'

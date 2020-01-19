@@ -1,0 +1,28 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+    command: bundle exec puma -C config/puma.rb
+    volumes:
+      # 開発環境のみsync-volumeを使用
+      - .:/myapp
+      - public-data:/myapp/public
+      - tmp-data:/myapp/tmp/sock
+    ports:
+      - "3000:3000"
+
+  web:
+    build:
+      context: containers/nginx
+    volumes:
+      - public-data:/myapp/public
+      - tmp-data:/myapp/tmp/sock
+    ports:
+      - 80:80
+    depends_on:
+      - app
+
+volumes:
+  public-data:
+  tmp-data:

@@ -11,6 +11,9 @@ class LearnedContent < ApplicationRecord
   has_rich_text :content
   accepts_nested_attributes_for :questions
 
+  # validates :content, presence: true, length: { maximum: 3000 }
+  validate :any_questions?
+
   scope :to_review_today, -> { where('till_next_review <= 0') }
   scope :to_review_this_day, ->(date) { where('till_next_review = ? AND till_next_review >= 1', (date - Time.zone.today).to_i) }
   scope :till_next_asc, -> { order(till_next_review: 'ASC') }
@@ -78,5 +81,20 @@ class LearnedContent < ApplicationRecord
 
   def my_favorite?(user)
     favorites.find_by(user_id: user.id).present?
+  end
+
+  def filter_valid_questions
+    questions.each do |q|
+      q.destroy if q.question.blank? && q.answer.blank?
+    end
+  end
+
+  private
+
+  def any_questions?
+    # return if questions.any? { |question| !question.question.blank? && !question.answer.blank? }
+    # return unless questions.any?
+
+    # errors[:base] <<  '1つ以上の問題を入力してください。'
   end
 end
