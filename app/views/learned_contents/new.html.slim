@@ -26,6 +26,8 @@ h1 Learn new word
           .learn-grid-container__saved-images
           .learn-grid-container__question
             = f.fields_for :questions, @new_question do |qf|
+              = qf.label :question_type, class: 'learn-grid-container__question-label'
+              = qf.select :question_type, [['任意', 0], ['画像', 1], ['簡単', 2]], {}, { class: 'question-type-select'}
               = qf.label :question, class: 'learn-grid-container__question-label'
               = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 3
               = qf.label :answer, class: 'learn-grid-container__answer-label'

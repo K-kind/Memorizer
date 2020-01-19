@@ -103,7 +103,7 @@
           - child_sseq.dig(1, 'dt')&.each_with_index do |dt, dt_index| 
             / 1a : などの小見出し
             - if dt_index == 0 && dt.dig(0) == 'text'
-              | $defHeading.append("<span>#{dt.dig(1)&.parse_tokens}</span>");
+              | $defHeading.append("<span data-type='definition' data-word='#{@word}'>#{dt.dig(1)&.parse_tokens}</span>");
             / 見出しがunsの場合
             - elsif dt_index == 0 && dt.dig(0) == 'uns'
               | $defHeading.append("<span>—#{dt.dig(1, 0, 0, 1)&.parse_tokens}</span>");

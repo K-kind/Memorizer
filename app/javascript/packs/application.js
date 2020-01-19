@@ -258,6 +258,31 @@ $(document).on('turbolinks:load', function () {
     return false;
   });
 
+  // 問題のタイプごとの処理
+  $('.question-type-select').change(function () {
+    let $question = $('#learned_content_questions_attributes_0_question');
+    let $answer = $('#learned_content_questions_attributes_0_answer');
+    let word = $('#learned_content_main_word').find('option:selected').val();
+    if ($(this).find('option:selected').val() == 0) {
+      $question.val(``);
+      $answer.val(``);
+    } else if ($(this).find('option:selected').val() == 1) {
+      if ($question.val() == '') {
+        $question.val('What is the word related to these images?');
+      }
+      if ($answer.val() == '') {
+        $answer.val(`${word}`);
+      }
+    } else if ($(this).find('option:selected').val() == 2) {
+      let definition1 = $(`[data-word="${word}"][data-type="definition"]`).eq(0).text();
+      let definition2 = $(`[data-word="${word}"][data-type="definition"]`).eq(1).text();
+      let definition3 = $(`[data-word="${word}"][data-type="definition"]`).eq(2).text();
+      let definition = definition1 + '\n' + definition2 + '\n' + definition3
+      $question.val(`${definition}`);
+      $answer.val(`${word}`);
+    }
+  });
+
   if ($('#calendar').length) {
     function eventCalendar() {
       return $('#calendar').fullCalendar({});

@@ -10,5 +10,5 @@ h1 Question
         = render 'shared/error_messages', object: question
         = qf.label :my_answer
         = qf.text_field :my_answer, autocomplete: 'off'
-      p "#{question.my_answer}"
+
     = f.submit 'submit'

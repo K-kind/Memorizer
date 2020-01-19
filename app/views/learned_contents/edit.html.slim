@@ -26,11 +26,11 @@ h1 LearnedContent for #{@word} -- Edit
           = f.select :related_word, @word_array, {}, { id: 'related_word', multiple: true ,class: 'hidden' }
           .learn-grid-container__saved-images
           .learn-grid-container__question
-          = f.fields_for :questions, @learned_content.questions do |qf|
-            = qf.label :question, class: 'learn-grid-container__question-label'
-            = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 3
-            = qf.label :answer, class: 'learn-grid-container__answer-label'
-            = qf.text_field :answer, class: 'learn-grid-container__answer-field'
+            = f.fields_for :questions, @learned_content.questions do |qf|
+              = qf.label :question, class: 'learn-grid-container__question-label'
+              = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 3
+              = qf.label :answer, class: 'learn-grid-container__answer-label'
+              = qf.text_field :answer, class: 'learn-grid-container__answer-field'
           .learn-grid-container__category
             = f.label :word_category_id
             = f.collection_select :word_category_id, @word_categories, :id, :category, {}, {class: ''}
