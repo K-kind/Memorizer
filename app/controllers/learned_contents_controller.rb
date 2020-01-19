@@ -142,7 +142,7 @@ class LearnedContentsController < ApplicationController
   private
 
   def learned_content_params
-    params.require(:learned_content).permit(:content, :word_category_id, :is_public, questions_attributes: [:question, :answer, :my_answer, :id])
+    params.require(:learned_content).permit(:content, :word_category_id, :is_public, questions_attributes: [:question, :answer, :question_type, :my_answer, :id])
   end
 
   def set_learned_content
