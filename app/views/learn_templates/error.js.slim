@@ -1,0 +1,5 @@
+| $('#flash-box').html('');
+- @learn_template.errors.full_messages.each do |message|
+  | $('#flash-box').append('<div class="flash__danger">#{message}</div>');
+| $('#flash-box').fadeIn();
+| setTimeout("$('#flash-box').fadeOut('slow')", 1800);

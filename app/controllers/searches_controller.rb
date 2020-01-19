@@ -14,7 +14,8 @@ class SearchesController < ApplicationController
       else
         response_from_merriam(@word)
       end
-      current_user&.save_consulted_word(@word_definition) # 調べた単語リストに追加
+      # 調べた単語リストに追加
+      current_user&.save_consulted_word(@word_definition) if @word_definition
     else
       @not_english = true
     end

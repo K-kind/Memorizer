@@ -15,12 +15,12 @@ h1 Learn new word
     .learn-grid-container__study
       = fa_icon 'edit', class: 'learn-grid-container__edit-icon'
       .learn-grid-container__study-field
-        = form_with model:@learned_content, url: learns_path do |f|
+        = form_with model: @learned_content, url: learns_path do |f|
           .learn-grid-container__select
             = f.label :main_word
             = f.select :main_word, [], {}, { class: 'main-word-select' }
             .hidden-forms
-          = f.rich_text_area :content, value: 'afdafafdsaf'
+          = f.rich_text_area :content
           = f.select :related_image, [], {}, { id: 'related_image', multiple: true ,class: 'hidden' }
           = f.select :related_word, [], {}, { id: 'related_word', multiple: true ,class: 'hidden' }
           .learn-grid-container__saved-images
@@ -63,3 +63,6 @@ h1 Learn new word
 
 - if @default_word
   = link_to '', result_path(word: @default_word), method: :post, remote: true, id: 'hidden_link'
+
+- if @template
+  = link_to '', learn_template_path(@template), remote: true, id: 'hidden_template_link'

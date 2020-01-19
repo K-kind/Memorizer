@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'consulted_words/index'
   root    'homes#top'
   get     '/top',       to: 'homes#top' # カレンダーjson用
   get     '/homes/calendar', as: 'calendar'
@@ -21,6 +20,7 @@ Rails.application.routes.draw do
   resources :contacts,            only: [:index, :create, :destroy]
   resources :consulted_words,     only: [:index, :destroy]
   resources :later_lists,         only: [:index, :create, :destroy]
+  resources :learn_templates,     only: [:create, :update, :show]
   resources :password_resets,     only: [:new, :create, :edit, :update]
   resources :learns, controller: :learned_contents do
     resource :favorite, only: [:create, :destroy]
