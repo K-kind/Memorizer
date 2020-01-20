@@ -3,7 +3,7 @@ h1 LearnedContent for #{@word} -- Edit
 
 .new-word-search
   = form_with url: result_path do |f|
-    = f.text_field :word, placeholder: 'Search word'
+    = f.text_field :word, placeholder: 'Search word', autofocus: true
     = f.hidden_field :type, value: 'main'
     = f.submit '検索', id: 'consult-submit'
 

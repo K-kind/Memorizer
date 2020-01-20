@@ -16,17 +16,41 @@
  @import "font-awesome";
  @import 'fullcalendar';
 
- * {
-   box-sizing: border-box;
-   margin: 0;
-   padding: 0;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+h1, h2, h3, h4, p, span, li {
+  // color: #2b546a;
+  color: #3e3e3e;
+}
+a {
+  color: #005096;
+  &:visited {
+    color: #005096;
   }
-  header, footer {
-    li {
-       list-style: none;
-    }
-  }
- #overlay, .overlay {
+}
+body {
+  font-family: 'Times New Roman', 'Noto Sans JP', sans-serif;
+}
+li {
+  list-style: none;
+}
+#learned_content_content li {
+  list-style: inherit;
+}
+.trix-content li {
+  list-style: inherit;
+  margin-left: 30px!important;
+}
+// header, footer {
+//   li {
+//     list-style: none;
+//     padding-left: 0;
+//   }
+// }
+#overlay, .overlay {
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 2;
   position: fixed;
@@ -34,13 +58,13 @@
   left: 0;
   height: 120%;
   width: 100%;
- }
- #reset-overlay {
+}
+#reset-overlay {
   background-color: rgba(0, 0, 0, 0.3);
   z-index: 5;
- }
+}
 
- .dictionary-field, .thesaurus-field {
+.dictionary-field, .thesaurus-field {
   max-width: 550px;
   li {
     list-style: disc;

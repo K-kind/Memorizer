@@ -35,7 +35,8 @@ h1 LearnedContent for #{@word}
             = link_to related_image.large_image_link, target: '_blank', rel: 'noopener' do
               = image_tag related_image.image_link, alt: "image of #{related_image.word}"
     = link_to 'Edit', edit_learn_path(@learned_content)
-    p 次の復習まで: #{@learned_content.till_next_review > 0 ? @learned_content.till_next_review : 0} 日
+    - unless @learned_content.completed?
+      p.show_till_next 次の復習まで: #{@learned_content.till_next_review > 0 ? @learned_content.till_next_review : 0} 日
     - if @original_content
       #favorite-partial
         = render 'favorite_link'

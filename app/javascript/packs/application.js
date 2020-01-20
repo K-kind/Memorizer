@@ -345,7 +345,8 @@ $(document).on('turbolinks:load', function () {
   setTimeout("$('#flash-box').fadeOut('slow')", 1800);
   $('#hidden-user-skill-link').fadeIn();
 
-  $('#word').focus();
+  // 1つ目の問題にフォーカス
+  $('#learned_content_questions_attributes_0_my_answer').focus();
 });
 
 // カレンダーイベントクリックで、modal表示用リンクを生成してクリックする

@@ -1,14 +1,31 @@
-h1 Homes#top
-div
-  p
-    | 本日の復習数: 
-    span #{reviewed_count_today} 残り:#{contents_to_review_today.count}
+.home-left
+  .home-top
+    span.home-top__span
+      | 本日の復習:
+      span.home-top__count #{reviewed_count_today}
+    span.home-top__span
+      | /
+    span.home-top__span
+      | 残り:
+      span.home-top__count #{contents_to_review_today.count}
     - if contents_to_review_today.count > 0
       = link_to '復習スタート', question_learn_path(contents_to_review_today.till_next_asc.first, today: 1)
-  p
-    | 本日の新規学習数: 
-    span= learned_contents_today
+  .home-top
+    span.home-top__span
+      | 本日の学習:
+      span.home-top__count= link_to learned_contents_today.count, learns_path
     = link_to '新規学習', new_learn_path
+
+ul.todays-menu
+  h3.todays-menu__heading 本日の復習
+  - if contents_to_review_today.any?
+    - contents_to_review_today.each do |content|
+      li.todays-menu__question ・#{link_to content.questions.first.question, question_learn_path(content, today: 1)}
+  - elsif reviewed_count_today != 0
+    p 復習完了!
+  h3.todays-menu__heading 本日の学習
+  - learned_contents_today.each do |new_content|
+    li.todays-menu__question ・#{link_to new_content.questions.first.question, question_learn_path(new_content)}
 
 #calendar
 

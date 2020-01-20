@@ -130,12 +130,16 @@ class LearnedContentsController < ApplicationController
   end
 
   def again
-    learned_content = LearnedContent.find(params[:id])
+    @learned_content = LearnedContent.find(params[:id])
     if params[:again] == '1'
-      learned_content.review_histories.last.update(again: true)
+      @learned_content.review_histories.last.update(again: true)
+      @learned_content.set_next_cycle
+      @learned_content.update(completed: false) if @learned_content.completed?
+      set_calendar_to_review(@learned_content.till_next_review)
       @message = 'この問題をもう一度同じサイクルで復習します。'
     else
-      learned_content.review_histories.last.update(again: false)
+      @learned_content.review_histories.last.update(again: false)
+      @learned_content.set_next_cycle
       @message = 'この問題は次の復習サイクルに進みます。'
     end
   end
