@@ -1,19 +1,28 @@
-h1 Question
-
 .question-container
+  h1.heading Question
+  - if @today == '1'
+    p.question-container__question-num No. #{reviewed_count_today + 1} / #{reviewed_count_today + contents_to_review_today.count}
   = form_with model: @learned_content, url: answer_learn_path(@learned_content), method: :post, local: true do |f|
     = f.hidden_field :today, value: @today
-    - @learned_content.questions.each do |question|
-      = simple_format question.question
-      - if question.question_type == 1
-        div
-          - @learned_content.related_images.each do |related_image|
-            = link_to related_image.large_image_link, target: '_blank', rel: 'noopener' do
-              = image_tag related_image.large_image_link, height: '150'
+    - @learned_content.questions.each_with_index do |question, index|
+      .question-box
+        = f.fields_for :questions, question do |qf|
+          = render 'shared/error_messages', object: question
+          h2.question-box__heading Question #{index + 1}
+          = simple_format question.question
+          - if question.question_type == 1
+            .image-box
+              - @learned_content.related_images.each do |related_image|
+                = link_to related_image.large_image_link, target: '_blank', rel: 'noopener' do
+                  = image_tag related_image.large_image_link, class: 'image-box__image'
 
-      = f.fields_for :questions, question do |qf|
-        = render 'shared/error_messages', object: question
-        = qf.label :my_answer
-        = qf.text_field :my_answer, autocomplete: 'off'
+          .question-box__answer
+            = qf.label :my_answer, 'A:'
+            = qf.text_field :my_answer, class: 'question-box__field', autocomplete: 'off'
 
-    = f.submit 'submit'
+    .question-container__submit
+      = f.submit 'Submit', class: 'question-container__btn'
+
+  - if @today == '1'
+    .question-container__exit
+      = link_to 'Finish', root_path

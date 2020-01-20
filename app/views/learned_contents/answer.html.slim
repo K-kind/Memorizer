@@ -1,21 +1,26 @@
-h1 Answer
-
 .question-container
-  - @learned_content.questions.each do |question|
-    = simple_format question.question
-    - if question.question_type == 1
-        div
-          - @learned_content.related_images.each do |related_image|
-            = link_to related_image.large_image_link, target: '_blank', rel: 'noopener' do
-              = image_tag related_image.large_image_link, height: '150'
-    p My answer 
-    = question.my_answer
+  h1.heading Answer
+  - if @today == '1'
+    p.question-container__question-num No. #{reviewed_count_today} / #{reviewed_count_today + contents_to_review_today.count}
+  - @learned_content.questions.each_with_index do |question, index|
+    .question-box
+      h2.question-box__heading Question #{index + 1}
+      = simple_format question.question
+      - if question.question_type == 1
+          .image-box__slim
+            - @learned_content.related_images.each do |related_image|
+              = link_to related_image.large_image_link, target: '_blank', rel: 'noopener' do
+                = image_tag related_image.large_image_link, class: 'image-box__image'
+      .answer-box
+        .answer-box__ans--my
+          h3.answer-box__heading My answer 
+          p.answer-box__text= question.my_answer
+        .answer-box__between
+          span class="answer-box__similarity--#{similarity_to_color(question.similarity)}" #{question.similarity}%
+        .answer-box__ans
+          h3.answer-box__heading Answer
+          p.answer-box__text= question.answer
 
-    p Answer
-    = question.answer
-
-    p Answer similarity
-    p #{question.similarity}%
 
   - if @today == '1'
     = link_to "Review \"#{@learned_content.word_definition.word}\"", learn_path(@learned_content, today: 1)

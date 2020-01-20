@@ -272,10 +272,10 @@ $(document).on('turbolinks:load', function () {
       $answer.val(``);
     } else if ($(this).find('option:selected').val() == 1) {
       if ($question.val() == '') {
-        $question.val('[Image]What is the word related to these images?');
+        $question.val('[Image] What is the word related to these images?');
       } else {
         let original = $question.val();
-        $question.val(`[Image]${original}`);
+        $question.val(`[Image] ${original}`);
       }
       if ($answer.val() == '') {
         $answer.val(`${word}`);

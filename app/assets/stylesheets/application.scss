@@ -16,6 +16,8 @@
  @import "font-awesome";
  @import 'fullcalendar';
 
+ $theme-color: #197fd8;
+ $error-color: #e75252;
 * {
   box-sizing: border-box;
   margin: 0;
@@ -26,9 +28,9 @@ h1, h2, h3, h4, p, span, li {
   color: #3e3e3e;
 }
 a {
-  color: #005096;
+  color: $theme-color;
   &:visited {
-    color: #005096;
+    color: $theme-color;
   }
 }
 body {
@@ -37,6 +39,12 @@ body {
 li {
   list-style: none;
 }
+.field_with_errors {
+  display: inline-block;
+  input {
+    border-color: #e75252;
+  }
+}
 #learned_content_content li {
   list-style: inherit;
 }
@@ -44,12 +52,6 @@ li {
   list-style: inherit;
   margin-left: 30px!important;
 }
-// header, footer {
-//   li {
-//     list-style: none;
-//     padding-left: 0;
-//   }
-// }
 #overlay, .overlay {
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 2;

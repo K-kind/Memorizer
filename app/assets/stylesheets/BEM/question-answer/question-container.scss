@@ -1,0 +1,19 @@
+@import '../mixin';
+.question-container {
+  width: 60%;
+  margin: 0 auto;
+  &__question-num {
+    text-align: right;
+    padding-bottom: 2px;
+  }
+  &__exit {
+    text-align: right;
+  }
+  &__submit {
+    margin: 20px 0;
+    text-align: center;
+  }
+  &__btn {
+    @include submit-btn;
+  }
+}
