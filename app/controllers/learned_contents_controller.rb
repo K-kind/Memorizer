@@ -61,7 +61,8 @@ class LearnedContentsController < ApplicationController
           calendar_id: @calendar_today.id,
           imported_from: original_content.id,
           imported: true,
-          till_next_review: 1
+          till_next_review: 1,
+          content: original_content.content
         )
       end
       if original_content

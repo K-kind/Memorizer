@@ -18,6 +18,8 @@
 
  $theme-color: #197fd8;
  $error-color: #e75252;
+ $dictionary-color: #E7F5F5;
+ $thesaurus-color: #497C95;
 * {
   box-sizing: border-box;
   margin: 0;
@@ -38,6 +40,11 @@ body {
 }
 li {
   list-style: none;
+}
+.clearfix::after {
+  content: '';
+  clear: both;
+  display: block;
 }
 .field_with_errors {
   display: inline-block;
@@ -114,31 +121,6 @@ li {
 .dictionary_box, .thesaurus_box {
   max-height: 620px;
   overflow-y: scroll;
-}
-.dictionary-word-tab, .thesaurus-word-tab {
-  cursor: pointer;
-  background-color: #ddd;
-  border-radius: 3px;
-  padding: 3px;
-  margin-right: 5px;
-}
-.webster-toggler {
-  a {
-    cursor: pointer;
-    background-color: #ddd;
-    border-radius: 3px;
-    padding: 3px;
-    margin-right: 1px;
-  }
-}
-.thesaurus-word-lists {
-  overflow-x: auto;
-  white-space: nowrap;
-  -ms-overflow-style: none;
-  scrollbar-width: none; 
-  &::-webkit-scrollbar {
-    display: none;
-  }
 }
 
 .hidden {

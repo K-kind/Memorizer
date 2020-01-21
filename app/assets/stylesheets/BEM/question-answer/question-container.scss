@@ -15,5 +15,22 @@
   }
   &__btn {
     @include submit-btn;
+    &--review {
+      @include submit-btn;
+      font-size: 18px;
+    }
+    &--next {
+      @include submit-btn;
+      float: right;
+      margin-top: 11px;
+    }
+  }
+  &__icon {
+    padding-right: 8px;
+    font-size: 14px;
+  }
+  &__links {
+    text-align: right;
+    margin: 10px 0;
   }
 }

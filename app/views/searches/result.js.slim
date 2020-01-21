@@ -22,11 +22,11 @@
   | }
   / DBに保存されているデータをセレクトに含める
   - if @type == 'show_main'
-    | $('#consulted-words').append("<li class='none-list'><a class='consulted-word consulted-word-#{@word} active-word'>#{@word}</a><a class='fas fa-times remove-word-btn' data-word='#{@word}'></a></li>");
+    | $('#consulted-words').append("<li class='none-list consulted-word-li'><a class='consulted-word consulted-word-#{@word} active-word'>#{@word}</a><a class='fas fa-times remove-word-btn' data-word='#{@word}'></a></li>");
     | $('#related_word option').prop('selected', true);
     - @learned_content.related_words&.each do |related_word|
       - word = related_word.word_definition.word
-      | $('#consulted-words').append('<li class="show_sub-#{word} none-list">#{link_to word, result_path(word: word, type: "show_sub"), method: :post, remote: true, class: "consulted-word-#{word}"}<a class="fas fa-times remove-word-btn" data-word="#{word}"></a></li>');
+      | $('#consulted-words').append('<li class="show_sub-#{word} none-list consulted-word-li">#{link_to word, result_path(word: word, type: "show_sub"), method: :post, remote: true, class: "consulted-word-#{word}"}<a class="fas fa-times remove-word-btn" data-word="#{word}"></a></li>');
     - @learned_content.related_images&.each_with_index do |related_image, index|
       - image_link = related_image.image_link
       - large_image_link = related_image.large_image_link
@@ -34,11 +34,11 @@
       | $('#related_image').append("<option data-index='saved_image_#{index}' value='#{large_image_link} #{image_link} #{image_word}' selected></option>");
       | $('.learn-grid-container__saved-images').append("<span class='saved-image'><a class='pixabay-image' data-index='saved_image_#{index}' data-word='#{image_word}' href='#{large_image_link}' target='_blank' rel=”noopener”><img class='thumbnail-image' src='#{image_link}' alt='image of #{image_word}'></a><a class='image-unsave-times fas fa-times'></a></span>");
   - elsif @type == 'show_sub'
-    | $('.show_sub-#{@word}').html("<li class='none-list'><a class='consulted-word consulted-word-#{@word} active-word'>#{@word}</a><a class='fas fa-times remove-word-btn' data-word='#{@word}'></a></li>");
+    | $('.show_sub-#{@word}').removeClass('show_sub-#{@word}').html("<a class='consulted-word consulted-word-#{@word} active-word'>#{@word}</a><a class='fas fa-times remove-word-btn' data-word='#{@word}'></a>");
   - else
     / 既に調べた単語は追加しない
     | if (!$('.consulted-word-#{@word}').length) {
-    |   $('#consulted-words').append("<li class='none-list'><a class='consulted-word consulted-word-#{@word} active-word'>#{@word}</a><a class='fas fa-times remove-word-btn' data-word='#{@word}'></a></li>");
+    |   $('#consulted-words').append("<li class='none-list consulted-word-li'><a class='consulted-word consulted-word-#{@word} active-word'>#{@word}</a><a class='fas fa-times remove-word-btn' data-word='#{@word}'></a></li>");
     / 新規学習の単語selectに加える
     |   if ($('#learned_content_main_word').length) {
     |     $('#learned_content_main_word').append("<option value='#{@word}'>#{@word}</option>");
@@ -260,7 +260,7 @@
   - elsif @thesaurus_data
     | $('.#{word_field_index}').append('<div class="thesaurus-field hidden"></div>');
     - if @no_thesaurus
-      | $('.#{word_field_index} .thesaurus-field').append('<p>\"#{@word}\"のthesaurusは見つかりませんでした。</p>');
+      | $('.#{word_field_index} .thesaurus-field').append('<p>The word \"#{@word}\" isn\'t in the thesaurus.</p>');
     - else
       | $('.#{word_field_index} .thesaurus-field').append('<div class="thesaurus-word-lists"></div>');
       - @thesaurus_data.each_with_index do |container, container_index|

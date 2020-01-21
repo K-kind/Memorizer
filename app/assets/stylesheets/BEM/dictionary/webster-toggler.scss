@@ -1,0 +1,31 @@
+@import 'application';
+
+.webster-toggler {
+  display: flex;
+  justify-content: space-between;
+  a {
+    cursor: pointer;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    padding: 5px;
+    text-align: center;
+    width: 49.8%;
+    display: inline-block;
+    font-weight: bold;
+    background-color: #DDD;
+    color: #3e3e3e;
+  }
+  .dictionary-toggler {
+    // background-color: darken($dictionary-color, 20%);
+    // background-color: $thesaurus-color;
+    // color: #FFF;
+  }
+  .thesaurus-toggler {
+    // color: #FFF;
+  }
+  .active-toggler {
+    background-color: $thesaurus-color;
+    color: #FFF;
+    cursor: default;
+  }
+}

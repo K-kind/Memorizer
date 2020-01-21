@@ -1,0 +1,7 @@
+@import 'BEM/mixin';
+
+#webster-field {
+  @include white-box;
+  padding: 0;
+  height: 650px;
+}

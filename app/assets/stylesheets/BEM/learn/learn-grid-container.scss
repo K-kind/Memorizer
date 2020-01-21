@@ -1,9 +1,9 @@
 .learn-grid-container {
   display: flex;
   &__webster {
-    background-color: pink;
     width: 50%;
     min-height: 700px;
+    padding: 0 10px;
   }
   &__right {
     width: 50%;

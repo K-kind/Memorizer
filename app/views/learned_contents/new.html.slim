@@ -1,10 +1,9 @@
-h1 Learn new word
-
 .new-word-search
-  = form_with url: result_path do |f|
-    = f.text_field :word, placeholder: 'Search word', autofocus: true
+  = form_with url: result_path, class: 'new-word-search__form' do |f|
+    = f.text_field :word, placeholder: 'Search for a word...', autofocus: true, class: 'new-word-search__input'
     = f.hidden_field :type, value: 'main'
-    = f.submit '検索', id: 'consult-submit'
+    = button_tag type: 'submit', class: 'new-word-search__submit', id: 'consult-submit' do
+      i.fas.fa-search.new-word-search__icon
 
 .api-info
 

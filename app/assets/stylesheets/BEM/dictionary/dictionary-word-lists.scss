@@ -1,0 +1,30 @@
+@import 'application';
+
+.dictionary-word-lists {
+  // background-color: darken($dictionary-color, 20%);
+  background-color: $thesaurus-color;
+  padding-top: 5px;
+  padding-left: 2px;
+}
+.thesaurus-word-lists {
+  background-color: $thesaurus-color;
+  padding-top: 7px;
+  padding-left: 2px;
+
+  // overflow-x: auto;
+  // white-space: nowrap;
+  // -ms-overflow-style: none;
+  // scrollbar-width: none; 
+  // &::-webkit-scrollbar {
+  //   display: none;
+  // }
+}
+.dictionary-word-tab, .thesaurus-word-tab {
+  cursor: pointer;
+  background-color: #ddd;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+  padding: 3px 5px 1px;
+  margin-right: 5px;
+  color: #3e3e3e;
+}

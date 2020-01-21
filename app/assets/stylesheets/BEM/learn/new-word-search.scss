@@ -1,0 +1,57 @@
+@import 'BEM/mixin';
+
+.new-word-search {
+  text-align: center;
+  width: 200px;
+  margin: 10px auto;
+  &__form {
+    position: relative;
+  }
+  &__input {
+    width: 200px;
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    border: 3px solid $theme-color;
+    &::placeholder {
+      color: #aaa;
+    }
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 3px 3px lighten($theme-color, 40%) inset;
+    }
+  }
+  &__submit {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    right: 7px;
+    border: none;
+    height: 19px;
+    cursor: pointer;
+    &:hover {
+      right: 3px;
+      height: 27px;
+      background-color: $theme-color;
+      .new-word-search__icon {
+        color: #FFF;
+        padding-right: 5px;
+        padding-left: 8px;
+      }
+    }
+    &:active {
+      background-color: lighten($theme-color, 20%);
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+  &__icon {
+    font-size: 18px;
+    color: $theme-color;
+    padding-right: 1px;
+    padding-left: 6px;
+    // transition: .4s;
+  }
+}
