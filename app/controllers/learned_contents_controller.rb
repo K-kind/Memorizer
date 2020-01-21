@@ -122,6 +122,9 @@ class LearnedContentsController < ApplicationController
   end
 
   def destroy
+    @learned_content.destroy
+    flash[:notice] = '学習内容を削除しました。'
+    redirect_to root_url
   end
 
   def question_show
