@@ -1,52 +1,56 @@
-h1 LearnedContent for #{@word}
-
-.learn-grid-container
+.learn-grid-container__show
   .learn-grid-container__webster
     #webster-field
-  .learn-grid-container__right
-    .learn-grid-container__study
-      = fa_icon 'book-open', class: 'learn-grid-container__edit-icon'
-      .learn-grid-container__study-field
-        .learn-grid-container__main-word
-          span Main word: 
-          = @word
-        .learn-grid-container__related-words
-          span Related words:
-          - @learned_content.related_words.each do |related_word|
-            span= related_word.word_definition.word
-        .learn-grid-container__trix-content
-          == @learned_content.content
-        - @learned_content.questions.each do |question|
-          .learn-grid-container__question--show
-            | Q
-            = simple_format question.question
-            | A
-            p= question.answer
+      = link_to 'https://www.merriam-webster.com/', target: '_blank', rel: 'noopener' do
+        = image_tag 'Merriam-Webster-logo.png', class: 'merriam-logo'
+  .learn-grid-container__study
+    = fa_icon 'book-open', class: 'learn-grid-container__edit-icon'
+    .learn-grid-container__study-field
+      .learn-grid-container__main-word
+        span.learn-grid-container__main-word-show= @word
+      .learn-grid-container__trix-content
+        == @learned_content.content
+      - if @learned_content.related_images.any?
+        .learn-grid-container__saved-images--show
+          - @learned_content.related_images&.each do |related_image|
+            = content_tag(:span, class: 'learn-grid-container__saved-image') do
+              = link_to related_image.large_image_link, target: '_blank', rel: 'noopener' do
+                = image_tag related_image.large_image_link, alt: "image of #{related_image.word}"
+      .learn-grid-container__question--show
+        - @learned_content.questions.each_with_index do |question, index|
+          h3 Q#{index + 1}
+          = simple_format question.question
+          .learn-grid-container__answer-show
+            strong A: 
+            span= question.answer
+      .learn-grid-container__subtle
         .learn-grid-container__category--show
-          | Category: #{@learned_content.word_category.category}
+          strong Category: 
+          span= @learned_content.word_category.category
         .learn-grid-container__public--show
           - if @learned_content.is_public
-            | Public
+            span Public
           - else
-            | Private
-      .learn-grid-container__saved-images--show
-        - @learned_content.related_images&.each do |related_image|
-          = content_tag(:span) do
-            = link_to related_image.large_image_link, target: '_blank', rel: 'noopener' do
-              = image_tag related_image.image_link, alt: "image of #{related_image.word}"
-    = link_to 'Edit', edit_learn_path(@learned_content)
-    p 次の復習まで: #{@learned_content.till_next_review > 0 ? @learned_content.till_next_review : 0} 日
+            span Private
+
+.learn-show-bottom
+  - unless @learned_content.completed?
+    .learn-show-bottom__info
+      span.till-next-day Until next review: #{till_next_day(@learned_content.till_next_review)}
+  .learn-show-bottom__btns
     - if @original_content
       #favorite-partial
         = render 'favorite_link'
-    - if @today == '1'
-      div
-        = form_with url: again_learn_path(@learned_content), id: 'onclick-form' do |f|
-          = f.label :again
+    = link_to 'Edit', edit_learn_path(@learned_content), class: 'learn-show-bottom__edit-btn'
+    = link_to 'Destroy', learn_path(@learned_content), class: 'learn-show-bottom__destroy-btn', method: :delete, data: { confirm: '学習内容を削除してよろしいですか？' }
+  - if @today == '1'
+    .learn-show-bottom__today
+        = form_with url: again_learn_path(@learned_content), id: 'onclick-form', class: 'again-form' do |f|
+          = f.label :again, 'Again: '
           = f.check_box :again, class: 'onclick-select'
         - if contents_to_review_today.any?
-          = link_to '次の問題', question_learn_path(contents_to_review_today.till_next_asc.first, today: 1)
-        = link_to  '復習を終了', root_path
+          = link_to 'Next', question_learn_path(contents_to_review_today.till_next_asc.first, today: 1), class: 'learn-show-bottom__next'
+        = link_to  'Finish', root_path, class: 'learn-show-bottom__finish'
 
 / メイン単語の辞書を表示
 = link_to '', result_path(word: @word, type: 'show_main', learned_content_id: params[:id]), method: :post, remote: true, id: 'hidden_link'

@@ -1,13 +1,21 @@
 module LearnedContentsHelper
-  # def show_saved_images(learned_content)
-  #   content_tag(:div, '', class: 'learn-grid-container__saved-images--show') do
-  #     learned_content.related_images.each do |related_image|
-  #       content_tag(:span) do
-  #         link_to related_image.large_image_link, target: '_blank', rel: 'noopener' do
-  #           image_tag related_image.image_link, alt: "saved image"
-  #         end
-  #       end
-  #     end
-  #   end
-  # end
+  def similarity_to_color(similarity)
+    if similarity >= 90
+      'blue'
+    elsif similarity >= 50
+      'black'
+    else
+      'red'
+    end
+  end
+
+  def till_next_day(till_next_review)
+    if till_next_review <= 0
+      '0 days'
+    elsif till_next_review == 1
+      '1 day'
+    else
+      "#{till_next_review} days"
+    end
+  end
 end

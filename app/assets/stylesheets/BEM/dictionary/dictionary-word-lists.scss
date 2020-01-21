@@ -1,0 +1,21 @@
+@import 'application';
+
+.dictionary-word-lists {
+  background-color: $thesaurus-color;
+  padding-top: 5px;
+  padding-left: 2px;
+}
+.thesaurus-word-lists {
+  background-color: $thesaurus-color;
+  padding-top: 7px;
+  padding-left: 2px;
+}
+.dictionary-word-tab, .thesaurus-word-tab {
+  cursor: pointer;
+  background-color: #ddd;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+  padding: 3px 5px 1px;
+  margin-right: 5px;
+  color: #3e3e3e;
+}

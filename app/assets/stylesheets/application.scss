@@ -16,17 +16,59 @@
  @import "font-awesome";
  @import 'fullcalendar';
 
- * {
-   box-sizing: border-box;
-   margin: 0;
-   padding: 0;
+ $theme-color: #197fd8;
+ $error-color: #e75252;
+ $dictionary-color: #E7F5F5;
+ $thesaurus-color: #497C95;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+h1, h2, h3, h4, p, span, li, label {
+  color: #3e3e3e;
+}
+a {
+  color: $theme-color;
+  cursor: pointer;
+  &:visited {
+    color: $theme-color;
   }
-  header, footer {
-    li {
-       list-style: none;
-    }
+}
+.fa-times {
+  color: #999;
+}
+label {
+  cursor: pointer;
+}
+select {
+  outline: none;
+}
+body {
+  font-family: 'Times New Roman', 'Noto Sans JP', sans-serif;
+}
+button, input, select, textarea {
+  font-family : inherit;
+  font-size   : 100%;
+}
+li {
+  list-style: none;
+}
+.clearfix::after {
+  content: '';
+  clear: both;
+  display: block;
+}
+.field_with_errors {
+  display: inline-block;
+  input {
+    border-color: #e75252;
   }
- #overlay, .overlay {
+}
+#learned_content_content li {
+  list-style: inherit;
+}
+#overlay, .overlay {
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 2;
   position: fixed;
@@ -34,13 +76,13 @@
   left: 0;
   height: 120%;
   width: 100%;
- }
- #reset-overlay {
+}
+#reset-overlay {
   background-color: rgba(0, 0, 0, 0.3);
   z-index: 5;
- }
+}
 
- .dictionary-field, .thesaurus-field {
+.dictionary-field, .thesaurus-field {
   max-width: 550px;
   li {
     list-style: disc;
@@ -84,60 +126,6 @@
   text-align: center;
   cursor: pointer;
 }
-
-.dictionary_box, .thesaurus_box {
-  max-height: 620px;
-  overflow-y: scroll;
-}
-.dictionary-word-tab, .thesaurus-word-tab {
-  cursor: pointer;
-  background-color: #ddd;
-  border-radius: 3px;
-  padding: 3px;
-  margin-right: 5px;
-}
-.webster-toggler {
-  a {
-    cursor: pointer;
-    background-color: #ddd;
-    border-radius: 3px;
-    padding: 3px;
-    margin-right: 1px;
-  }
-}
-.thesaurus-word-lists {
-  overflow-x: auto;
-  white-space: nowrap;
-  -ms-overflow-style: none;
-  scrollbar-width: none; 
-  &::-webkit-scrollbar {
-    display: none;
-  }
-}
-
 .hidden {
   display: none;
-}
-
-.trix-button--icon-attach {
-  display: none;
-}
-.trix-button {
-  padding-left: 0!important;
-  padding-right: 0!important;
-  width: 36px!important;
-}
-.trix-button-group {
-  margin: 0!important;
-  margin-bottom: 5px!important;
-}
-.trix-button-group-spacer {
-  display: none!important;
-}
-.trix-button-group--file-tools {
-  display: none!important;
-}
-
-.none-list {
-  list-style: none;
 }

@@ -1,0 +1,14 @@
+.image-box {
+  margin-top: 10px;
+  &__image {
+    &:nth-of-type(2n - 1) {
+      padding-right: 8px;
+      height: 150px;
+    }
+  }
+  &__slim {
+    margin-top: 10px;
+    max-height: 170px;
+    overflow-y: scroll;
+  }
+}

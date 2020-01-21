@@ -8,6 +8,6 @@ module HomesHelper
   end
 
   def learned_contents_today
-    current_user.learned_contents.where('created_at >= ?', Time.zone.today.beginning_of_day).count
+    current_user.learned_contents.where('created_at >= ?', Time.zone.today.beginning_of_day)
   end
 end

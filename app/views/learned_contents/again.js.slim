@@ -1,3 +1,4 @@
 | $('#flash-box').html('<div class="flash__notice">#{@message}</div>');
 | $('#flash-box').fadeIn();
 | setTimeout("$('#flash-box').fadeOut('slow')", 1800);
+| $('.till-next-day').text('Until next review: #{till_next_day(@learned_content.till_next_review)}');

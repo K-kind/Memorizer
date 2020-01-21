@@ -1,4 +1,4 @@
 - if object.errors.any?
-  ul
-  - object.errors.full_messages.each do |message|
-    li = message
+  ul.error-message
+    - object.errors.full_messages.each do |message|
+      li.error-message__list= message

@@ -1,0 +1,11 @@
+@import '../mixin';
+.home-top {
+  @include white-box;
+  margin-bottom: 20px;
+  &__span {
+    padding-right: 8px;
+  }
+  &__count {
+    padding-left: 3px;
+  }
+}

@@ -5,4 +5,4 @@
   = link_to learn_favorite_path(@original_content), method: :post, remote: true do
     i class='fas fa-thumbs-up thumbs__gray'
 
-span= @original_content.favorites.count
+span.favorite-count= @original_content.favorites.count

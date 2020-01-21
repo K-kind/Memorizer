@@ -99,14 +99,14 @@ $(document).on('turbolinks:load', function () {
 
   $(document).on('click', '.more_lists', function () {
     $(this).parent().find('li').slideDown(180);
-    $(this).parent().append('<a class="hide_lists">[-]</a>');
+    $(this).parent().append('<a class="hide_lists fas fa-chevron-circle-up"> hide examples</a>');
     $(this).remove();
     return false;
   });
 
   $(document).on('click', '.hide_lists', function () {
     $(this).parent().find('li:nth-of-type(n+4)').slideUp(180);
-    $(this).parent().append('<a class="more_lists">[+]</a>');
+    $(this).parent().append('<a class="more_lists fas fa-chevron-circle-down"> more examples</a>');
     $(this).remove();
     return false;
   });
@@ -139,7 +139,7 @@ $(document).on('turbolinks:load', function () {
     $('.consulted-word').removeClass('active-word');
     $(this).addClass('active-word');
     if ($('#pixabay-link').length) { // 画像検索リンク
-      $('#pixabay-link').text(`Images for "${clickedConsultedWord}"`);
+      $('#pixabay-link').text(` "${clickedConsultedWord}"`);
       $('#pixabay-link').attr('href', `/pixabay?word=${clickedConsultedWord}`);
     }
     return false;
@@ -154,7 +154,7 @@ $(document).on('turbolinks:load', function () {
       $('.consulted-word').removeClass('active-word'); // 表示している単語ボタン
       $('.consulted-word-' + searchedWord).addClass('active-word');
       if ($('#pixabay-link').length) { // 画像検索リンク
-        $('#pixabay-link').text(`Images for "${searchedWord}"`);
+        $('#pixabay-link').text(` "${searchedWord}"`);
         $('#pixabay-link').attr('href', `/pixabay?word=${searchedWord}`);
       }
       return false; // submitはしない
@@ -272,10 +272,10 @@ $(document).on('turbolinks:load', function () {
       $answer.val(``);
     } else if ($(this).find('option:selected').val() == 1) {
       if ($question.val() == '') {
-        $question.val('[Image]What is the word related to these images?');
+        $question.val('[Image] What is the word related to these images?');
       } else {
         let original = $question.val();
-        $question.val(`[Image]${original}`);
+        $question.val(`[Image] ${original}`);
       }
       if ($answer.val() == '') {
         $answer.val(`${word}`);
@@ -345,7 +345,8 @@ $(document).on('turbolinks:load', function () {
   setTimeout("$('#flash-box').fadeOut('slow')", 1800);
   $('#hidden-user-skill-link').fadeIn();
 
-  $('#word').focus();
+  // 1つ目の問題にフォーカス
+  $('#learned_content_questions_attributes_0_my_answer').focus();
 });
 
 // カレンダーイベントクリックで、modal表示用リンクを生成してクリックする
