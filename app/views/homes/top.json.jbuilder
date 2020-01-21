@@ -9,11 +9,9 @@ json.array!(@calendars) do |calendar|
     json.title "復習すべき数: #{current_user.learned_contents.to_review_today.count}\n新規学習数: #{calendar.learned_contents.count}\n復習した数: #{calendar.review_histories.count}"
     json.start calendar.calendar_date
     json.url calendar_url(calendar, format: :js)
-  else
-    if (review_count = current_user.learned_contents.to_review_this_day(calendar.calendar_date).count) != 0
-      json.title "復習すべき数: #{review_count}"
-      json.start calendar.calendar_date
-      json.url calendar_url(calendar, format: :js)
-    end
+  elsif (review_count = current_user.learned_contents.to_review_this_day(calendar.calendar_date).count) != 0
+    json.title "復習すべき数: #{review_count}"
+    json.start calendar.calendar_date
+    json.url calendar_url(calendar, format: :js)
   end
 end
