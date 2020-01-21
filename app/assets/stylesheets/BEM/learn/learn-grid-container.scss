@@ -152,6 +152,48 @@
   }
   &__main-word-show {
     background-color: $thesaurus-color;
+    color: #FFF;
+    border-radius: 3px;
+    padding: 5px 10px;
+    font-size: 18px;
+  }
+  &__trix-content {
+    @include white-box;
+    padding-top: 5px;
+    margin-top: 2px;
+    background-color: #F9FBFE;
+    max-height: 260px;
+    overflow-y: scroll;
+    margin-bottom: 15px;
+  }
+  &__saved-images--show {
+    @include white-box;
+    padding: 0;
+    max-height: 110px;
+    overflow-y: scroll;
+    margin-bottom: 15px;
+  }
+  &__saved-image {
+    display: inline-block;
+    padding: 0 8px 8px 0;
+    img {
+      height: 110px;
+    }
+  }
+  &__question--show {
+    @include white-box;
+    background-color: #F9FBFE;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    max-height: 185px;
+    overflow-y: scroll;
+    h3 {
+      font-size: 16px;
+    }
+  }
+  &__answer-show {
+    padding: 5px 0 10px;
+    text-align: right;
   }
 }
 #images-result {

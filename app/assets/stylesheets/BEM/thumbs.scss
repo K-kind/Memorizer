@@ -1,12 +1,17 @@
-%thumbs {
-  font-size: 22px;
-}
 .thumbs {
-  @extend %thumbs;
   &__yellow {
+    font-size: 20px;
     color: rgb(240, 207, 59)
   }
   &__gray {
+    font-size: 20px;
     color: #888;
   }
+}
+.favorite-count {
+  padding-left: 5px;
+  font-size: 18px;
+}
+#favorite-partial {
+  display: inline-block;
 }

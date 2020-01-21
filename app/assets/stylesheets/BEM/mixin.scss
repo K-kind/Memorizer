@@ -32,3 +32,15 @@
     cursor: pointer;
   }
 }
+
+@mixin destroy-btn {
+  @include submit-btn;
+  border-left: solid 4px $error-color;
+  border-right: solid 4px $error-color;
+  color: $error-color !important;
+  background-color: #ffe1e1;
+  &:hover {
+    background: $error-color;
+    color: #FFF !important;
+  }
+}
