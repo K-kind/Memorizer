@@ -1,39 +1,34 @@
-h1 LearnedContent for #{@word}
-
-.learn-grid-container
+.learn-grid-container__show
   .learn-grid-container__webster
     #webster-field
-  .learn-grid-container__right
-    .learn-grid-container__study
-      = fa_icon 'book-open', class: 'learn-grid-container__edit-icon'
-      .learn-grid-container__study-field
-        .learn-grid-container__main-word
-          span Main word: 
-          = @word
-        .learn-grid-container__related-words
-          span Related words:
-          - @learned_content.related_words.each do |related_word|
-            span= related_word.word_definition.word
-        .learn-grid-container__trix-content
-          == @learned_content.content
-        - @learned_content.questions.each do |question|
-          .learn-grid-container__question--show
-            | Q
-            = simple_format question.question
-            | A
-            p= question.answer
-        .learn-grid-container__category--show
-          | Category: #{@learned_content.word_category.category}
-        .learn-grid-container__public--show
-          - if @learned_content.is_public
-            | Public
-          - else
-            | Private
-      .learn-grid-container__saved-images--show
-        - @learned_content.related_images&.each do |related_image|
-          = content_tag(:span) do
-            = link_to related_image.large_image_link, target: '_blank', rel: 'noopener' do
-              = image_tag related_image.image_link, alt: "image of #{related_image.word}"
+      = link_to 'https://www.merriam-webster.com/', target: '_blank', rel: 'noopener' do
+        = image_tag 'Merriam-Webster-logo.png', class: 'merriam-logo'
+  .learn-grid-container__study
+    = fa_icon 'book-open', class: 'learn-grid-container__edit-icon'
+    .learn-grid-container__study-field
+      .learn-grid-container__main-word
+        strong Main word: 
+        span.learn-grid-container__main-word-show= @word
+      .learn-grid-container__trix-content
+        == @learned_content.content
+      - @learned_content.questions.each do |question|
+        .learn-grid-container__question--show
+          | Q
+          = simple_format question.question
+          | A
+          p= question.answer
+      .learn-grid-container__category--show
+        | Category: #{@learned_content.word_category.category}
+      .learn-grid-container__public--show
+        - if @learned_content.is_public
+          | Public
+        - else
+          | Private
+    .learn-grid-container__saved-images--show
+      - @learned_content.related_images&.each do |related_image|
+        = content_tag(:span) do
+          = link_to related_image.large_image_link, target: '_blank', rel: 'noopener' do
+            = image_tag related_image.image_link, alt: "image of #{related_image.word}"
     = link_to 'Edit', edit_learn_path(@learned_content)
     - unless @learned_content.completed?
       p.show_till_next 次の復習まで: #{@learned_content.till_next_review > 0 ? @learned_content.till_next_review : 0} 日

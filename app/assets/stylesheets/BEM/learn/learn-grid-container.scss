@@ -1,19 +1,46 @@
+@import 'application';
+@import 'BEM/mixin';
+
 .learn-grid-container {
   display: flex;
+  &__show {
+    display: flex;
+    margin-top: 25px;
+  }
   &__webster {
     width: 50%;
-    min-height: 700px;
-    padding: 0 10px;
-  }
-  &__right {
-    width: 50%;
+    padding: 0 5px;
+    margin-bottom: 15px;
   }
   &__pixabay {
-    background-color: skyblue;
-    max-height: 240px;
+    @include white-box;
+    padding: 10px;
+    position: relative;
+    min-height: 45px;
+    .pixabay-btn {
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    #pixabay-link {
+      @include submit-btn;
+      font-size: 16px;
+    }
+    .pixabay-logo {
+      height: 24px;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
   }
   &__study {
+    width: 50%;
+    padding: 0 5px;
     position: relative;
+    @include white-box;
+    padding: 5px;
+    height: 650px;
+    overflow-y: scroll;
+    margin-bottom: 15px;
   }
   &__edit-icon {
     position: absolute;
@@ -22,28 +49,59 @@
     font-size: 25px!important;
   }
   &__study-field {
-    min-height: 450px;
-    max-height: 460px;
-    overflow-y: scroll;
     border-radius: 3px;
     background-color: #FFF;
     padding: 18px 10px 10px 10px;
   }
   &__select {
     padding-bottom: 15px;
-    padding-left: 26px;
+    text-align: center;
     label {
       padding-right: 8px;
+    }
+    select {
+      outline:none;
+      cursor: pointer;
     }
   }
   &__saved-images {
     max-height: 110px;
     overflow-y: scroll;
+    .saved-image {
+      padding: 0 3px 8px 0;
+      display: inline-block;
+    }
+    .image-unsave-times {
+      font-size: 18px;
+      padding-left: 2px;
+    }
   }
   &__question {
+    margin-top: 10px;
+    position: relative;
+    padding-top: 10px;
   }
-  &__question-label {
-    display: block;
+  #third-box {
+    padding-top: 0;
+  }
+  .remove-question-box {
+    float: right;
+    margin-top: 5px;
+  }
+  .add-next-box {
+    float: right;
+    margin-top: 5px;
+    margin-right: 10px;
+    text-decoration: none;
+  }
+  &__question-type {
+    position: absolute;
+    top: 2px;
+    right: 5px;
+    .question-type-select {
+      font-size: 14px;
+      cursor: pointer;
+    }
   }
   &__question-area {
     width: 100%;
@@ -52,7 +110,7 @@
     border-radius: 3px;
     outline: none;
     border: 1px solid #bbb;
-    font-size: 14px;
+    font-size: 16px;
   }
   &__answer-field {
     width: 100%;
@@ -60,30 +118,59 @@
     border-radius: 2px;
     outline: none;
     border: 1px solid #bbb;
-    font-size: 14px;
+    font-size: 16px;
+  }
+  &__subtle {
+    padding: 15px 0;
+    display: flex;
+    justify-content: space-evenly;
   }
   &__category {
-    padding-left: 20px;
-    padding-top: 10px;
     select {
       font-size: 14px;
       margin-left: 5px;
     }
   }
   &__public {
-    padding-left: 20px;
-    padding-top: 10px;
     input[type=radio] {
       margin-right: 3px;
+      cursor: pointer;
     }
     label {
       margin-right: 10px;
     }
   }
+  &__submit {
+    text-align: center;
+    padding: 10px 0 20px;
+    input {
+      @include submit-btn;
+    }
+  }
+  &__main-word {
+    text-align: center;
+  }
+  &__main-word-show {
+    background-color: $thesaurus-color;
+  }
 }
 #images-result {
-  max-height: 200px;
+  max-height: 320px;
   overflow-y: scroll;
+  padding: 0 10px;
+  > span {
+    display: inline-block;
+    padding-right: 8px;
+    padding-bottom: 8px;
+  }
+  .image-save-btn {
+    color: #888;
+    font-size: 18px;
+  }
+  .image-unsave-star {
+    color: rgb(245, 220, 0);
+    font-size: 18px;
+  }
 }
 .main-word-select {
   min-width: 110px;

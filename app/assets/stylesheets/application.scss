@@ -25,18 +25,31 @@
   margin: 0;
   padding: 0;
 }
-h1, h2, h3, h4, p, span, li {
-  // color: #2b546a;
+h1, h2, h3, h4, p, span, li, label {
   color: #3e3e3e;
 }
 a {
   color: $theme-color;
+  cursor: pointer;
   &:visited {
     color: $theme-color;
   }
 }
+.fa-times {
+  color: #999;
+}
+label {
+  cursor: pointer;
+}
+select {
+  outline: none;
+}
 body {
   font-family: 'Times New Roman', 'Noto Sans JP', sans-serif;
+}
+button, input, select, textarea {
+  font-family : inherit;
+  font-size   : 100%;
 }
 li {
   list-style: none;
@@ -54,10 +67,6 @@ li {
 }
 #learned_content_content li {
   list-style: inherit;
-}
-.trix-content li {
-  list-style: inherit;
-  margin-left: 30px!important;
 }
 #overlay, .overlay {
   background-color: rgba(0, 0, 0, 0.6);
@@ -117,35 +126,6 @@ li {
   text-align: center;
   cursor: pointer;
 }
-
-.dictionary_box, .thesaurus_box {
-  max-height: 620px;
-  overflow-y: scroll;
-}
-
 .hidden {
   display: none;
-}
-
-.trix-button--icon-attach {
-  display: none;
-}
-.trix-button {
-  padding-left: 0!important;
-  padding-right: 0!important;
-  width: 36px!important;
-}
-.trix-button-group {
-  margin: 0!important;
-  margin-bottom: 5px!important;
-}
-.trix-button-group-spacer {
-  display: none!important;
-}
-.trix-button-group--file-tools {
-  display: none!important;
-}
-
-.none-list {
-  list-style: none;
 }

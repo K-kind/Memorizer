@@ -12,6 +12,8 @@ h1 LearnedContent for #{@word} -- Edit
 .learn-grid-container
   .learn-grid-container__webster
     #webster-field
+      = link_to 'https://www.merriam-webster.com/', target: '_blank', rel: 'noopener' do
+        = image_tag 'Merriam-Webster-logo.png', class: 'merriam-logo'
   .learn-grid-container__right
     .learn-grid-container__study
       = fa_icon 'edit', class: 'learn-grid-container__edit-icon'

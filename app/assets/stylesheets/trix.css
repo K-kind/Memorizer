@@ -7,9 +7,9 @@ trix-editor {
   border: 1px solid #bbb;
   border-radius: 3px;
   margin: 0;
-  padding: 0.4em 0.9em;
-  min-height: 10em;
-  max-height: 13em;
+  padding: 0.4em 1.1em;
+  min-height: 12em;
+  max-height: 14em;
   overflow-y: auto; }
 trix-toolbar * {
   box-sizing: border-box; }
@@ -301,15 +301,17 @@ trix-editor .attachment__metadata {
     white-space: nowrap; }
 @charset "UTF-8";
 .trix-content {
-  line-height: 1.5;
+  line-height: 1.4;
   font-size: 16px;
-  margin-bottom: 20px; }
+  margin-bottom: 10px; }
   .trix-content * {
-    box-sizing: border-box; }
+    box-sizing: border-box;
+   }
   .trix-content h1 {
-    font-size: 22px;
+    font-size: 18px;
     line-height: 1.2;
-    margin: 5px 0 10px; }
+    margin: 5px 0;
+  }
   .trix-content blockquote {
     margin: 0 0 0 0.3em;
     padding: 0 0 0 0.6em;

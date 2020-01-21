@@ -2,10 +2,12 @@
 
 #consulted-words {
   display: flex;
-  padding: 12px 7px;
+  flex-wrap: wrap;
+  padding: 10px 7px;
 }
 .consulted-word-li {
   margin-right: 10px;
+  padding: 4px 0;
   a {
     cursor: pointer;
     text-decoration: none;
@@ -35,8 +37,4 @@
   .remove-word-btn {
     color: #999;
   }
-}
-.consulted-word {
-  // background-color: #DDD;
-  // cursor: pointer;  
 }
