@@ -84,6 +84,7 @@ gem 'pry-rails'
 
 # 外部連携
 gem 'aws-ses'
+gem 'fog'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-facebook'
