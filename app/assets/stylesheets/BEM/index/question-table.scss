@@ -1,0 +1,11 @@
+@import 'BEM/mixin';
+
+.question-table {
+  @include table;
+  &__question {
+    width: 300px;
+    @include text-overflow;
+    padding: 0 10px;
+    text-align: left;
+  }
+}
