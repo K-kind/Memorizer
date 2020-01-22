@@ -31,14 +31,14 @@
             = qf.label :question, 'Question 1', class: 'learn-grid-container__question-label'
             = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 3
             = qf.label :answer, 'Answer 1', class: 'learn-grid-container__answer-label'
-            = qf.text_field :answer, class: 'learn-grid-container__answer-field'
+            = qf.text_field :answer, class: 'learn-grid-container__answer-field', autocomplete: 'off'
           a.add-next-box.fas.fa-chevron-circle-down href='#'  more
         .learn-grid-container__question.clearfix.hidden#second-box
           = f.fields_for :questions, @new_question do |qf|
             = qf.label :question, 'Question 2', class: 'learn-grid-container__question-label'
             = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 3
             = qf.label :answer, 'Answer 2', class: 'learn-grid-container__answer-label'
-            = qf.text_field :answer, class: 'learn-grid-container__answer-field'
+            = qf.text_field :answer, class: 'learn-grid-container__answer-field', autocomplete: 'off'
           a.remove-question-box.fas.fa-trash-alt href='#'
           a.add-next-box.fas.fa-chevron-circle-down href='#'  more
         .learn-grid-container__question.clearfix.hidden#third-box
@@ -46,7 +46,7 @@
             = qf.label :question, 'Question 3', class: 'learn-grid-container__question-label'
             = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 3
             = qf.label :answer, 'Answer 3', class: 'learn-grid-container__answer-label'
-            = qf.text_field :answer, class: 'learn-grid-container__answer-field'
+            = qf.text_field :answer, class: 'learn-grid-container__answer-field', autocomplete: 'off'
           a.remove-question-box.fas.fa-trash-alt href='#'
         .learn-grid-container__subtle
           .learn-grid-container__category

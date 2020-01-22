@@ -35,7 +35,7 @@
               = qf.label :question, "Question #{index + 1}", class: 'learn-grid-container__question-label'
               = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 3
               = qf.label :answer, "Answer #{index + 1}", class: 'learn-grid-container__answer-label'
-              = qf.text_field :answer, class: 'learn-grid-container__answer-field'
+              = qf.text_field :answer, class: 'learn-grid-container__answer-field', autocomplete: 'off'
         .learn-grid-container__subtle
           .learn-grid-container__category
             = f.label :word_category_id

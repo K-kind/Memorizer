@@ -3,9 +3,12 @@
 .question-table {
   @include table;
   &__question {
-    width: 300px;
+    width: 350px;
     @include text-overflow;
     padding: 0 10px;
     text-align: left;
+  }
+  &__question-td {
+    width: 350px;
   }
 }

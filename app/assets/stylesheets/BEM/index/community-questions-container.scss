@@ -1,0 +1,24 @@
+@import 'BEM/mixin';
+
+.community-questions-container {
+  margin-bottom: 20px;
+  &__heading {
+    margin: 20px 0;
+  }
+  &__table {
+    @include table;
+  }
+  &__question-td {
+    width: 400px;
+  }
+  &__question {
+    width: 400px;
+    @include text-overflow;
+    padding: 0 10px;
+    text-align: left;
+  }
+}
+#com-question-favo {
+  text-decoration: underline;
+  width: 15%;
+}

@@ -1,0 +1,31 @@
+@import 'BEM/mixin';
+
+.community-words-container {
+  margin-bottom: 20px;
+  &__heading {
+    margin: 20px 0;
+  }
+  &__left {
+    display: inline-block;
+    width: 45%;
+    vertical-align: top;
+  }
+  &__right {
+    display: inline-block;
+    width: 55%;
+  }
+  &__webster {
+    width: 95%;
+    margin: 0 auto;
+  }
+  &__table {
+    @include table;
+    th {
+      padding-top: 7px !important;
+      padding-bottom: 7px !important;
+    }
+  }
+  &__word-tr {
+    width: 35%;
+  }
+}

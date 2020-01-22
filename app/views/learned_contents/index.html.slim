@@ -12,7 +12,7 @@
     tbody
       - @learned_contents.each do |learned_content|
         tr
-          td
+          td.question-table__question-td
             .question-table__question
               = link_to learned_content.questions.first.question, question_show_learn_path(learned_content, type: 'question'), remote: true, class: ''
           td= link_to learned_content.review_histories.count, question_show_learn_path(learned_content, type: 'reviewd_times'), remote: true
