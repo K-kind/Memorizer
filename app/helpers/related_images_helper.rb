@@ -1,0 +1,2 @@
+module RelatedImagesHelper
+end

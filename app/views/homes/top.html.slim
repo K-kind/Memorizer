@@ -23,6 +23,8 @@ ul.todays-menu
       li.todays-menu__question ・#{link_to content.questions.first.question, question_learn_path(content, today: 1)}
   - elsif reviewed_count_today != 0
     p 復習完了!
+  - else
+    p 復習するコンテンツがありません。
   h3.todays-menu__heading 本日の学習
   - learned_contents_today.each do |new_content|
     li.todays-menu__question ・#{link_to new_content.questions.first.question, question_learn_path(new_content)}

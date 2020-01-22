@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   resources :later_lists,         only: [:index, :create, :destroy]
   resources :learn_templates,     only: [:create, :update, :show]
   resources :password_resets,     only: [:new, :create, :edit, :update]
+  resources :related_images,      only: [:destroy]
   resources :learns, controller: :learned_contents do
     resource :favorite, only: [:create, :destroy]
     member do

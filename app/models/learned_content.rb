@@ -26,11 +26,10 @@ class LearnedContent < ApplicationRecord
   end
 
   def create_related_images(related_image_array)
-    self.related_images.destroy_all
     related_image_array.each_with_index do |related_image, index|
-      unless index.zero?
-        image_links = related_image.split(' ')
-        self.related_images.create!(large_image_link: image_links[0], image_link: image_links[1], word: image_links[2])
+      unless index.zero? # 配列1つ目は空
+        image_links = related_image.split(' ') # [0]大画像リンク、[1]サムネリンク、[2]word
+        self.related_images.create!(remote_image_url: image_links[0], word: image_links[2])
       end
     end
   end
