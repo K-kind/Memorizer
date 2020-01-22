@@ -6,6 +6,6 @@ CarrierWave.configure do |config|
     region: 'ap-northeast-1'
   }
 
-  config.fog_directory  = 'memorizer-image'
+  config.fog_directory = 'memorizer-image'
   config.cache_storage = :fog
 end
