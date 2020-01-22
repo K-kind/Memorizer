@@ -9,8 +9,8 @@
       - if question.question_type == 1
           .image-box__slim
             - @learned_content.related_images.each do |related_image|
-              = link_to related_image.large_image_link, target: '_blank', rel: 'noopener' do
-                = image_tag related_image.large_image_link, class: 'image-box__image'
+              = link_to related_image.image.url, target: '_blank', rel: 'noopener' do
+                = image_tag related_image.image.url, class: 'image-box__image', alt: "image of #{related_image.word}"
       .answer-box
         .answer-box__ans--my
           h3.answer-box__heading My answer 

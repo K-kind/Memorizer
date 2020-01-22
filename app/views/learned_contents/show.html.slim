@@ -14,8 +14,8 @@
         .learn-grid-container__saved-images--show
           - @learned_content.related_images&.each do |related_image|
             = content_tag(:span, class: 'learn-grid-container__saved-image') do
-              = link_to related_image.large_image_link, target: '_blank', rel: 'noopener' do
-                = image_tag related_image.large_image_link, alt: "image of #{related_image.word}"
+              = link_to related_image.image.url, target: '_blank', rel: 'noopener' do
+                = image_tag related_image.image.url, alt: "image of #{related_image.word}"
       .learn-grid-container__question--show
         - @learned_content.questions.each_with_index do |question, index|
           h3 Q#{index + 1}

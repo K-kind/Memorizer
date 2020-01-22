@@ -61,6 +61,7 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
+gem 'carrierwave'
 gem 'dotenv-rails'
 gem 'font-awesome-rails'
 gem 'html2slim'
@@ -83,6 +84,7 @@ gem 'pry-rails'
 
 # 外部連携
 gem 'aws-ses'
+gem 'fog'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-facebook'
