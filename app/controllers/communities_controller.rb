@@ -5,7 +5,7 @@ class CommunitiesController < ApplicationController
 
   def words
     @q = LearnedContent.where(imported: false).ransack(params[:q])
-    @learned_contents = @q.result.includes(:word_category, user: :user_skill).latest.page(params[:page]).per(3)
+    @learned_contents = @q.result.includes(:word_category, user: :user_skill).latest.page(params[:page])
     respond_to do |format|
       format.html
       format.js
@@ -14,8 +14,12 @@ class CommunitiesController < ApplicationController
 
   def questions
     @q = LearnedContent.where(is_public: true, imported: false).ransack(params[:q])
-    @q.sorts = 'created_at desc' if @q.sorts.empty?
-    @learned_contents = @q.result.includes(:word_category, user: :user_skill).page(params[:page]).per(3)
+    @q.sorts = 'created_at desc' if @q.sorts.empty? && params[:favorite] != 'DESC'
+    @learned_contents = @q.result.includes(:word_category, user: :user_skill).page(params[:page])
+    if params[:favorite] == 'DESC'
+      @favorite = params[:favorite]
+      @learned_contents = @q.result.includes(:word_category, user: :user_skill).joins(:favorites).group(:learned_content_id).order('count(`favorites`.`id`) desc').page(params[:page])
+    end
     respond_to do |format|
       format.html
       format.js
@@ -24,9 +28,9 @@ class CommunitiesController < ApplicationController
 
   def ranking
     if params[:period] == '総合'
-      @users = User.joins(:learned_contents).group(:user_id).order('count(`learned_contents`.`id`) desc').page(params[:page]).per(20)
+      @users = User.regular.joins(:learned_contents).group(:user_id).order('count(`learned_contents`.`id`) desc').page(params[:page]).per(20)
     else
-      @users = User.joins(:learned_contents).where('learned_contents.created_at >= ?', Time.current.beginning_of_month).group(:user_id).order('count(`learned_contents`.`id`) desc').page(params[:page]).per(20)
+      @users = User.regular.joins(:learned_contents).where('learned_contents.created_at >= ?', Time.current.beginning_of_week).group(:user_id).order('count(`learned_contents`.`id`) desc').page(params[:page]).per(20)
       @period = true
     end
     respond_to do |format|

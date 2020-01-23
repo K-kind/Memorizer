@@ -1,0 +1,97 @@
+@import 'BEM/mixin';
+
+.my-page-container {
+  width: 95%;
+  margin: 0 auto 25px;
+  &__heading {
+    margin: 30px 0 10px;
+  }
+  &__top {
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  &__user-info {
+    @include white-box;
+    display: inline-block;
+    width: 48%;
+  }
+  &__user-level {
+    @include white-box;
+    display: inline-block;
+    width: 48%;
+    vertical-align: top;
+  }
+  &__table {
+    @include table2;
+    th, td {
+      height: 47px;
+    }
+  }
+  &__form {
+    display: none;
+    input, select {
+      padding: 2px 5px;
+    }
+  }
+  &__btns {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  &__edit-btn {
+    @include submit-btn;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  &__cancel-btn {
+    display: none;
+  }
+  &__submit-btn {
+    @include submit-btn;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: none;
+  }
+  &__destroy-btn {
+    @include destroy-btn;
+    padding-top: 5px;
+  }
+  &__email-form {
+    width: 80%;
+  }
+  &__select {
+    font-size: 14px;
+  }
+  &__level-table {
+    @include table2;
+    th {
+      width: 50%;
+      .fa {
+        color: white;
+      }
+    }
+  }
+  &__ranking {
+    margin-left: 10px;
+  }
+  &__bottom {
+    @include white-box;
+  }
+  &__heading-bottom {
+    margin: 40px 0 8px;
+    font-weight: bold;
+  }
+  &__settings {
+    @include white-box;
+  }
+  &__template-heading {
+    margin-bottom: 10px;
+  }
+  &__template-submit {
+    text-align: center;
+    input {
+      @include submit-btn;
+    }
+  }
+}

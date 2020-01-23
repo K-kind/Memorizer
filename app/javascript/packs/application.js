@@ -341,6 +341,17 @@ $(document).on('turbolinks:load', function () {
   $(document).on('change', '.onclick-select', function () {
     Rails.fire($('#onclick-form')[0], 'submit');
   });
+
+  // ユーザー編集
+  $(document).on('click', '.my-page-container__edit-btn', function () {
+    $('.my-page-container__original').hide();
+    $('.my-page-container__form').show();
+    $('.my-page-container__form').eq(0).find('input').focus();
+    $(this).hide();
+    $('.my-page-container__cancel-btn').show();
+    $('.my-page-container__submit-btn').show();
+  })
+
   $('#flash-box').fadeIn();
   setTimeout("$('#flash-box').fadeOut('slow')", 1800);
   $('#hidden-user-skill-link').fadeIn();

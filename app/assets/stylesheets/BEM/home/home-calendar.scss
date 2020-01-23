@@ -1,0 +1,5 @@
+@import 'BEM/mixin';
+
+.home-calendar {
+  @include white-box;
+}

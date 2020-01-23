@@ -1,4 +1,4 @@
-table
+table.community-ranking-container__table
     thead
       tr
         th 順位
@@ -9,6 +9,6 @@ table
         tr
           td= index + 1
           td= user.name
-          td= user.learned_contents.all_or_monthly(@period).count
+          td= user.learned_contents.all_or_weekly(@period).count
 
 = paginate @users, remote: true

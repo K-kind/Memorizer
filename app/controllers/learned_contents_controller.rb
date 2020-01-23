@@ -189,6 +189,9 @@ class LearnedContentsController < ApplicationController
       original_content.send("#{model}s").each do |object|
         duplicated = object.dup
         duplicated.learned_content = learned_content
+        if model == 'related_image'
+          duplicated.image = object.image.file
+        end
         duplicated.save
       end
     end

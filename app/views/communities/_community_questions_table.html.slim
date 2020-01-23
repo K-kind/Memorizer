@@ -1,20 +1,24 @@
-table
+table.community-questions-container__table
   thead
     tr
       th 問題
       th カテゴリー
       th 作成者のスキル
-      th いいね数
+      th#com-question-favo
+        = link_to 'いいね数', communities_questions_path(favorite: 'DESC'), remote: true
       th= sort_link @q, :created_at, '作成日', {}, { remote: true }
   tbody
     - @learned_contents.each do |learned_content|
       tr
-        td= link_to learned_content.questions.first.question, question_show_learn_path(learned_content, type: 'question'), remote: true
+        td.community-questions-container__question-td
+          .community-questions-container__question
+            = link_to learned_content.questions.first.question, question_show_learn_path(learned_content, type: 'question'), remote: true
         td= learned_content.word_category.category
         td= learned_content.user.user_skill.skill
         td= learned_content.favorites.count
         td= learned_content.created_at.strftime('%Y/%m/%d')
 
-= paginate @learned_contents, remote: true
+#com-question-paginate
+  = paginate @learned_contents, remote: true
 
 #calendar-modal

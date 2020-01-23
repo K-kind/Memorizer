@@ -12,6 +12,7 @@ class ConsultedWordsController < ApplicationController
 
   def destroy
     ConsultedWord.find(params[:id]).destroy
+    @message = '検索履歴を削除しました。'
     render 'index'
   end
 

@@ -13,7 +13,7 @@
   .home-top
     span.home-top__span
       | 本日の学習:
-      span.home-top__count= link_to learned_contents_today.count, learns_path
+      span.home-top__count= learned_contents_today.count
     = link_to '新規学習', new_learn_path
 
 ul.todays-menu
@@ -29,7 +29,8 @@ ul.todays-menu
   - learned_contents_today.each do |new_content|
     li.todays-menu__question ・#{link_to new_content.questions.first.question, question_learn_path(new_content)}
 
-#calendar
+.home-calendar
+  #calendar
 
 #calendar-modal
 

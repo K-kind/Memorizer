@@ -1,22 +1,29 @@
-h1 学習一覧
+.middle-container
+  h1 My Questions
 
-table
-  thead
-    tr
-      th 問題
-      th 復習回数
-      th 次の復習まで
-      th カテゴリー
-      th
-  tbody
-    - @learned_contents.each do |learned_content|
+  table.question-table
+    thead
       tr
-        td= link_to learned_content.questions.first.question, question_show_learn_path(learned_content, type: 'question'), remote: true
-        td= link_to learned_content.review_histories.count, question_show_learn_path(learned_content, type: 'reviewd_times'), remote: true
-        td #{learned_content.till_next_review}日
-        td= learned_content.word_category.category
-        td
+        th 問題
+        th 復習回数
+        th 復習まで
+        th カテゴリー
+        th いいね
+    tbody
+      - @learned_contents.each do |learned_content|
+        tr
+          td.question-table__question-td
+            .question-table__question
+              = link_to learned_content.questions.first.question, question_show_learn_path(learned_content, type: 'question'), remote: true, class: ''
+          td= link_to learned_content.review_histories.count, question_show_learn_path(learned_content, type: 'reviewd_times'), remote: true
+          td #{learned_content.till_next_review}日
+          td= learned_content.word_category.category
+          td
+            - if learned_content.imported?
+              | -
+            - else
+              = learned_content.favorites.count
 
-= paginate @learned_contents
+  = paginate @learned_contents
 
-#calendar-modal
+  #calendar-modal

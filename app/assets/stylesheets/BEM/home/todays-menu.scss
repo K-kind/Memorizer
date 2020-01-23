@@ -1,4 +1,4 @@
-@import '../mixin';
+@import 'BEM/mixin';
 .todays-menu {
   @include white-box;
   width: 40%;
@@ -9,9 +9,7 @@
   overflow-y: scroll;
   padding-top: 2px;
   &__question {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    @include text-overflow;
     line-height: 1.35em;
   }
   &__heading {

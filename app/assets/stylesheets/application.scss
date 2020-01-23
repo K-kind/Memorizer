@@ -37,6 +37,7 @@ a {
 }
 .fa-times {
   color: #999;
+  text-decoration: none;
 }
 label {
   cursor: pointer;
@@ -76,6 +77,7 @@ li {
   left: 0;
   height: 120%;
   width: 100%;
+  cursor: pointer;
 }
 #reset-overlay {
   background-color: rgba(0, 0, 0, 0.3);

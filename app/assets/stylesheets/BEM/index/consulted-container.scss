@@ -1,0 +1,33 @@
+@import 'BEM/mixin';
+
+.consulted-container {
+  &__heading {
+    margin: 20px 0;
+  }
+  &__left {
+    display: inline-block;
+    width: 45%;
+    vertical-align: top;
+  }
+  &__right {
+    display: inline-block;
+    width: 55%;
+  }
+  &__table {
+    @include table;
+    width: 90%;
+    margin: 0 auto;
+    th, td {
+      padding-top: 9px !important;
+      padding-bottom: 9px !important;
+    }
+  }
+  &__word-tr {
+    width: 40%;
+  }
+  &__remove {
+    @include destroy-btn;
+    padding: 2px 8px;
+    border: none;
+  }
+}

@@ -18,7 +18,7 @@ class UsersController < ApplicationController
 
   def show
     @user_skills = UserSkill.all
-    @active_users = User.where(activated: true)
+    @active_users = User.where(activated: true, is_test_user: false)
     @prev = params[:prev].to_i
     day = @prev ? Time.zone.today.prev_month(@prev) : Time.zone.today
     @new_learn_chart = current_user.calendars.learn_chart('learned_contents', day)
