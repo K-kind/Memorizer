@@ -101,6 +101,20 @@ class User < ApplicationRecord
     consulted_words.find_or_create_by!(word_definition_id: word_definition.id)
   end
 
+  def set_test_words
+    test_admin = User.find_by(email: Rails.application.credentials.dig(:seed, :test_admin_email))
+    test_admin.consulted_words.each do |consulted_word|
+      self.consulted_words.find_or_create_by(word_definition_id: consulted_word.word_definition_id)
+    end
+    test_admin.later_lists.each do |later_list|
+      self.later_lists.find_or_create_by(word: later_list.word)
+    end
+    unless self.contacts.any?
+      comment = test_admin.contacts.last.comment
+      self.contacts.create(comment: comment)
+    end
+  end
+
   private
 
   def downcase_email

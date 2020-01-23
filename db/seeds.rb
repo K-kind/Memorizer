@@ -38,6 +38,17 @@ Admin.find_or_create_by!(email: email) do |admin|
   admin.password = password
 end
 
+# テストユーザーの問題を管理するユーザー
+test_admin_email = Rails.application.credentials.dig(:seed, :test_admin_email)
+test_admin_password = Rails.application.credentials.dig(:seed, :test_admin_password)
+test_admin = User.find_or_create_by!(email: test_admin_email) do |user|
+  user.password = Rails.application.credentials.dig(:seed, :test_password)
+  user.name = "テスト管理ユーザー"
+  user.activated = true
+  user.is_test_user = true
+  user.user_skill_id = UserSkill.fifth.id
+end
+
 # テストユーザーを作成
 6.times do |n|
   User.find_or_create_by!(email: "test_user#{n}@memorizer.tech") do |user|

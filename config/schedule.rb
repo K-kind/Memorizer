@@ -18,3 +18,21 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
+
+ENV.each { |k, v| env(k, v) }
+require File.expand_path(File.dirname(__FILE__) + '/environment')
+rails_env = ENV['RAILS_ENV'] || :development
+set :environment, rails_env
+set :output, "#{Rails.root}/log/cron.log"
+env :PATH, ENV['PATH']
+job_type :rbenv_rake, %q!eval "$(rbenv init -)"; cd :path && :environment_variable=:environment bundle exec rake :task --silent :output!
+
+every 10.minute do
+  command "echo 'update test_user #{Time.zone.now}'"
+  runner 'lib/tasks/update_test_user.rb', :environment_variable => 'RAILS_ENV'
+end
+
+every 1.day, :at => '00:00 am' do
+  command "echo 'learned_contents.till_next_review -1'"
+  runner 'lib/tasks/set_date.rb', :environment_variable => 'RAILS_ENV', :environment => 'development'
+end
