@@ -6,13 +6,13 @@ module UsersHelper
         .length + 1
   end
 
-  def monthly_ranking
+  def weekly_ranking
     User.joins(:learned_contents)
-        .where('learned_contents.created_at >= ?', Time.current.beginning_of_month)
+        .where('learned_contents.created_at >= ?', Time.current.beginning_of_week)
         .group(:user_id)
         .having(
           'count(`learned_contents`.`id`) > ?',
-          current_user.learned_contents.where('learned_contents.created_at >= ?', Time.current.beginning_of_month).count
+          current_user.learned_contents.where('learned_contents.created_at >= ?', Time.current.beginning_of_week).count
         )
         .length + 1
   end

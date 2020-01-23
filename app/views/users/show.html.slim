@@ -1,27 +1,45 @@
-h1 マイページ
+.my-page-container
+  h2.my-page-container__heading ユーザー情報
+  .my-page-container__top
+    .my-page-container__user-info
+      #user-info
+        = render 'user_info'
 
-h2 ユーザー情報
+    .my-page-container__user-level
+      table.my-page-container__level-table
+        tr
+          th レベル
+          td= current_user.level_id
+        tr
+          th
+            strong.fa.fa-edit
+            |  週間単語学習数
+          td
+            = current_user.learned_contents.all_or_weekly('weekly').count
+            span.fas.fa-crown.my-page-container__ranking
+              | ( #{weekly_ranking} / #{@active_users.count} 位 )
+        tr
+          th
+            strong.fa.fa-edit
+            |  総単語学習数
+          td
+            = current_user.learned_contents.count
+            span.fas.fa-crown.my-page-container__ranking
+              | ( #{overall_ranking} / #{@active_users.count} 位 )
+        tr
+          th
+            strong.fa.fa-book-open
+            |  総単語復習回数
+          td= current_user.review_histories.count
 
-#chart-container
-  =render 'chart'
+  h2.my-page-container__heading 学習グラフ
+  .my-page-container__bottom
+    #chart-container
+      =render 'chart'
 
-#user-info
-  = render 'user_info'
+  h2.fas.fa-cog.my-page-container__heading-bottom 学習設定
+  .my-page-container__settings
+    h3.my-page-container__template-heading 学習テンプレート
+    #template-edit
+      = render 'learn_templates/learn_template'
 
-= link_to '退会する', user_path, method: :delete, data: {confirm: '本当に退会しますか？'}
-
-#template-edit
-  = render 'learn_templates/learn_template'
-
-div
-  div
-    strong レベル
-    span Lv.#{current_user.level_id}
-  div
-    strong 単語学習数
-    span= current_user.learned_contents.count
-    span 総合ランキング #{overall_ranking} / #{@active_users.count} 位
-    span 月間ランキング #{monthly_ranking} / #{@active_users.count} 位
-  div
-    strong 単語復習回数
-    span= current_user.review_histories.count

@@ -1,24 +1,31 @@
 = form_with model: current_user, url: user_path, id: 'user-info-form' do |f|
   = render 'shared/error_messages', object: f.object
-  table
+  table.my-page-container__table
     tbody
       tr
         th ユーザー名
         td
-          = current_user.name
-          = f.text_field :name
+          span.my-page-container__original= current_user.name
+          span.my-page-container__form= f.text_field :name
       tr
         th ログイン方法
-        td メールかSNS
+        td
+          - if current_user.uid
+            = current_user.provider
+          - else
+            | メールアドレス
       tr
         th メールアドレス
         td
-          = current_user.email
-          = f.email_field :email
+          span.my-page-container__original= current_user.email
+          span.my-page-container__form= f.email_field :email, class: 'my-page-container__email-form'
       tr
         th 現在のスキル
         td
-          = current_user.user_skill.skill
-          = f.collection_select :user_skill_id, @user_skills, :id, :skill
-a href='#' 編集する
-= submit_tag '保存する', form: 'user-info-form'
+          span.my-page-container__original= current_user.user_skill.skill
+          span.my-page-container__form= f.collection_select :user_skill_id, @user_skills, :id, :skill, {}, {class: 'my-page-container__select'}
+.my-page-container__btns
+  a.my-page-container__edit-btn 編集
+  = link_to 'キャンセル', user_path, class: 'my-page-container__cancel-btn'
+  = submit_tag '保存', form: 'user-info-form', class: 'my-page-container__submit-btn'
+  = link_to '退会', user_path, method: :delete, data: { confirm: "[注意]\n全てのデータが削除されます。\n本当に退会してよろしいですか？" }, class: 'my-page-container__destroy-btn'

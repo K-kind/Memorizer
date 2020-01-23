@@ -28,5 +28,6 @@
   &__remove {
     @include destroy-btn;
     padding: 2px 8px;
+    border: none;
   }
 }
