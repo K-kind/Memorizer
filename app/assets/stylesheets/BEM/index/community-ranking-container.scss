@@ -1,0 +1,12 @@
+@import 'BEM/mixin';
+
+.community-ranking-container {
+  width: 70%;
+  margin:0 auto 20px;
+  &__heading {
+    margin: 20px 0;
+  }
+  &__table {
+    @include table;
+  }
+}

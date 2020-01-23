@@ -28,9 +28,9 @@ class CommunitiesController < ApplicationController
 
   def ranking
     if params[:period] == '総合'
-      @users = User.joins(:learned_contents).group(:user_id).order('count(`learned_contents`.`id`) desc').page(params[:page]).per(20)
+      @users = User.regular.joins(:learned_contents).group(:user_id).order('count(`learned_contents`.`id`) desc').page(params[:page]).per(20)
     else
-      @users = User.joins(:learned_contents).where('learned_contents.created_at >= ?', Time.current.beginning_of_month).group(:user_id).order('count(`learned_contents`.`id`) desc').page(params[:page]).per(20)
+      @users = User.regular.joins(:learned_contents).where('learned_contents.created_at >= ?', Time.current.beginning_of_week).group(:user_id).order('count(`learned_contents`.`id`) desc').page(params[:page]).per(20)
       @period = true
     end
     respond_to do |format|
