@@ -11,14 +11,15 @@
         th ログイン方法
         td
           - if current_user.uid
-            = current_user.provider
+            = show_provider
           - else
             | メールアドレス
-      tr
-        th メールアドレス
-        td
-          span.my-page-container__original= current_user.email
-          span.my-page-container__form= f.email_field :email, class: 'my-page-container__email-form'
+      - unless current_user.uid
+        tr
+          th メールアドレス
+          td
+            span.my-page-container__original= current_user.email
+            span.my-page-container__form= f.email_field :email, class: 'my-page-container__email-form'
       tr
         th 現在のスキル
         td

@@ -16,4 +16,12 @@ module UsersHelper
         )
         .length + 1
   end
+
+  def show_provider
+    if current_user.provider == 'google_oauth2'
+      'google'
+    else
+      current_user.provider
+    end
+  end
 end
