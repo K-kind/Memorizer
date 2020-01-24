@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_23_074202) do
+ActiveRecord::Schema.define(version: 2020_01_24_133613) do
 
   create_table "action_text_rich_texts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name", null: false
@@ -75,6 +75,15 @@ ActiveRecord::Schema.define(version: 2020_01_23_074202) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_contacts_on_user_id"
+  end
+
+  create_table "cycles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "times"
+    t.integer "cycle"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_cycles_on_user_id"
   end
 
   create_table "favorites", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -225,6 +234,7 @@ ActiveRecord::Schema.define(version: 2020_01_23_074202) do
   add_foreign_key "calendars", "users"
   add_foreign_key "consulted_words", "users"
   add_foreign_key "contacts", "users"
+  add_foreign_key "cycles", "users"
   add_foreign_key "favorites", "learned_contents"
   add_foreign_key "favorites", "users"
   add_foreign_key "later_lists", "users"

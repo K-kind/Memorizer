@@ -26,10 +26,8 @@ Rails.application.routes.draw do
   resources :learns, controller: :learned_contents do
     resource :favorite, only: [:create, :destroy]
     member do
-      get   :question
-      get   :question_show
-      post  :answer
-      post  :again
+      get   :question, :question_show
+      post  :again, :answer, :import
     end
   end
   resource :user, only: [:create, :show, :update, :destroy] do

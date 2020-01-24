@@ -5,7 +5,7 @@ class LearnedContentsController < ApplicationController
   before_action :ensure_correct_user, only: [:show, :edit, :update, :destroy]
   before_action :protect_private_contents, only: [:question, :answer, :question_show]
   before_action :set_collection_select, only: [:new, :edit]
-  before_action :set_calendar_today, only: [:create, :answer]
+  before_action :set_calendar_today, only: [:create, :answer, :import]
   before_action :no_always_dictionary, only: [:new, :show, :edit]
 
   def index
@@ -50,43 +50,40 @@ class LearnedContentsController < ApplicationController
 
   def answer
     @today = params[:learned_content][:today]
-    # 仮想属性my_answerのバリデーション
     @learned_content.attributes = learned_content_params
-    if @learned_content.save(context: :question)
+    if @learned_content.save(context: :question) # 仮想属性my_answerのバリデーション
+      @average_similarity = @learned_content.average_similarity
       if @learned_content.user != current_user
-        original_content = @learned_content
-        @learned_content = original_content.dup
-        @learned_content.update(
-          user_id: current_user.id,
-          calendar_id: @calendar_today.id,
-          imported_from: original_content.id,
-          imported: true,
-          till_next_review: 1,
-          content: original_content.content
-        )
-      end
-      if original_content
-        duplicate_children(original_content, @learned_content)
-        set_calendar_to_review(@learned_content.till_next_review)
-        # 仮想属性my_answerをimportした問題に入れる
-        @learned_content.questions.each_with_index do |question, index|
-          question.my_answer = params[:learned_content][:questions_attributes][index.to_s][:my_answer]
-        end
-        calculate_level(3, 'now')
-      end
-      average_similarity = @learned_content.average_similarity
-      if @learned_content.till_next_review <= 0
-        @learned_content.review_histories.create(similarity_ratio: average_similarity, calendar_id: @calendar_today.id)
+        @imported = true
+        @original_content = @learned_content
+        calculate_level(1, 'now')
+      elsif @learned_content.till_next_review <= 0
+        @learned_content.review_histories.create(similarity_ratio: @average_similarity, calendar_id: @calendar_today.id)
         @learned_content.set_next_cycle
         set_calendar_to_review(@learned_content.till_next_review) unless @learned_content.completed?
-        exp_on_similarity(average_similarity)
-      end
-      if @learned_content.imported?
-        @original_content = LearnedContent.find_by(id: @learned_content.imported_from)
+        exp_on_similarity(@average_similarity)
       end
     else
       render 'question'
     end
+  end
+
+  def import
+    @original_content = LearnedContent.find(params[:id])
+    @learned_content = current_user.learned_contents.build(
+      word_definition_id: @original_content.word_definition_id,
+      word_category_id: @original_content.word_category_id,
+      calendar_id: @calendar_today.id,
+      imported_from: @original_content.id,
+      imported: true,
+      is_public: false,
+      completed: false,
+      content: @original_content.content
+    )
+    @learned_content.save!
+    duplicate_children(@original_content, @learned_content)
+    set_calendar_to_review(@learned_content.till_next_review)
+    @message = "\"#{@learned_content.word_definition.word}\"の学習コンテンツをダウンロードしました。"
   end
 
   def show

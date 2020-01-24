@@ -2,6 +2,7 @@ class User < ApplicationRecord
   has_many :calendars,        dependent: :destroy
   has_many :consulted_words,  dependent: :destroy
   has_many :contacts,         dependent: :destroy
+  has_many :cycles,           dependent: :destroy
   has_many :favorites,        dependent: :destroy
   has_many :later_lists,      dependent: :destroy
   has_many :learned_contents, dependent: :destroy
@@ -9,11 +10,14 @@ class User < ApplicationRecord
   has_many :notifications,    dependent: :destroy
   has_many :review_histories, through: :learned_contents
   belongs_to :user_skill,     optional: true
+  accepts_nested_attributes_for :cycles
 
+  has_secure_password
   attr_accessor :remember_token, :activation_token, :reset_token
+
   before_save   :downcase_email, unless: :uid?
   before_create :create_activation_digest
-  has_secure_password
+  after_create  :set_default_cycle
 
   validates :name, presence: true, length: { maximum: 20 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
@@ -124,5 +128,11 @@ class User < ApplicationRecord
   def create_activation_digest
     self.activation_token  = User.new_token
     self.activation_digest = User.digest(activation_token)
+  end
+
+  def set_default_cycle
+    [1, 7, 16, 35, 62].each_with_index do |cycle, index|
+      cycles.create!(times: index, cycle: cycle)
+    end
   end
 end
