@@ -11,6 +11,8 @@ class LearnedContent < ApplicationRecord
   has_rich_text :content
   accepts_nested_attributes_for :questions
 
+  after_create  :set_first_cycle
+
   validates :content, presence: true, length: { maximum: 3000 }
 
   scope :to_review_today, -> { where('till_next_review <= 0') }
@@ -63,18 +65,11 @@ class LearnedContent < ApplicationRecord
   end
 
   def set_next_cycle
-    case review_histories.not_again.count
-    when 0
-      update(till_next_review: 1)
-    when 1
-      update(till_next_review: 7)
-    when 2
-      update(till_next_review: 16)
-    when 3
-      update(till_next_review: 35)
-    when 4
-      update(till_next_review: 62)
-    when 5
+    times = review_histories.not_again.count
+    times += 1 if imported?
+    if (next_cycle = user.cycles.find_by(times: times))
+      update(till_next_review: next_cycle)
+    else
       update(till_next_review: 10000, completed: true)
     end
   end
@@ -87,5 +82,12 @@ class LearnedContent < ApplicationRecord
     questions.each do |q|
       q.destroy if q.question.blank? && q.answer.blank?
     end
+  end
+
+  private
+
+  def set_first_cycle
+    first_cycle = user.cycles.find_by(times: 0).cycle
+    update!(till_next_review: first_cycle)
   end
 end

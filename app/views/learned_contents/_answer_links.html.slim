@@ -1,0 +1,13 @@
+- if @imported
+  = link_to ' Download', import_learn_path, method: :post, remote: true, class: 'fas fa-download question-container__btn--review'
+- else
+  - if @today == '1'
+    = link_to learn_path(@learned_content, today: 1), class: 'question-container__btn--review' do
+      i.fas.fa-book-open.question-container__icon
+      | "#{@learned_content.word_definition.word}"
+  - else
+    = link_to learn_path(@learned_content), class: 'question-container__btn--review' do
+      i.fas.fa-book-open.question-container__icon
+      | "#{@learned_content.word_definition.word}"
+  - if @today == '1' && contents_to_review_today.any?
+    = link_to 'Next', question_learn_path(contents_to_review_today.till_next_asc.first, today: 1), class: 'question-container__btn--next'
