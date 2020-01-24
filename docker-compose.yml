@@ -6,8 +6,8 @@ services:
     environment:
       - RAILS_ENV=production
     command: >
-    bundle exec rails assets:precompile &&
-    bundle exec puma -C config/puma.rb
+      bundle exec rails assets:precompile &&
+      bundle exec puma -C config/puma.rb
     volumes:
       - .:/myapp
     ports:
