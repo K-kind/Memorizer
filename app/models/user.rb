@@ -132,7 +132,7 @@ class User < ApplicationRecord
 
   def set_default_cycle
     [1, 7, 16, 35, 62].each_with_index do |cycle, index|
-      self.cycles.create!(times: index, cycle: cycle)
+      cycles.create!(times: index, cycle: cycle)
     end
   end
 end

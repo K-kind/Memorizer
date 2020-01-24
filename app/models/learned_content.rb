@@ -11,7 +11,7 @@ class LearnedContent < ApplicationRecord
   has_rich_text :content
   accepts_nested_attributes_for :questions
 
-  after_create  :set_first_cycle
+  after_create :set_first_cycle
 
   validates :content, presence: true, length: { maximum: 3000 }
 
