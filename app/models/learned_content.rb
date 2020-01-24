@@ -66,8 +66,7 @@ class LearnedContent < ApplicationRecord
 
   def set_next_cycle
     times = review_histories.not_again.count
-    times += 1 if imported?
-    if (next_cycle = user.cycles.find_by(times: times))
+    if (next_cycle = user.cycles.find_by(times: times).cycle)
       update(till_next_review: next_cycle)
     else
       update(till_next_review: 10000, completed: true)
@@ -88,6 +87,8 @@ class LearnedContent < ApplicationRecord
 
   def set_first_cycle
     first_cycle = user.cycles.find_by(times: 0).cycle
+    return if first_cycle == 1
+
     update!(till_next_review: first_cycle)
   end
 end

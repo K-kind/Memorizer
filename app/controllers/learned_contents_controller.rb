@@ -55,6 +55,7 @@ class LearnedContentsController < ApplicationController
       @average_similarity = @learned_content.average_similarity
       if @learned_content.user != current_user
         @imported = true
+        @original_content = @learned_content
         calculate_level(1, 'now')
       elsif @learned_content.till_next_review <= 0
         @learned_content.review_histories.create(similarity_ratio: @average_similarity, calendar_id: @calendar_today.id)
@@ -68,21 +69,21 @@ class LearnedContentsController < ApplicationController
   end
 
   def import
-    original_content = LearnedContent.find(params[:id])
+    @original_content = LearnedContent.find(params[:id])
     @learned_content = current_user.learned_contents.build(
-      word_definition_id: original_content.word_definition_id,
-      word_category_id: original_content.word_category_id,
+      word_definition_id: @original_content.word_definition_id,
+      word_category_id: @original_content.word_category_id,
       calendar_id: @calendar_today.id,
-      imported_from: original_content.id,
+      imported_from: @original_content.id,
       imported: true,
       is_public: false,
       completed: false,
-      content: original_content.content
+      content: @original_content.content
     )
     @learned_content.save!
-    duplicate_children(original_content, @learned_content)
+    duplicate_children(@original_content, @learned_content)
     set_calendar_to_review(@learned_content.till_next_review)
-    @message = "学習コンテンツ<#{@learned_content.word_definition_id.word}をダウンロードしました。>"
+    @message = "\"#{@learned_content.word_definition.word}\"の学習コンテンツをダウンロードしました。"
   end
 
   def show

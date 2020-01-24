@@ -12,6 +12,7 @@
   &__submit {
     margin: 20px 0;
     text-align: center;
+    position: relative;
   }
   &__btn {
     @include submit-btn;
@@ -21,8 +22,7 @@
     }
     &--next {
       @include submit-btn;
-      float: right;
-      margin-top: 11px;
+      margin-right: 15px;
     }
   }
   &__icon {
@@ -33,4 +33,13 @@
     text-align: right;
     margin: 10px 0;
   }
+  &__favorite {
+    display: inline-block;
+    position: absolute;
+    top: 6px;
+    left: 0;
+  }
+  // &__finished {
+  //   margin: 10px 0;
+  // }
 }
