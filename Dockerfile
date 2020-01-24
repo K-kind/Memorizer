@@ -20,5 +20,5 @@ RUN bundle install
 COPY . $APP_ROOT
 
 # puma.sockを配置するディレクトリを作成
-RUN mkdir -p tmp/sockets
-RUN mkdir -p tmp/sock/pids
+# RUN mkdir -p tmp/sockets
+# RUN mkdir -p tmp/pids

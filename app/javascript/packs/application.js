@@ -163,8 +163,8 @@ $(document).on('turbolinks:load', function () {
 
   // 単語の意味タブの挙動
   $(document).on('click', '.dictionary-word-tab', function () {
-    var clickedIndex = $(this).data('index');
-    var word = $(this).data('word');
+    let clickedIndex = $(this).data('index');
+    let word = $(this).data('word');
     $(`.dictionary_box_${word}`).each(function (index, element) {
       $(element).addClass('hidden');
       if (index === clickedIndex) {
@@ -176,8 +176,8 @@ $(document).on('turbolinks:load', function () {
     $(this).addClass('active-word-tab');
   });
   $(document).on('click', '.thesaurus-word-tab', function () {
-    var clickedIndex = $(this).data('index');
-    var word = $(this).data('word');
+    let clickedIndex = $(this).data('index');
+    let word = $(this).data('word');
     $(`.thesaurus_box_${word}`).each(function (index, element) {
       $(element).addClass('hidden');
       if (index === clickedIndex) {

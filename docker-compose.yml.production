@@ -3,8 +3,8 @@ services:
   app:
     build:
       context: .
-    env_file:
-      - ./environments/db.env
+    environment:
+      - RAILS_ENV=production
     command: bundle exec puma -C config/puma.rb
     volumes:
       - .:/myapp

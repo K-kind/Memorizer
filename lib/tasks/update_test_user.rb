@@ -14,3 +14,4 @@ user.review_histories.where('review_histories.created_at >= ?', Time.zone.now - 
   parent.set_next_cycle
 end
 user.set_test_words
+user.update!(exp: 0, level_id: 1)
