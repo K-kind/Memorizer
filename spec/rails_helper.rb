@@ -63,4 +63,7 @@ RSpec.configure do |config|
 
   # wrong number of argumentsのエラー対策
   config.render_views
+
+  # FactoryBot.create(:user)をcreate(:user)だけで済ませる
+  config.include FactoryBot::Syntax::Methods
 end
