@@ -342,6 +342,10 @@ $(document).on('turbolinks:load', function () {
     Rails.fire($('#onclick-form')[0], 'submit');
   });
 
+  $(document).on('change', '.favo-onclick-select', function () {
+    Rails.fire($('#favo-onclick-form')[0], 'submit');
+  });
+
   // ユーザー編集
   $(document).on('click', '.my-page-container__edit-btn', function () {
     $('.my-page-container__original').hide();
