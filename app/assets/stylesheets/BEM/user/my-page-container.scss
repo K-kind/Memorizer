@@ -92,6 +92,7 @@
   }
   &__template-submit {
     text-align: center;
+    margin-top: 15px;
     input {
       @include submit-btn;
     }

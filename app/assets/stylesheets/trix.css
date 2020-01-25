@@ -6,6 +6,7 @@ http://trix-editor.org/*/
 trix-editor {
   border: 1px solid #bbb;
   border-radius: 3px;
+  background-color: #FFF;
   margin: 0;
   padding: 0.4em 1.1em;
   min-height: 12em;
@@ -47,7 +48,7 @@ trix-toolbar .trix-button {
   border: none;
   border-bottom: 1px solid #ddd;
   border-radius: 0;
-  background: transparent; }
+  background-color: #FFF;}
   trix-toolbar .trix-button:not(:first-child) {
     border-left: 1px solid #ccc; }
   trix-toolbar .trix-button.trix-active {
@@ -302,8 +303,7 @@ trix-editor .attachment__metadata {
 @charset "UTF-8";
 .trix-content {
   line-height: 1.4;
-  font-size: 16px;
-  margin-bottom: 10px; }
+  font-size: 16px; }
   .trix-content * {
     box-sizing: border-box;
    }

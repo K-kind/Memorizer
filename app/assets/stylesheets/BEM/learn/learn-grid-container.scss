@@ -71,9 +71,16 @@
       cursor: pointer;
     }
   }
+  &__trix-area {
+    border-radius: 3px;
+    border: 1px solid $thesaurus-color;
+    padding: 10px;
+    background-color: #F9FBFE;
+  }
   &__saved-images {
     max-height: 110px;
     overflow-y: scroll;
+    margin: 14px 0 10px;
     .saved-image {
       padding: 0 3px 8px 0;
       display: inline-block;
@@ -84,12 +91,17 @@
     }
   }
   &__question {
-    margin-top: 10px;
+    margin-top: 20px;
     position: relative;
     padding-top: 10px;
-  }
-  #third-box {
-    padding-top: 0;
+    padding: 10px;
+    background-color: #F9FBFE;
+    border-radius: 3px;
+    border: 1px solid $thesaurus-color;
+    &--first {
+      margin-top: 0;
+      padding-top: 15px;
+    }
   }
   .remove-question-box {
     float: right;

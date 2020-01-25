@@ -5,8 +5,7 @@ table.question-table
       th 復習回数
       th= sort_link @q, :till_next_review, '復習まで', {}, { remote: true }
       th カテゴリー
-      th#com-question-favo
-        = link_to 'いいね数', learns_path(favorite: 'DESC', word: @word, q: { word_category_id_eq: @word_category_id }), remote: true
+      th= sort_link @q, :favorites_count, 'いいね数', { default_order: :desc }, { remote: true }
       th= sort_link @q, :created_at, '作成日', {}, { remote: true }
   tbody
     - @learned_contents.each do |learned_content|

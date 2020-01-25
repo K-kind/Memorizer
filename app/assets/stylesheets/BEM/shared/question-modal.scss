@@ -18,6 +18,7 @@
   }
   &__links {
     text-align: center;
+    margin-top: 8px;
   }
   &__question-link {
     @include submit-btn;

@@ -20,7 +20,8 @@
           = f.label :main_word, 'Main word:'
           = f.select :main_word, @word_array, {}, { class: 'main-word-select' }
           .hidden-forms
-        = f.rich_text_area :content
+        .learn-grid-container__trix-area
+          = f.rich_text_area :content
         = f.select :related_image, [], {}, { id: 'related_image', multiple: true ,class: 'hidden' }
         = f.select :related_word, @word_array, {}, { id: 'related_word', multiple: true ,class: 'hidden' }
         .learn-grid-container__saved-images
@@ -30,15 +31,26 @@
                 = image_tag related_image.image.url, alt: 'image of #{related_image.word}', height: '100'
                 = link_to '', related_image_path(related_image), method: :delete, remote: true, class: 'fas fa-times image-unsave-times__s3'
         - @learned_content.questions.each_with_index do |question, index|
-          .learn-grid-container__question
-            = f.fields_for :questions, question do |qf|
-              - if index == 0
-                .learn-grid-container__question-type
-                  = qf.select :question_type, [['Free', 0], ['Image', 1], ['Simple', 2]], {}, { class: 'question-type-select'}
-              = qf.label :question, "Question #{index + 1}", class: 'learn-grid-container__question-label'
-              = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 3
-              = qf.label :answer, "Answer #{index + 1}", class: 'learn-grid-container__answer-label'
-              = qf.text_field :answer, class: 'learn-grid-container__answer-field', autocomplete: 'off'
+          - if index == 0
+            .learn-grid-container__question.learn-grid-container__question--first
+              = f.fields_for :questions, question do |qf|
+                - if index == 0
+                  .learn-grid-container__question-type
+                    = qf.select :question_type, [['Free', 0], ['Image', 1], ['Simple', 2]], {}, { class: 'question-type-select'}
+                = qf.label :question, "Question #{index + 1}", class: 'learn-grid-container__question-label'
+                = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 3
+                = qf.label :answer, "Answer #{index + 1}", class: 'learn-grid-container__answer-label'
+                = qf.text_field :answer, class: 'learn-grid-container__answer-field', autocomplete: 'off'
+          - else
+            .learn-grid-container__question
+              = f.fields_for :questions, question do |qf|
+                - if index == 0
+                  .learn-grid-container__question-type
+                    = qf.select :question_type, [['Free', 0], ['Image', 1], ['Simple', 2]], {}, { class: 'question-type-select'}
+                = qf.label :question, "Question #{index + 1}", class: 'learn-grid-container__question-label'
+                = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 3
+                = qf.label :answer, "Answer #{index + 1}", class: 'learn-grid-container__answer-label'
+                = qf.text_field :answer, class: 'learn-grid-container__answer-field', autocomplete: 'off'
         .learn-grid-container__subtle
           .learn-grid-container__category
             = f.label :word_category_id

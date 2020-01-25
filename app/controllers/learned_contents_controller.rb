@@ -10,19 +10,12 @@ class LearnedContentsController < ApplicationController
 
   def index
     @q = current_user.learned_contents.ransack(params[:q])
-    @q.sorts = 'created_at desc' if @q.sorts.empty? && params[:favorite] != 'DESC'
+    @q.sorts = 'created_at desc' if @q.sorts.empty?
     @learned_contents = @q.result.includes(:word_category)
-    @word_category_id = params.dig(:q, :word_category_id_eq) # いいね数リンク用
     @word = params[:word]
-    @favorite = params[:favorite]
     if !@word.blank?
       word_definition = WordDefinition.find_by(word: @word)
       @learned_contents = @learned_contents.left_joins(:related_words).where('learned_contents.word_definition_id = ? OR related_words.word_definition_id = ?', word_definition.id, word_definition.id).distinct
-      if @favorite == 'DESC'
-        @learned_contents = @q.result.includes(:word_category).left_joins(:related_words).where('learned_contents.word_definition_id = ? OR related_words.word_definition_id = ?', word_definition.id, word_definition.id).joins(:favorites).group('favorites.learned_content_id').order('count(`favorites`.`id`) desc')
-      end
-    elsif @favorite == 'DESC'
-      @learned_contents = @learned_contents.joins(:favorites).group('favorites.learned_content_id').order('count(`favorites`.`id`) desc')
     end
     @learned_contents = @learned_contents.page(params[:page])
     respond_to do |format|

@@ -27,6 +27,11 @@ class LearnedContent < ApplicationRecord
     end
   end
 
+  ransacker :favorites_count do
+    query = '(SELECT COUNT(favorites.learned_content_id) FROM favorites where favorites.learned_content_id = learned_contents.id GROUP BY favorites.learned_content_id)'
+    Arel.sql(query)
+  end
+
   def create_related_images(related_image_array)
     related_image_array.each_with_index do |related_image, index|
       unless index.zero? # 配列1つ目は空

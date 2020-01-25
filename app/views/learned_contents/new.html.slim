@@ -20,11 +20,12 @@
           = f.label :main_word, 'Main word:'
           = f.select :main_word, [], {}, { class: 'main-word-select' }
           .hidden-forms
-        = f.rich_text_area :content
+        .learn-grid-container__trix-area
+          = f.rich_text_area :content
         = f.select :related_image, [], {}, { id: 'related_image', multiple: true ,class: 'hidden' }
         = f.select :related_word, [], {}, { id: 'related_word', multiple: true ,class: 'hidden' }
         .learn-grid-container__saved-images
-        .learn-grid-container__question.clearfix
+        .learn-grid-container__question.learn-grid-container__question--first.clearfix
           = f.fields_for :questions, @new_question do |qf|
             .learn-grid-container__question-type
               = qf.select :question_type, [['Free', 0], ['Image', 1], ['Simple', 2]], {}, { class: 'question-type-select'}
