@@ -39,7 +39,7 @@ a {
   color: #999;
   text-decoration: none;
 }
-label, input {
+label, input[type='checkbox'] {
   cursor: pointer;
 }
 select {

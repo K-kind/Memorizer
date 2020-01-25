@@ -1,0 +1,31 @@
+@import 'BEM/mixin';
+
+.question-modal {
+  &__heading {
+    margin-bottom: 8px;
+  }
+  &__ul {
+    max-height: 450px;
+    overflow-y: scroll;
+    padding-left: 17px;
+    padding-top: 5px;
+    background-color: #F9FBFE;
+    border-radius: 3px;
+  }
+  &__li {
+    list-style: disc;
+    margin-bottom: 8px;
+  }
+  &__links {
+    text-align: center;
+  }
+  &__question-link {
+    @include submit-btn;
+    padding: 5px 10px;
+  }
+  &__review-link {
+    @include submit-btn;
+    margin-left: 10px;
+    padding: 5px 8px;
+  }
+}

@@ -285,7 +285,7 @@ $(document).on('turbolinks:load', function () {
       let definition2 = $(`[data-word="${word}"][data-type="definition"]`).eq(1).text();
       let definition3 = $(`[data-word="${word}"][data-type="definition"]`).eq(2).text();
       let definition = definition1 + '\n' + definition2 + '\n' + definition3
-      $question.val(`${definition}`);
+      $question.val(`[Definition]\n${definition}`);
       $answer.val(`${word}`);
     }
   });

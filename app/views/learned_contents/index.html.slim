@@ -1,5 +1,13 @@
-.middle-container
+.my-questions-container
   h1 My Questions
+  .my-questions-container__search
+    = search_form_for @q, url: learns_path, remote: true, id: 'onclick-form' do |f|
+      div
+        = f.label :user_user_skill_id_eq
+        = f.collection_select :user_user_skill_id_eq, @user_skills, :id, :skill, {include_blank: 'All'}, {class: 'onclick-select'}
+      div
+        = f.label :word_category_id_eq
+        = f.collection_select :word_category_id_eq, @word_categories, :id, :category, {include_blank: 'All'}, {class: 'onclick-select'}
 
   table.question-table
     thead
@@ -9,6 +17,7 @@
         th 復習まで
         th カテゴリー
         th いいね
+        th 作成日
     tbody
       - @learned_contents.each do |learned_content|
         tr
@@ -29,6 +38,7 @@
               | -
             - else
               = learned_content.favorites.count
+          td= learned_content.created_at.strftime('%Y/%m/%d')
 
   = paginate @learned_contents
 

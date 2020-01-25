@@ -2,6 +2,7 @@
 
 .question-table {
   @include table;
+  margin-top: 10px;
   &__question {
     width: 350px;
     @include text-overflow;

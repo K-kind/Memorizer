@@ -16,6 +16,8 @@ class CommunitiesController < ApplicationController
     @q = LearnedContent.where(is_public: true, imported: false).ransack(params[:q])
     @q.sorts = 'created_at desc' if @q.sorts.empty? && params[:favorite] != 'DESC'
     @learned_contents = @q.result.includes(:word_category, user: :user_skill).page(params[:page])
+    @user_skill_id = params.dig(:q, :user_user_skill_id_eq)
+    @word_category_id = params.dig(:q, :word_category_id_eq)
     if params[:favorite] == 'DESC'
       @favorite = params[:favorite]
       @learned_contents = @q.result.includes(:word_category, user: :user_skill).joins(:favorites).group(:learned_content_id).order('count(`favorites`.`id`) desc').page(params[:page])
