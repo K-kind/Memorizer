@@ -351,6 +351,11 @@ $(document).on('turbolinks:load', function () {
     $('.my-page-container__cancel-btn').show();
     $('.my-page-container__submit-btn').show();
   })
+  
+  // サイクル設定フォーム
+  $(document).on('change', '.my-page-container__cycle-form', function () {
+    $('#add-cycle-btn').prop('disabled', true).addClass('disabled-btn');
+  });
 
   $('#flash-box').fadeIn();
   setTimeout("$('#flash-box').fadeOut('slow')", 1800);

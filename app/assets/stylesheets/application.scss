@@ -39,7 +39,7 @@ a {
   color: #999;
   text-decoration: none;
 }
-label {
+label, input {
   cursor: pointer;
 }
 select {
@@ -130,4 +130,11 @@ li {
 }
 .hidden {
   display: none;
+}
+.disabled-btn {
+  opacity: 0.5;
+  cursor: not-allowed;
+  &:hover {
+    cursor: not-allowed;
+  }
 }

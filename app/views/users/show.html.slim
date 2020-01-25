@@ -16,16 +16,14 @@
             |  週間単語学習数
           td
             = current_user.learned_contents.all_or_weekly('weekly').count
-            span.fas.fa-crown.my-page-container__ranking
-              | ( #{weekly_ranking} / #{@active_users.count} 位 )
+            |  (<span class='fas fa-crown my-page-container__ranking'> #{weekly_ranking} / #{@active_users.count} 位</span> )
         tr
           th
             strong.fa.fa-edit
             |  総単語学習数
           td
             = current_user.learned_contents.count
-            span.fas.fa-crown.my-page-container__ranking
-              | ( #{overall_ranking} / #{@active_users.count} 位 )
+            |  (<span class='fas fa-crown my-page-container__ranking'> #{overall_ranking} / #{@active_users.count} 位</span> )
         tr
           th
             strong.fa.fa-book-open
@@ -39,7 +37,11 @@
 
   h2.fas.fa-cog.my-page-container__heading-bottom 学習設定
   .my-page-container__settings
-    h3.my-page-container__template-heading 学習テンプレート
-    #template-edit
-      = render 'learn_templates/learn_template'
-
+    .my-page-container__settings-left
+      h3.my-page-container__template-heading 学習テンプレート
+      #template-edit
+        = render 'learn_templates/learn_template'
+    .my-page-container__settings-right
+      h3.my-page-container__template-heading 復習サイクル
+      #cycle-edit
+        = render 'cycles/cycle_edit'
