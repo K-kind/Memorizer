@@ -1,0 +1,67 @@
+@import 'application';
+
+.pagination {
+  margin: 3px 0;
+  // background-color: #FFF;
+  // box-shadow: 0 3px 3px -3px rgba(0, 0, 0, 0.3);
+  // box-shadow: 0 -3px -3px 3px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  padding: 8px 0;
+  span {
+    margin: 0 3px;
+  }
+  a {
+    color: #3e3e3e;
+    text-decoration: none;
+    &:visited {
+      color: #3e3e3e;
+    }
+    &:hover {
+      text-decoration: underline;
+      color: $theme-color;
+    }
+  }
+  .page.current {
+    background-color: lighten($theme-color, 10%);
+    color: #FFF;
+    // padding: 5px 6px 5px 10px;
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 28px;
+    margin: 0;
+  }
+  .page {
+    margin: 0;
+    a {
+      display: inline-block;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 28px;
+      &:hover {
+        background-color: lighten($theme-color, 20%);
+        text-decoration: none;
+        color: #FFF;
+      }
+    }
+  }
+}
+// .pagination>li>a {          
+//   border: none;     /*枠線をなくす*/
+//   color: #696969;   /*文字の色を変える*/
+// }
+
+// /* 表示しているページ番号のデザイン */
+// .pagination>.active>a {     
+//   background: #93c9ff;     /*背景の色を変える*/
+//   border-radius: 15px;     /*角を丸くする*/
+// }
+
+// /*ホバー時のデザイン*/
+// .pagination>li>a:hover {        
+//   border-radius: 15px;    /*角を丸くする*/
+// }

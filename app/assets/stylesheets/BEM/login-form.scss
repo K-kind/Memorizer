@@ -1,3 +1,5 @@
+@import 'application';
+
 .login-form {
   display: none;
   width: 350px;
@@ -28,7 +30,7 @@
     padding-left: 10px;
     &--submit {
       @extend %__field;
-      background-color: #13D4CB;
+      background-color: $theme-color;
       color: #FFF;
     }
   }
@@ -45,7 +47,7 @@
     @extend %__slim;
     &--submit {
       @extend %__slim;
-      background-color: #13D4CB;
+      background-color: $theme-color;
       color: #FFF;
     }
   }
@@ -97,6 +99,7 @@
     right: 14px;
     top: 10px;
     cursor: pointer;
+    font-size: 18px!important;
   }
   &__error {
     font-size: 13px;
