@@ -1,4 +1,32 @@
+@import 'application';
+
 .my-questions-container {
   width: 90%;
   margin: 20px auto;
+  &__search {
+    margin-top: 10px;
+  }
+  &__category-label {
+    margin-right: 10px;
+  }
+  &__search-label {
+    margin-right: 55px;
+  }
+  &__search-form {
+    padding: 1px 5px;
+    width: 160px;
+  }
+  &__search-submit {
+    padding: 1.8px 2.5px;
+    cursor: pointer;
+    &:hover {
+      opacity: 80%;
+    }
+    i {
+      color: $theme-color;
+    }
+  }
+  &__search-div {
+    margin-top: 5px;
+  }
 }

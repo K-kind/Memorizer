@@ -4,12 +4,31 @@ class LearnedContentsController < ApplicationController
   before_action :set_learned_content, only: [:show, :edit, :update, :destroy, :question, :answer, :question_show]
   before_action :ensure_correct_user, only: [:show, :edit, :update, :destroy]
   before_action :protect_private_contents, only: [:question, :answer, :question_show]
-  before_action :set_collection_select, only: [:new, :edit]
+  before_action :set_collection_select, only: [:new, :edit, :index]
   before_action :set_calendar_today, only: [:create, :answer, :import]
   before_action :no_always_dictionary, only: [:new, :show, :edit]
 
   def index
-    @learned_contents = current_user.learned_contents.latest.page(params[:page])
+    @q = current_user.learned_contents.ransack(params[:q])
+    @q.sorts = 'created_at desc' if @q.sorts.empty? && params[:favorite] != 'DESC'
+    @learned_contents = @q.result.includes(:word_category)
+    @word_category_id = params.dig(:q, :word_category_id_eq) # いいね数リンク用
+    @word = params[:word]
+    @favorite = params[:favorite]
+    if !@word.blank?
+      word_definition = WordDefinition.find_by(word: @word)
+      @learned_contents = @learned_contents.left_joins(:related_words).where('learned_contents.word_definition_id = ? OR related_words.word_definition_id = ?', word_definition.id, word_definition.id).distinct
+      if @favorite == 'DESC'
+        @learned_contents = @q.result.includes(:word_category).left_joins(:related_words).where('learned_contents.word_definition_id = ? OR related_words.word_definition_id = ?', word_definition.id, word_definition.id).joins(:favorites).group('favorites.learned_content_id').order('count(`favorites`.`id`) desc')
+      end
+    elsif @favorite == 'DESC'
+      @learned_contents = @learned_contents.joins(:favorites).group('favorites.learned_content_id').order('count(`favorites`.`id`) desc')
+    end
+    @learned_contents = @learned_contents.page(params[:page])
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def new
