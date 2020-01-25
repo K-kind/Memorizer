@@ -16,7 +16,13 @@
             .question-table__question
               = link_to learned_content.questions.first.question, question_show_learn_path(learned_content, type: 'question'), remote: true, class: ''
           td= link_to learned_content.review_histories.count, question_show_learn_path(learned_content, type: 'reviewd_times'), remote: true
-          td #{learned_content.till_next_review}日
+          td
+            - if learned_content.completed?
+              | 完了!
+            -elsif learned_content.till_next_review >= 0
+              | #{learned_content.till_next_review}日
+            - else
+              | 0日
           td= learned_content.word_category.category
           td
             - if learned_content.imported?

@@ -84,6 +84,8 @@
   }
   &__settings {
     @include white-box;
+    display: flex;
+    justify-content: space-between;
   }
   &__template-heading {
     margin-bottom: 10px;
@@ -93,5 +95,50 @@
     input {
       @include submit-btn;
     }
+  }
+  &__settings-left {
+    width: 525px;
+  }
+  &__settings-right {
+    width: 45%;
+  }
+  &__cycle-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    max-height: 220px;
+  }
+  &__cycle-field {
+    margin-bottom: 5px;
+    width: 40%;
+  }
+  &__cycle-form {
+    width: 45px;
+    text-align: center;
+    padding: 2px, 0;
+    margin-left: 2px;
+  }
+  &__add-cycle-btn {
+    margin-left: 24px;
+    @include submit-btn;
+    border: none;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding: 2px 8px;
+  }
+  &__destroy-cycle-btn {
+    margin-left: 6px;
+    @include destroy-btn;
+    border: none;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding: 2px 8px;
+  }
+  &__default-cycle {
+    text-align: right;
+  }
+  &__cycle-notion {
+    margin: 10px 0;
+    font-size: 14px;
   }
 }

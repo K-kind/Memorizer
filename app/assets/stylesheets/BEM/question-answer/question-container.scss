@@ -39,7 +39,9 @@
     top: 6px;
     left: 0;
   }
-  // &__finished {
-  //   margin: 10px 0;
-  // }
+  &__finish-btn {
+    @include submit-btn;
+    padding-left: 9px;
+    padding-right: 9px;
+  }
 }

@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   root    'homes#top'
+  get     'communities/words'
+  get     'communities/questions'
+  get     'communities/ranking'
   get     '/top',       to: 'homes#top' # カレンダーjson用
   get     '/homes/calendar', as: 'calendar'
   get     'homes/always_dictionary'
@@ -10,9 +13,6 @@ Rails.application.routes.draw do
   get     '/auth/:provider/callback',  to: 'sessions#auth_success'
   post    'sessions/sns_remember'
   get     'sessions/test_login'
-  get     'communities/words'
-  get     'communities/questions'
-  get     'communities/ranking'
   post    '/result',     to: 'searches#result'
   post    '/pixabay',    to: 'searches#pixabay'
 
@@ -34,6 +34,12 @@ Rails.application.routes.draw do
     member do
       get :user_skill
       post :set_user_skill
+    end
+  end
+  resources :cycles, only: [:new, :destroy] do
+    collection do
+      patch :set
+      post  :default
     end
   end
 

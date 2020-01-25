@@ -134,8 +134,8 @@ class LearnedContentsController < ApplicationController
     @learned_content = LearnedContent.find(params[:id])
     if params[:again] == '1'
       @learned_content.review_histories.last.update(again: true)
-      @learned_content.set_next_cycle
       @learned_content.update(completed: false) if @learned_content.completed?
+      @learned_content.set_next_cycle
       set_calendar_to_review(@learned_content.till_next_review)
       @message = 'この問題をもう一度同じサイクルで復習します。'
     else
