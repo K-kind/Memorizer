@@ -2,6 +2,7 @@
 
 .home-calendar {
   @include white-box;
+  margin-bottom: 20px;
   &__show {
     width: 350px;
     padding: 12px 20px 5px;

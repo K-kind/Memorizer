@@ -1,6 +1,8 @@
 @import 'BEM/mixin';
 
 .consulted-container {
+  width: 95%;
+  margin: 0 auto;
   &__heading {
     margin: 20px 0;
   }
@@ -15,8 +17,8 @@
   }
   &__table {
     @include table;
-    width: 90%;
-    margin: 0 auto;
+    width: 95%;
+    margin-right: auto;
     th, td {
       padding-top: 9px !important;
       padding-bottom: 9px !important;

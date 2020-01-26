@@ -13,6 +13,7 @@
         user_skill: スキル
         learned_content: 学習内容
         question: 問題
+        cycle: サイクル
       attributes:
         user:
           name: ユーザー名
@@ -22,12 +23,22 @@
           password_confirmation: パスワード（確認）
           user_skill_id: スキル
           user_skill: スキル
+        user/cycles:
+          cycle: サイクル
         user_skill:
           skill: スキル
         question:
           question: 問題
           answer: 答え
           my_answer: 答え
+        learned_content:
+          content: 学習内容
+          word_definition: メイン単語
+        learned_content/questions:
+          answer: 答え
+          question: 問題
+        learn_template:
+          content: テンプレート
     date:
       abbr_day_names:
       - 日

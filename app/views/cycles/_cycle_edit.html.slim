@@ -9,7 +9,7 @@
           = cf.hidden_field :times, value: cycle.times
         - if current_user.cycles.count >= 6 && index == current_user.cycles.count - 1
           = link_to '削除', cycle_path(cycle), remote: true, method: :delete, class: 'my-page-container__destroy-cycle-btn'
-        - unless cycle.valid? #追加した直後のもの
+        - if !cycle.valid? && cycle.times >= 5 #追加した直後のもの
           = link_to '削除', new_cycle_path(cancel: 1), remote: true, class: 'my-page-container__destroy-cycle-btn'
 
     .my-page-container__cycle-field

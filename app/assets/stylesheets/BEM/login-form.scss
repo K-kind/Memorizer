@@ -13,6 +13,9 @@
   transform: translate(-50%, -50%);
   z-index: 3;
   $grayColor: #7994A7;
+  .field_with_errors {
+    width: 100%;
+  }
   &__heading {
     font-size: 18px;
     margin-bottom: 25px;
