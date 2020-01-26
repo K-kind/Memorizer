@@ -1,35 +1,17 @@
-.middle-container
-  h1 My Questions
-
-  table.question-table
-    thead
-      tr
-        th 問題
-        th 復習回数
-        th 復習まで
-        th カテゴリー
-        th いいね
-    tbody
-      - @learned_contents.each do |learned_content|
-        tr
-          td.question-table__question-td
-            .question-table__question
-              = link_to learned_content.questions.first.question, question_show_learn_path(learned_content, type: 'question'), remote: true, class: ''
-          td= link_to learned_content.review_histories.count, question_show_learn_path(learned_content, type: 'reviewd_times'), remote: true
-          td
-            - if learned_content.completed?
-              | 完了!
-            -elsif learned_content.till_next_review >= 0
-              | #{learned_content.till_next_review}日
-            - else
-              | 0日
-          td= learned_content.word_category.category
-          td
-            - if learned_content.imported?
-              | -
-            - else
-              = learned_content.favorites.count
-
-  = paginate @learned_contents
+.my-questions-container
+  h1 問題一覧
+  .my-questions-container__search
+    = search_form_for @q, url: learns_path, remote: true, id: 'onclick-form' do |f|
+      div
+        = f.label :word_category_id_eq, 'カテゴリーで探す:', class: 'my-questions-container__category-label'
+        = f.collection_select :word_category_id_eq, @word_categories, :id, :category, {include_blank: 'All'}, {class: 'onclick-select'}
+      .my-questions-container__search-div
+        = form_with url: learns_path do |sf|
+          = sf.label :word, '単語で探す:', class: 'my-questions-container__search-label'
+          = sf.text_field :word, class: 'my-questions-container__search-form'
+          = button_tag type: 'submit', class: 'my-questions-container__search-submit' do
+            i.fas.fa-search
+  #question-table-area
+    = render 'question-table'
 
   #calendar-modal

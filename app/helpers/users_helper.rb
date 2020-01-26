@@ -26,4 +26,12 @@ module UsersHelper
       current_user.provider
     end
   end
+
+  def test_user_class
+    'disabled-btn' if current_user.is_test_user?
+  end
+
+  def guest_class
+    'disabled-btn' if current_user.nil?
+  end
 end

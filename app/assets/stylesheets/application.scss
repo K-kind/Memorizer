@@ -39,11 +39,12 @@ a {
   color: #999;
   text-decoration: none;
 }
-label, input {
+label, input[type='checkbox'] {
   cursor: pointer;
 }
 select {
   outline: none;
+  cursor: pointer;
 }
 body {
   font-family: 'Times New Roman', 'Noto Sans JP', sans-serif;
@@ -133,8 +134,11 @@ li {
 }
 .disabled-btn {
   opacity: 0.5;
-  cursor: not-allowed;
+  cursor: not-allowed!important;
   &:hover {
-    cursor: not-allowed;
+    cursor: not-allowed!important;
   }
+}
+.transparent-logo {
+  opacity: 0.5;
 }

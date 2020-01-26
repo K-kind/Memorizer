@@ -8,11 +8,10 @@
 
 UserSkill.find_or_create_by!(skill: '高校受験')
 UserSkill.find_or_create_by!(skill: '大学受験')
-UserSkill.find_or_create_by!(skill: '難関大学')
-UserSkill.find_or_create_by!(skill: 'TOEIC600点台')
-UserSkill.find_or_create_by!(skill: 'TOEIC700点台')
-UserSkill.find_or_create_by!(skill: 'TOEIC800点台')
-UserSkill.find_or_create_by!(skill: 'TOEIC900点台')
+UserSkill.find_or_create_by!(skill: 'TOEIC600点相当')
+UserSkill.find_or_create_by!(skill: 'TOEIC700点相当')
+UserSkill.find_or_create_by!(skill: 'TOEIC800点相当')
+UserSkill.find_or_create_by!(skill: 'TOEIC900点相当')
 
 WordCategory.find_or_create_by!(category: 'General')
 WordCategory.find_or_create_by!(category: 'Science')

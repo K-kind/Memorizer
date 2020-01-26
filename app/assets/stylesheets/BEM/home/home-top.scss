@@ -1,11 +1,36 @@
 @import '../mixin';
+
+%__start {
+  @include submit-btn;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+  position: absolute;
+  top: 15px;
+  left: 192px;
+}
 .home-top {
   @include white-box;
   margin-bottom: 20px;
+  position: relative;
   &__span {
     padding-right: 8px;
   }
   &__count {
     padding-left: 3px;
+  }
+  &__start {
+    @extend %__start;
+    &--top {
+      @extend %__start;
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+    &--bottom {
+      @extend %__start;
+    }
+  }
+  &__icon {
+    margin-right: 3px;
+    font-size: 18px;
   }
 }

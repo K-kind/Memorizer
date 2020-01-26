@@ -1,4 +1,4 @@
 = form_with model: @learn_template do |f|
   = f.rich_text_area :content
   .my-page-container__template-submit
-    = f.submit
+    = f.submit class: "#{test_user_class}"

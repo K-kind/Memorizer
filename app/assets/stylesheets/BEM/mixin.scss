@@ -55,6 +55,7 @@
   width: 100%;
   border-collapse:separate;
   border-spacing: 0;
+  background-color: #FFF;
   
   th:first-child{
     border-radius: 5px 0 0 0;
@@ -142,5 +143,27 @@
     text-align: center;
     background-color: #eee;
     padding: 10px 0;
+  }
+}
+
+@mixin header-btn {
+  border-radius: 12px;
+  padding: 10px;
+  &:hover {
+    box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.15) inset;
+  }
+}
+
+@mixin header-drop {
+  display: none;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  background-color: #FFF;
+  padding: 10px;
+  position: absolute;
+  width: 115px;
+  top: 44px;
+  &__list {
+    font-size: 14px;
+    line-height: 30px;
   }
 }

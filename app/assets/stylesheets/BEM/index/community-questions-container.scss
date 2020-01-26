@@ -17,8 +17,19 @@
     padding: 0 10px;
     text-align: left;
   }
-}
-#com-question-favo {
-  text-decoration: underline;
-  width: 15%;
+  &__top {
+    margin-bottom: 10px;
+  }
+  &__category {
+    margin-top: 5px;
+  }
+  &__skill-label {
+    margin-right: 36px;
+  }
+  &__category-label {
+    margin-right: 5px;
+  }
+  .onclick-select {
+    width: 130px;
+  }
 }

@@ -1,12 +1,21 @@
-= fa_icon 'times', class: 'login-form__closer'
-- if params[:type] == 'question'
-  h3 問題全文
-  ul
-    - learned_content.questions.each do |question|
-      li= question.question
+.question-modal#question-modal
+  = fa_icon 'times', class: 'login-form__closer'
+  - if params[:type] == 'question'
+    h3.question-modal__heading Question
+    ul.question-modal__ul
+      - learned_content.questions.each do |question|
+        li.question-modal__li
+          = simple_format question.question
 
-  = link_to '問題を解く', question_learn_path(learned_content)
-- else
-  - learned_content.review_histories.each_with_index do |review_history, index|
-    p 復習#{index + 1}回目
-    div #{review_history.similarity_ratio}%
+    .question-modal__links
+      = link_to 'Question', question_learn_path(learned_content), class: 'question-modal__question-link'
+      - if learned_content.user == current_user
+        = link_to ' Review', learn_path(learned_content), class: 'fas fa-book-open question-modal__review-link'
+
+  - else
+    h3.question-modal__heading 正解率
+    ul.question-modal__ul
+      - learned_content.review_histories.each_with_index do |review_history, index|
+        li.question-modal__li
+          span 復習#{index + 1}回目: 
+          span #{review_history.similarity_ratio}%

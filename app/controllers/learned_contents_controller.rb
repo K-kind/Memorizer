@@ -4,12 +4,24 @@ class LearnedContentsController < ApplicationController
   before_action :set_learned_content, only: [:show, :edit, :update, :destroy, :question, :answer, :question_show]
   before_action :ensure_correct_user, only: [:show, :edit, :update, :destroy]
   before_action :protect_private_contents, only: [:question, :answer, :question_show]
-  before_action :set_collection_select, only: [:new, :edit]
+  before_action :set_collection_select, only: [:new, :edit, :index]
   before_action :set_calendar_today, only: [:create, :answer, :import]
   before_action :no_always_dictionary, only: [:new, :show, :edit]
 
   def index
-    @learned_contents = current_user.learned_contents.latest.page(params[:page])
+    @q = current_user.learned_contents.ransack(params[:q])
+    @q.sorts = 'created_at desc' if @q.sorts.empty?
+    @learned_contents = @q.result.includes(:word_category)
+    @word = params[:word]
+    unless @word.blank?
+      word_definition = WordDefinition.find_by(word: @word)
+      @learned_contents = @learned_contents.left_joins(:related_words).where('learned_contents.word_definition_id = ? OR related_words.word_definition_id = ?', word_definition.id, word_definition.id).distinct
+    end
+    @learned_contents = @learned_contents.page(params[:page])
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def new
@@ -35,7 +47,7 @@ class LearnedContentsController < ApplicationController
         flash[:notice] = '学習が記録されました。'
         format.html { redirect_to learn_url(@learned_content) }
       else
-        @learned_content.errors[:base] << '1つ以上の問題を入力してください。' unless valid_question
+        @learned_content.errors[:base] << '1つ以上の問題を入力してください' unless valid_question
         format.js { render 'error' }
       end
     end
@@ -112,7 +124,7 @@ class LearnedContentsController < ApplicationController
         flash[:notice] = '学習内容が更新されました。'
         format.html { redirect_to learn_url(@learned_content) }
       else
-        @learned_content.errors[:base] << '1つ以上の問題を入力してください。' unless valid_question
+        @learned_content.errors[:base] << '1つ以上の問題を入力してください' unless valid_question
         format.js { render 'error' }
       end
     end

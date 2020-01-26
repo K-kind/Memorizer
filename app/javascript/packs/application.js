@@ -25,12 +25,36 @@ import 'fullcalendar';
 $(document).on('turbolinks:load', function () {
   $('.header-right__toggler--community').on('click', function () {
     $('.community-menu').fadeToggle('fast');
+    $('.user-menu').fadeOut('fast');
+    setTimeout(function () {
+      $('.community-menu').fadeOut('fast');
+    }, 3000);
     return false;
   });
-
+  $('.header-right__toggler--community').hover(function () {
+    $('.community-menu').fadeIn('fast');
+    $('.user-menu').fadeOut('fast');
+  }, function() {
+      setTimeout(function () {
+        $('.community-menu').fadeOut('fast');
+      }, 3000);
+  });
+  
   $('.header-right__toggler--user').on('click', function () {
     $('.user-menu').fadeToggle('fast');
+    $('.community-menu').fadeOut('fast');
+    setTimeout(function () {
+      $('.user-menu').fadeOut('fast');
+    }, 3000);
     return false;
+  });
+  $('.header-right__toggler--user').hover(function () {
+    $('.user-menu').fadeIn('fast');
+    $('.community-menu').fadeOut('fast');
+  }, function() {
+    setTimeout(function () {
+      $('.user-menu').fadeOut('fast');
+    }, 3000);
   });
   
   $('#login-link').on('click', function () {
@@ -48,7 +72,7 @@ $(document).on('turbolinks:load', function () {
   });
 
   $(document).on('click', '.login-form__closer', function () {
-    $('.login-form, #calendar-modal, #always-modal').fadeOut('fast');
+    $('.login-form, .home-calendar__show, #always-modal, #question-modal').fadeOut('fast');
     setTimeout(() => {
       $('#overlay').remove();
     }, 100);
@@ -72,7 +96,7 @@ $(document).on('turbolinks:load', function () {
   });
 
   $(document).on('click', '#overlay', function () {
-    $('.login-form, #calendar-modal, #always-modal').fadeOut('fast');
+    $('.login-form, .home-calendar__show, #always-modal, #question-modal').fadeOut('fast');
     $('#later-list-modal').html('');
     setTimeout(() => {
       $(this).remove();
@@ -285,7 +309,7 @@ $(document).on('turbolinks:load', function () {
       let definition2 = $(`[data-word="${word}"][data-type="definition"]`).eq(1).text();
       let definition3 = $(`[data-word="${word}"][data-type="definition"]`).eq(2).text();
       let definition = definition1 + '\n' + definition2 + '\n' + definition3
-      $question.val(`${definition}`);
+      $question.val(`[Definition]\n${definition}`);
       $answer.val(`${word}`);
     }
   });
@@ -342,6 +366,10 @@ $(document).on('turbolinks:load', function () {
     Rails.fire($('#onclick-form')[0], 'submit');
   });
 
+  $(document).on('change', '.favo-onclick-select', function () {
+    Rails.fire($('#favo-onclick-form')[0], 'submit');
+  });
+
   // ユーザー編集
   $(document).on('click', '.my-page-container__edit-btn', function () {
     $('.my-page-container__original').hide();
@@ -356,13 +384,23 @@ $(document).on('turbolinks:load', function () {
   $(document).on('change', '.my-page-container__cycle-form', function () {
     $('#add-cycle-btn').prop('disabled', true).addClass('disabled-btn');
   });
-
+  
   $('#flash-box').fadeIn();
-  setTimeout("$('#flash-box').fadeOut('slow')", 1800);
+  setTimeout("$('#flash-box').fadeOut('slow')", 2400);
+  
+  $(document).on('click', '#flash-box', function () {
+    $(this).remove();
+  });
+
   $('#hidden-user-skill-link').fadeIn();
 
   // 1つ目の問題にフォーカス
   $('#learned_content_questions_attributes_0_my_answer').focus();
+
+  $('.disabled-btn').prop('disabled', true);
+  $('.disabled-btn').click(function () {
+    return false;
+  })
 });
 
 // カレンダーイベントクリックで、modal表示用リンクを生成してクリックする

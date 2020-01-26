@@ -4,8 +4,7 @@ table.community-questions-container__table
       th 問題
       th カテゴリー
       th 作成者のスキル
-      th#com-question-favo
-        = link_to 'いいね数', communities_questions_path(favorite: 'DESC'), remote: true
+      th= sort_link @q, :favorites_count, 'いいね数', { default_order: :desc }, { remote: true }
       th= sort_link @q, :created_at, '作成日', {}, { remote: true }
   tbody
     - @learned_contents.each do |learned_content|

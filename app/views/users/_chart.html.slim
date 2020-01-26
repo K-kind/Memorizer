@@ -1,7 +1,8 @@
 = line_chart [{ name: '新規学習数', data: @new_learn_chart },{ name: '復習数', data: @reviewed_chart }]
 
-- if @prev != 0
-  = link_to '前の月', user_path(prev: @prev + 1), remote: true
-  = link_to '次の月', user_path(prev: @prev - 1), remote: true
-- else
-  = link_to '前の月', user_path(prev: 1), remote: true
+.my-page-container__chart-links
+  - if @prev != 0
+    = link_to 'Prev', user_path(prev: @prev + 1), remote: true, class: 'my-page-container__chart-link--prev'
+    = link_to 'Next', user_path(prev: @prev - 1), remote: true, class: 'my-page-container__chart-link--next'
+  - else
+    = link_to 'Prev', user_path(prev: 1), remote: true, class: 'my-page-container__chart-link--prev'
