@@ -1,6 +1,6 @@
 - if @message
   | $('#flash-box').html('<div class="flash__danger">#{@message}</div>');
   | $('#flash-box').fadeIn();
-  | setTimeout("$('#flash-box').fadeOut('slow')", 1800);
+  | setTimeout("$('#flash-box').fadeOut('slow')", 2400);
 - else
   | $('#password-reset-form').html('#{escape_javascript(render 'reset_form')}');

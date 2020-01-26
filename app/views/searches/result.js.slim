@@ -383,4 +383,6 @@
 
   / コミュニティ：単語を探すページのリンクを生成
   - if @sub_type == 'default_word' || 'always'
-    | $('#default-word-link').html('#{escape_javascript(render 'shared/default_word_link')}')
+    | $('#default-word-link').html('#{escape_javascript(render 'shared/default_word_link')}');
+
+  | $('.merriam-logo').addClass('transparent-logo');

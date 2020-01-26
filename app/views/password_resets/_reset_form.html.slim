@@ -3,10 +3,11 @@
 
   = hidden_field_tag :email, @user.email
 
-  = f.label :password
-  = f.password_field :password
+  .password-reset__edit-form
+    = f.password_field :password, placeholder: '新しいパスワード', autofocus: true
 
-  = f.label :password_confirmation
-  = f.password_field :password_confirmation
+  .password-reset__edit-form
+    = f.password_field :password_confirmation, placeholder: '新しいパスワード（確認）'
 
-  = f.submit
+  .password-reset__edit-submit
+    = f.submit '変更する'

@@ -72,7 +72,7 @@ $(document).on('turbolinks:load', function () {
   });
 
   $(document).on('click', '.login-form__closer', function () {
-    $('.login-form, .home-calendar__show, #always-modal').fadeOut('fast');
+    $('.login-form, .home-calendar__show, #always-modal, #question-modal').fadeOut('fast');
     setTimeout(() => {
       $('#overlay').remove();
     }, 100);
@@ -96,7 +96,7 @@ $(document).on('turbolinks:load', function () {
   });
 
   $(document).on('click', '#overlay', function () {
-    $('.login-form, .home-calendar__show, #always-modal').fadeOut('fast');
+    $('.login-form, .home-calendar__show, #always-modal, #question-modal').fadeOut('fast');
     $('#later-list-modal').html('');
     setTimeout(() => {
       $(this).remove();
@@ -384,9 +384,14 @@ $(document).on('turbolinks:load', function () {
   $(document).on('change', '.my-page-container__cycle-form', function () {
     $('#add-cycle-btn').prop('disabled', true).addClass('disabled-btn');
   });
-
+  
   $('#flash-box').fadeIn();
-  setTimeout("$('#flash-box').fadeOut('slow')", 1800);
+  setTimeout("$('#flash-box').fadeOut('slow')", 2400);
+  
+  $(document).on('click', '#flash-box', function () {
+    $(this).remove();
+  });
+
   $('#hidden-user-skill-link').fadeIn();
 
   // 1つ目の問題にフォーカス
