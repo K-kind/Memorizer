@@ -1,0 +1,54 @@
+@import 'BEM/mixin';
+
+.contact {
+  width: 70%;
+  margin: 20px auto;
+  &__heading {
+    margin-bottom: 15px;
+  }
+  &__box {
+  }
+  &__list {
+    @include white-box;
+    padding: 10px 20px;
+    margin-bottom: 15px;
+  }
+  &__list-heading {
+    font-size: 16px;
+  }
+  &__format {
+    border: 1px solid #999;
+    border-radius: 3px;
+    padding: 10px;
+    margin: 10px 0;
+  }
+  &__time {
+    text-align: right;
+  }
+  &__destroy-btn {
+    @include destroy-btn;
+    border: none;
+    margin-left: 10px;
+    padding: 3px 8px;
+  }
+  &__form-box {
+    @include white-box;
+    margin-top: 25px;
+  }
+  &__form-heading {
+    margin-bottom: 10px;
+  }
+  &__textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 3px;
+    border-color: #777;
+  }
+  &__submit {
+    text-align: center;
+    margin-top: 10px;
+  }
+  &__submit-btn {
+    @include submit-btn;
+  }
+}

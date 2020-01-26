@@ -2,7 +2,7 @@ class ContactsController < ApplicationController
   before_action :logged_in_user
 
   def index
-    @contacts = current_user.contacts.page(params[:page])
+    @contacts = current_user.contacts.page(params[:page]).per(6)
     @new_contact = Contact.new
     current_user.notifications.user_notify.update(checked: true)
   end
@@ -24,7 +24,7 @@ class ContactsController < ApplicationController
   def destroy
     contact = Contact.find(params[:id])
     contact.destroy
-    @contacts = current_user.contacts.page(params[:page])
+    @contacts = current_user.contacts.page(params[:page]).per(6)
   end
 
   private
