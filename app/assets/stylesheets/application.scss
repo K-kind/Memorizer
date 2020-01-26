@@ -142,3 +142,15 @@ li {
 .transparent-logo {
   opacity: 0.5;
 }
+#loading, #searching {
+  display: none;
+  position: fixed;
+  top: 70px;
+  left: 50%;
+  z-index: 5;
+  transform: translate(-50%, -50%);
+  padding: 12px 25px;
+  border-radius: 5px;
+  background-color: rgb(163, 238, 144);
+  cursor: pointer;
+}

@@ -4,25 +4,18 @@
   @include white-box;
   margin-bottom: 20px;
   &__show {
-    width: 350px;
+    @include white-box;
     padding: 12px 20px 5px;
-    border-radius: 3px;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
-    background-color: #FFF;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 3;
-  }
-  &__show-container {
-    max-height: 450px;
+    max-height: 406px;
     overflow-y: scroll;
+    margin-top: 25px;
+    position: relative;
   }
   &__show-box {
     margin-bottom: 8px;
     h3 {
       margin-bottom: 5px;
+      font-size: 16px;
     }
     ul {
       padding-left: 2px;
@@ -31,5 +24,9 @@
       @include text-overflow;
       line-height: 1.4;
     }
+  }
+  &__show-heading {
+    font-size: 19px;
+    margin-bottom: 5px;
   }
 }

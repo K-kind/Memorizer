@@ -7,6 +7,10 @@
   }
   &__search {
     margin-bottom: 10px;
+    select {
+      width: 135px;
+      height: 28px;
+    }
   }
   &__left {
     display: inline-block;
@@ -16,6 +20,7 @@
   &__right {
     display: inline-block;
     width: 55%;
+    margin-top: 6px;
   }
   &__webster {
     width: 95%;

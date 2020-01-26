@@ -5,6 +5,10 @@
   margin: 20px auto;
   &__search {
     margin-top: 10px;
+    select {
+      width: 135px;
+      height: 28px;
+    }
   }
   &__category-label {
     margin-right: 10px;

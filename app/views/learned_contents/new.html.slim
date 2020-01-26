@@ -60,7 +60,7 @@
             = f.label :is_public, 'Private', value: false
         #learn-error
         .learn-grid-container__submit
-          = f.submit 'Save', class: "#{guest_class}"
+          = f.submit 'Save', class: "#{guest_class}", id: 'loading-needed'
 .learn-grid-container__pixabay
   .pixabay-btn
   = link_to 'https://pixabay.com/', target: '_blank', rel: 'noopener' do
@@ -72,3 +72,6 @@
 
 - if @template
   = link_to '', learn_template_path(@template), remote: true, id: 'hidden_template_link'
+
+p#loading 学習内容を保存中です...
+p#searching 問い合わせ中です...

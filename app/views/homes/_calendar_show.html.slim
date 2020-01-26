@@ -1,28 +1,37 @@
 .home-calendar__show
-  .home-calendar__show-container
-    = fa_icon 'times', class: 'login-form__closer'
-    - to_review_list = current_user.learned_contents.to_review_this_day(calendar.calendar_date)
-    - if calendar.calendar_date == Time.zone.today
-      .home-calendar__show-box
-        h3 復習すべき問題
-        ul
-          - current_user.learned_contents.to_review_today.each do |to_review|
-            li ・#{to_review.questions.first.question}
-    - elsif to_review_list.any?
-      .home-calendar__show-box
-        h3 復習すべき問題
-        ul
-          - to_review_list.each do |to_review|
-            li ・#{to_review.questions.first.question}
-    - if calendar.learned_contents.any?
-      .home-calendar__show-box
-        h3 新規学習した問題
-        ul
-          - calendar.learned_contents.each do |learned_content|
-            li ・#{learned_content.questions.first.question}
-    - if calendar.review_histories.any?
-      .home-calendar__show-box
-        h3 復習した問題
-        ul
-          - calendar.review_histories.each do |review_historie|
-            li ・#{review_historie.learned_content.questions.first.question}
+  h2.home-calendar__show-heading
+    | <#{calendar.calendar_date.strftime('%Y/%m/%d')}の学習>
+  - to_review_list = current_user.learned_contents.to_review_this_day(calendar.calendar_date)
+  - if calendar.calendar_date == Time.zone.today
+    .home-calendar__show-box
+      h3 復習すべき問題
+      ul
+        - current_user.learned_contents.to_review_today.each do |to_review|
+          li 
+            | ・
+            = link_to to_review.questions.first.question, question_show_learn_path(to_review, type: 'question'), remote: true
+  - elsif to_review_list.any?
+    .home-calendar__show-box
+      h3 復習すべき問題
+      ul
+        - to_review_list.each do |to_review|
+          li
+            | ・
+            = link_to to_review.questions.first.question, question_show_learn_path(to_review, type: 'question'), remote: true
+  - if calendar.learned_contents.any?
+    .home-calendar__show-box
+      h3 新規学習した問題
+      ul
+        - calendar.learned_contents.each do |learned_content|
+          li
+            | ・
+            = link_to learned_content.questions.first.question, question_show_learn_path(learned_content, type: 'question'), remote: true
+  - if calendar.review_histories.any?
+    .home-calendar__show-box
+      h3 復習した問題
+      ul
+        - calendar.review_histories.each do |review_history|
+          li
+            | ・
+            = link_to review_history.learned_content.questions.first.question, question_show_learn_path(review_history.learned_content, type: 'question'), remote: true
+          
