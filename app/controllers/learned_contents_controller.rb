@@ -13,7 +13,7 @@ class LearnedContentsController < ApplicationController
     @q.sorts = 'created_at desc' if @q.sorts.empty?
     @learned_contents = @q.result.includes(:word_category)
     @word = params[:word]
-    if !@word.blank?
+    unless @word.blank?
       word_definition = WordDefinition.find_by(word: @word)
       @learned_contents = @learned_contents.left_joins(:related_words).where('learned_contents.word_definition_id = ? OR related_words.word_definition_id = ?', word_definition.id, word_definition.id).distinct
     end

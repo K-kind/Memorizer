@@ -27,29 +27,33 @@ class CommunitiesController < ApplicationController
     per = 10
     @ranking = params[:page] ? (params[:page].to_i - 1) * per : 0
     if params[:learn_period] == '総合'
-      @learn_users = User.regular.joins(:learned_contents)
-                                 .group(:user_id)
-                                 .order('count(`learned_contents`.`id`) desc')
-                                 .page(params[:page]).per(per)
+      @learn_users = User.regular
+                         .joins(:learned_contents)
+                         .group(:user_id)
+                         .order('count(`learned_contents`.`id`) desc')
+                         .page(params[:page]).per(per)
     else
-      @learn_users = User.regular.joins(:learned_contents)
-                                 .where('learned_contents.created_at >= ?', Time.current.beginning_of_week)
-                                 .group(:user_id)
-                                 .order('count(`learned_contents`.`id`) desc')
-                                 .page(params[:page]).per(per)
+      @learn_users = User.regular
+                         .joins(:learned_contents)
+                         .where('learned_contents.created_at >= ?', Time.current.beginning_of_week)
+                         .group(:user_id)
+                         .order('count(`learned_contents`.`id`) desc')
+                         .page(params[:page]).per(per)
       @learn_period = true
     end
     if params[:favorite_period] == '総合'
-      @favorite_users = User.regular.joins({:learned_contents => :favorites})
-                                    .group('users.id')
-                                    .order('count(`favorites`.`id`) desc')
-                                    .page(params[:page]).per(per)
+      @favorite_users = User.regular
+                            .joins(learned_contents: :favorites)
+                            .group('users.id')
+                            .order('count(`favorites`.`id`) desc')
+                            .page(params[:page]).per(per)
     else
-      @favorite_users = User.regular.joins({:learned_contents => :favorites})
-                                    .where('favorites.created_at >= ?', Time.current.beginning_of_week)
-                                    .group('users.id')
-                                    .order('count(`favorites`.`id`) desc')
-                                    .page(params[:page]).per(per)
+      @favorite_users = User.regular
+                            .joins(learned_contents: :favorites)
+                            .where('favorites.created_at >= ?', Time.current.beginning_of_week)
+                            .group('users.id')
+                            .order('count(`favorites`.`id`) desc')
+                            .page(params[:page]).per(per)
       @favorite_period = true
     end
     respond_to do |format|
