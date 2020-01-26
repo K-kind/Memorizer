@@ -25,12 +25,36 @@ import 'fullcalendar';
 $(document).on('turbolinks:load', function () {
   $('.header-right__toggler--community').on('click', function () {
     $('.community-menu').fadeToggle('fast');
+    $('.user-menu').fadeOut('fast');
+    setTimeout(function () {
+      $('.community-menu').fadeOut('fast');
+    }, 3000);
     return false;
   });
-
+  $('.header-right__toggler--community').hover(function () {
+    $('.community-menu').fadeIn('fast');
+    $('.user-menu').fadeOut('fast');
+  }, function() {
+      setTimeout(function () {
+        $('.community-menu').fadeOut('fast');
+      }, 3000);
+  });
+  
   $('.header-right__toggler--user').on('click', function () {
     $('.user-menu').fadeToggle('fast');
+    $('.community-menu').fadeOut('fast');
+    setTimeout(function () {
+      $('.user-menu').fadeOut('fast');
+    }, 3000);
     return false;
+  });
+  $('.header-right__toggler--user').hover(function () {
+    $('.user-menu').fadeIn('fast');
+    $('.community-menu').fadeOut('fast');
+  }, function() {
+    setTimeout(function () {
+      $('.user-menu').fadeOut('fast');
+    }, 3000);
   });
   
   $('#login-link').on('click', function () {

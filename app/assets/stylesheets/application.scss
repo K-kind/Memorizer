@@ -44,6 +44,7 @@ label, input[type='checkbox'] {
 }
 select {
   outline: none;
+  cursor: pointer;
 }
 body {
   font-family: 'Times New Roman', 'Noto Sans JP', sans-serif;
@@ -62,6 +63,7 @@ li {
 }
 .field_with_errors {
   display: inline-block;
+  width: 100%;
   input {
     border-color: #e75252;
   }
