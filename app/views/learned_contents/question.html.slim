@@ -26,3 +26,6 @@
   - if @today == '1'
     .question-container__exit
       = link_to 'Finish', root_path, class: 'question-container__finish-btn'
+  - elsif session[:question_back]
+    .question-container__exit
+      = link_to 'Back', session[:question_back], class: 'question-container__finish-btn'

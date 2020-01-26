@@ -8,7 +8,7 @@
           = simple_format question.question
 
     .question-modal__links
-      = link_to 'Question', question_learn_path(learned_content), class: 'question-modal__question-link'
+      = link_to 'Question', question_learn_path(learned_content, community: params[:community]), class: 'question-modal__question-link'
       - if learned_content.user == current_user
         = link_to ' Review', learn_path(learned_content), class: 'fas fa-book-open question-modal__review-link'
 

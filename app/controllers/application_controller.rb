@@ -20,4 +20,8 @@ class ApplicationController < ActionController::Base
   def no_always_dictionary
     @no_always_dictionary = true
   end
+
+  def reset_question_back
+    session[:question_back] = nil
+  end
 end

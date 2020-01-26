@@ -401,6 +401,11 @@ $(document).on('turbolinks:load', function () {
   $('.disabled-btn').click(function () {
     return false;
   })
+
+  $('#excellent').fadeIn();
+  setTimeout(function () {
+    $('#excellent').fadeOut();
+  }, 1700);
 });
 
 // カレンダーイベントクリックで、modal表示用リンクを生成してクリックする
