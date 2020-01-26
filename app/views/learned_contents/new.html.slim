@@ -59,7 +59,7 @@
             = f.radio_button :is_public, false
             = f.label :is_public, 'Private', value: false
         .learn-grid-container__submit
-          = f.submit 'Save'
+          = f.submit 'Save', class: "#{guest_class}"
 .learn-grid-container__pixabay
   .pixabay-btn
   = link_to 'https://pixabay.com/', target: '_blank', rel: 'noopener' do

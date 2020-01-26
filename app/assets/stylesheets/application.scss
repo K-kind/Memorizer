@@ -133,8 +133,8 @@ li {
 }
 .disabled-btn {
   opacity: 0.5;
-  cursor: not-allowed;
+  cursor: not-allowed!important;
   &:hover {
-    cursor: not-allowed;
+    cursor: not-allowed!important;
   }
 }

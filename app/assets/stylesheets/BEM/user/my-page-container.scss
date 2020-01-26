@@ -1,5 +1,10 @@
 @import 'BEM/mixin';
 
+%__chart-link {
+  @include submit-btn;
+  border: none;
+  padding: 5px 10px;
+}
 .my-page-container {
   width: 95%;
   margin: 0 auto 25px;
@@ -141,5 +146,21 @@
   &__cycle-notion {
     margin: 10px 0;
     font-size: 14px;
+  }
+  &__chart-links {
+    margin-top: 4px;
+    padding-left: 8px;
+    text-align: left;
+  }
+  &__chart-link {
+    &--prev {
+      @extend %__chart-link;
+      
+    }
+    &--next {
+      @extend %__chart-link;
+
+      margin-left: 20px;
+    }
   }
 }

@@ -18,4 +18,8 @@ module LearnedContentsHelper
       "#{till_next_review} days"
     end
   end
+
+  def test_content_class(learned_content)
+    'disabled-btn' if learned_content.is_test
+  end
 end

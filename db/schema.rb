@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_26_005739) do
+ActiveRecord::Schema.define(version: 2020_01_26_030923) do
 
   create_table "action_text_rich_texts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name", null: false
@@ -124,6 +124,7 @@ ActiveRecord::Schema.define(version: 2020_01_26_005739) do
     t.boolean "completed", default: false
     t.bigint "calendar_id", null: false
     t.integer "imported_from"
+    t.boolean "is_test", default: false
     t.index ["calendar_id"], name: "index_learned_contents_on_calendar_id"
     t.index ["created_at", "imported_from", "is_public"], name: "index_learned_contents_imported_latest"
     t.index ["user_id", "imported_from"], name: "index_learned_contents_on_user_id_and_imported_from"

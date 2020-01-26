@@ -367,6 +367,11 @@ $(document).on('turbolinks:load', function () {
 
   // 1つ目の問題にフォーカス
   $('#learned_content_questions_attributes_0_my_answer').focus();
+
+  $('.disabled-btn').prop('disabled', true);
+  $('.disabled-btn').click(function () {
+    return false;
+  })
 });
 
 // カレンダーイベントクリックで、modal表示用リンクを生成してクリックする

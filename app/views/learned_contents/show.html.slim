@@ -43,8 +43,8 @@
     - if @original_content
       #favorite-partial
         = render 'favorite_link'
-    = link_to 'Edit', edit_learn_path(@learned_content), class: 'learn-show-bottom__edit-btn'
-    = link_to 'Destroy', learn_path(@learned_content), class: 'learn-show-bottom__destroy-btn', method: :delete, data: { confirm: '学習内容を削除してよろしいですか？' }
+    = link_to 'Edit', edit_learn_path(@learned_content), class: "learn-show-bottom__edit-btn #{test_content_class(@learned_content)}"
+    = link_to 'Destroy', learn_path(@learned_content), class: "learn-show-bottom__destroy-btn  #{test_content_class(@learned_content)}", method: :delete, data: { confirm: '学習内容を削除してよろしいですか？' }
   - if @today == '1'
     .learn-show-bottom__today
       = form_with url: again_learn_path(@learned_content), id: 'onclick-form', class: 'again-form' do |f|
