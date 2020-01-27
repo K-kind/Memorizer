@@ -7,6 +7,7 @@ class LearnedContentsController < ApplicationController
   before_action :set_collection_select, only: [:new, :edit, :index]
   before_action :set_calendar_today, only: [:create, :answer, :import]
   before_action :no_always_dictionary, only: [:new, :show, :edit]
+  before_action :reset_question_back, only: [:index, :new]
 
   def index
     @q = current_user.learned_contents.ransack(params[:q])
@@ -55,6 +56,7 @@ class LearnedContentsController < ApplicationController
 
   def question
     @today = params[:today]
+    session[:question_back] = params[:community] ? request.referer : nil
     return unless (already_imported = current_user.learned_contents.find_by(imported_from: @learned_content.id))
 
     @learned_content = already_imported

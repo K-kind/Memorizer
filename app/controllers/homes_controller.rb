@@ -2,6 +2,7 @@ class HomesController < ApplicationController
   protect_from_forgery except: :calendar
   before_action :logged_in_user, only: [:top, :calendar]
   before_action :confirm_user_skill, only: [:top]
+  before_action :reset_question_back, only: [:top]
 
   def top
     current_user.calendars.find_or_create_by!(calendar_date: Time.zone.today)

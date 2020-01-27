@@ -72,7 +72,7 @@ $(document).on('turbolinks:load', function () {
   });
 
   $(document).on('click', '.login-form__closer', function () {
-    $('.login-form, .home-calendar__show, #always-modal, #question-modal').fadeOut('fast');
+    $('.login-form, #always-modal, #question-modal').fadeOut('fast');
     setTimeout(() => {
       $('#overlay').remove();
     }, 100);
@@ -96,7 +96,7 @@ $(document).on('turbolinks:load', function () {
   });
 
   $(document).on('click', '#overlay', function () {
-    $('.login-form, .home-calendar__show, #always-modal, #question-modal').fadeOut('fast');
+    $('.login-form, #always-modal, #question-modal').fadeOut('fast');
     $('#later-list-modal').html('');
     setTimeout(() => {
       $(this).remove();
@@ -182,6 +182,8 @@ $(document).on('turbolinks:load', function () {
         $('#pixabay-link').attr('href', `/pixabay?word=${searchedWord}`);
       }
       return false; // submitはしない
+    } else {
+      $('#searching').slideDown('fast');
     }
   });
 
@@ -256,8 +258,9 @@ $(document).on('turbolinks:load', function () {
   });
 
   if (document.getElementById('hidden_link')) {
-    document.getElementById('hidden_link').click();
-    document.getElementById('hidden_link').remove();
+    let $hidden_link = document.getElementById('hidden_link');
+    $hidden_link.click();
+    $hidden_link.remove();
   }
   if (document.getElementById('hidden_template_link')) {
     document.getElementById('hidden_template_link').click();
@@ -401,6 +404,20 @@ $(document).on('turbolinks:load', function () {
   $('.disabled-btn').click(function () {
     return false;
   })
+
+  $('#excellent').fadeIn();
+  setTimeout(function () {
+    $('#excellent').fadeOut();
+  }, 1700);
+
+  $('#loading-needed').click(function () {
+    $('#loading').slideDown();
+  })
+
+  $(document).on('click', '#searching', function () {
+    $(this).hide(); // 不具合で消えなかった場合に、クリックすれば消える
+  });
+
 });
 
 // カレンダーイベントクリックで、modal表示用リンクを生成してクリックする

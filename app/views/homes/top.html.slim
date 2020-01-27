@@ -16,24 +16,28 @@
       | 本日の学習: 
       span.home-top__count= learned_contents_today.count
     = link_to '単語を学習', new_learn_path, class: 'home-top__start--bottom'
+  
+  .home-calendar
+    #calendar
 
-ul.todays-menu
-  h3.todays-menu__heading 本日の復習
-  - if contents_to_review_today.any?
-    - contents_to_review_today.each do |content|
-      li.todays-menu__question ・#{link_to content.questions.first.question, question_learn_path(content, today: 1)}
-  - elsif reviewed_count_today != 0
-    p 復習完了!
-  - else
-    p 復習するコンテンツがありません。
-  h3.todays-menu__heading 本日の学習
-  - learned_contents_today.each do |new_content|
-    li.todays-menu__question ・#{link_to new_content.questions.first.question, question_learn_path(new_content)}
+.home-right
+  ul.todays-menu
+    h3.todays-menu__heading 本日の復習
+    - if contents_to_review_today.any?
+      - contents_to_review_today.each do |content|
+        li.todays-menu__question ・#{link_to content.questions.first.question, question_learn_path(content, today: 1)}
+    - elsif reviewed_count_today != 0
+      p 復習完了!
+    - else
+      p 復習するコンテンツがありません。
+    h3.todays-menu__heading 本日の学習
+    - learned_contents_today.each do |new_content|
+      li.todays-menu__question ・#{link_to new_content.questions.first.question, question_show_learn_path(new_content, type: 'question'), remote: true}
 
-.home-calendar
-  #calendar
-
-#calendar-modal
+  #calendar-show
 
 / clendar-modal表示用のリンク
 #hidden-link.hidden
+
+/ question_show用
+#calendar-modal 

@@ -76,6 +76,11 @@ RSpec.describe User, type: :model do
       expect(user).to be_invalid
     end
 
+    it 'ユーザースキルがないユーザーは無効であること' do
+      user.user_skill = nil
+      expect(user).to be_invalid
+    end
+
     it 'authenticated?メソッドはdigestがnilの場合にfalseを返すこと' do
       expect(user.authenticated?(:remember, '')).to be_falsey
     end

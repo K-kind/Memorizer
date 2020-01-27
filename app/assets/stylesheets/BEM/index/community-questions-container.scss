@@ -19,6 +19,10 @@
   }
   &__top {
     margin-bottom: 10px;
+    select {
+      width: 135px;
+      height: 28px;
+    }
   }
   &__category {
     margin-top: 5px;

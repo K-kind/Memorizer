@@ -10,7 +10,7 @@
           = render 'shared/error_messages', object: question
           h2.question-box__heading Question #{index + 1}
           = simple_format question.question
-          - if question.question_type == 1
+          - if @learned_content.related_images.any?
             .image-box
               - @learned_content.related_images.each do |related_image|
                 = link_to related_image.image.url, target: '_blank', rel: 'noopener' do
@@ -26,3 +26,6 @@
   - if @today == '1'
     .question-container__exit
       = link_to 'Finish', root_path, class: 'question-container__finish-btn'
+  - elsif session[:question_back]
+    .question-container__exit
+      = link_to 'Back', session[:question_back], class: 'question-container__finish-btn'

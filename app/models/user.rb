@@ -10,7 +10,7 @@ class User < ApplicationRecord
   has_many :notifications,    dependent: :destroy
   has_many :review_histories, through: :learned_contents
   has_many :passive_favorites, through: :learned_contents, source: :favorites
-  belongs_to :user_skill,     optional: true
+  belongs_to :user_skill, optional: true
   accepts_nested_attributes_for :cycles
 
   has_secure_password

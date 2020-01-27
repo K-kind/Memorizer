@@ -62,7 +62,7 @@
             = f.label :is_public, 'private', value: false
         #learn-error
         .learn-grid-container__submit
-          = f.submit 'Save'
+          = f.submit 'Save', id: 'loading-needed'
 .learn-grid-container__pixabay
   .pixabay-btn
   = link_to 'https://pixabay.com/', target: '_blank', rel: 'noopener' do
@@ -74,3 +74,6 @@
 
 / 辞書表示のための隠しリンク
 = link_to '', result_path(word: @word, type: 'show_main', learned_content_id: params[:id]), method: :post, remote: true, id: 'hidden_link'
+
+p#loading 学習内容を保存中です...
+p#searching 問い合わせ中です...
