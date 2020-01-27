@@ -27,12 +27,14 @@ set :output, "#{Rails.root}/log/cron.log"
 env :PATH, ENV['PATH']
 job_type :rbenv_rake, %q!eval "$(rbenv init -)"; cd :path && :environment_variable=:environment bundle exec rake :task --silent :output!
 
+every '40 16 * * *' do # 毎日0時0分
+  command "echo 'learned_contents.till_next_review -1'"
+  # runner 'lib/tasks/set_date.rb', :environment_variable => 'RAILS_ENV', :environment => 'development'
+end
+
 every '*/10 * * * *' do # 0分 10分 ..
   command "echo 'update test_user #{Time.zone.now}'"
   runner 'lib/tasks/update_test_user.rb', :environment_variable => 'RAILS_ENV'
 end
 
-every '0 0 * * *' do # 毎日0時0分
-  command "echo 'learned_contents.till_next_review -1'"
-  runner 'lib/tasks/set_date.rb', :environment_variable => 'RAILS_ENV', :environment => 'development'
-end
+# every '0 0 * * *' do # 毎日0時0分

@@ -12,6 +12,7 @@ RSpec.configure do |config|
       desired_capabilities: :chrome
     }
     Capybara.server_host = 'app'
-    Capybara.app_host = 'http://app'
+    Capybara.app_host = 'http://app.local/'
+    Capybara.default_max_wait_time = 5
   end
 end

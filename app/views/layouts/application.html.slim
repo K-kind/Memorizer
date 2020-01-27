@@ -18,6 +18,8 @@ html
           = link_to '', user_skill_user_path, remote: true, id: 'hidden_link'
     - else
       = render 'layouts/guest_header'
+    - if controller.controller_name == 'homes' && controller.action_name == 'about'
+      = image_tag 'books', class: 'about-container__image'
     .main
       .container
         #flash-box.hidden

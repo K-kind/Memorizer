@@ -183,7 +183,8 @@ $(document).on('turbolinks:load', function () {
       }
       return false; // submitはしない
     } else {
-      $('#searching').slideDown('fast');
+      $('body').append('<p id=searching>問い合わせ中です...</p>');
+      $('#searching').slideDown();
     }
   });
 
@@ -413,11 +414,6 @@ $(document).on('turbolinks:load', function () {
   $('#loading-needed').click(function () {
     $('#loading').slideDown();
   })
-
-  $(document).on('click', '#searching', function () {
-    $(this).hide(); // 不具合で消えなかった場合に、クリックすれば消える
-  });
-
 });
 
 // カレンダーイベントクリックで、modal表示用リンクを生成してクリックする
