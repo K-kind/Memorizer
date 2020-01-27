@@ -20,6 +20,6 @@ module LearnedContentsHelper
   end
 
   def test_content_class(learned_content)
-    'disabled-btn' if learned_content.is_test
+    'disabled-btn' if learned_content.is_test?
   end
 end
