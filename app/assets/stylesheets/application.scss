@@ -56,6 +56,9 @@ button, input, select, textarea {
 li {
   list-style: none;
 }
+p {
+  line-height: 1.4;
+}
 .clearfix::after {
   content: '';
   clear: both;
