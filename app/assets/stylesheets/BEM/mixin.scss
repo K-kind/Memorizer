@@ -45,6 +45,18 @@
   }
 }
 
+@mixin green-btn {
+  @include submit-btn;
+  border-left: solid 4px green !important;
+  border-right: solid 4px green !important;
+  color: green !important;
+  background-color: #cbffbc !important;
+  &:hover {
+    background: green !important;
+    color: #FFF !important;
+  }
+}
+
 @mixin text-overflow {
   overflow: hidden;
   text-overflow: ellipsis;

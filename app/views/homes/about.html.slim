@@ -1,19 +1,61 @@
-h1 Memorizerとは
-p Memorizerは効率的な英単語学習をサポートします。
-ul
-  p 3つのステップ
-  li 1. 英英辞書で単語を学習、画像も出る
-  li 2. 自分で問題を作成
-  li 3. サイクルにしたがって復習
+.about-container
+  .about-container__top
+    h1.about-container__heading Memorizerとは
+    p Memorizerは英単語を楽しく、効率的に学ぶためのアプリです。
+    ul.about-container__steps
+      h3.about-container__list-heading 3STEPS
+      li.about-container__list 英英辞書で単語を学習
+      li.about-container__list オリジナルの問題を作成
+      li.about-container__list 効率的なサイクルで復習
 
-p 1 英語学習者のための英英辞典"Merriam-Webster's Lerner's Dictionary"を利用。<br>
-  程良い難易度の英語で分かりやすく説明されていて、より英語に慣れることができます。<br>
-  =>試してみる
+    - if logged_in?
+      .about-container__top-links--study
+        = link_to '単語を学習する', new_learn_path, class: 'about-container__link--signup'
+    - else
+      .about-container__top-links
+        = link_to 'テストユーザーで体験！', sessions_test_login_path, class: 'about-container__link--test'
+        = link_to '新規登録！', '#', class: 'signup-link about-container__link--signup'
 
-p 2 アクティブラーニング
+  .about-container__first
+    .about-container__step-left--first
+      .api-info
+      #webster-field
+        = link_to 'https://www.merriam-webster.com/', target: '_blank', rel: 'noopener' do
+            = image_tag 'Merriam-Webster-logo.png', class: 'merriam-logo'
+    .about-container__step-right--first
+      .about-container__inner-text
+        h2.about-container__step-heading Merriam-Webster's Dictionary
+        p.about-container__text 英語学習者のための英英辞典"Merriam-Webster's Lerner's Dictionary"をご利用いただけます。
+        p.about-container__text 程良い難易度の英語で分かりやすく説明されていて、英語に触れる機会を増やすことができます。
+        .new-word-search
+          = form_with url: result_path, class: 'new-word-search__form' do |f|
+            = f.text_field :word, placeholder: 'Search for a word...', class: 'new-word-search__input'
+            = f.hidden_field :type, value: 'main'
+            = f.hidden_field :sub_type, value: 'always'
+            = button_tag type: 'submit', class: 'new-word-search__submit', id: 'consult-submit' do
+              i.fas.fa-search.new-word-search__icon
 
-p 3 分散学習のサイクルをサポート。
+  .about-container__second
+    .about-container__step-left--second
+      .about-container__inner-text
+        h2.about-container__step-heading アクティブラーニング
+        p.about-container__text オリジナルの問題を作って復習することで、より記憶に定着しやすくなります。
+        p.about-container__text また、#{link_to 'Pixabay.com', 'https://pixabay.com/', target: '_blank', rel: 'noopener'}から単語に関連する画像を取得し、一緒に覚えることができます。
+    .about-container__step-right--second
+      = image_tag 'Answer-capture', class: 'about-container__capture'
 
-= link_to 'テストユーザーで体験', sessions_test_login_path
+  .about-container__third
+    .about-container__step-left--third
+      = image_tag 'calendar', class: 'about-container__capture'
+    .about-container__step-right--third
+      .about-container__inner-text
+        h2.about-container__step-heading 分散学習、モチベーション
+        p.about-container__text 1回目の復習は1日後、2回目は7日後…というように忘れかけたタイミングで効率良く復習することができます。
+        p.about-container__text さらに、他のユーザーの問題をダウンロードしたり、ランキングやレベルアップでモチベーションを保ちながら学習できます。
 
-= link_to '新規登録', '#', class: 'signup-link'
+.about-container__bottom-links
+  - if logged_in?
+    = link_to '単語を学習する', new_learn_path, class: 'about-container__link--signup'
+  - else
+    = link_to 'テストユーザーで体験！', sessions_test_login_path, class: 'about-container__link--test'
+    = link_to '新規登録！', '#', class: 'signup-link about-container__link--signup'
