@@ -183,7 +183,8 @@ $(document).on('turbolinks:load', function () {
       }
       return false; // submitはしない
     } else {
-      $('#searching').slideDown('fast');
+      $('body').append('<p id=searching>問い合わせ中です...</p>');
+      $('#searching').slideDown();
     }
   });
 

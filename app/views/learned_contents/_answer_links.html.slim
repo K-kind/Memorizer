@@ -3,6 +3,7 @@
     = render 'favorite_link'
 - if @imported
   = link_to ' Download', import_learn_path, method: :post, remote: true, class: 'fas fa-download question-container__btn--review', id: 'loading-needed'
+  p#loading 学習内容を保存中です...
 - else
   - if @today == '1'
     = link_to learn_path(@learned_content, today: 1), class: 'question-container__btn--review' do
