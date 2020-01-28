@@ -21,11 +21,7 @@ class CyclesController < ApplicationController
   end
 
   def default
-    [1, 7, 16, 35, 62].each_with_index do |cycle, index|
-      new_cycle = current_user.cycles.find_by(times: index)
-      new_cycle.update!(cycle: cycle)
-    end
-    current_user.cycles.where('times > 4').destroy_all
+    current_user.rollback_to_default_cycle
     @message = 'サイクルをデフォルトに設定しました。'
     render 'set'
   end

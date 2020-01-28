@@ -5,13 +5,17 @@ else
   user_number = number + 1
 end
 user = User.find_by(email: "test_user#{user_number}@memorizer.tech")
-['learned_contents', 'contacts', 'consulted_words', 'later_lists'].each do |objects|
+['review_histories', 'contacts', 'consulted_words', 'later_lists'].each do |objects|
   user.send(objects).where("#{objects}.created_at >= ?", Time.zone.now - 65.minutes).destroy_all
 end
-user.review_histories.where('review_histories.created_at >= ?', Time.zone.now - 65.minutes).each do |review_history|
-  parent = review_history.learned_content
-  review_history.destroy
-  parent.set_next_cycle
+user.learned_contents.where(is_test: false).destroy_all
+user.rollback_to_default_cycle
+user.learned_contents.each_with_index do |learned_content, index|
+  if index <= 2
+    learned_content.update!(till_next_review: 3)
+  else
+    learned_content.update!(till_next_review: 0)
+  end
 end
 user.set_test_words
 user.update!(exp: 0, level_id: 1)

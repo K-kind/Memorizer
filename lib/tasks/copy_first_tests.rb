@@ -19,8 +19,7 @@ User.where('is_test_user = ? AND name != ?', true, 'テスト管理ユーザー'
     end
     user.set_calendar_to_review(learned_content.till_next_review)
   end
-  test_admin.learn_templates.content
   user.learn_templates.create!(
-    content: test_admin.learn_templates.content
+    content: test_admin.learn_templates.last.content
   )
 end

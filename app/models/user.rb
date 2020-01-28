@@ -109,14 +109,23 @@ class User < ApplicationRecord
   def set_test_words
     test_admin = User.find_by(email: Rails.application.credentials.dig(:seed, :test_admin_email))
     test_admin.consulted_words.each do |consulted_word|
-      consulted_words.find_or_create_by(word_definition_id: consulted_word.word_definition_id)
+      consulted_words.find_or_create_by!(word_definition_id: consulted_word.word_definition_id)
     end
     test_admin.later_lists.each do |later_list|
-      later_lists.find_or_create_by(word: later_list.word)
+      later_lists.find_or_create_by!(word: later_list.word)
     end
-    unless contacts.any?
-      comment = test_admin.contacts.last.comment
-      contacts.create(comment: comment)
+    test_admin.contacts.each do |contact|
+      contacts.find_or_create_by!(comment: contact.comment) do |c|
+        c.from_admin = contact.from_admin
+        c.created_at = contact.created_at
+      end
+    end
+    learn_templates.last.update!(
+      content: test_admin.learn_templates.last.content
+    )
+    unless notifications.where(checked: false).any?
+      notifications.destroy_all
+      notifications.create!
     end
   end
 
@@ -135,6 +144,14 @@ class User < ApplicationRecord
 
   def set_calendar_to_review(till_next_review)
     calendars.find_or_create_by!(calendar_date: Time.zone.today + till_next_review)
+  end
+
+  def rollback_to_default_cycle
+    [1, 7, 16, 35, 62].each_with_index do |cycle, index|
+      new_cycle = cycles.find_by(times: index)
+      new_cycle.update!(cycle: cycle)
+    end
+    cycles.where('times > 4').destroy_all
   end
 
   private

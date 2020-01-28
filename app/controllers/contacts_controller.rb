@@ -4,7 +4,7 @@ class ContactsController < ApplicationController
   def index
     @contacts = current_user.contacts.page(params[:page]).per(6)
     @new_contact = Contact.new
-    current_user.notifications.user_notify.update(checked: true)
+    current_user.notifications.user_notify.update!(checked: true)
   end
 
   def create
@@ -12,7 +12,7 @@ class ContactsController < ApplicationController
     respond_to do |format|
       if @new_contact.save
         flash[:notice] = 'お問い合わせ内容を送信しました。'
-        current_user.notifications.create(contact_id: @new_contact.id, to_admin: true)
+        current_user.notifications.create!(contact_id: @new_contact.id, to_admin: true)
         current_user.send_notification_email(@new_contact)
         format.html { redirect_to contacts_url }
       else
