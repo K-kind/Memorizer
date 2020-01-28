@@ -13,9 +13,9 @@ User.where('is_test_user = ? AND name != ?', true, 'テスト管理ユーザー'
         similarity_ratio: 90,
         calendar_id: calendar_previous_review.id
       )
-      learned_content.update(till_next_review: 3, calendar_id: calendar_previous.id)
+      learned_content.update(till_next_review: 3, calendar_id: calendar_previous.id, is_test: true)
     else
-      learned_content.update(till_next_review: 0)
+      learned_content.update(till_next_review: 0, is_test: true)
     end
     user.set_calendar_to_review(learned_content.till_next_review)
   end
