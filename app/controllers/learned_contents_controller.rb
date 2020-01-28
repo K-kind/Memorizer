@@ -44,7 +44,7 @@ class LearnedContentsController < ApplicationController
         @learned_content.create_related_images(params[:learned_content][:related_image])
         @learned_content.create_related_words(params[:learned_content][:related_word])
         calculate_level(5)
-        set_calendar_to_review(@learned_content.till_next_review)
+        current_user.set_calendar_to_review(@learned_content.till_next_review)
         flash[:notice] = '学習が記録されました。'
         format.html { redirect_to learn_url(@learned_content) }
       else
@@ -74,7 +74,7 @@ class LearnedContentsController < ApplicationController
       elsif @learned_content.till_next_review <= 0
         @learned_content.review_histories.create(similarity_ratio: @average_similarity, calendar_id: @calendar_today.id)
         @learned_content.set_next_cycle
-        set_calendar_to_review(@learned_content.till_next_review) unless @learned_content.completed?
+        current_user.set_calendar_to_review(@learned_content.till_next_review) unless @learned_content.completed?
         exp_on_similarity(@average_similarity)
       end
     else
@@ -84,19 +84,9 @@ class LearnedContentsController < ApplicationController
 
   def import
     @original_content = LearnedContent.find(params[:id])
-    @learned_content = current_user.learned_contents.build(
-      word_definition_id: @original_content.word_definition_id,
-      word_category_id: @original_content.word_category_id,
-      calendar_id: @calendar_today.id,
-      imported_from: @original_content.id,
-      imported: true,
-      is_public: false,
-      completed: false,
-      content: @original_content.content
-    )
-    @learned_content.save!
-    duplicate_children(@original_content, @learned_content)
-    set_calendar_to_review(@learned_content.till_next_review)
+    @learned_content = current_user.import_content(@original_content, @calendar_today)
+    @original_content.duplicate_children(@learned_content)
+    current_user.set_calendar_to_review(@learned_content.till_next_review)
     @message = "\"#{@learned_content.word_definition.word}\"の学習コンテンツをダウンロードしました。"
   end
 
@@ -150,7 +140,7 @@ class LearnedContentsController < ApplicationController
       @learned_content.review_histories.last.update(again: true)
       @learned_content.update(completed: false) if @learned_content.completed?
       @learned_content.set_next_cycle
-      set_calendar_to_review(@learned_content.till_next_review)
+      current_user.set_calendar_to_review(@learned_content.till_next_review)
       @message = 'この問題をもう一度同じサイクルで復習します。'
     else
       @learned_content.review_histories.last.update(again: false)
@@ -189,23 +179,6 @@ class LearnedContentsController < ApplicationController
 
   def set_calendar_today
     @calendar_today = current_user.calendars.find_or_create_by!(calendar_date: Time.zone.today)
-  end
-
-  def set_calendar_to_review(till_next_review)
-    current_user.calendars.find_or_create_by!(calendar_date: Time.zone.today + till_next_review)
-  end
-
-  def duplicate_children(original_content, learned_content)
-    ['related_image', 'related_word', 'question'].each do |model|
-      original_content.send("#{model}s").each do |object|
-        duplicated = object.dup
-        duplicated.learned_content = learned_content
-        if model == 'related_image'
-          duplicated.image = object.image.file
-        end
-        duplicated.save
-      end
-    end
   end
 
   def calculate_level(exp, now = nil)

@@ -88,6 +88,19 @@ class LearnedContent < ApplicationRecord
     end
   end
 
+  def duplicate_children(learned_content)
+    ['related_image', 'related_word', 'question'].each do |model|
+      send("#{model}s").each do |object|
+        duplicated = object.dup
+        duplicated.learned_content = learned_content
+        if model == 'related_image'
+          duplicated.image = object.image.file
+        end
+        duplicated.save!
+      end
+    end
+  end
+
   private
 
   def set_first_cycle
