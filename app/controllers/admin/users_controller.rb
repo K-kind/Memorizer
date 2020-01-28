@@ -13,8 +13,7 @@ class Admin::UsersController < AdminController
     @user.notifications.admin_notify.unchecked.update(checked: true)
   end
 
-  def destroy
-  end
+  def destroy; end
 
   private
 

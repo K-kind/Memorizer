@@ -16,6 +16,7 @@ UserSkill.find_or_create_by!(skill: 'TOEIC900点相当')
 WordCategory.find_or_create_by!(category: 'General')
 WordCategory.find_or_create_by!(category: 'Science')
 WordCategory.find_or_create_by!(category: 'Technology')
+WordCategory.find_or_create_by!(category: 'Business')
 
 # 最初だけ頻繁にレベルが上がり過ぎないようにする
 Level.find_or_create_by!(threshold: 7)

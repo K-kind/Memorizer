@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get     '/homes/calendar', as: 'calendar'
   get     'homes/always_dictionary'
   get     '/about',     to: 'homes#about'
+  get     '/help',      to: 'homes#help'
   post    '/login',     to: 'sessions#create'
   delete  '/logout',    to: 'sessions#destroy'
   get     '/auth/failure',             to: 'sessions#auth_failure'

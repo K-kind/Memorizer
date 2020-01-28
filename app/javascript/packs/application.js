@@ -27,35 +27,41 @@ $(document).on('turbolinks:load', function () {
     $('.community-menu').fadeToggle('fast');
     $('.user-menu').fadeOut('fast');
     setTimeout(function () {
-      $('.community-menu').fadeOut('fast');
-    }, 3000);
+      $('.community-menu').fadeOut();
+    }, 3500);
     return false;
   });
-  $('.header-right__toggler--community').hover(function () {
-    $('.community-menu').fadeIn('fast');
-    $('.user-menu').fadeOut('fast');
-  }, function() {
-      setTimeout(function () {
-        $('.community-menu').fadeOut('fast');
-      }, 3000);
+  $(window).scroll(function () {
+    $('.community-menu').fadeOut();
   });
+  // $('.header-right__toggler--community').hover(function () {
+  //   $('.community-menu').fadeIn('fast');
+  //   $('.user-menu').fadeOut('fast');
+  // }, function() {
+  //     setTimeout(function () {
+  //       $('.community-menu').fadeOut('fast');
+  //     }, 3000);
+  // });
   
   $('.header-right__toggler--user').on('click', function () {
     $('.user-menu').fadeToggle('fast');
     $('.community-menu').fadeOut('fast');
     setTimeout(function () {
-      $('.user-menu').fadeOut('fast');
-    }, 3000);
+      $('.user-menu').fadeOut();
+    }, 3500);
     return false;
   });
-  $('.header-right__toggler--user').hover(function () {
-    $('.user-menu').fadeIn('fast');
-    $('.community-menu').fadeOut('fast');
-  }, function() {
-    setTimeout(function () {
-      $('.user-menu').fadeOut('fast');
-    }, 3000);
+  $(window).scroll(function () {
+    $('.user-menu').fadeOut();
   });
+  // $('.header-right__toggler--user').hover(function () {
+  //   $('.user-menu').fadeIn('fast');
+  //   $('.community-menu').fadeOut('fast');
+  // }, function() {
+  //   setTimeout(function () {
+  //     $('.user-menu').fadeOut('fast');
+  //   }, 3000);
+  // });
   
   $('#login-link').on('click', function () {
     $('#login-form').fadeIn('fast');
@@ -414,6 +420,10 @@ $(document).on('turbolinks:load', function () {
   $('#loading-needed').click(function () {
     $('#loading').slideDown();
   })
+
+  $('.help__drop-toggle').click(function () {
+    $(this).parent().find('.help__drop-down').slideToggle('fast');
+  });
 });
 
 // カレンダーイベントクリックで、modal表示用リンクを生成してクリックする

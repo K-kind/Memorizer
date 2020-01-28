@@ -1,0 +1,46 @@
+.help {
+  margin: 25px 0;
+  line-height: 1.7;
+  p {
+    line-height: 1.7;
+  }
+  img {
+    border: 1.5px solid #aaa;
+  }
+  &__heading {
+    margin-bottom: 15px;
+  }
+  &__li {
+    list-style: disc;
+  }
+  &__drop-toggle {
+    display: inline-block;
+    margin-bottom: 6px;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  &__drop-down {
+    margin-bottom: 15px;
+    display: none;
+  }
+  &__thesaurus {
+    height: 400px;
+  }
+  %__text {
+    display: inline-block;
+    width: 40%;
+    vertical-align: top;
+    margin-left: 20px;
+  }
+  &__text {
+    @extend %__text;
+    &--cycle {
+      @extend %__text;
+      width: 65%!important;
+    }
+  }
+  &__question {
+    height: 200px;
+  }
+}

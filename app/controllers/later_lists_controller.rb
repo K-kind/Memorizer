@@ -2,8 +2,7 @@ class LaterListsController < ApplicationController
   before_action :logged_in_user
   before_action :set_list_instance, only: [:index, :destroy]
 
-  def index
-  end
+  def index; end
 
   def create
     @new_list = current_user.later_lists.create(later_list_params)

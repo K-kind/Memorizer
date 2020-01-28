@@ -10,8 +10,7 @@ class HomesController < ApplicationController
     @calendars = current_user.calendars
   end
 
-  def about
-  end
+  def about; end
 
   def calendar
     date = params[:date]
@@ -22,6 +21,7 @@ class HomesController < ApplicationController
     end
   end
 
-  def always_dictionary
-  end
+  def always_dictionary; end
+
+  def help; end
 end

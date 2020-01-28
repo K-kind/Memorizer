@@ -6,7 +6,7 @@
     .question-box
       h2.question-box__heading Question #{index + 1}
       = simple_format question.question
-      - if @learned_content.related_images.any?
+      - if @learned_content.related_images.any? && index == 0
           .image-box__slim
             - @learned_content.related_images.each do |related_image|
               = link_to related_image.image.url, target: '_blank', rel: 'noopener' do
