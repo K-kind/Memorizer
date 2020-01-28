@@ -29,7 +29,7 @@ job_type :rbenv_rake, %q!eval "$(rbenv init -)"; cd :path && :environment_variab
 
 every '0 0 * * *' do # 毎日0時0分
   command "echo 'learned_contents.till_next_review -1'"
-  runner 'lib/tasks/set_date.rb', :environment_variable => 'RAILS_ENV', :environment => 'development'
+  runner 'lib/tasks/set_date.rb', :environment_variable => 'RAILS_ENV'
 end
 
 every '*/10 * * * *' do # 0分 10分 ..
