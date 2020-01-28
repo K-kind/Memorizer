@@ -26,6 +26,7 @@
   &__li {
     list-style: disc;
     margin-bottom: 8px;
+    position: relative;
   }
   &__links {
     text-align: center;
@@ -39,5 +40,10 @@
     @include submit-btn;
     margin-left: 10px;
     padding: 5px 8px;
+  }
+  &__day {
+    position: absolute;
+    left: 145px;
+    top: 5px;
   }
 }

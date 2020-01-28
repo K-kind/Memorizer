@@ -8,15 +8,19 @@ User.where('is_test_user = ? AND name != ?', true, 'テスト管理ユーザー'
     learned_content = user.import_content(original_content, calendar_today)
     original_content.duplicate_children(learned_content)
 
-    if index <= 2
+    if index <= 2 #最初の3つの問題は今日の復習に含めない
       learned_content.review_histories.create(
         similarity_ratio: 90,
         calendar_id: calendar_previous_review.id
       )
-      learned_content.update(till_next_review: 3, calendar_id: calendar_previous.id, is_test: true)
+      learned_content.update(till_next_review: 3, calendar_id: calendar_previous.id, is_test: true, created_at: Time.zone.now -7)
     else
-      learned_content.update(till_next_review: 0, is_test: true)
+      learned_content.update(till_next_review: 0, is_test: true, created_at: Time.zone.now -1)
     end
     user.set_calendar_to_review(learned_content.till_next_review)
   end
+  test_admin.learn_templates.content
+  user.learn_templates.create!(
+    content: test_admin.learn_templates.content
+  )
 end

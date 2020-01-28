@@ -1,6 +1,6 @@
 module HomesHelper
   def reviewed_count_today
-    current_user.review_histories.where('review_histories.created_at >= ?', Time.zone.today.beginning_of_day).count
+    current_user.calendars.find_by(calendar_date: Time.zone.today).review_histories.count
   end
 
   def contents_to_review_today
