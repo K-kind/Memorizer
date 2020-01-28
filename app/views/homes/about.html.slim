@@ -5,7 +5,7 @@
     ul.about-container__steps
       h3.about-container__list-heading 3STEPS
       li.about-container__list 英英辞書で単語を学習
-      li.about-container__list オリジナルの問題を作成
+      li.about-container__list オリジナルのクイズを作成
       li.about-container__list 効率的なサイクルで復習
 
     - if logged_in?
@@ -25,7 +25,7 @@
     .about-container__step-right--first
       .about-container__inner-text
         h2.about-container__step-heading Merriam-Webster's Dictionary
-        p.about-container__text 英語学習者のための英英辞典"Merriam-Webster's Lerner's Dictionary"をご利用いただけます。
+        p.about-container__text 英語学習者のための英英辞典"Merriam-Webster's Lerner's Dictionary"を利用して単語を学習します。
         p.about-container__text 程良い難易度の英語で分かりやすく説明されていて、英語に触れる機会を増やすことができます。
         .new-word-search
           = form_with url: result_path, class: 'new-word-search__form' do |f|
@@ -39,7 +39,7 @@
     .about-container__step-left--second
       .about-container__inner-text
         h2.about-container__step-heading アクティブラーニング
-        p.about-container__text オリジナルの問題を作って復習することで、より記憶に定着しやすくなります。
+        p.about-container__text オリジナルのクイズを作って復習することで、より記憶に定着しやすくなります。
         p.about-container__text また、#{link_to 'Pixabay.com', 'https://pixabay.com/', target: '_blank', rel: 'noopener'}から単語に関連する画像を取得し、一緒に覚えることができます。
     .about-container__step-right--second
       = image_tag 'Answer-capture', class: 'about-container__capture'

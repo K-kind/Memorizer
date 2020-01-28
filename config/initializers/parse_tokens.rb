@@ -10,6 +10,5 @@ class String
   end
 
   # response.bodyがstringの場合にnilを返す
-  def dig(*)
-  end
+  def dig(*); end
 end

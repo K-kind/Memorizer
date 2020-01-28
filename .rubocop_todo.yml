@@ -67,13 +67,13 @@ Style/ConditionalAssignment:
 # SupportedStyles: compact, expanded
 Style/EmptyMethod:
   Exclude:
-    - 'app/controllers/admin/learned_contents_controller.rb'
-    - 'app/controllers/admin/sessions_controller.rb'
-    - 'app/controllers/admin/users_controller.rb'
-    - 'app/controllers/homes_controller.rb'
-    - 'app/controllers/later_lists_controller.rb'
-    - 'app/controllers/sessions_controller.rb'
-    - 'config/initializers/parse_tokens.rb'
+    # - 'app/controllers/admin/learned_contents_controller.rb'
+    # - 'app/controllers/admin/sessions_controller.rb'
+    # - 'app/controllers/admin/users_controller.rb'
+    # - 'app/controllers/homes_controller.rb'
+    # - 'app/controllers/later_lists_controller.rb'
+    # - 'app/controllers/sessions_controller.rb'
+    # - 'config/initializers/parse_tokens.rb'
 
 # Offense count: 2
 # Configuration parameters: MinBodyLength.

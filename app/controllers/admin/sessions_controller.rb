@@ -1,6 +1,5 @@
 class Admin::SessionsController < AdminController
-  def new
-  end
+  def new; end
 
   def create
     admin = Admin.find_by(email: params[:email].downcase)
