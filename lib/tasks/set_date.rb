@@ -7,7 +7,7 @@ User.where('is_test_user = ? AND name != ?', true, 'テスト管理ユーザー'
   user.learned_contents.where(is_test: true).each_with_index do |learned_content, index|
     if index <= 2
       learned_content.update!(calendar_id: calendar_7days_ago.id, till_next_review: 3)
-      learned_content.review_histories.update_all(calendar_id: calendar_4days_ago)
+      learned_content.review_histories.update_all(calendar_id: calendar_4days_ago.id)
     else
       # till_next_reviewは1時間おきに0にされている
       learned_content.update!(calendar_id: calendar_1day_ago.id)
