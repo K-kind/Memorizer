@@ -2,15 +2,16 @@
   h1.heading Answer
   - if @today == '1'
     p.question-container__question-num No. #{reviewed_count_today} / #{reviewed_count_today + contents_to_review_today.count}
+  - if @learned_content.related_images.any?
+    .image-box__slim
+      - @learned_content.related_images.each do |related_image|
+        = link_to related_image.image.url, target: '_blank', rel: 'noopener' do
+          = image_tag related_image.image.url, class: 'image-box__image', alt: "image of #{related_image.word}"
   - @learned_content.questions.each_with_index do |question, index|
     .question-box
       h2.question-box__heading Question #{index + 1}
       = simple_format question.question
-      - if @learned_content.related_images.any? && index == 0
-          .image-box__slim
-            - @learned_content.related_images.each do |related_image|
-              = link_to related_image.image.url, target: '_blank', rel: 'noopener' do
-                = image_tag related_image.image.url, class: 'image-box__image', alt: "image of #{related_image.word}"
+
       .answer-box
         .answer-box__ans--my
           h3.answer-box__heading My answer 
@@ -30,7 +31,7 @@
     - if @today == '1' && contents_to_review_today.any?
       = link_to 'Next', question_learn_path(contents_to_review_today.till_next_asc.first, today: 1), class: 'question-container__btn--next'
     - if session[:question_back]
-      = link_to 'Next', session[:question_back], class: 'question-container__finish-btn'
+      = link_to 'Next', communities_questions_path(back: 1), class: 'question-container__finish-btn'
     - else
       = link_to 'Finish', root_path, class: 'question-container__finish-btn'
 

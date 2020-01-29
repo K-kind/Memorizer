@@ -313,7 +313,7 @@ $(document).on('turbolinks:load', function () {
       $answer.val(``);
     } else if ($(this).find('option:selected').val() == 1) {
       if ($question.val() == '') {
-        $question.val('[Image] What is the word related to these images?');
+        $question.val('[Image] What is the word related to those images?');
       } else {
         let original = $question.val();
         $question.val(`[Image] ${original}`);

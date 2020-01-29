@@ -56,7 +56,6 @@ class LearnedContentsController < ApplicationController
 
   def question
     @today = params[:today]
-    session[:question_back] = params[:community] ? request.referer : nil
     return unless (already_imported = current_user.learned_contents.find_by(imported_from: @learned_content.id))
 
     @learned_content = already_imported

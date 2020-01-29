@@ -16,6 +16,7 @@ class CommunitiesController < ApplicationController
     @q = LearnedContent.where(is_public: true, imported: false).ransack(params[:q])
     @q.sorts = 'created_at desc' if @q.sorts.empty?
     @learned_contents = @q.result.includes(:word_category, user: :user_skill).page(params[:page])
+    session[:question_back] = params unless params[:back]
     respond_to do |format|
       format.html
       format.js

@@ -55,7 +55,7 @@
       = link_to 'Finish', root_path, class: 'learn-show-bottom__finish'
   - elsif session[:question_back]
     .learn-show-bottom__today
-      = link_to 'Next', session[:question_back], class: 'learn-show-bottom__finish'
+      = link_to 'Next', communities_questions_path(back: 1), class: 'learn-show-bottom__finish'
 
 / メイン単語の辞書を表示
 = link_to '', result_path(word: @word, type: 'show_main', learned_content_id: params[:id]), method: :post, remote: true, id: 'hidden_link'

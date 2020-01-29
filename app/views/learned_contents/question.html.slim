@@ -4,17 +4,17 @@
     p.question-container__question-num No. #{reviewed_count_today + 1} / #{reviewed_count_today + contents_to_review_today.count}
   = form_with model: @learned_content, url: answer_learn_path(@learned_content), method: :post, local: true do |f|
     = f.hidden_field :today, value: @today
+    - if @learned_content.related_images.any?
+      .image-box
+        - @learned_content.related_images.each do |related_image|
+          = link_to related_image.image.url, target: '_blank', rel: 'noopener' do
+            = image_tag related_image.image.url, class: 'image-box__image', alt: "image of #{related_image.word}"
     - @learned_content.questions.each_with_index do |question, index|
       .question-box
         = f.fields_for :questions, question do |qf|
           = render 'shared/error_messages', object: question
           h2.question-box__heading Question #{index + 1}
           = simple_format question.question
-          - if @learned_content.related_images.any? && index == 0
-            .image-box
-              - @learned_content.related_images.each do |related_image|
-                = link_to related_image.image.url, target: '_blank', rel: 'noopener' do
-                  = image_tag related_image.image.url, class: 'image-box__image', alt: "image of #{related_image.word}"
 
           .question-box__answer
             = qf.label :my_answer, 'A:'
@@ -28,4 +28,4 @@
       = link_to 'Finish', root_path, class: 'question-container__finish-btn'
   - elsif session[:question_back]
     .question-container__exit
-      = link_to 'Back', session[:question_back], class: 'question-container__finish-btn'
+      = link_to 'Back', communities_questions_path(back: 1), class: 'question-container__finish-btn'

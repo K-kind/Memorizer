@@ -5,13 +5,7 @@
 
   .community-words-container__left
     .community-words-container__search
-      = search_form_for @q, url: communities_words_path, remote: true, id: 'onclick-form' do |f|
-        div
-          = f.label :user_user_skill_id_eq, 'スキルで探す:', class: 'community-questions-container__skill-label'
-          = f.collection_select :user_user_skill_id_eq, @user_skills, :id, :skill, {include_blank: 'All'}, {class: 'onclick-select'}
-        .community-questions-container__category
-          = f.label :word_category_id_eq, 'カテゴリーで探す:', class: 'community-questions-container__category-label'
-          = f.collection_select :word_category_id_eq, @word_categories, :id, :category, {include_blank: 'All'}, {class: 'onclick-select'}
+      = render 'community_search', url: communities_words_path
 
     #community-words-table
       = render 'community_words_table'

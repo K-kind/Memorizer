@@ -4,8 +4,8 @@ table.community-questions-container__table
       th 問題
       th カテゴリー
       th 作成者のスキル
-      th= sort_link @q, :favorites_count, 'いいね数', { default_order: :desc }, {}
-      th= sort_link @q, :created_at, '作成日', {}, {}
+      th= sort_link @q, :favorites_count, 'いいね数', { default_order: :desc }, { remote: true }
+      th= sort_link @q, :created_at, '作成日', {}, { remote: true }
   tbody
     - @learned_contents.each do |learned_content|
       tr
@@ -18,6 +18,6 @@ table.community-questions-container__table
         td= learned_content.created_at.strftime('%Y/%m/%d')
 
 #com-question-paginate
-  = paginate @learned_contents
+  = paginate @learned_contents, remote: true
 
 #calendar-modal

@@ -4,14 +4,12 @@
     |  みんなの問題
 
   .community-questions-container__top
-    = search_form_for @q, url: communities_questions_path, id: 'onclick-form' do |f|
-      div
-        = f.label :user_user_skill_id_eq, 'スキルで探す:', class: 'community-questions-container__skill-label'
-        = f.collection_select :user_user_skill_id_eq, @user_skills, :id, :skill, {include_blank: 'All'}, {onchange: 'this.form.submit()'}
-      .community-questions-container__category
-        = f.label :word_category_id_eq, 'カテゴリーで探す:', class: 'community-questions-container__category-label'
-        = f.collection_select :word_category_id_eq, @word_categories, :id, :category, {include_blank: 'All'}, {onchange: 'this.form.submit()'}
-
+    #question-search
+      = render 'community_search', url: communities_questions_path
   .community-questions-container__main
     #community-questions-table
       = render 'community_questions_table'
+
+/ 問題から戻ってきた時
+- if params[:back]
+  = link_to '', communities_questions_path(question_back_params(session[:question_back])), remote: true, id: 'hidden_link'
