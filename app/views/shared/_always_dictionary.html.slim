@@ -5,6 +5,7 @@
       = f.text_field :word, placeholder: 'Search for a word...', class: 'new-word-search__input'
       = f.hidden_field :type, value: 'main'
       = f.hidden_field :sub_type, value: 'always'
+      span.new-word-search__eraser.fa.fa-times#erasor
       = button_tag type: 'submit', class: 'new-word-search__submit', id: 'consult-submit' do
         i.fas.fa-search.new-word-search__icon
   .api-info

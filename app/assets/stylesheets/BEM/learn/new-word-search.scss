@@ -54,6 +54,13 @@
     color: $thesaurus-color;
     padding-right: 1px;
     padding-left: 6px;
-    // transition: .4s;
+  }
+  &__eraser#erasor {
+    position: absolute;
+    top: 8px;
+    right: 39px;
+    color: #ccc;
+    cursor: pointer;
+    display: none;
   }
 }

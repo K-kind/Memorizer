@@ -178,6 +178,7 @@ $(document).on('turbolinks:load', function () {
   // ページ内で同じ単語を再検索した場合、appendせずにhiddenをremoveする
   $(document).on('click', '#consult-submit', function () {
     let searchedWord = $('#word').val().replace(/[\s]/, '_');
+    $('#erasor').show();
     if ($('.word-field-' + searchedWord).length) {
       $('.word-field').addClass('hidden');
       $('.word-field-' + searchedWord).removeClass('hidden');
@@ -192,6 +193,12 @@ $(document).on('turbolinks:load', function () {
       $('body').append('<p id=searching>問い合わせ中です...</p>');
       $('#searching').slideDown();
     }
+  });
+
+  $(document).on('click', '#erasor', function () {
+    $('#word').val('');
+    $('#word').focus();
+    $(this).hide();
   });
 
   // 単語の意味タブの挙動

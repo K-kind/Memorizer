@@ -27,7 +27,7 @@
           span.my-page-container__form= f.collection_select :user_skill_id, @user_skills, :id, :skill, {}, {class: 'my-page-container__select'}
 
 .my-page-container__btns
-  a class="my-page-container__edit-btn #{test_user_class}" 編集
+  a class='my-page-container__edit-btn' 編集
   = link_to 'キャンセル', user_path, class: 'my-page-container__cancel-btn'
-  = submit_tag '保存', form: 'user-info-form', class: 'my-page-container__submit-btn'
+  = submit_tag '保存', form: 'user-info-form', class: "my-page-container__submit-btn #{test_user_class}"
   = link_to '退会', user_path, method: :delete, data: { confirm: "[注意]\n全てのデータが削除されます。\n本当に退会してよろしいですか？" }, class: "my-page-container__destroy-btn #{test_user_class}"

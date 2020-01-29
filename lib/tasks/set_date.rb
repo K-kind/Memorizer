@@ -15,5 +15,5 @@ User.where('is_test_user = ? AND name != ?', true, 'テスト管理ユーザー'
   end
   user.calendars.find_by(calendar_date: Time.zone.today - 8).destroy
   user.calendars.find_or_create_by!(calendar_date: Time.zone.today)
-  user.contacts.update_all(created_at: Time.zone.today)
 end
+user.contacts.update_all(created_at: Time.zone.today)

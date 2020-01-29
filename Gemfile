@@ -65,6 +65,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'carrierwave'
 gem 'dotenv-rails'
+gem 'faker'
 gem 'font-awesome-rails'
 gem 'html2slim'
 gem 'jquery-rails'
