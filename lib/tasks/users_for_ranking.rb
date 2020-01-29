@@ -16,7 +16,7 @@ test_admin = User.find_by(is_test_user: true, name: 'テスト管理ユーザー
       is_public: false,
       imported: true,
       calendar_id: calendar.id,
-      content: original.content,
+      content: original.content
     )
     learned_content.questions.create!(
       question: Faker::Lorem.sentence,
