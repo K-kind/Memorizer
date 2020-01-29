@@ -11,11 +11,7 @@ end
 user.learned_contents.where(is_test: false).destroy_all
 user.rollback_to_default_cycle
 user.learned_contents.each_with_index do |learned_content, index|
-  if index <= 2
-    learned_content.update!(till_next_review: 3)
-  else
-    learned_content.update!(till_next_review: 0)
-  end
+  learned_content.update!(till_next_review: 0) if index >= 3
 end
 user.set_test_words
 user.update!(exp: 0, level_id: 1)
