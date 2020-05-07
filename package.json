@@ -12,7 +12,7 @@
     "chart.js": "^2.9.3",
     "chartkick": "^3.2.0",
     "fullcalendar": "^3.10.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "moment": "^2.24.0",
     "trix": "^1.0.0",
     "turbolinks": "^5.2.0"
