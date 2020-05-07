@@ -11,8 +11,8 @@ RUN apt-get update -qq \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 RUN mkdir /myapp
-ENV APP_ROOT /myapp
-ENV TZ Asia/Tokyo
+ENV APP_ROOT /myapp \
+    TZ Asia/Tokyo
 WORKDIR $APP_ROOT
 COPY Gemfile $APP_ROOT/Gemfile
 COPY Gemfile.lock $APP_ROOT/Gemfile.lock
