@@ -11,14 +11,14 @@ RUN apt-get update -qq \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 RUN mkdir /myapp
-ENV APP_ROOT /myapp \
-    TZ Asia/Tokyo
+ENV APP_ROOT /myapp
+ENV TZ Asia/Tokyo
 WORKDIR $APP_ROOT
 COPY Gemfile $APP_ROOT/Gemfile
 COPY Gemfile.lock $APP_ROOT/Gemfile.lock
-RUN bundle install
+COPY yarn.lock $APP_ROOT/yarn.lock
+COPY package.json $APP_ROOT/package.json
+RUN bundle install && yarn install
 COPY . $APP_ROOT
 
-# puma.sockを配置するディレクトリを作成
-# RUN mkdir -p tmp/sockets
-# RUN mkdir -p tmp/pids
+CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]

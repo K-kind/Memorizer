@@ -1,23 +1,53 @@
 version: '3'
 services:
+  db:
+    image: mysql:5.7
+    env_file:
+      - ./environments/db.env
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    
   app:
     build:
       context: .
-    environment:
-      - RAILS_ENV=production
-    command: bundle exec rails assets:precompile
-    command: bundle exec puma -C config/puma.rb
+    env_file:
+      - ./environments/db.env
+    # command: tail -f log/development.log
+    # command: bundle exec puma -C config/puma.rb
     volumes:
-      - .:/myapp
+      # 開発環境のみsync-volumeを使用
+      - .:/myapp:cached
+      # - sync-volume:/myapp
     ports:
       - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - "SELENIUM_DRIVER_URL=http://selenium_chrome:4444/wd/hub"
+    networks:
+      default:
+        aliases:
+          - app.local
 
   web:
     build:
       context: containers/nginx
     volumes:
-      - .:/myapp
+      - ./public:/myapp/public:cached
+      - ./tmp/sockets:/myapp/tmp/sockets
     ports:
       - 80:80
     depends_on:
       - app
+
+  selenium_chrome:
+    image: selenium/standalone-chrome-debug
+    logging:
+      driver: none
+
+volumes:
+  db-data:
+  sync-volume:
+    external: true

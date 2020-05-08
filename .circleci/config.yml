@@ -9,10 +9,10 @@ executors:
           MYSQL_HOST: 127.0.0.1
           SELENIUM_DRIVER_URL: http://localhost:4444/wd/hub
       - image: circleci/mysql:5.7
-      environment:
-        MYSQL_DATABASE: myapp_test
-        MYSQL_ROOT_HOST: '%'
-        MYSQL_ALLOW_EMPTY_PASSWORD: true
+        environment:
+          MYSQL_DATABASE: myapp_test
+          MYSQL_ROOT_HOST: '%'
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
       - image: selenium/standalone-chrome-debug
     working_directory: ~/memorizer
 
@@ -24,10 +24,11 @@ commands:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-      - run: bundle install --jobs=4 --retry=3 --path vendor/bundle
-      - run: yarn install
+      - run:
+        command: |
+          bundle install --jobs=4 --retry=3 --path vendor/bundle
+          yarn install
       - save_cache:
           paths:
             - ./vendor/bundle
@@ -48,15 +49,16 @@ jobs:
       - install-and-caching
       - run:
           name: Wait for DB
-          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 120s
-      - run: bundle exec rake db:create
-      - run: bundle exec rake db:schema:load
+          command: |
+            dockerize -wait tcp://127.0.0.1:3306 -timeout 120s
+            bundle exec rake db:create
+            bundle exec rake db:schema:load
       - run:
           name: Rspec
           command: bundle exec rspec
 
 workflows:
-  version: 2
+  version: 2.1
   rubocop_rspec:
     jobs:
       - rubocop
