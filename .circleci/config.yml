@@ -38,7 +38,19 @@ jobs:
   rubocop:
     executor: test-build-executor
     steps:
-      - install-and-caching
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            - v1-dependencies-
+      - run:
+        command: |
+          bundle install --jobs=4 --retry=3 --path vendor/bundle
+          yarn install
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
       - run:
           name: Rubocop
           command: bundle exec rubocop
@@ -46,7 +58,19 @@ jobs:
   rspec:
     executor: test-build-executor
     steps:
-      - install-and-caching
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            - v1-dependencies-
+      - run:
+        command: |
+          bundle install --jobs=4 --retry=3 --path vendor/bundle
+          yarn install
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
       - run:
           name: Wait for DB
           command: |
