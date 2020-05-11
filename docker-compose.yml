@@ -14,12 +14,10 @@ services:
       context: .
     env_file:
       - ./environments/db.env
-    # command: tail -f log/development.log
-    # command: bundle exec puma -C config/puma.rb
     volumes:
       # 開発環境のみsync-volumeを使用
-      - .:/myapp:cached
-      # - sync-volume:/myapp
+      # - .:/myapp:cached
+      - sync-volume:/myapp
     ports:
       - "3000:3000"
     depends_on:
@@ -35,8 +33,9 @@ services:
     build:
       context: containers/nginx
     volumes:
-      - ./public:/myapp/public:cached
-      - ./tmp/sockets:/myapp/tmp/sockets
+      # - ./public:/myapp/public:cached
+      # - ./tmp/sockets:/myapp/tmp/sockets
+      - sync-volume:/myapp
     ports:
       - 80:80
     depends_on:
