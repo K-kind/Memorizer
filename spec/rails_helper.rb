@@ -27,7 +27,7 @@ Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f 
 # If you are not using ActiveRecord, you can remove these lines.
 
 # system spec でsessionを扱う
-require "rack_session_access/capybara"
+require 'rack_session_access/capybara'
 
 begin
   ActiveRecord::Migration.maintain_test_schema!
@@ -71,4 +71,6 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 
   config.include LoginSupport, type: :system
+  config.include WaitForCss, type: :system
+  config.include WaitForAjax, type: :system
 end

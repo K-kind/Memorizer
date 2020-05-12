@@ -34,6 +34,7 @@ group :development, :test do
   gem 'rubocop'
   # gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails.git', tag: 'v4.0.0.beta3'
   gem 'rspec-rails'
+  gem 'rspec-retry'
   gem 'factory_bot_rails'
 end
 
