@@ -57,9 +57,9 @@ describe 'Sign up', type: :system, js: true, retry: 3 do
       end
 
       text = ActionMailer::Base
-              .deliveries.first
-              .body.parts.detect { |part| part.content_type == 'text/plain; charset=UTF-8' }
-              .body.raw_source
+             .deliveries.first
+             .body.parts.detect { |part| part.content_type == 'text/plain; charset=UTF-8' }
+             .body.raw_source
 
       activation_token = text.scan(%r{account_activations/([^/]+)/})[0][0]
 

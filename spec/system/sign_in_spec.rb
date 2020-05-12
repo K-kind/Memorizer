@@ -54,7 +54,7 @@ RSpec.describe 'Sign in', type: :system, retry: 3 do
         expect(page).to have_content 'メールアドレスとパスワードの組み合わせが不正です。'
       end
     end
-    
+
     context 'with valid attributes' do
       it 'user can sign in and sign out' do
         fill_in 'email-form', with: user.email
@@ -71,15 +71,15 @@ RSpec.describe 'Sign in', type: :system, retry: 3 do
           click_on 'マイページ'
         end
         expect(current_path).to eq user_path
-        
+
         # 2回連続でドロップダウンボタンを押すとすぐに消えてしまう
-        find(".my-page-container__heading", match: :first).click
+        find('.my-page-container__heading', match: :first).click
         within 'header' do
           click_on "#{user.name}(Lv.#{user.level_id})"
           click_on 'ログアウト'
         end
         expect(current_path).to eq about_path
-        
+
         visit user_path
         expect(current_path).to eq about_path
       end
@@ -97,7 +97,7 @@ RSpec.describe 'Sign in', type: :system, retry: 3 do
       wait_for_css_appear('.flash__danger') do
         expect(page).to have_content 'メールアドレスが見つかりません。'
       end
-      
+
       # 有効なメールアドレス
       within '.password-reset' do
         fill_in 'email', with: user.email
