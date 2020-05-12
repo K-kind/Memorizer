@@ -62,6 +62,8 @@ group :test do
   gem 'webmock'
   # Easy installation and use of web drivers to run system tests with browsers
   # gem 'webdrivers', require: !ENV['SELENIUM_DRIVER_URL']
+
+  gem 'rack_session_access'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
