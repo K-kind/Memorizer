@@ -7,5 +7,5 @@ CarrierWave.configure do |config|
   }
 
   config.fog_directory = 'memorizer-image'
-  config.cache_storage = :fog
+  config.cache_storage = :fog unless Rails.env.test?
 end

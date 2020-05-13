@@ -2,8 +2,8 @@ version: '3'
 services:
   db:
     image: mysql:5.7
-    env_file:
-      - ./environments/db.env
+    environment:
+      MYSQL_ROOT_PASSWORD: password
     volumes:
       - db-data:/var/lib/mysql
     ports:
@@ -12,8 +12,15 @@ services:
   app:
     build:
       context: .
-    env_file:
-      - ./environments/db.env
+    command: bundle exec puma -C config/puma.rb
+    # command: >
+    #   bash -c "bundle install &&
+    #   tail -f log/development.log"
+    # command: >
+    #   bash -c "bundle install &&
+    #   bundle exec puma -C config/puma.rb"
+    tty: true
+    stdin_open: true
     volumes:
       # 開発環境のみsync-volumeを使用
       # - .:/myapp:cached
@@ -23,7 +30,7 @@ services:
     depends_on:
       - db
     environment:
-      - "SELENIUM_DRIVER_URL=http://selenium_chrome:4444/wd/hub"
+      SELENIUM_DRIVER_URL: http://selenium_chrome:4444/wd/hub
     networks:
       default:
         aliases:
@@ -43,6 +50,7 @@ services:
 
   selenium_chrome:
     image: selenium/standalone-chrome-debug
+    shm_size: 2g
     logging:
       driver: none
 

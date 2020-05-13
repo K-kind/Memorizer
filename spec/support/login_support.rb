@@ -11,5 +11,6 @@ module LoginSupport
     fill_in 'email-form', with: user.email
     fill_in 'password', with: user.password
     click_button 'ログイン'
+    wait_for_css_appear('.flash__notice')
   end
 end

@@ -36,6 +36,7 @@ class LearnedContent < ApplicationRecord
     related_image_array.each_with_index do |related_image, index|
       unless index.zero? # 配列1つ目は空
         image_links = related_image.split(' ') # [0]大画像リンク、[1]サムネリンク、[2]word
+        # binding.pry
         self.related_images.create!(remote_image_url: image_links[0], word: image_links[2])
       end
     end
