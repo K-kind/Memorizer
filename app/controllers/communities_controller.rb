@@ -4,7 +4,7 @@ class CommunitiesController < ApplicationController
   before_action :no_always_dictionary, only: [:words]
 
   def words
-    @q = LearnedContent.where(imported: false).ransack(params[:q])
+    @q = LearnedContent.where(is_public: true, imported: false).ransack(params[:q])
     @learned_contents = @q.result.includes(:word_category, user: :user_skill).latest.page(params[:page])
     respond_to do |format|
       format.html

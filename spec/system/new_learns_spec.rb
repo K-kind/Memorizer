@@ -5,12 +5,27 @@ RSpec.describe 'New Learn', type: :system do
   before do
     create(:word_category)
     create(:word_category, category: 'Science')
-    level = Level.create!(threshold: 7)
+    Level.create!(threshold: 7)
     actual_sign_in_as user
     visit new_learn_path
   end
 
   it 'a word can be learned', js: true, vcr: { cassette_name: 'apis' } do
+    # 無効な検索
+    fill_in 'word', with: ' '
+    click_button 'consult-submit'
+    expect(page).to have_selector('p', text: '" "は英語ではありません')
+
+    fill_in 'word', with: 'あいうえお'
+    click_button 'consult-submit'
+    expect(page).to have_selector('p', text: '"あいうえお"は英語ではありません')
+
+    fill_in 'word', with: 'mistaake'
+    click_button 'consult-submit'
+    expect(page).to have_selector('p', text: '"mistaake"の検索結果:0件')
+    expect(page).to have_selector('p', text: '"mistaake"と似た単語')
+    expect(page).to have_content 'mistake'
+
     # 1つ目の単語を調べて、消す
     fill_in 'word', with: 'temporary'
     click_button 'consult-submit'
@@ -155,6 +170,101 @@ RSpec.describe 'New Learn', type: :system do
       expect(page).to have_selector('img[alt="image of star"]')
       expect(page).to have_selector('img[alt="image of lead"]')
     end
+    expect(page).to have_selector('.active-word', text: 'star')
     expect(page).to have_content 'Until next review: 1 day'
+
+    # Privateなcontentは公開されない
+    visit communities_questions_path
+    expect(page).not_to have_content '[Definition]'
+    visit communities_words_path
+    expect(page).not_to have_content 'star'
+
+    # 自分の問題一覧には表示される
+    visit learns_path
+    click_on '[Definition]'
+    find('.question-modal__review-link').click
+
+    click_on 'Edit'
+    expect(page).to have_selector('.dictionary-heading__word', text: 'star')
+
+    # 単語を追加
+    fill_in 'word', with: 'yellow'
+    click_button 'consult-submit'
+    expect(page).to have_selector('.dictionary-heading__word', text: 'yellow')
+
+    # 無効な編集
+    fill_in 'Answer 2', with: ' '
+    click_button 'Save'
+    expect(page).to have_selector('.error-message__list', text: '答えを入力してください')
+
+    # 有効な編集
+    select 'yellow', from: 'Main word:'
+    find('#learned_content_content').set('I learned the word yellow.')
+    fill_in 'Question 2', with: 'Question about yellow'
+    fill_in 'Answer 2', with: 'The answer is yellow'
+    select 'General', from: 'Word category'
+    choose 'public'
+
+    # starの画像を削除、yellowの画像を追加
+    find('.image-unsave-times__s3', match: :first).click
+    expect(page).to_not have_selector('img[alt="image of star"]')
+
+    find('#pixabay-link', text: '"yellow"').click
+    find('.image-save-btn', match: :first).click
+    within '.learn-grid-container__saved-images' do
+      expect(page).to have_selector('img[alt="image of yellow"]')
+    end
+
+    click_button 'Save'
+
+    expect(page).to have_selector('.flash__notice', text: '学習内容が更新されました。')
+    expect(current_path).to eq learn_path(user.learned_contents.last)
+
+    within '.learn-grid-container__study-field' do
+      expect(page).to have_selector('.learn-grid-container__main-word-show', text: 'yellow')
+      expect(page).to have_content 'I learned the word yellow.'
+      expect(page).to have_content 'Question about yellow'
+      expect(page).to have_content 'The answer is yellow'
+      expect(page).to have_content 'General'
+      expect(page).to have_content 'Public'
+      expect(page).to have_selector('img[alt="image of lead"]')
+      expect(page).to have_selector('img[alt="image of yellow"]')
+    end
+    expect(page).to have_selector('.active-word', text: 'yellow')
+    expect(user.learned_contents.last.related_images.count).to eq 2
+
+    # Publicなコンテンツは公開される
+    visit communities_questions_path
+    expect(page).to have_content '[Definition]'
+    visit communities_words_path
+    expect(page).to have_content 'yellow'
+    expect(page).to have_content 'lead'
+    expect(page).to have_content 'star'
+
+    # 単語検索履歴
+    visit consulted_words_path
+    expect(page).to have_content 'temporary'
+    expect(page).to have_content 'lead'
+    expect(page).to have_content 'star'
+    expect(page).to have_content 'yellow'
+    expect(page).to_not have_content 'mistaake'
+
+    # ダッシュボードに学習が表示される
+    visit root_path
+    expect(page).to have_selector('.home-top__count', text: '1')
+    click_on '[Definition]'
+    find('.question-modal__review-link').click
+
+    # コンテンツを削除
+    accept_alert do
+      click_on 'Destroy'
+    end
+    expect(page).to have_selector('.home-top__count', text: '0')
+    expect(page).to_not have_content '[Definition]'
+
+    visit communities_questions_path
+    expect(page).not_to have_content '[Definition]'
+    visit communities_words_path
+    expect(page).not_to have_content 'yellow'
   end
 end
