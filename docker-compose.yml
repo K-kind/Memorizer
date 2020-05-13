@@ -12,13 +12,12 @@ services:
   app:
     build:
       context: .
-    command: bundle exec puma -C config/puma.rb
     # command: >
     #   bash -c "bundle install &&
     #   tail -f log/development.log"
-    # command: >
-    #   bash -c "bundle install &&
-    #   bundle exec puma -C config/puma.rb"
+    command: >
+      bash -c "bundle install &&
+      bundle exec puma -C config/puma.rb"
     tty: true
     stdin_open: true
     volumes:

@@ -1,15 +1,16 @@
 require 'rails_helper'
 
-RSpec.describe "New Learn", type: :system do
+RSpec.describe 'New Learn', type: :system do
   let(:user) { create(:user) }
   before do
     create(:word_category)
     create(:word_category, category: 'Science')
+    level = Level.create!(threshold: 7)
     actual_sign_in_as user
     visit new_learn_path
   end
 
-  it 'a word can be learned', js: true, vcr: { cassette_name: 'apis' }, focus: true do
+  it 'a word can be learned', js: true, vcr: { cassette_name: 'apis' } do
     # 1つ目の単語を調べて、消す
     fill_in 'word', with: 'temporary'
     click_button 'consult-submit'
@@ -23,39 +24,39 @@ RSpec.describe "New Learn", type: :system do
       click_button 'consult-submit'
       expect(page).to have_selector('.dictionary-heading__word', text: 'lead')
     }.to change(WordDefinition, :count).by(1)
-    
+
     find('.thesaurus-toggler').click
     find('.thesaurus-word-tab', text: 'noun').click
     expect(page).to have_selector('.thesaurus-heading__word', text: 'lead')
     expect(page).to have_selector('.word-class', text: 'noun')
-    
+
     expect(page).to have_selector('#pixabay-link', text: '"lead"')
-    
+
     expect(page).to have_select('Main word:', selected: 'lead')
-    
+
     # 3つ目の単語starを検索
     expect {
       fill_in 'word', with: 'star'
       click_button 'consult-submit'
       expect(page).to have_selector('.dictionary-heading__word', text: 'star')
     }.to change(WordDefinition, :count).by(1)
-    
+
     find('.thesaurus-toggler').click
     find('.thesaurus-word-tab', text: 'adjective').click
     expect(page).to have_selector('.thesaurus-heading__word', text: 'star')
     expect(page).to have_selector('.word-class', text: 'adjective')
-    
+
     expect(page).to have_selector('#pixabay-link', text: '"star"')
-    
-    expect(page).to have_select('Main word:', selected: 'lead', options: ['lead', 'star'])
-    
+
+    expect(page).to have_select('Main word:', selected: 'lead', options: %w[lead star])
+
     # leadに戻ると、thesaurusのままになっている
     find('.consulted-word-lead').click
     expect(page).to have_selector('.thesaurus-heading__word', text: 'lead')
     expect(page).to have_selector('.word-class', text: 'noun')
-    
+
     expect(page).to have_selector('#pixabay-link', text: '"lead"')
-    
+
     # starがフォームに入ったまま、再検索
     click_button 'consult-submit'
     expect(page).to have_selector('.thesaurus-heading__word', text: 'star')
@@ -68,20 +69,20 @@ RSpec.describe "New Learn", type: :system do
       click_button 'Save'
       expect(page).to have_selector('.error-message__list', text: '学習内容を入力してください')
       expect(page).to have_selector('.error-message__list', text: '1つ以上の問題を入力してください')
-      
+
       # only with Q
       find('#learned_content_content').set('I learned the word star.')
       fill_in 'Question 1', with: 'Question about star'
       click_button 'Save'
       expect(page).to_not have_selector('.error-message__list', text: '学習内容を入力してください')
       expect(page).to have_selector('.error-message__list', text: '答えを入力してください')
-      
+
       # only with A
       fill_in 'Question 1', with: ' '
       fill_in 'Answer 1', with: 'Answer for Q1'
       click_button 'Save'
       expect(page).to have_selector('.error-message__list', text: '問題を入力してください')
-      
+
       # with Q & A and only Q2
       fill_in 'Question 1', with: 'Question about star'
       click_on 'more'
@@ -89,7 +90,7 @@ RSpec.describe "New Learn", type: :system do
       click_button 'Save'
       expect(page).to have_selector('.error-message__list', text: '答えを入力してください')
     }.to change(user.learned_contents, :count).by(0)
-    
+
     # それぞれ値を設定
     find_field('Answer 2').fill_in with: 'Answer for Q2'
     select 'star', from: 'Main word:'
@@ -99,9 +100,8 @@ RSpec.describe "New Learn", type: :system do
     # Simpleを選択
     select 'Simple', from: 'learned_content_questions_attributes_0_question_type'
     expect(page).to have_field 'Question 1',
-      with: /burning gas and that look like points of light in the night sky/
+                               with: /burning gas and that look like points of light in the night sky/
     expect(page).to have_field 'Answer 1', with: 'star'
-    
 
     within('.pixabay-btn') { click_on '"star"' }
     within '#images-result' do
@@ -122,10 +122,10 @@ RSpec.describe "New Learn", type: :system do
       expect(page).to_not have_selector('.image-unsave-star')
       find('.image-save-btn', match: :first).click
     end
-    
+
     # leadの画像も保存
     find('.consulted-word-lead').click
-    find('#pixabay-link', text: "lead").click
+    find('#pixabay-link', text: '"lead"').click
     within '#images-result' do
       expect(page).to have_selector('h4', text: 'Images for "lead"')
       find('.image-save-btn', match: :first).click

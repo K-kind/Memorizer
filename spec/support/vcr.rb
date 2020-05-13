@@ -8,6 +8,6 @@ VCR.configure do |config|
   config.configure_rspec_metadata!
   config.default_cassette_options = {
     record: :new_episodes, # 条件に当てはまるカセットがなければ追加していく
-    match_requests_on: [:method, :path, :query, :body], # カセットを引き当てる条件
+    match_requests_on: [:method, :path, :query, :body] # カセットを引き当てる条件
   }
 end

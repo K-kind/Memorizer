@@ -67,6 +67,10 @@ RSpec.configure do |config|
   # wrong number of argumentsのエラー対策
   config.render_views
 
+  config.after(:all) do
+    FileUtils.rm_rf(Dir["#{Rails.root}/public/uploads_test/"])
+  end
+
   # FactoryBot.create(:user)をcreate(:user)だけで済ませる
   config.include FactoryBot::Syntax::Methods
 
