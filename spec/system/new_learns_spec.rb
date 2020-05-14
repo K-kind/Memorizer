@@ -255,7 +255,7 @@ RSpec.describe 'New Learn', type: :system do
     click_on '[Definition]'
     find('.question-modal__review-link').click
 
-    # コンテンツを削除
+    # destroy the learned content
     accept_alert do
       click_on 'Destroy'
     end
