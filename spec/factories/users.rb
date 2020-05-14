@@ -11,4 +11,8 @@ FactoryBot.define do
     activated_at { Time.zone.now }
     user_skill
   end
+
+  trait :skill_900 do
+    association :user_skill, factory: :user_skill_900
+  end
 end
