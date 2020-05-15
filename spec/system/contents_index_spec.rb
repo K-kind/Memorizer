@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_name: 'apis' } do
+RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_name: 'apis' }, retry: 3 do
   let(:user_800) { create(:user) }
   let(:user_900) { create(:user, :skill_900) }
   let(:calendar_800) { user_800.calendars.create!(calendar_date: Time.zone.today) }

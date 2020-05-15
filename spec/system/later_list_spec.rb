@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'later_list', type: :system, js: true, vcr: { cassette_name: 'apis' }, focus: true do
+RSpec.describe 'later_list', type: :system, js: true, vcr: { cassette_name: 'apis' }, retry: 3 do
   let(:user) { create(:user) }
 
   before do
@@ -17,6 +17,12 @@ RSpec.describe 'later_list', type: :system, js: true, vcr: { cassette_name: 'api
     expect(page).to have_content 'あとで学習する'
     expect(page).to have_selector('a', text: 'word0')
     expect(page).to have_selector('.page', text: '2')
+
+    # overlay
+    expect(page).to have_selector('#later-overlay')
+    find('#later-overlay').click
+    expect(page).to_not have_content 'あとで学習する'
+    find('.fa.fa-bookmark').click
 
     # later word can be added
     find('#later_list_word').fill_in with: 'lead'
