@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+# 問題の正解率表記、復習スタートからの流れ
 RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis' }, retry: 3 do
   let(:user) { create(:user) }
   let(:calendar_yesterday) { user.calendars.create!(calendar_date: Time.zone.yesterday) }

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Images', type: :system, js: true, vcr: { cassette_name: 'apis' } do
+RSpec.describe 'Images', type: :system, js: true, vcr: { cassette_name: 'apis' }, retry: 3 do
   let(:user) { create(:user) }
   let(:other_user) { create(:user) }
   before do
