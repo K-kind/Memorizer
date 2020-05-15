@@ -1,13 +1,20 @@
 FactoryBot.define do
   factory :word_definition do
-    word { 'lead' }
+    word { 'test' }
     dictionary_data { { 'definition' => 'test' } }
     thesaurus_data { { 'thesaurus' => 'test' } }
   end
 
   trait :lead do
+    word { 'lead' }
     dictionary_data { get_dictionary_date('lead') }
     thesaurus_data { get_thesaurus_date('lead') }
+  end
+
+  trait :star do
+    word { 'star' }
+    dictionary_data { get_dictionary_date('star') }
+    thesaurus_data { get_thesaurus_date('star') }
   end
 end
 

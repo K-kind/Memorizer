@@ -5,6 +5,7 @@ RSpec.describe 'import contents', type: :system, js: true, vcr: { cassette_name:
   let(:user) { create(:user) }
   let(:calendar) { owner.calendars.create!(calendar_date: Time.zone.today) }
   let(:word_definition_lead) { create(:word_definition, :lead) }
+  let(:word_definition_star) { create(:word_definition, :star) }
   let(:learned_content) do
     create(:learned_content,
            user: owner,
@@ -18,6 +19,9 @@ RSpec.describe 'import contents', type: :system, js: true, vcr: { cassette_name:
     learned_content.questions.create!(
       question: 'Question about lead',
       answer: 'lead'
+    )
+    learned_content.related_words.create!(
+      word_definition: word_definition_star
     )
     actual_sign_in_as user
   end
@@ -63,15 +67,18 @@ RSpec.describe 'import contents', type: :system, js: true, vcr: { cassette_name:
     }.to change(learned_content.favorites, :count).by(-1).and \
       change(owner.passive_favorites, :count).by(-1)
 
+    # ダウンロードする
     expect {
       click_link 'Download'
       expect(page).to have_selector('.flash__notice', text: '"lead"の学習コンテンツをダウンロードしました。')
     }.to change(user.learned_contents, :count).by(1).and \
-      change(Question, :count).by(1)
+      change(Question, :count).by(1).and \
+        change(RelatedWord, :count).by(1)
 
     click_link '"lead"'
     # 元のコンテンツのページに飛んではいない
     expect(current_path).to_not eq learn_path(learned_content)
+    expect(page).to have_content 'star'
     expect(page).to have_content 'Until next review: 1 day'
 
     expect {
@@ -88,6 +95,7 @@ RSpec.describe 'import contents', type: :system, js: true, vcr: { cassette_name:
     find('.header-right__toggler--community').click
     find('.community-menu__list', text: '単語を探す').click
     expect(page).to have_content 'lead', count: 1
+    expect(page).to have_content 'star', count: 1
 
     # ダウンロードした問題をもう一度解く
     visit communities_questions_path
@@ -111,7 +119,8 @@ RSpec.describe 'import contents', type: :system, js: true, vcr: { cassette_name:
       end
       expect(page).to have_selector('.flash__notice', text: '学習内容を削除しました。')
     }.to change(user.learned_contents, :count).by(-1).and \
-      change(Question, :count).by(-1)
+      change(Question, :count).by(-1).and \
+        change(RelatedWord, :count).by(-1)
 
     click_link 'テストユーザー'
     find('a', text: 'ログアウト').click

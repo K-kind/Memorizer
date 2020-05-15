@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'New Learn', type: :system do
+RSpec.describe 'New Learn', type: :system, retry: 3 do
   let(:user) { create(:user) }
   before do
     create(:word_category)

@@ -26,6 +26,7 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
            word_definition: word_definition_lead,
            till_next_review: 1)
   end
+
   before do
     Level.create!(threshold: 7)
     Level.create!(threshold: 17)
@@ -46,7 +47,7 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     actual_sign_in_as user
   end
 
-  it 'user has questions to answer today' do
+  it 'user has questions to answer today', retry: 3 do
     aggregate_failures do
       expect(page).to have_content '本日の復習: 0/2'
       expect(page).to have_content '本日の学習: 1'
