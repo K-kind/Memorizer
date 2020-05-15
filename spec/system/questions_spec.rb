@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis' } do
+RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis' }, retry: 3 do
   let(:user) { create(:user) }
   let(:calendar_yesterday) { user.calendars.create!(calendar_date: Time.zone.yesterday) }
   let(:calendar_today) { user.calendars.create!(calendar_date: Time.zone.today) }
@@ -47,7 +47,7 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     actual_sign_in_as user
   end
 
-  it 'user has questions to answer today', retry: 3 do
+  it 'user has questions to answer today' do
     aggregate_failures do
       expect(page).to have_content '本日の復習: 0/2'
       expect(page).to have_content '本日の学習: 1'
@@ -90,7 +90,7 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     expect(page).to have_content 'No. 1 / 2'
     expect(page).to have_link 'Finish'
 
-    # too long answer should be valid
+    # too long answer should be invalid
     find_field('A:', match: :first).fill_in with: ('a' * 256)
     click_button 'Submit'
     expect(page).to have_selector '.error-message__list', text: '答えは255文字以内で入力してください'
@@ -193,5 +193,15 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     expect(page).to_not have_link 'Next'
     expect(page).to_not have_link 'Finish'
     expect(page).to_not have_content 'Again'
+
+    # 次の日に設定
+    LearnedContent.update_all('till_next_review = till_next_review - 1')
+    visit root_path
+    aggregate_failures do
+      expect(page).to have_content '本日の復習: 0/2'
+      expect(page).to have_selector 'h3:nth-child(1)', text: '本日の復習'
+      expect(page).to have_selector 'li:nth-child(2)', text: 'Learn2 Q1'
+      expect(page).to have_selector 'li:nth-child(3)', text: 'Tommorow question'
+    end
   end
 end
