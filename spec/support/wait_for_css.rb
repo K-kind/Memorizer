@@ -13,6 +13,13 @@ module WaitForCss
     yield if block_given?
   end
 
+  # def wait_for_selector_disappear(selector, text, wait_time = Capybara.default_max_wait_time)
+  #   Timeout.timeout(wait_time) do
+  #     loop if has_selector?(selector, text: text)
+  #   end
+  #   yield if block_given?
+  # end
+
   def paginate_and_wait(page, wait_time = Capybara.default_max_wait_time)
     within('.pagination') { click_link page.to_s }
     Timeout.timeout(wait_time) do
