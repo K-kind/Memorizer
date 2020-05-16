@@ -61,6 +61,7 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
   it 'contents can be sorted and reserved' do
     # 問題一覧
     click_link 'テストユーザー'
+    sleep(0.2)
     find('a', text: '問題一覧').click
     # 作成日順
     expect(page).to have_content '2021/01/15'
@@ -222,6 +223,7 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
 
     # user_900でログイン（他人の問題をダウンロードした後の挙動を知るため）
     click_link 'テストユーザー'
+    sleep(0.2)
     find('a', text: 'ログアウト').click
     actual_sign_in_as user_900
     find('.header-right__toggler--community').click
@@ -257,6 +259,7 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     click_link 'Question'
     fill_in 'A:', with: 'answer'
     click_button 'Submit'
+    sleep(0.2)
     find('a', text: 'Next').click
     sleep(0.3)
     expect(page).to have_select('スキルで探す:', selected: 'TOEIC800点相当')
@@ -270,6 +273,7 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     click_button 'Submit'
     sleep(0.3)
     click_link 'Download'
+    sleep(0.2)
     find('a', text: '"star"').click
     sleep(0.3)
     click_link 'Next'
