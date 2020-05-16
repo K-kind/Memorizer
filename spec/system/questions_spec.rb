@@ -50,8 +50,8 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
 
   it 'user has questions to answer today' do
     aggregate_failures do
-      expect(page).to have_content '本日の復習: 0/2'
-      expect(page).to have_content '本日の学習: 1'
+      expect(page).to have_content '本日の復習:0/2'
+      expect(page).to have_content '本日の学習:1'
       expect(page).to have_selector 'h3:nth-child(1)', text: '本日の復習'
       expect(page).to have_selector 'li:nth-child(2)', text: 'Learn1 Q1'
       expect(page).to have_selector 'li:nth-child(3)', text: 'Learn2 Q1'
@@ -165,7 +165,7 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
 
     # 明日の復習予定は2つ（元々のものと、againに指定したもの）
     visit root_path
-    expect(page).to have_content '本日の復習: 2/2'
+    expect(page).to have_content '本日の復習:2/2'
     expect(page).to have_content '復習完了!'
     click_on '復習予定: 2' # カレンダー
     within '#calendar-show' do
@@ -201,7 +201,7 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     end
     visit root_path
     aggregate_failures do
-      expect(page).to have_content '本日の復習: 2/4'
+      expect(page).to have_content '本日の復習:2/4'
       expect(page).to have_selector 'h3:nth-child(1)', text: '本日の復習'
       expect(page).to have_selector 'li:nth-child(2)', text: 'Learn1 Q1'
       expect(page).to have_selector 'li:nth-child(3)', text: 'Tommorow question'

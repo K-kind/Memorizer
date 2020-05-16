@@ -21,11 +21,11 @@
           h3 Q#{index + 1}
           = simple_format question.question
           .learn-grid-container__answer-show
-            strong A:
+            <strong>A: </strong>
             span= question.answer
       .learn-grid-container__subtle
         .learn-grid-container__category--show
-          strong Category:
+          <strong>Category: </strong>
           span= @learned_content.word_category.category
         .learn-grid-container__public--show
           - if @learned_content.is_public

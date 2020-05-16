@@ -4,9 +4,7 @@
       i.fas.fa-book-open.home-top__icon
       | 本日の復習:
       span.home-top__count #{reviewed_count_today}
-    span.home-top__span
       | /
-    span.home-top__span
       span.home-top__count #{contents_to_review_today.count + reviewed_count_today}
     - if contents_to_review_today.count > 0
       = link_to '復習スタート', question_learn_path(contents_to_review_today.review_date_asc.first, today: 1), class: 'home-top__start--top'

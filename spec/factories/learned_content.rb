@@ -5,5 +5,6 @@ FactoryBot.define do
     word_definition
     word_category
     calendar
+    review_date { Time.zone.today + 1 }
   end
 end

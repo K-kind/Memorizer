@@ -90,6 +90,7 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     expect(page).to have_selector('tr:first-child td:nth-child(3)', text: '1日')
     expect(page).to_not have_selector('td:nth-child(3)', text: '15日')
     paginate_and_wait 2
+    sleep(0.4)
     expect(page).to have_selector('td:nth-child(3)', text: '15日')
     paginate_and_wait 1
     click_link '復習まで' # 降順
