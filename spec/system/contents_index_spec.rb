@@ -287,28 +287,28 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     # 単語を探す デフォルトは作成日降順
     find('.header-right__toggler--community').click
     find('.community-menu__list', text: '単語を探す').click
-    sleep(0.5)
-    expect(page).to have_content 'lead'
-    expect(page).to have_content 'star'
+    sleep(0.2)
+    expect(page).to_not have_content 'lead'
+    expect(page).to_not have_content 'star'
 
     # スキル900 main: lead 1件
     select 'TOEIC900点相当', from: 'スキルで探す:'
-    sleep(0.4)
+    sleep(0.3)
     expect(page).to have_selector('tbody tr', count: 1)
     expect(page).to have_selector('td', text: 'lead')
 
     # スキル800 main: star, test 15件
     select 'TOEIC800点相当', from: 'スキルで探す:'
-    sleep(0.4)
-    expect(page).to have_selector('td:nth-child(1)', text: 'star')
-    expect(page).to have_selector('td:nth-child(2)', text: 'test')
+    sleep(0.3)
     expect(page).to_not have_selector('td', text: 'lead')
     paginate_and_wait 2
+    expect(page).to have_selector('td:nth-child(1)', text: 'star')
+    expect(page).to have_selector('td:nth-child(2)', text: 'test')
     expect(page).to_not have_selector('td', text: 'lead')
 
     # スキル800, Technology main: star, test 1件
     select 'Technology', from: 'カテゴリーで探す:'
-    sleep(0.4)
+    sleep(0.3)
     expect(page).to have_selector('td:nth-child(1)', text: 'star')
     expect(page).to have_selector('td:nth-child(2)', text: 'test')
     expect(page).to have_selector('tbody tr', count: 1)
