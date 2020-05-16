@@ -212,6 +212,7 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     actual_sign_in_as user_900
     find('.header-right__toggler--community').click
     find('.community-menu__list', text: 'みんなの問題').click
+    sleep(0.3)
     expect(page).to have_select('スキルで探す:', selected: 'All')
     expect(page).to have_select('カテゴリーで探す:', selected: 'All')
 
@@ -229,38 +230,42 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
 
     # 問題ページから戻る
     click_link 'Technology Q'
-    wait_for_ajax
+    sleep(0.3)
     click_link 'Question'
     click_link 'Back'
+    sleep(0.3)
     expect(page).to have_select('スキルで探す:', selected: 'TOEIC800点相当')
     expect(page).to have_content 'Technology Q'
 
     # 回答ページから戻る
     click_link 'Technology Q'
-    wait_for_ajax
+    sleep(0.3)
     click_link 'Question'
     fill_in 'A:', with: 'answer'
     click_button 'Submit'
     find('a', text: 'Next').click
+    sleep(0.3)
     expect(page).to have_select('スキルで探す:', selected: 'TOEIC800点相当')
     expect(page).to have_content 'Technology Q'
 
     # ダウンロードしたshowページから戻る
     click_link 'Technology Q'
-    wait_for_ajax
+    sleep(0.3)
     click_link 'Question'
     fill_in 'A:', with: 'answer'
     click_button 'Submit'
     click_link 'Download'
     find('a', text: '"star"').click
-    wait_for_ajax
+    sleep(0.3)
     click_link 'Next'
+    sleep(0.3)
     expect(page).to have_select('スキルで探す:', selected: 'TOEIC800点相当')
     expect(page).to have_content 'Technology Q'
 
     # ナビバーから戻るとセッションは残っていない
     find('.header-right__toggler--community').click
     find('.community-menu__list', text: 'みんなの問題').click
+    sleep(0.3)
     expect(page).to have_select('スキルで探す:', selected: 'All')
     expect(page).to have_select('カテゴリーで探す:', selected: 'All')
 
