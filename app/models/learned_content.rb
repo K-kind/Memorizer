@@ -15,10 +15,11 @@ class LearnedContent < ApplicationRecord
 
   validates :content, presence: true, length: { maximum: 3000 }
 
-  scope :to_review_today, -> { where('till_next_review <= 0') }
-  scope :to_review_this_day, ->(date) { where('till_next_review = ? AND till_next_review >= 1', (date - Time.zone.today).to_i) }
-  scope :till_next_asc, -> { order(till_next_review: 'ASC') }
-  scope :latest, -> { order(id: 'DESC') }
+  scope :to_review_today, -> { where('review_date <= ?', Time.zone.today) }
+  scope :to_review_this_day,
+        ->(date) { where('review_date = ? AND review_date >= ?', date, Time.zone.today) }
+  scope :review_date_asc, -> { order(review_date: 'ASC') }
+  scope :latest, -> { order(created_at: 'DESC') }
   scope :all_or_weekly, ->(weekly) do
     if weekly
       where('created_at >= ?', Time.current.beginning_of_week)
@@ -28,8 +29,12 @@ class LearnedContent < ApplicationRecord
   end
 
   ransacker :favorites_count do
-    query = '(SELECT COUNT(favorites.learned_content_id) FROM favorites where favorites.learned_content_id = learned_contents.id GROUP BY favorites.learned_content_id)'
+    query = '(SELECT COUNT(favorites.learned_content_id) FROM favorites WHERE favorites.learned_content_id = learned_contents.id GROUP BY favorites.learned_content_id)'
     Arel.sql(query)
+  end
+
+  def till_next_review
+    @till_next_review ||= (review_date - Time.zone.today).to_i
   end
 
   def create_related_images(related_image_array)
@@ -72,9 +77,9 @@ class LearnedContent < ApplicationRecord
   def set_next_cycle
     times = review_histories.not_again.count
     if (next_cycle = user.cycles.find_by(times: times)&.cycle)
-      update(till_next_review: next_cycle)
+      update(review_date: Time.zone.today + next_cycle)
     else
-      update(till_next_review: 10000, completed: true)
+      update(review_date: Time.zone.today + 10000, completed: true)
     end
   end
 
@@ -104,9 +109,9 @@ class LearnedContent < ApplicationRecord
   private
 
   def set_first_cycle
-    first_cycle = user.cycles.find_by(times: 0).cycle
-    return if first_cycle == 1
+    return if review_date.present?
 
-    update!(till_next_review: first_cycle)
+    first_cycle = user.cycles.find_by(times: 0).cycle
+    update!(review_date: Time.zone.today + first_cycle)
   end
 end

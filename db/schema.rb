@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_16_052030) do
+ActiveRecord::Schema.define(version: 2020_05_16_132830) do
 
   create_table "action_text_rich_texts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name", null: false
@@ -117,7 +117,6 @@ ActiveRecord::Schema.define(version: 2020_05_16_052030) do
     t.bigint "word_category_id", null: false
     t.bigint "word_definition_id", null: false
     t.boolean "is_public", default: true
-    t.integer "till_next_review", default: 1
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "imported", default: false
@@ -125,6 +124,7 @@ ActiveRecord::Schema.define(version: 2020_05_16_052030) do
     t.bigint "calendar_id", null: false
     t.integer "imported_from"
     t.boolean "is_test", default: false
+    t.date "review_date"
     t.index ["calendar_id"], name: "index_learned_contents_on_calendar_id"
     t.index ["created_at", "imported_from", "is_public"], name: "index_learned_contents_imported_latest"
     t.index ["user_id", "imported_from"], name: "index_learned_contents_on_user_id_and_imported_from"

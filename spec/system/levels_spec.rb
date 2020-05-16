@@ -17,7 +17,7 @@ RSpec.describe 'Level', type: :system, js: true, vcr: { cassette_name: 'apis' },
                                word_definition: word_definition,
                                word_category: word_category,
                                calendar: calendar,
-                               till_next_review: 0)
+                               review_date: Time.zone.today)
       case n
       when 0
         question = 'Q for 90%'

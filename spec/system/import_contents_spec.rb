@@ -11,7 +11,7 @@ RSpec.describe 'import contents', type: :system, js: true, vcr: { cassette_name:
            user: owner,
            calendar: calendar,
            word_definition: word_definition_lead,
-           till_next_review: 0)
+           review_date: Time.zone.today)
   end
 
   before do
@@ -27,8 +27,8 @@ RSpec.describe 'import contents', type: :system, js: true, vcr: { cassette_name:
   end
 
   it 'community questions can be imported' do
-    expect(page).to have_content '本日の復習: 0/0'
-    expect(page).to have_content '本日の学習: 0'
+    expect(page).to have_content '本日の復習:0/0'
+    expect(page).to have_content '本日の学習:0'
     expect(page).to_not have_content 'Q about lead'
     find('.header-right__toggler--community').click
     find('.community-menu__list', text: 'みんなの問題').click

@@ -11,21 +11,21 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
            user: user,
            calendar: calendar_yesterday,
            word_definition: word_definition_lead,
-           till_next_review: 0)
+           review_date: Time.zone.today)
   end
   let(:leraned_content_today2) do
     create(:learned_content,
            user: user,
            calendar: calendar_yesterday,
            word_definition: word_definition_lead,
-           till_next_review: 0)
+           review_date: Time.zone.today)
   end
   let(:leraned_content_tommorow) do
     create(:learned_content,
            user: user,
            calendar: calendar_today,
            word_definition: word_definition_lead,
-           till_next_review: 1)
+           review_date: Time.zone.today + 1)
   end
 
   before do
@@ -50,8 +50,8 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
 
   it 'user has questions to answer today' do
     aggregate_failures do
-      expect(page).to have_content '本日の復習: 0/2'
-      expect(page).to have_content '本日の学習: 1'
+      expect(page).to have_content '本日の復習:0/2'
+      expect(page).to have_content '本日の学習:1'
       expect(page).to have_selector 'h3:nth-child(1)', text: '本日の復習'
       expect(page).to have_selector 'li:nth-child(2)', text: 'Learn1 Q1'
       expect(page).to have_selector 'li:nth-child(3)', text: 'Learn2 Q1'
@@ -165,7 +165,7 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
 
     # 明日の復習予定は2つ（元々のものと、againに指定したもの）
     visit root_path
-    expect(page).to have_content '本日の復習: 2/2'
+    expect(page).to have_content '本日の復習:2/2'
     expect(page).to have_content '復習完了!'
     click_on '復習予定: 2' # カレンダー
     within '#calendar-show' do
@@ -196,10 +196,12 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     expect(page).to_not have_content 'Again'
 
     # 次の日に設定
-    LearnedContent.update_all('till_next_review = till_next_review - 1')
+    LearnedContent.all.each do |learned_content|
+      learned_content.update!(review_date: learned_content.review_date - 1)
+    end
     visit root_path
     aggregate_failures do
-      expect(page).to have_content '本日の復習: 2/4'
+      expect(page).to have_content '本日の復習:2/4'
       expect(page).to have_selector 'h3:nth-child(1)', text: '本日の復習'
       expect(page).to have_selector 'li:nth-child(2)', text: 'Learn1 Q1'
       expect(page).to have_selector 'li:nth-child(3)', text: 'Tommorow question'

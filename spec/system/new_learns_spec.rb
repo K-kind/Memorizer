@@ -105,7 +105,7 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
       click_on 'more'
       find_field('Question 2').fill_in with: 'Another Question'
       click_button 'Save'
-      sleep(0.3)
+      sleep(0.5)
       expect(page).to have_selector('.error-message__list', text: '答えを入力してください')
     }.to change(user.learned_contents, :count).by(0)
 

@@ -14,7 +14,7 @@
 
       .answer-box
         .answer-box__ans--my
-          h3.answer-box__heading My answer 
+          h3.answer-box__heading My answer
           p.answer-box__text= question.my_answer
         .answer-box__between
           span class="answer-box__similarity--#{similarity_to_color(question.similarity)}" #{question.similarity}%
@@ -29,7 +29,7 @@
     p.question-container__finished 本日の復習は終了しました。
   .question-container__links
     - if @today == '1' && contents_to_review_today.any?
-      = link_to 'Next', question_learn_path(contents_to_review_today.till_next_asc.first, today: 1), class: 'question-container__btn--next'
+      = link_to 'Next', question_learn_path(contents_to_review_today.review_date_asc.first, today: 1), class: 'question-container__btn--next'
     - if session[:question_back]
       = link_to 'Next', communities_questions_path(back: 1), class: 'question-container__finish-btn'
     - else

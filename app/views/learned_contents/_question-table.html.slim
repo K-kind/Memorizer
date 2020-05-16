@@ -3,7 +3,7 @@ table.question-table
     tr
       th 問題
       th 復習回数
-      th= sort_link @q, :till_next_review, '復習まで', {}, { remote: true }
+      th= sort_link @q, :review_date, '復習まで', {}, { remote: true }
       th カテゴリー
       th= sort_link @q, :favorites_count, 'いいね数', { default_order: :desc }, { remote: true }
       th= sort_link @q, :created_at, '作成日', {}, { remote: true }

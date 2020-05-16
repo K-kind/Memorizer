@@ -44,7 +44,7 @@ class LearnedContentsController < ApplicationController
         @learned_content.create_related_images(params[:learned_content][:related_image])
         @learned_content.create_related_words(params[:learned_content][:related_word])
         calculate_level(5)
-        current_user.set_calendar_to_review(@learned_content.till_next_review)
+        current_user.set_calendar_to_review(@learned_content.review_date)
         flash[:notice] = '学習が記録されました。'
         format.html { redirect_to learn_url(@learned_content) }
       else
@@ -70,10 +70,10 @@ class LearnedContentsController < ApplicationController
         @imported = true
         @original_content = @learned_content
         calculate_level(1, 'now')
-      elsif @learned_content.till_next_review <= 0
+      elsif @learned_content.review_date <= Time.zone.today
         @learned_content.review_histories.create(similarity_ratio: @average_similarity, calendar_id: @calendar_today.id)
         @learned_content.set_next_cycle
-        current_user.set_calendar_to_review(@learned_content.till_next_review) unless @learned_content.completed?
+        current_user.set_calendar_to_review(@learned_content.review_date) unless @learned_content.completed?
         exp_on_similarity(@average_similarity)
       end
     else
@@ -85,7 +85,7 @@ class LearnedContentsController < ApplicationController
     @original_content = LearnedContent.find(params[:id])
     @learned_content = current_user.import_content(@original_content, @calendar_today)
     @original_content.duplicate_children(@learned_content)
-    current_user.set_calendar_to_review(@learned_content.till_next_review)
+    current_user.set_calendar_to_review(@learned_content.review_date)
     @message = "\"#{@learned_content.word_definition.word}\"の学習コンテンツをダウンロードしました。"
   end
 
@@ -139,7 +139,7 @@ class LearnedContentsController < ApplicationController
       @learned_content.review_histories.last.update(again: true)
       @learned_content.update(completed: false) if @learned_content.completed?
       @learned_content.set_next_cycle
-      current_user.set_calendar_to_review(@learned_content.till_next_review)
+      current_user.set_calendar_to_review(@learned_content.review_date)
       @message = 'この問題をもう一度同じサイクルで復習します。'
     else
       @learned_content.review_histories.last.update(again: false)
