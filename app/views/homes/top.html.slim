@@ -2,21 +2,21 @@
   .home-top
     span.home-top__span
       i.fas.fa-book-open.home-top__icon
-      | 本日の復習: 
+      | 本日の復習:
       span.home-top__count #{reviewed_count_today}
     span.home-top__span
       | /
     span.home-top__span
       span.home-top__count #{contents_to_review_today.count + reviewed_count_today}
     - if contents_to_review_today.count > 0
-      = link_to '復習スタート', question_learn_path(contents_to_review_today.till_next_asc.first, today: 1), class: 'home-top__start--top'
+      = link_to '復習スタート', question_learn_path(contents_to_review_today.review_date_asc.first, today: 1), class: 'home-top__start--top'
   .home-top
     span.home-top__span
       i.fa.fa-edit.fa-lg.home-top__icon
-      | 本日の学習: 
+      | 本日の学習:
       span.home-top__count= learned_contents_today.count
     = link_to '単語を学習', new_learn_path, class: 'home-top__start--bottom'
-  
+
   .home-calendar
     #calendar
 
@@ -40,4 +40,4 @@
 #hidden-link.hidden
 
 / question_show用
-#calendar-modal 
+#calendar-modal

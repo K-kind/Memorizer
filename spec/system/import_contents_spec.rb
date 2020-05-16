@@ -11,7 +11,7 @@ RSpec.describe 'import contents', type: :system, js: true, vcr: { cassette_name:
            user: owner,
            calendar: calendar,
            word_definition: word_definition_lead,
-           till_next_review: 0)
+           review_date: Time.zone.today)
   end
 
   before do

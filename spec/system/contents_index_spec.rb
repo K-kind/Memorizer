@@ -20,7 +20,7 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
                        calendar: calendar_800,
                        word_category: word_category_science,
                        word_definition: word_definition_test,
-                       till_next_review: 15 - n,
+                       review_date: Time.zone.today + 15 - n,
                        created_at: Time.zone.local(2021, 1, n + 1))
       create(:question,
              learned_content: content,

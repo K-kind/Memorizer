@@ -142,8 +142,8 @@ class User < ApplicationRecord
     )
   end
 
-  def set_calendar_to_review(till_next_review)
-    calendars.find_or_create_by!(calendar_date: Time.zone.today + till_next_review)
+  def set_calendar_to_review(review_date)
+    calendars.find_or_create_by!(calendar_date: review_date)
   end
 
   def rollback_to_default_cycle

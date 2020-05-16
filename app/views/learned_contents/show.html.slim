@@ -21,11 +21,11 @@
           h3 Q#{index + 1}
           = simple_format question.question
           .learn-grid-container__answer-show
-            strong A: 
+            strong A:
             span= question.answer
       .learn-grid-container__subtle
         .learn-grid-container__category--show
-          strong Category: 
+          strong Category:
           span= @learned_content.word_category.category
         .learn-grid-container__public--show
           - if @learned_content.is_public
@@ -51,7 +51,7 @@
         = f.label :again, 'Again: '
         = f.check_box :again, class: 'onclick-select'
       - if contents_to_review_today.any?
-        = link_to 'Next', question_learn_path(contents_to_review_today.till_next_asc.first, today: 1), class: 'learn-show-bottom__next'
+        = link_to 'Next', question_learn_path(contents_to_review_today.review_date_asc.first, today: 1), class: 'learn-show-bottom__next'
       = link_to 'Finish', root_path, class: 'learn-show-bottom__finish'
   - elsif session[:question_back]
     .learn-show-bottom__today
