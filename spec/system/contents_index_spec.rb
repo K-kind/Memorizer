@@ -220,8 +220,9 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     expect(page).to_not have_content 'Technology Q'
     select 'TOEIC800点相当', from: 'スキルで探す:'
     wait_for_ajax
+    sleep(0.5)
     click_link 'いいね数' # 降順
-    sleep(1)
+    sleep(0.5)
     expect(page).to have_selector('.sort_link.desc', text: 'いいね数')
     click_link 'いいね数' # 昇順
     expect(page).to have_selector('.sort_link.asc', text: 'いいね数')
