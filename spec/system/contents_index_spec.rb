@@ -24,7 +24,7 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
                        created_at: Time.zone.local(2021, 1, n + 1))
       create(:question,
              learned_content: content,
-             question: "Learn#{n + 1} Question")
+             question: "Learn#{n + 1} Q")
     end
 
     # Word: "lead", UserSkill: 900, Category: General
@@ -85,6 +85,7 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     # 次の復習日順
     paginate_and_wait 1
     click_link '復習まで' # 昇順
+    sleep(0.4)
     expect(page).to have_selector('.sort_link.asc', text: '復習まで')
     expect(page).to have_selector('tr:first-child td:nth-child(3)', text: '1日')
     expect(page).to_not have_selector('td:nth-child(3)', text: '15日')
@@ -220,7 +221,7 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     select 'TOEIC800点相当', from: 'スキルで探す:'
     wait_for_ajax
     click_link 'いいね数' # 降順
-    sleep(0.6)
+    sleep(1)
     expect(page).to have_selector('.sort_link.desc', text: 'いいね数')
     click_link 'いいね数' # 昇順
     expect(page).to have_selector('.sort_link.asc', text: 'いいね数')

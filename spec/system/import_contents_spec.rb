@@ -17,7 +17,7 @@ RSpec.describe 'import contents', type: :system, js: true, vcr: { cassette_name:
   before do
     create(:level)
     learned_content.questions.create!(
-      question: 'Question about lead',
+      question: 'Q about lead',
       answer: 'lead'
     )
     learned_content.related_words.create!(
@@ -29,17 +29,17 @@ RSpec.describe 'import contents', type: :system, js: true, vcr: { cassette_name:
   it 'community questions can be imported' do
     expect(page).to have_content '本日の復習: 0/0'
     expect(page).to have_content '本日の学習: 0'
-    expect(page).to_not have_content 'Question about lead'
+    expect(page).to_not have_content 'Q about lead'
     find('.header-right__toggler--community').click
     find('.community-menu__list', text: 'みんなの問題').click
 
-    expect(page).to have_content 'Question about lead'
+    expect(page).to have_content 'Q about lead'
     expect(page).to have_content 'TOEIC900点相当'
     within 'tbody tr:first-child' do # いいね数
       expect(page).to have_selector('td:nth-child(3)', text: '0')
     end
 
-    click_link 'Question about lead'
+    click_link 'Q about lead'
     expect(page).to_not have_selector('a', text: 'Review')
     click_link 'Question'
 
@@ -99,7 +99,7 @@ RSpec.describe 'import contents', type: :system, js: true, vcr: { cassette_name:
 
     # ダウンロードした問題をもう一度解く
     visit communities_questions_path
-    click_link 'Question about lead'
+    click_link 'Q about lead'
     expect(page).to have_selector('#question-modal')
     click_link 'Question'
 
@@ -131,7 +131,7 @@ RSpec.describe 'import contents', type: :system, js: true, vcr: { cassette_name:
     click_link 'テストユーザー'
     find('a', text: '問題一覧').click
 
-    expect(page).to have_content 'Question about lead'
+    expect(page).to have_content 'Q about lead'
     within 'tbody tr:first-child' do # いいね数
       expect(page).to have_selector('td:nth-child(5)', text: '1')
     end
