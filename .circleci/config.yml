@@ -54,6 +54,8 @@ jobs:
       - run:
           name: Rspec
           command: bundle exec rspec
+      - store_artifacts:
+        path: tmp/capybara/
 
 workflows:
   version: 2.1

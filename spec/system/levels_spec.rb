@@ -62,7 +62,6 @@ RSpec.describe 'Level', type: :system, js: true, vcr: { cassette_name: 'apis' },
     visit root_path
 
     # 90%以上 4exp
-    sleep(0.3)
     set_exp(user: user, exp: 3)
     click_link '復習スタート'
     fill_in 'A:', with: 'a' * 9 + 'b'

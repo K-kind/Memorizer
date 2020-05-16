@@ -109,6 +109,8 @@ class LearnedContent < ApplicationRecord
   private
 
   def set_first_cycle
+    return if review_date.present?
+
     first_cycle = user.cycles.find_by(times: 0).cycle
     update!(review_date: Time.zone.today + first_cycle)
   end
