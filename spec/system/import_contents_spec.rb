@@ -100,6 +100,7 @@ RSpec.describe 'import contents', type: :system, js: true, vcr: { cassette_name:
     # ダウンロードした問題をもう一度解く
     visit communities_questions_path
     click_link 'Question about lead'
+    expect(page).to have_selector('#question-modal')
     click_link 'Question'
 
     expect(page).to have_link 'Back'

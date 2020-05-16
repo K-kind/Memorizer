@@ -60,7 +60,6 @@ end
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
-  gem 'database_cleaner-active_record'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers'
   gem 'vcr'
