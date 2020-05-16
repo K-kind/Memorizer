@@ -164,31 +164,30 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
 
     # ユーザースキル 900 1件
     select 'TOEIC900点相当', from: 'スキルで探す:'
-    wait_for_ajax
+    sleep(0.4)
     expect(page).to have_selector('tbody tr', count: 1)
     expect(page).to have_content 'General 900 Q'
 
     # ユーザースキル 800
     select 'TOEIC800点相当', from: 'スキルで探す:'
-    wait_for_ajax
+    sleep(0.4)
     expect(page).to_not have_content 'General 900 Q'
     paginate_and_wait(2)
     expect(page).to_not have_content 'General 900 Q'
 
     # カテゴリー General with 800 なし
     select 'General', from: 'カテゴリーで探す:'
-    wait_for_ajax
+    sleep(0.4)
     expect(page).to_not have_selector('tbody tr')
 
     # カテゴリー General with 900 1件
     select 'TOEIC900点相当', from: 'スキルで探す:'
-    wait_for_ajax
     expect(page).to have_selector('tbody tr', count: 1)
     expect(page).to have_content 'General 900 Q'
 
     # カテゴリー Technology with 900 なし
     select 'Technology', from: 'カテゴリーで探す:'
-    wait_for_ajax
+    sleep(0.4)
     expect(page).to_not have_selector('tbody tr')
 
     # カテゴリー Technology with 800 1件
@@ -219,7 +218,6 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     # セッションを設定
     expect(page).to_not have_content 'Technology Q'
     select 'TOEIC800点相当', from: 'スキルで探す:'
-    wait_for_ajax
     sleep(0.5)
     click_link 'いいね数' # 降順
     sleep(0.5)
@@ -243,7 +241,7 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     click_link 'Question'
     fill_in 'A:', with: 'answer'
     click_button 'Submit'
-    click_link 'Next'
+    find('a', text: 'Next').click
     expect(page).to have_select('スキルで探す:', selected: 'TOEIC800点相当')
     expect(page).to have_content 'Technology Q'
 
@@ -255,6 +253,7 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     click_button 'Submit'
     click_link 'Download'
     find('a', text: '"star"').click
+    wait_for_ajax
     click_link 'Next'
     expect(page).to have_select('スキルで探す:', selected: 'TOEIC800点相当')
     expect(page).to have_content 'Technology Q'
@@ -273,13 +272,13 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
 
     # スキル900 main: lead 1件
     select 'TOEIC900点相当', from: 'スキルで探す:'
-    wait_for_ajax
+    sleep(0.4)
     expect(page).to have_selector('tbody tr', count: 1)
     expect(page).to have_selector('td', text: 'lead')
 
     # スキル800 main: star, test 15件
     select 'TOEIC800点相当', from: 'スキルで探す:'
-    wait_for_ajax
+    sleep(0.4)
     expect(page).to have_selector('td:nth-child(1)', text: 'star')
     expect(page).to have_selector('td:nth-child(2)', text: 'test')
     expect(page).to_not have_selector('td', text: 'lead')
@@ -288,7 +287,7 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
 
     # スキル800, Technology main: star, test 1件
     select 'Technology', from: 'カテゴリーで探す:'
-    wait_for_ajax
+    sleep(0.4)
     expect(page).to have_selector('td:nth-child(1)', text: 'star')
     expect(page).to have_selector('td:nth-child(2)', text: 'test')
     expect(page).to have_selector('tbody tr', count: 1)
