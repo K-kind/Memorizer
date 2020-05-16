@@ -19,7 +19,7 @@ table.community-ranking-container__table
           td= user.learned_contents.all_or_weekly(period).count
         - else
           td= user.passive_favorites.all_or_weekly(period).count
-        td= user.level_id
+        td= user.level
 
 - if type == 'learn'
   = paginate users, remote: true, params: { learn: 1 }

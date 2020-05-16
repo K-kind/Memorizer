@@ -8,7 +8,7 @@ RSpec.configure do |config|
   chrome_url = ENV.fetch('SELENIUM_DRIVER_URL')
 
   config.before(:each, type: :system, js: true) do
-    driven_by :selenium, using: :headless_chrome, screen_size: [800, 600], options: {
+    driven_by :selenium, using: :selenium_chrome_headless, screen_size: [1440, 800], options: {
       browser: :remote,
       url: chrome_url,
       desired_capabilities: :chrome

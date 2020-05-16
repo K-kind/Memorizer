@@ -5,7 +5,7 @@ test_admin = User.find_by(is_test_user: true, name: 'テスト管理ユーザー
     user.password = 'password'
     user.activated = true
     user.user_skill_id = UserSkill.first.id
-    user.level_id = 1 + (n / 2).floor
+    user.level = 1 + (n / 2).floor
   end
   calendar = fake_user.calendars.find_or_create_by!(calendar_date: Time.zone.today)
   original = LearnedContent.first

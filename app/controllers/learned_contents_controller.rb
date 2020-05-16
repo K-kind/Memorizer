@@ -184,9 +184,9 @@ class LearnedContentsController < ApplicationController
     return unless current_user.level_up?(exp)
 
     if now
-      flash.now[:level_up] = "Level UP! Lv.#{current_user.level_id}"
+      flash.now[:level_up] = "Level UP! Lv.#{current_user.level}"
     else
-      flash[:level_up] = "Level UP! Lv.#{current_user.level_id}"
+      flash[:level_up] = "Level UP! Lv.#{current_user.level}"
     end
   end
 

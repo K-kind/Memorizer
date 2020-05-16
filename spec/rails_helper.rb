@@ -25,6 +25,10 @@ require 'rspec/rails'
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
+
+# system spec でsessionを扱う
+require 'rack_session_access/capybara'
+
 begin
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e
@@ -63,6 +67,14 @@ RSpec.configure do |config|
   # wrong number of argumentsのエラー対策
   config.render_views
 
+  config.after(:all) do
+    FileUtils.rm_rf(Dir["#{Rails.root}/public/uploads_test/"])
+  end
+
   # FactoryBot.create(:user)をcreate(:user)だけで済ませる
   config.include FactoryBot::Syntax::Methods
+
+  config.include LoginSupport, type: :system
+  config.include WaitForCss, type: :system
+  config.include WaitForAjax, type: :system
 end

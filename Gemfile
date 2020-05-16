@@ -31,10 +31,14 @@ gem 'bootsnap', '>= 1.4.2', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'pry-byebug'
+  gem 'pry-rails'
   gem 'rubocop'
   # gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails.git', tag: 'v4.0.0.beta3'
   gem 'rspec-rails'
+  gem 'rspec-retry'
   gem 'factory_bot_rails'
+  gem 'faker'
 end
 
 group :development do
@@ -44,6 +48,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'spring-commands-rspec'
   # Capistrano
   # gem 'capistrano'
   # gem 'capistrano-bundler'
@@ -56,9 +61,13 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
+  gem 'shoulda-matchers'
+  gem 'vcr'
+  gem 'webmock'
   # Easy installation and use of web drivers to run system tests with browsers
   # gem 'webdrivers', require: !ENV['SELENIUM_DRIVER_URL']
-  # gem 'database_cleaner'
+
+  gem 'rack_session_access'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -66,7 +75,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'carrierwave'
 gem 'dotenv-rails'
-gem 'faker'
 gem 'font-awesome-rails'
 gem 'html2slim'
 gem 'jquery-rails'

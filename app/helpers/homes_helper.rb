@@ -8,6 +8,7 @@ module HomesHelper
   end
 
   def learned_contents_today
-    current_user.learned_contents.where('created_at >= ?', Time.zone.today.beginning_of_day)
+    # current_user.learned_contents.where('created_at >= ?', Time.zone.today.beginning_of_day)
+    current_user.calendars.find_by(calendar_date: Time.zone.today).learned_contents
   end
 end

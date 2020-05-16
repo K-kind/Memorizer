@@ -61,7 +61,7 @@ class SessionsController < ApplicationController
     number = (Time.zone.now.min / 10).floor # 分の10の位を取得
     user = User.find_by(email: "test_user#{number}@memorizer.tech")
     log_in user
-    flash[:notice] = "テストユーザー#{number}でログインしました。データは1時間ごとにリセットされます。"
+    flash[:notice] = "#{user.name}でログインしました。データは1時間ごとにリセットされます。"
     redirect_back_or root_url
   end
 end

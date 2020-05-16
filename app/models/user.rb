@@ -97,9 +97,9 @@ class User < ApplicationRecord
 
   def level_up?(added_exp)
     update(exp: (exp + added_exp))
-    return unless Level.find(level_id).threshold <= exp
+    return unless Level.find_by!(level: level).threshold <= exp
 
-    update(level_id: (level_id + 1))
+    update(level: (level + 1))
   end
 
   def save_consulted_word(word_definition)
