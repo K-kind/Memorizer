@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Level', type: :system, js: true, vcr: { cassette_name: 'apis' } do
+RSpec.describe 'Level', type: :system, js: true, vcr: { cassette_name: 'apis' }, retry: 3 do
   include LevelSet
   let(:user_skill) { create(:user_skill) }
   let(:user) { create(:user, user_skill: user_skill) }
