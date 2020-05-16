@@ -65,6 +65,7 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     # 作成日順
     expect(page).to have_content '2021/01/15'
     click_link '作成日'
+    sleep(0.3)
     expect(page).to have_selector('.sort_link.asc', text: '作成日')
     expect(page).to have_selector('td', text: '2021/01/01')
     expect(page).to_not have_content '2021/01/15'
@@ -74,9 +75,11 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     # いいね順
     paginate_and_wait 1
     click_link 'いいね数'
+    sleep(0.3)
     expect(page).to have_selector('.sort_link.desc', text: 'いいね数')
     expect(page).to have_selector('tr:first-child td:nth-child(5)', text: '1')
     click_link 'いいね数'
+    sleep(0.3)
     expect(page).to have_selector('.sort_link.asc', text: 'いいね数')
     expect(page).to_not have_selector('td:nth-child(5)', text: '1')
     paginate_and_wait 2
@@ -93,7 +96,9 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     sleep(0.4)
     expect(page).to have_selector('td:nth-child(3)', text: '15日')
     paginate_and_wait 1
+    sleep(0.3)
     click_link '復習まで' # 降順
+    sleep(0.3)
     expect(page).to have_selector('.sort_link.desc', text: '復習まで')
     expect(page).to have_selector('tr:first-child td:nth-child(3)', text: '15日')
     expect(page).to_not have_selector('td:nth-child(3)', text: /^1日/)
@@ -106,7 +111,7 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     expect(page).to have_selector('tbody tr', count: 1)
     expect(page).to have_content 'Technology Q'
     select 'Science', from: 'カテゴリーで探す:'
-    wait_for_ajax
+    sleep(0.4)
     expect(page).to_not have_content 'Technology Q'
     paginate_and_wait(2)
     expect(page).to_not have_content 'Technology Q'
@@ -118,14 +123,17 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     expect(page).to_not have_selector('tbody tr')
     fill_in '単語で探す:', with: 'test'
     click_button 'button'
+    sleep(0.3)
     expect(page).to have_selector('tbody tr')
 
     # 単語で検索 カテゴリーtechnology 関連語testが検索される
     select 'Technology', from: 'カテゴリーで探す:'
+    sleep(0.3)
     expect(page).to have_selector('tbody tr', count: 1)
     expect(page).to have_content 'Technology Q'
     fill_in '単語で探す:', with: 'star'
     click_button 'button'
+    sleep(0.3)
     expect(page).to have_selector('tbody tr', count: 1)
     expect(page).to have_content 'Technology Q'
 
@@ -138,6 +146,7 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     wait_for_css_disappear('tbody tr')
     expect(page).to_not have_selector('tbody tr')
     select 'All', from: 'カテゴリーで探す:'
+    sleep(0.3)
     expect(page).to have_selector('tbody tr')
 
     # みんなの問題
@@ -147,6 +156,7 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     # 作成日順
     expect(page).to have_selector('tr:first-child td:nth-child(5)', text: '2021/01/15')
     click_link '作成日'
+    sleep(0.3)
     expect(page).to have_selector('.sort_link.asc', text: '作成日')
     expect(page).to_not have_content '2021/01/15'
     paginate_and_wait(2)
@@ -155,9 +165,11 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     # いいね順
     paginate_and_wait(1)
     click_link 'いいね数'
+    sleep(0.3)
     expect(page).to have_selector('.sort_link.desc', text: 'いいね数')
     expect(page).to have_selector('tr:first-child td:nth-child(4)', text: '1')
     click_link 'いいね数'
+    sleep(0.3)
     expect(page).to have_selector('.sort_link.asc', text: 'いいね数')
     expect(page).to_not have_selector('td:nth-child(4)', text: '1')
     paginate_and_wait(2)
@@ -193,15 +205,16 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
 
     # カテゴリー Technology with 800 1件
     select 'TOEIC800点相当', from: 'スキルで探す:'
-    wait_for_ajax
+    sleep(0.3)
     expect(page).to have_selector('tbody tr', count: 1)
     expect(page).to have_content 'Technology Q'
 
     # カテゴリー Science with 800 15件 ソートもできる
     select 'Science', from: 'カテゴリーで探す:'
-    wait_for_ajax
+    sleep(0.3)
     expect(page).to have_selector('tr:first-child td', text: '2021/01/15')
     click_on '作成日'
+    sleep(0.3)
     expect(page).to have_selector('.sort_link.asc', text: '作成日')
     expect(page).to_not have_content '2021/01/15'
     paginate_and_wait(2)
@@ -255,6 +268,7 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     click_link 'Question'
     fill_in 'A:', with: 'answer'
     click_button 'Submit'
+    sleep(0.3)
     click_link 'Download'
     find('a', text: '"star"').click
     sleep(0.3)
@@ -273,6 +287,7 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     # 単語を探す デフォルトは作成日降順
     find('.header-right__toggler--community').click
     find('.community-menu__list', text: '単語を探す').click
+    sleep(0.5)
     expect(page).to have_content 'lead'
     expect(page).to have_content 'star'
 
