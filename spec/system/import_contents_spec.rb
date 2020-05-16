@@ -15,7 +15,7 @@ RSpec.describe 'import contents', type: :system, js: true, vcr: { cassette_name:
   end
 
   before do
-    Level.create!(threshold: 7)
+    create(:level)
     learned_content.questions.create!(
       question: 'Question about lead',
       answer: 'lead'

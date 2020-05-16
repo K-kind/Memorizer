@@ -37,7 +37,7 @@ RSpec.describe 'Level', type: :system, js: true, vcr: { cassette_name: 'apis' } 
         answer: answer
       )
     end
-    Level.create!(threshold: 7)
+    create(:level)
     actual_sign_in_as user
   end
 
@@ -55,7 +55,7 @@ RSpec.describe 'Level', type: :system, js: true, vcr: { cassette_name: 'apis' } 
       click_button 'Save'
       expect(page).to have_selector('.flash__notice', text: '学習が記録されました')
       expect(page).to have_selector('.flash__level_up', text: 'Level UP! Lv.2')
-    }.to change { user.reload.level_id }.by(1).and \
+    }.to change { user.reload.level }.by(1).and \
       change { user.reload.exp }.by(5)
 
     # 自分の問題
@@ -67,9 +67,9 @@ RSpec.describe 'Level', type: :system, js: true, vcr: { cassette_name: 'apis' } 
     fill_in 'A:', with: 'a' * 9 + 'b'
     expect {
       click_button 'Submit'
-      expect(page).to have_selector('.answer-box__similarity--blue', text: '90%')
       expect(page).to have_selector('.flash__level_up', text: 'Level UP! Lv.2')
-    }.to change { user.reload.level_id }.by(1).and \
+      expect(page).to have_selector('.answer-box__similarity--blue', text: '90%')
+    }.to change { user.reload.level }.by(1).and \
       change { user.reload.exp }.by(4)
 
     # 50%以上 3exp
@@ -78,9 +78,9 @@ RSpec.describe 'Level', type: :system, js: true, vcr: { cassette_name: 'apis' } 
     fill_in 'A:', with: 'a' * 5 + 'b' * 5
     expect {
       click_button 'Submit'
-      expect(page).to have_selector('.answer-box__similarity--black', text: '50%')
       expect(page).to have_selector('.flash__level_up', text: 'Level UP! Lv.2')
-    }.to change { user.reload.level_id }.by(1).and \
+      expect(page).to have_selector('.answer-box__similarity--black', text: '50%')
+    }.to change { user.reload.level }.by(1).and \
       change { user.reload.exp }.by(3)
 
     # 49%以下 2exp
@@ -89,9 +89,9 @@ RSpec.describe 'Level', type: :system, js: true, vcr: { cassette_name: 'apis' } 
     fill_in 'A:', with: 'a' * 49 + 'b' * 51
     expect {
       click_button 'Submit'
-      expect(page).to have_selector('.answer-box__similarity--red', text: '49%')
       expect(page).to have_selector('.flash__level_up', text: 'Level UP! Lv.2')
-    }.to change { user.reload.level_id }.by(1).and \
+      expect(page).to have_selector('.answer-box__similarity--red', text: '49%')
+    }.to change { user.reload.level }.by(1).and \
       change { user.reload.exp }.by(2)
 
     # みんなの問題 1exp
@@ -102,10 +102,12 @@ RSpec.describe 'Level', type: :system, js: true, vcr: { cassette_name: 'apis' } 
     fill_in 'A:', with: 'a' * 9 + 'b'
     expect {
       click_button 'Submit'
-      expect(page).to have_selector('.answer-box__similarity--blue', text: '90%')
       expect(page).to have_selector('.flash__level_up', text: 'Level UP! Lv.2')
-    }.to change { user.reload.level_id }.by(1).and \
+      expect(page).to have_selector('.answer-box__similarity--blue', text: '90%')
+    }.to change { user.reload.level }.by(1).and \
       change { user.reload.exp }.by(1)
+    click_link 'Download'
+    expect(page).to have_selector('.flash__notice', text: '学習コンテンツをダウンロードしました')
 
     # 本日の復習ではない問題 0exp
     set_exp(user: user, exp: 6)
@@ -115,9 +117,60 @@ RSpec.describe 'Level', type: :system, js: true, vcr: { cassette_name: 'apis' } 
     fill_in 'A:', with: 'a' * 10
     expect {
       click_button 'Submit'
-      expect(page).to have_selector('.answer-box__similarity--blue', text: '100%')
       expect(page).to_not have_selector('.flash__level_up', text: 'Level UP! Lv.2')
-    }.to change { user.reload.level_id }.by(0).and \
+      expect(page).to have_selector('.answer-box__similarity--blue', text: '100%')
+    }.to change { user.reload.level }.by(0).and \
       change { user.reload.exp }.by(0)
+
+    # 正解率モーダル
+    visit learns_path
+    # ダウンロードしたばかりの問題
+    within 'tbody tr:first-child' do
+      expect(page).to have_content 'Q of other_user'
+      find('td:nth-child(2) ', text: '0').click
+    end
+    expect(page).to have_selector '#question-modal'
+    expect(page).to_not have_content '復習1回目: 90%'
+    find('.login-form__closer').click
+    wait_for_ajax
+
+    # 作成したばかりの問題
+    within 'tbody tr:nth-child(2)' do
+      expect(page).to have_content 'Q about lead'
+      find('td:nth-child(2) ', text: '0').click
+    end
+    expect(page).to have_selector '#question-modal'
+    expect(page).to_not have_content '復習1回目:'
+    find('.login-form__closer').click
+    wait_for_ajax
+
+    # 49%の正解率
+    within 'tbody tr:nth-child(3)' do
+      expect(page).to have_content 'Q for 49%'
+      find('td:nth-child(2) ', text: '1').click
+    end
+    expect(page).to have_selector '#question-modal'
+    expect(page).to have_content '復習1回目: 49%'
+    find('.login-form__closer').click
+    wait_for_ajax
+
+    # 50%の正解率
+    within 'tbody tr:nth-child(4)' do
+      expect(page).to have_content 'Q for 50%'
+      find('td:nth-child(2) ', text: '1').click
+    end
+    expect(page).to have_selector '#question-modal'
+    expect(page).to have_content '復習1回目: 50%'
+    find('.login-form__closer').click
+    wait_for_ajax
+
+    # 90%の正解率
+    within 'tbody tr:nth-child(5)' do
+      expect(page).to have_content 'Q for 90%'
+      find('td:nth-child(2) ', text: '1').click
+    end
+    expect(page).to have_selector '#question-modal'
+    expect(page).to have_content '復習1回目: 90%'
+    find('.login-form__closer').click
   end
 end

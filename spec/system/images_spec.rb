@@ -5,7 +5,7 @@ RSpec.describe 'Images', type: :system, js: true, vcr: { cassette_name: 'apis' }
   let(:other_user) { create(:user) }
   before do
     create(:word_category)
-    Level.create!(threshold: 7)
+    create(:level)
     actual_sign_in_as user
   end
 

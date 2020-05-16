@@ -5,7 +5,7 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
   before do
     create(:word_category)
     create(:word_category, category: 'Science')
-    Level.create!(threshold: 7)
+    create(:level)
     actual_sign_in_as user
     visit new_learn_path
   end

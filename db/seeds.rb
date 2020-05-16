@@ -19,17 +19,19 @@ WordCategory.find_or_create_by!(category: 'Technology')
 WordCategory.find_or_create_by!(category: 'Business')
 
 # 最初だけ頻繁にレベルが上がり過ぎないようにする
-Level.find_or_create_by!(threshold: 7)
-Level.find_or_create_by!(threshold: 17)
-Level.find_or_create_by!(threshold: 32)
-Level.find_or_create_by!(threshold: 52)
-Level.find_or_create_by!(threshold: 77)
+Level.find_or_create_by!(threshold: 7, level: 1)
+Level.find_or_create_by!(threshold: 17, level: 2)
+Level.find_or_create_by!(threshold: 32, level: 3)
+Level.find_or_create_by!(threshold: 52, level: 4)
+Level.find_or_create_by!(threshold: 77, level: 5)
 # 6レベル以降はthresholdを緩やかに上げる
 300.times do |n|
   id = n + 6
-  threshold = Level.find(id - 1).threshold + 20 + (id / 10).floor
-  Level.find_or_create_by!(threshold: threshold)
+  threshold = Level.find_by!(level: id - 1).threshold + 20 + (id / 10).floor
+  Level.find_or_create_by!(threshold: threshold, level: id)
 end
+
+Level.where(level: nil).destroy_all
 
 # 管理者を作成
 email = Rails.application.credentials.dig(:seed, :admin_email)

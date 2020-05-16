@@ -12,7 +12,7 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
   let(:word_category_technology) { WordCategory.create!(category: 'Technology') }
 
   before do
-    Level.create!(threshold: 7)
+    create(:level)
     # Word: "test", UserSkill: 800, Category: Science
     15.times do |n|
       content = create(:learned_content,

@@ -29,8 +29,8 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
   end
 
   before do
-    Level.create!(threshold: 7)
-    Level.create!(threshold: 17)
+    create(:level)
+    create(:level, :level2)
     3.times do |n|
       leraned_content_today1.questions.create!(
         question: "Learn1 Q#{n + 1}",
@@ -199,9 +199,9 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     LearnedContent.update_all('till_next_review = till_next_review - 1')
     visit root_path
     aggregate_failures do
-      expect(page).to have_content '本日の復習: 0/2'
+      expect(page).to have_content '本日の復習: 2/4'
       expect(page).to have_selector 'h3:nth-child(1)', text: '本日の復習'
-      expect(page).to have_selector 'li:nth-child(2)', text: 'Learn2 Q1'
+      expect(page).to have_selector 'li:nth-child(2)', text: 'Learn1 Q1'
       expect(page).to have_selector 'li:nth-child(3)', text: 'Tommorow question'
     end
   end

@@ -14,4 +14,4 @@ user.learned_contents.each_with_index do |learned_content, index|
   learned_content.update!(till_next_review: 0) if index >= 3
 end
 user.set_test_words
-user.update!(exp: 0, level_id: 1)
+user.update!(exp: 0, level: 1)
