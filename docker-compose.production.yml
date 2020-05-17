@@ -6,13 +6,12 @@ services:
     environment:
       - RAILS_ENV=production
     command: >
-      bash -c "bundle exec rails assets:precompile &&
+      bash -c "bundle exec rails db:migrate &&
+      bundle exec rails assets:precompile &&
       bundle exec puma -C config/puma.rb"
     volumes:
       - public-data:myapp/public
       - socket-data:/myapp/tmp/sockets
-    ports:
-      - "3000:3000"
 
   web:
     build:

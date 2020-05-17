@@ -47,5 +47,5 @@ unless user.calendars.find_by(calendar_date: Time.zone.today + 6)
       )
     end
   end
-  user.calendars.find_by(calendar_date: Time.zone.today - 9).destroy
+  user.calendars.find_by(calendar_date: Time.zone.today - 9)&.destroy
 end
