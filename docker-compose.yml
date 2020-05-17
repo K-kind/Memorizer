@@ -8,7 +8,7 @@ services:
       - db-data:/var/lib/mysql
     ports:
       - "3306:3306"
-    
+
   app:
     build:
       context: .
