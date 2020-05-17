@@ -136,10 +136,10 @@ class User < ApplicationRecord
   end
 
   def reset_test_notification
-    unless notifications.where(checked: false).any?
-      notifications.destroy_all
-      notifications.create!
-    end
+    return if notifications.where(checked: false, to_admin: false).any?
+
+    notifications.destroy_all
+    notifications.create!
   end
 
   def import_content(original_content, calendar_today)

@@ -3,7 +3,10 @@ test_admin = User.find_by(is_test_user: true, name: 'テスト管理ユーザー
 User.where('is_test_user = ? AND name != ?', true, 'テスト管理ユーザー').each do |user|
   user.learned_contents.destroy_all
   user.calendars.destroy_all
-  test_admin.learned_contents.each.with_index(1) do |original_content, index|
+  contents_to_copy = test_admin.learned_contents.where('created_at > ?', Time.zone.yesterday)
+  raise 'lack of test admin contents' if contents_to_copy.count != 7
+
+  contents_to_copy.each.with_index(1) do |original_content, index|
     # 日付は6, 7問目をデフォルト（昨日作って今日復習）にする
     learned_content = user.learned_contents.create!(
       word_definition_id: original_content.word_definition_id,
