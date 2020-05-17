@@ -89,7 +89,7 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
       find('#learned_content_content').set('I learned the word star.')
       fill_in 'Question 1', with: 'Question about star'
       click_button 'Save'
-      sleep(0.5)
+      sleep(0.6)
       expect(page).to_not have_selector('.error-message__list', text: '学習内容を入力してください')
       expect(page).to have_selector('.error-message__list', text: '答えを入力してください')
 
@@ -97,7 +97,7 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
       fill_in 'Question 1', with: ' '
       fill_in 'Answer 1', with: 'Answer for Q1'
       click_button 'Save'
-      sleep(0.3)
+      sleep(0.4)
       expect(page).to have_selector('.error-message__list', text: '問題を入力してください')
 
       # with Q & A and only Q2
@@ -105,7 +105,7 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
       click_on 'more'
       find_field('Question 2').fill_in with: 'Another Question'
       click_button 'Save'
-      sleep(0.5)
+      sleep(0.6)
       expect(page).to have_selector('.error-message__list', text: '答えを入力してください')
     }.to change(user.learned_contents, :count).by(0)
 

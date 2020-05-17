@@ -5,10 +5,12 @@ services:
       context: .
     environment:
       - RAILS_ENV=production
-    command: bundle exec rails assets:precompile
-    command: bundle exec puma -C config/puma.rb
+    command: >
+      bash -c "bundle exec rails assets:precompile &&
+      bundle exec puma -C config/puma.rb"
     volumes:
-      - .:/myapp
+      - public-data:myapp/public
+      - socket-data:/myapp/tmp/sockets
     ports:
       - "3000:3000"
 
@@ -17,7 +19,13 @@ services:
       context: containers/nginx
     volumes:
       - .:/myapp
+      - public-data:myapp/public
+      - socket-data:/myapp/tmp/sockets
     ports:
       - 80:80
     depends_on:
       - app
+
+volumes:
+  public-data:
+  socket-data:

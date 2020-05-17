@@ -84,7 +84,7 @@ class LearnedContentsController < ApplicationController
   def import
     @original_content = LearnedContent.find(params[:id])
     @learned_content = current_user.import_content(@original_content, @calendar_today)
-    @original_content.duplicate_children(@learned_content)
+    @original_content.duplicate_children_to(@learned_content)
     current_user.set_calendar_to_review(@learned_content.review_date)
     @message = "\"#{@learned_content.word_definition.word}\"の学習コンテンツをダウンロードしました。"
   end
