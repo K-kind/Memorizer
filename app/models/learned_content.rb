@@ -93,7 +93,7 @@ class LearnedContent < ApplicationRecord
     end
   end
 
-  def duplicate_children(learned_content)
+  def duplicate_children_to(learned_content)
     ['related_image', 'related_word', 'question'].each do |model|
       send("#{model}s").each do |object|
         duplicated = object.dup

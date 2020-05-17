@@ -106,23 +106,36 @@ class User < ApplicationRecord
     consulted_words.find_or_create_by!(word_definition_id: word_definition.id)
   end
 
-  def set_test_words
-    test_admin = User.find_by(email: Rails.application.credentials.dig(:seed, :test_admin_email))
-    test_admin.consulted_words.each do |consulted_word|
-      consulted_words.find_or_create_by!(word_definition_id: consulted_word.word_definition_id)
-    end
-    test_admin.later_lists.each do |later_list|
-      later_lists.find_or_create_by!(word: later_list.word)
-    end
-    test_admin.contacts.each do |contact|
-      contacts.find_or_create_by!(comment: contact.comment) do |c|
-        c.from_admin = contact.from_admin
-        c.created_at = contact.created_at
+  def reset_test_words(test_admin)
+    if consulted_words.count < test_admin.consulted_words.count
+      test_admin.consulted_words.each do |consulted_word|
+        consulted_words.find_or_create_by!(word_definition_id: consulted_word.word_definition_id)
       end
     end
-    learn_templates.last.update!(
-      content: test_admin.learn_templates.last.content
-    )
+    if later_lists.count < test_admin.later_lists.count
+      test_admin.later_lists.each do |later_list|
+        later_lists.find_or_create_by!(word: later_list.word)
+      end
+    end
+    if learn_templates.last.updated_at > Time.zone.now - 12.hours
+      learn_templates.last.update!(
+        content: test_admin.learn_templates.last.content
+      )
+    end
+  end
+
+  def reset_test_contacts(test_admin)
+    contacts.destroy_all
+    test_admin.contacts.each do |contact|
+      contacts.create!(
+        comment: contact.comment,
+        from_admin: contact.from_admin,
+        created_at: Time.zone.yesterday
+      )
+    end
+  end
+
+  def reset_test_notification
     unless notifications.where(checked: false).any?
       notifications.destroy_all
       notifications.create!
