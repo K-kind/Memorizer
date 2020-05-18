@@ -1,0 +1,38 @@
+header.header
+  .container
+    .header-left
+      = link_to root_path do
+        = image_tag 'logo.png', class: 'header-left__logo'
+    ul.header-right
+      - if current_user.notifications.unchecked.user_notify.any?
+        li.header-right__list
+          = link_to contacts_path, class: 'header-right__envelope' do
+            = fa_icon 'envelope lg'
+            = current_user.notifications.unchecked.user_notify.count
+      li.header-right__list
+        = link_to new_learn_path, class: 'header-right__new-link' do
+          = fa_icon 'edit lg'
+      li.header-right__list
+        a.header-right__toggler--community href='#'
+          = fa_icon 'users lg'
+          = fa_icon 'caret-down'
+        ul.community-menu
+          li.community-menu__list
+            = link_to 'みんなの問題', communities_questions_path
+          li.community-menu__list
+            = link_to '単語を探す', communities_words_path
+          li.community-menu__list
+            = link_to 'ランキング', communities_ranking_path
+      li.header-right__list
+        a.header-right__toggler--user href='#'
+          | #{current_user.name}(Lv.#{current_user.level})
+          = fa_icon 'caret-down'
+        ul.user-menu
+          li.user-menu__list
+            = link_to 'マイページ', user_path
+          li.user-menu__list
+            = link_to '問題一覧', learns_path
+          li.user-menu__list
+            = link_to '単語一覧', consulted_words_path
+          li.user-menu__list
+            = link_to 'ログアウト', logout_path, method: :delete

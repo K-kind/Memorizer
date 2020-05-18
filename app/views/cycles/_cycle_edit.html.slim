@@ -1,0 +1,24 @@
+= form_with model: current_user, url: set_cycles_path do |f|
+  = render 'shared/error_messages', object: f.object
+  .my-page-container__cycle-container
+    - current_user.cycles.each_with_index do |cycle, index|
+      .my-page-container__cycle-field
+        = f.fields_for :cycles, cycle do |cf|
+          = cf.label :cycle, "#{cycle.times + 1}回目:"
+          = cf.number_field :cycle, class: 'my-page-container__cycle-form'
+          | 日後
+          = cf.hidden_field :times, value: cycle.times
+        - if current_user.cycles.count >= 6 && index == current_user.cycles.count - 1
+          = link_to '削除', cycle_path(cycle), remote: true, method: :delete, class: 'my-page-container__destroy-cycle-btn'
+        - if !cycle.valid? && cycle.times >= 5 #追加した直後のもの
+          = link_to '削除', new_cycle_path(cancel: 1), remote: true, class: 'my-page-container__destroy-cycle-btn'
+
+    .my-page-container__cycle-field
+      - unless @added
+        = link_to '追加', new_cycle_path, remote: true, id: 'add-cycle-btn', class: 'my-page-container__add-cycle-btn'
+  p.my-page-container__cycle-notion
+    | ※変更は次の復習後から反映されます。
+  .my-page-container__template-submit
+    = f.submit
+  .my-page-container__default-cycle
+    = link_to 'デフォルトに戻す', default_cycles_path, remote: true, method: :post, id: 'default-cycle-btn'

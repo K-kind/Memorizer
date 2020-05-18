@@ -1,0 +1,49 @@
+.my-page-container
+  h2.my-page-container__heading ユーザー情報
+  .my-page-container__top
+    .my-page-container__user-info
+      #user-info
+        = render 'user_info'
+
+    .my-page-container__user-level
+      table.my-page-container__level-table
+        tr
+          th レベル
+          td= current_user.level
+        tr
+          th
+            strong.fa.fa-edit
+            |  週間単語学習数
+          td
+            = current_user.learned_contents.all_or_weekly('weekly').count
+            |  (<span class='fas fa-crown my-page-container__ranking'> #{weekly_ranking} / #{@active_users.count} 位</span> )
+        tr
+          th
+            strong.fa.fa-edit
+            |  総単語学習数
+          td
+            = current_user.learned_contents.count
+            |  (<span class='fas fa-crown my-page-container__ranking'> #{overall_ranking} / #{@active_users.count} 位</span> )
+        tr
+          th
+            strong.fa.fa-book-open
+            |  総単語復習回数
+          td= current_user.review_histories.count
+
+  h2.my-page-container__heading 学習グラフ
+  .my-page-container__bottom
+    #chart-container
+      =render 'chart'
+
+  h2.my-page-container__heading-bottom
+    i.fas.fa-cog.
+    |  学習設定
+  .my-page-container__settings
+    .my-page-container__settings-left
+      h3.my-page-container__template-heading 学習テンプレート
+      #template-edit
+        = render 'learn_templates/learn_template'
+    .my-page-container__settings-right
+      h3.my-page-container__template-heading 復習サイクル
+      #cycle-edit
+        = render 'cycles/cycle_edit'

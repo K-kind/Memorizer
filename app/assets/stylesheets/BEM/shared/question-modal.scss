@@ -1,0 +1,49 @@
+@import 'BEM/mixin';
+
+.question-modal {
+  display: none;
+  width: 550px;
+  padding: 20px 45px;
+  border-radius: 3px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  background-color: #FFF;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  &__heading {
+    margin-bottom: 8px;
+  }
+  &__ul {
+    max-height: 450px;
+    overflow-y: scroll;
+    padding-left: 17px;
+    padding-top: 5px;
+    background-color: #F9FBFE;
+    border-radius: 3px;
+  }
+  &__li {
+    list-style: disc;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  &__links {
+    text-align: center;
+    margin-top: 8px;
+  }
+  &__question-link {
+    @include submit-btn;
+    padding: 5px 10px;
+  }
+  &__review-link {
+    @include submit-btn;
+    margin-left: 10px;
+    padding: 5px 8px;
+  }
+  &__day {
+    position: absolute;
+    left: 145px;
+    top: 5px;
+  }
+}

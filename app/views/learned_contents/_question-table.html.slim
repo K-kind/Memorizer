@@ -1,0 +1,32 @@
+table.question-table
+  thead
+    tr
+      th 問題
+      th 復習回数
+      th= sort_link @q, :review_date, '復習まで', {}, { remote: true }
+      th カテゴリー
+      th= sort_link @q, :favorites_count, 'いいね数', { default_order: :desc }, { remote: true }
+      th= sort_link @q, :created_at, '作成日', {}, { remote: true }
+  tbody
+    - @learned_contents.each do |learned_content|
+      tr
+        td.question-table__question-td
+          .question-table__question
+            = link_to learned_content.questions.first.question, question_show_learn_path(learned_content, type: 'question'), remote: true, class: ''
+        td= link_to learned_content.review_histories.count, question_show_learn_path(learned_content, type: 'reviewd_times'), remote: true
+        td
+          - if learned_content.completed?
+            | 完了!
+          -elsif learned_content.till_next_review >= 0
+            | #{learned_content.till_next_review}日
+          - else
+            | 0日
+        td= learned_content.word_category.category
+        td
+          - if learned_content.imported?
+            | -
+          - else
+            = learned_content.favorites.count
+        td= learned_content.created_at.strftime('%Y/%m/%d')
+
+= paginate @learned_contents, remote: true

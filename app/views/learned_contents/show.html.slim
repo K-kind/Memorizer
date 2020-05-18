@@ -1,0 +1,61 @@
+.learn-grid-container__show
+  .learn-grid-container__webster
+    #webster-field
+      = link_to 'https://www.merriam-webster.com/', target: '_blank', rel: 'noopener' do
+        = image_tag 'Merriam-Webster-logo.png', class: 'merriam-logo'
+  .learn-grid-container__study--show
+    = fa_icon 'book-open', class: 'learn-grid-container__edit-icon'
+    .learn-grid-container__study-field
+      .learn-grid-container__main-word
+        strong.learn-grid-container__main-word-show < #{@word} >
+      .learn-grid-container__trix-content
+        == @learned_content.content
+      - if @learned_content.related_images.any?
+        .learn-grid-container__saved-images--show
+          - @learned_content.related_images&.each do |related_image|
+            = content_tag(:span, class: 'learn-grid-container__saved-image') do
+              = link_to related_image.image.url, target: '_blank', rel: 'noopener' do
+                = image_tag related_image.image.url, alt: "image of #{related_image.word}"
+      .learn-grid-container__question--show
+        - @learned_content.questions.each_with_index do |question, index|
+          h3 Q#{index + 1}
+          = simple_format question.question
+          .learn-grid-container__answer-show
+            <strong>A: </strong>
+            span= question.answer
+      .learn-grid-container__subtle
+        .learn-grid-container__category--show
+          <strong>Category: </strong>
+          span= @learned_content.word_category.category
+        .learn-grid-container__public--show
+          - if @learned_content.is_public
+            span Public
+          - else
+            span Private
+
+.learn-show-bottom
+  .learn-show-bottom__info
+    - if @learned_content.completed?
+      span.till-next-day You have learned this word completely!
+    - else
+      span.till-next-day Until next review: #{till_next_day(@learned_content.till_next_review)}
+  .learn-show-bottom__btns
+    - if @original_content
+      #favorite-partial
+        = render 'favorite_link'
+    = link_to 'Edit', edit_learn_path(@learned_content), class: "learn-show-bottom__edit-btn #{test_content_class(@learned_content)}"
+    = link_to 'Destroy', learn_path(@learned_content), class: "learn-show-bottom__destroy-btn  #{test_content_class(@learned_content)}", method: :delete, data: { confirm: '学習内容を削除してよろしいですか？' }
+  - if @today == '1'
+    .learn-show-bottom__today
+      = form_with url: again_learn_path(@learned_content), id: 'onclick-form', class: 'again-form' do |f|
+        = f.label :again, 'Again: '
+        = f.check_box :again, class: 'onclick-select'
+      - if contents_to_review_today.any?
+        = link_to 'Next', question_learn_path(contents_to_review_today.review_date_asc.first, today: 1), class: 'learn-show-bottom__next'
+      = link_to 'Finish', root_path, class: 'learn-show-bottom__finish'
+  - elsif session[:question_back]
+    .learn-show-bottom__today
+      = link_to 'Next', communities_questions_path(back: 1), class: 'learn-show-bottom__finish'
+
+/ メイン単語の辞書を表示
+= link_to '', result_path(word: @word, type: 'show_main', learned_content_id: params[:id]), method: :post, remote: true, id: 'hidden_link'

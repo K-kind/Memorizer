@@ -1,0 +1,97 @@
+.help
+  h1.help__heading ヘルプ
+
+  ul.help__lists
+    li.help__li
+      a.help__drop-toggle 右上の <i class='fa fa-edit'></i> アイコンは何ですか？
+      .help__drop-down
+        | 新しく単語を学習するページへのリンクです。<br>ログインしていない場合も学習を体験していただけますが、内容を保存する事はできません。
+
+    li.help__li
+      a.help__drop-toggle 辞書のTHESAURUSとは何ですか？
+      .help__drop-down
+        = image_tag 'thesaurus-capture', class: 'help__thesaurus'
+        p.help__text
+          | Thesaurusとは、類義語(Synonym)・反意語(Antonym)などを集めた類語辞典です。単語を検索する際、タブを切り替えることで、Merriam-Webster's Collegiate® Thesaurusの辞書情報をご活用いだだけます。
+
+    li.help__li
+      a.help__drop-toggle 問題のFreeやSimpleとは何ですか？
+      .help__drop-down
+        = image_tag 'question-capture', class: 'help__question'
+        p.help__text
+          | 問題作成時に、Free（デフォルト）、Simple、Imageの3タイプをお選びいただけます。<br>
+          | ・Freeは任意の問題です。<br>
+          | ・Simpleを選ぶと、メイン単語の定義（最大3つ）が問題にセットされ、答えはそのメイン単語になります。<br>
+          | ・Imageを選ぶと、保存された画像に関連する単語は何かを問う問題がセットされ、答えはメイン単語になります。<br>
+          | これらは、問題をしっかり作る時間がない場合などに、ご活用ください。
+
+    li.help__li
+      a.help__drop-toggle 問題のPublic、Privateとは何ですか？
+      .help__drop-down
+        | Public（デフォルト）に設定すると、学習内容が「みんなの問題」の一覧に追加され、他のユーザーが問題を解いたり、ダウンロードすることができます（問題作成者名は公開されません）。良い問題を作成していいねを獲得しましょう。<br>
+        | Privateの場合は、問題が他のユーザーに公開されることはありません。
+
+    li.help__li
+      a.help__drop-toggle 学習テンプレートとは何ですか？
+      .help__drop-down
+        = image_tag 'temple-capture', class: 'help__question'
+        p.help__text
+          | 学習画面の自由記入欄に、毎回入力することなどをテンプレートとして保存しておく事ができます。
+          | マイページの学習設定をご覧ください。
+
+    li.help__li
+      a.help__drop-toggle 復習サイクルとは何ですか？
+      .help__drop-down
+        = image_tag 'cycle-capture', class: 'help__question'
+        p.help__text--cycle
+          | Memorizerでは、分散学習法を利用します。分散学習とは、復習の間隔を少しずつ伸ばして、忘れかけた頃に復習する方法です。<br>
+          | ピョートル・ウォズニアックによる、もっとも効率が良いとされるサイクル「1日後、7日後、16日後、35日後、62日後」をデフォルトとして、自動的に復習サイクルが管理されます。<br>
+          | もっと頻繁に復習したい場合などは、マイページの学習設定から、お好みの復習サイクルにカスタマイズしていただけます。
+
+    li.help__li
+      a.help__drop-toggle 問題回答後のAgainとは何ですか？
+      .help__drop-down
+        = image_tag 'again-capture', height: '60'
+        p.help__text--cycle
+          | 本日の問題を回答後、単語の復習ページに進むと、Againというチェックボックスが表示されます。ここにチェックを入れると、その問題は次の復習時に再び同じサイクルで表示されます。<br>
+          | 例）2回目の復習で7日経過後に復習したが、全く記憶に定着できていなかった場合、Againをチェックする事で、3回目の復習が16日後ではなく、再び7日後になります。<br>
+          | （トップページの復習スタート画面から復習した場合のみAgainが表示されます。）
+
+    li.help__li
+      a.help__drop-toggle 「単語一覧」とは何ですか？
+      .help__drop-down
+        | 今まで検索した単語が一覧で表示されます。自分専用の単語帳としてご活用ください。
+
+    li.help__li
+      a.help__drop-toggle 「みんなの問題」とは何ですか？
+      .help__drop-down
+        | 他のユーザーが作成した問題が一覧で表示されます。問題作成者のスキルや、単語のカテゴリーで絞り込む事ができます。
+        | スキマ時間に勉強したい時などにオススメです。
+        | 回答した問題にいいねをしたり、ダウンロードして、自分の復習サイクルに入れる事もできます。<br>
+        | ダウンロードした問題を編集しても、元の問題に影響はありません。
+
+    li.help__li
+      a.help__drop-toggle 「単語を探す」とは何ですか？
+      .help__drop-down
+        | 他のユーザーが作成した問題に関する単語が一覧で表示されます。問題作成者のスキルや、単語のカテゴリーで絞り込む事ができます。
+        | 自分と同じくらいのスキルのユーザーがどのような単語を調べているのか知る事ができます。<br>
+        | 学習したい単語が浮かばない時などにご活用ください。
+
+    li.help__li
+      a.help__drop-toggle 右下の <i class='fa fa-bookmark'></i> <i class='fa fa-search'></i> アイコンは何ですか？
+      .help__drop-down
+        | <i class='fa fa-bookmark'></i> ブックマークアイコンは、あとで調べたい単語のリストです。
+        | 今すぐには学習できないけれどキープしておきたいという単語を保存して、あとで学習していただけます。<br>
+        | <i class='fa fa-search'></i> サーチアイコンをクリックすると、いつでも辞書を呼び出す事ができます。
+        | 学習画面以外で、調べたい単語がある場合に、すぐにご利用いただけます。
+
+    li.help__li
+      a.help__drop-toggle レベルとは何ですか？
+      .help__drop-down
+        | 問題を新規作成したり、本日の問題やみんなの問題を解いた時に、経験値が貯まり、一定値を超えるとレベルアップします。（まだ復習日でない問題を解いても経験値は貯まりません。）
+        | たくさん学習して、高レベルを目指しましょう。
+
+    li.help__li
+      a.help__drop-toggle 退会について
+      .help__drop-down
+        | 退会されると、全ての学習履歴が完全に削除されます。お間違いがないようご注意ください。

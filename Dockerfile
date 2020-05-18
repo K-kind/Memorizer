@@ -6,16 +6,19 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
 RUN apt-get update -qq \
   && apt-get install -y nodejs \
                         yarn \
+                        cron \
   # aptキャッシュをクリーンにして、イメージを軽くする
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 RUN mkdir /myapp
 ENV APP_ROOT /myapp
+ENV TZ Asia/Tokyo
 WORKDIR $APP_ROOT
 COPY Gemfile $APP_ROOT/Gemfile
 COPY Gemfile.lock $APP_ROOT/Gemfile.lock
-RUN bundle install
+COPY yarn.lock $APP_ROOT/yarn.lock
+COPY package.json $APP_ROOT/package.json
+RUN bundle install && yarn install
 COPY . $APP_ROOT
 
-# puma.sockを配置するディレクトリを作成
-RUN mkdir -p tmp/sockets
+CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]

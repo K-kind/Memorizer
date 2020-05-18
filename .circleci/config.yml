@@ -1,0 +1,67 @@
+version: 2.1
+executors:
+  test-build-executor:
+    docker:
+      - image: circleci/ruby:2.6.5-node-browsers-legacy
+        environment:
+          RAILS_ENV: test
+          MYSQL_PASSWORD: ''
+          MYSQL_HOST: 127.0.0.1
+          SELENIUM_DRIVER_URL: http://localhost:4444/wd/hub
+      - image: circleci/mysql:5.7
+        environment:
+          MYSQL_DATABASE: myapp_test
+          MYSQL_ROOT_HOST: '%'
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
+      - image: selenium/standalone-chrome-debug
+    working_directory: ~/memorizer
+
+commands:
+  install-and-caching:
+    description: "bundle install and yarn install and caching"
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            - v1-dependencies-
+      - run: bundle install --jobs=4 --retry=3 --path vendor/bundle
+      - run: yarn install
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+
+jobs:
+  rubocop:
+    executor: test-build-executor
+    steps:
+      - install-and-caching
+      - run:
+          name: Rubocop
+          command: bundle exec rubocop
+
+  rspec:
+    executor: test-build-executor
+    steps:
+      - install-and-caching
+      - run:
+          name: Wait for DB
+          command: |
+            dockerize -wait tcp://127.0.0.1:3306 -timeout 120s
+            bundle exec rake db:create
+            bundle exec rake db:schema:load
+      - run:
+          name: Rspec
+          command: bundle exec rspec
+      - store_artifacts:
+          path: tmp/screenshots/
+
+workflows:
+  version: 2.1
+  rubocop_rspec:
+    jobs:
+      - rubocop
+      - rspec:
+          requires:
+            - rubocop

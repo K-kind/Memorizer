@@ -1,0 +1,13 @@
+.consulted-container
+  h1.consulted-container__heading 単語検索履歴
+
+  .consulted-container__left
+    #consulted-word-table
+      = render 'consulted_words'
+
+  .consulted-container__right
+    .consulted-container__webster
+      #webster-field
+        = link_to 'https://www.merriam-webster.com/', target: '_blank', rel: 'noopener' do
+          = image_tag 'Merriam-Webster-logo.png', class: 'merriam-logo'
+      #default-word-link

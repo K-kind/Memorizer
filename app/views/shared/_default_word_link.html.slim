@@ -1,0 +1,2 @@
+= link_to " \"#{@word}\"", new_learn_path(default_word: @word), class: 'btn-with-default fa fa-edit'
+= link_to " \"#{@word}\"", later_lists_path(params: { later_list: { word: @word } }, sub_type: @sub_type), method: :post, remote: true, class: 'bookmark-default fa fa-bookmark'

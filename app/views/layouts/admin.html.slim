@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    title
+      | Memorizer Admin
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    = favicon_link_tag('favicon.ico')
+  body
+    = render 'layouts/admin_header'
+    .main
+      .container
+        #flash-box.hidden
+          = render 'shared/flash'
+        = yield
+    = render 'layouts/admin_footer'

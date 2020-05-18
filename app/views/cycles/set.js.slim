@@ -1,0 +1,5 @@
+| $('#cycle-edit').html('#{escape_javascript(render 'cycles/cycle_edit')}');
+- if @message
+  | $('#flash-box').html('<div class="flash__notice">#{@message}</div>');
+  | $('#flash-box').fadeIn();
+  | setTimeout("$('#flash-box').fadeOut('slow')", 2400);

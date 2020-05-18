@@ -1,0 +1,10 @@
+.user-skill-modal.hidden
+  p.user-skill-modal__message #{current_user.name}さん
+  p.user-skill-modal__message
+    | ご登録ありがとうございます。<br>
+    | 現在の英語スキルを選択してください。<br>
+    | (公開されることはありません)
+  = form_with url: set_user_skill_user_path do |f|
+    = f.collection_select :user_skill_id, @user_skills, :id, :skill, {include_blank: '現在の英語スキル'}, {class: 'login-form__select', id: 'user-skill-select'}
+    .user-skill-modal__submit
+      = f.submit '登録完了', class: 'disabled-btn', id: 'user-skill-submit', disabled: true

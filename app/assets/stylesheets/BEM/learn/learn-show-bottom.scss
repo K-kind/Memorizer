@@ -1,0 +1,36 @@
+@import 'BEM/mixin';
+
+.learn-show-bottom {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0;
+  &__info {
+    display: flex;
+  }
+  &__today {
+  }
+  &__edit-btn {
+    @include submit-btn;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 0 20px;
+  }
+  &__destroy-btn {
+    @include destroy-btn;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  &__next {
+    @include submit-btn;
+    margin-left: 10px;
+  }
+  &__finish {
+    @include submit-btn;
+    margin-left: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .again-form {
+    display: inline-block;
+  }
+}

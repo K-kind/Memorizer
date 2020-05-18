@@ -1,0 +1,79 @@
+.new-word-search
+  = form_with url: result_path, class: 'new-word-search__form' do |f|
+    = f.text_field :word, placeholder: 'Search for a word...', autofocus: true, class: 'new-word-search__input'
+    = f.hidden_field :type, value: 'main'
+    span.new-word-search__eraser.fa.fa-times#erasor
+    = button_tag type: 'submit', class: 'new-word-search__submit', id: 'consult-submit' do
+      i.fas.fa-search.new-word-search__icon
+
+.api-info
+
+.learn-grid-container
+  .learn-grid-container__webster
+    #webster-field
+      = link_to 'https://www.merriam-webster.com/', target: '_blank', rel: 'noopener' do
+        = image_tag 'Merriam-Webster-logo.png', class: 'merriam-logo'
+  .learn-grid-container__study
+    = fa_icon 'edit', class: 'learn-grid-container__edit-icon'
+    .learn-grid-container__study-field
+      = form_with model:@learned_content, url: learn_path do |f|
+        .learn-grid-container__select
+          = f.label :main_word, 'Main word:'
+          = f.select :main_word, @word_array, {}, { class: 'main-word-select' }
+          .hidden-forms
+        .learn-grid-container__trix-area
+          = f.rich_text_area :content
+        = f.select :related_image, [], {}, { id: 'related_image', multiple: true ,class: 'hidden' }
+        = f.select :related_word, @word_array, {}, { id: 'related_word', multiple: true ,class: 'hidden' }
+        .learn-grid-container__saved-images
+          - @learned_content.related_images&.each do |related_image|
+            span class="saved-image saved-image-#{related_image.id}"
+              = link_to related_image.image.url, target: '_blank', rel: 'noopener', class: 'pixabay-image' do
+                = image_tag related_image.image.url, alt: "image of #{related_image.word}", height: '100'
+                = link_to '', related_image_path(related_image), method: :delete, remote: true, class: 'fas fa-times image-unsave-times__s3'
+        - @learned_content.questions.each_with_index do |question, index|
+          - if index == 0
+            .learn-grid-container__question.learn-grid-container__question--first
+              = f.fields_for :questions, question do |qf|
+                - if index == 0
+                  .learn-grid-container__question-type
+                    = qf.select :question_type, [['Free', 0], ['Image', 1], ['Simple', 2]], {}, { class: 'question-type-select'}
+                = qf.label :question, "Question #{index + 1}", class: 'learn-grid-container__question-label'
+                = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 3
+                = qf.label :answer, "Answer #{index + 1}", class: 'learn-grid-container__answer-label'
+                = qf.text_field :answer, class: 'learn-grid-container__answer-field', autocomplete: 'off'
+          - else
+            .learn-grid-container__question
+              = f.fields_for :questions, question do |qf|
+                - if index == 0
+                  .learn-grid-container__question-type
+                    = qf.select :question_type, [['Free', 0], ['Image', 1], ['Simple', 2]], {}, { class: 'question-type-select'}
+                = qf.label :question, "Question #{index + 1}", class: 'learn-grid-container__question-label'
+                = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 3
+                = qf.label :answer, "Answer #{index + 1}", class: 'learn-grid-container__answer-label'
+                = qf.text_field :answer, class: 'learn-grid-container__answer-field', autocomplete: 'off'
+        .learn-grid-container__subtle
+          .learn-grid-container__category
+            = f.label :word_category_id
+            = f.collection_select :word_category_id, @word_categories, :id, :category, {}, {class: ''}
+          .learn-grid-container__public
+            = f.radio_button :is_public, true
+            = f.label :is_public, 'public', value: true
+            = f.radio_button :is_public, false
+            = f.label :is_public, 'private', value: false
+        #learn-error
+        .learn-grid-container__submit
+          = f.submit 'Save', id: 'loading-needed'
+.learn-grid-container__pixabay
+  .pixabay-btn
+  = link_to 'https://pixabay.com/', target: '_blank', rel: 'noopener' do
+    = image_tag 'pixabay-logo.png', class: 'pixabay-logo'
+  #images-result
+
+.learn-grid-container__edit-links
+  = link_to 'Back', learn_path(@learned_content), class: 'learn-grid-container__back-btn'
+
+/ 辞書表示のための隠しリンク
+= link_to '', result_path(word: @word, type: 'show_main', learned_content_id: params[:id]), method: :post, remote: true, id: 'hidden_link'
+
+p#loading 学習内容を保存中です...

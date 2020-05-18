@@ -1,0 +1,11 @@
+.contact__form-box
+  = form_with model: @new_contact, url: yield(:contact_url) do |f|
+    = render 'shared/error_messages', object: f.object
+
+    p.contact__form-heading
+      | 本アプリに関するご感想・ご要望など、お気軽にお寄せください。
+
+    = f.text_area :comment, placeholder: 'お問い合わせ内容を入力してください。', class: 'contact__textarea', rows: '4'
+
+    .contact__submit
+      = f.submit '送信する', class: 'contact__submit-btn'

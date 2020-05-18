@@ -1,0 +1,32 @@
+.login-form id='signup-form'
+  = fa_icon 'times', class: 'login-form__closer'
+  h2.login-form__heading 新規登録
+  = form_with model: (@new_user ? @new_user : User.new), url: user_path do |f|
+    .login-form__error
+      = render 'shared/error_messages', object: f.object
+    .login-form__slim
+      = f.text_field :name, placeholder: 'ユーザー名', id: 'name-form'
+    .login-form__slim
+      = f.email_field :email, placeholder: 'メールアドレス', autocomplete: 'email'
+    .login-form__slim
+      = f.password_field :password, placeholder: 'パスワード', autocomplete: 'new-password'
+    .login-form__slim
+      = f.password_field :password_confirmation, placeholder: 'パスワード（確認）', autocomplete: 'new-password'
+    .login-form__slim
+      = f.collection_select :user_skill_id, UserSkill.all, :id, :skill, {include_blank: '現在の英語スキル'}, {class: 'login-form__select'}
+
+    .login-form__slim--submit
+      = f.submit '新規登録'
+
+  .login-form__separator
+    span.login-form__or または
+
+  .login-icon
+    = link_to '/auth/twitter', method: :post, class: 'login-icon__btn--twitter' do
+      i class='fab fa-twitter fa-lg'
+    = link_to '/auth/google_oauth2', method: :post, class: 'login-icon__btn--google' do
+      i class='fab fa-google fa-lg'
+    = link_to '/auth/facebook', method: :post, class: 'login-icon__btn--facebook' do
+      i class='fab fa-facebook-f fa-lg'
+
+  p.login-form__toggle すでにアカウントをお持ちですか？ #{link_to 'ログイン', '#', id: 'login-toggler'}

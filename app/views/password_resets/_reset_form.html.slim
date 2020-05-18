@@ -1,0 +1,13 @@
+= form_with model: @user, url: password_reset_path(params[:id]) do |f|
+  = render 'shared/error_messages', object: f.object
+
+  = hidden_field_tag :email, @user.email
+
+  .password-reset__edit-form
+    = f.password_field :password, placeholder: '新しいパスワード', autofocus: true
+
+  .password-reset__edit-form
+    = f.password_field :password_confirmation, placeholder: '新しいパスワード（確認）'
+
+  .password-reset__edit-submit
+    = f.submit '変更する'

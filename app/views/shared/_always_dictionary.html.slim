@@ -1,0 +1,16 @@
+#always-modal
+  = fa_icon 'times', class: 'login-form__closer'
+  .new-word-search
+    = form_with url: result_path, class: 'new-word-search__form' do |f|
+      = f.text_field :word, placeholder: 'Search for a word...', class: 'new-word-search__input'
+      = f.hidden_field :type, value: 'main'
+      = f.hidden_field :sub_type, value: 'always'
+      span.new-word-search__eraser.fa.fa-times#erasor
+      = button_tag type: 'submit', class: 'new-word-search__submit', id: 'consult-submit' do
+        i.fas.fa-search.new-word-search__icon
+  .api-info
+  #webster-field.webster-field__always
+    = link_to 'https://www.merriam-webster.com/', target: '_blank', rel: 'noopener' do
+        = image_tag 'Merriam-Webster-logo.png', class: 'merriam-logo'
+  - if logged_in?
+    #default-word-link

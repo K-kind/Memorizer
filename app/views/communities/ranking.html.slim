@@ -1,0 +1,19 @@
+.community-ranking-container
+  h1.community-ranking-container__heading
+    i.fas.fa-crown
+    |  ランキング
+  .community-ranking-container__word
+    .community-ranking-container__word-top
+      h2.community-ranking-container__word-heading 単語学習数
+      = form_with url: communities_ranking_path, method: :get, id: 'onclick-form', class: 'community-ranking-container__word-form' do |f|
+        = f.select :learn_period, ['週間', '総合'], {}, class: 'onclick-select'
+    #ranking-table
+      = render 'ranking_table', users: @learn_users, period: @learn_period, type: 'learn'
+
+  .community-ranking-container__word
+    .community-ranking-container__word-top
+      h2.community-ranking-container__word-heading いいね獲得数
+      = form_with url: communities_ranking_path, method: :get, id: 'favo-onclick-form', class: 'community-ranking-container__word-form' do |f|
+        = f.select :favorite_period, ['週間', '総合'], {}, class: 'favo-onclick-select'
+    #favo-ranking-table
+      = render 'ranking_table', users: @favorite_users, period: @favorite_period, type: 'favorite'

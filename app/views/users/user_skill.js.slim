@@ -1,0 +1,10 @@
+| $('#set-user-skill').html('#{escape_javascript(render 'shared/set_user_skill')}');
+| $('body').append('<div class="hidden overlay" id="no-click-overlay">');
+| $('.user-skill-modal, #no-click-overlay').fadeIn();
+| $('#user-skill-select').on('change', function() {
+|   if ($('option:selected').val()) {
+|     $('#user-skill-submit').prop('disabled', false).removeClass('disabled-btn');
+|   } else {
+|     $('#user-skill-submit').prop('disabled', true).addClass('disabled-btn');
+|   }
+| });

@@ -1,0 +1,40 @@
+.question-container
+  h1.heading Answer
+  - if @today == '1'
+    p.question-container__question-num No. #{reviewed_count_today} / #{reviewed_count_today + contents_to_review_today.count}
+  - if @learned_content.related_images.any?
+    .image-box__slim
+      - @learned_content.related_images.each do |related_image|
+        = link_to related_image.image.url, target: '_blank', rel: 'noopener' do
+          = image_tag related_image.image.url, class: 'image-box__image', alt: "image of #{related_image.word}"
+  - @learned_content.questions.each_with_index do |question, index|
+    .question-box
+      h2.question-box__heading Question #{index + 1}
+      = simple_format question.question
+
+      .answer-box
+        .answer-box__ans--my
+          h3.answer-box__heading My answer
+          p.answer-box__text= question.my_answer
+        .answer-box__between
+          span class="answer-box__similarity--#{similarity_to_color(question.similarity)}" #{question.similarity}%
+        .answer-box__ans
+          h3.answer-box__heading Answer
+          p.answer-box__text= question.answer
+
+  .question-container__submit
+    = render 'answer_links'
+
+  - if !contents_to_review_today.any? && @today == '1'
+    p.question-container__finished 本日の復習は終了しました。
+  .question-container__links
+    - if @today == '1' && contents_to_review_today.any?
+      = link_to 'Next', question_learn_path(contents_to_review_today.review_date_asc.first, today: 1), class: 'question-container__btn--next'
+    - if session[:question_back]
+      = link_to 'Next', communities_questions_path(back: 1), class: 'question-container__finish-btn'
+    - else
+      = link_to 'Finish', root_path, class: 'question-container__finish-btn'
+
+- if @average_similarity == 100
+  #excellent
+    strong Excellent!

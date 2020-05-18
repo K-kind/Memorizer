@@ -2,44 +2,46 @@ version: '3'
 services:
   db:
     image: mysql:5.7
-    env_file:
-      - ./environments/common.env
-      - ./environments/db.env
-    volumes:
-      - db-data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: root
+    volumes:
+      - db-data:/var/lib/mysql
     ports:
       - "3306:3306"
-    
+
   app:
     build:
       context: .
-    env_file:
-      - ./environments/common.env
-      - ./environments/db.env
-    command: bundle exec puma -C config/puma.rb
+    # command: >
+    #   bash -c "bundle install &&
+    #   tail -f log/development.log"
+    command: >
+      bash -c "bundle install &&
+      bundle exec puma -C config/puma.rb"
+    tty: true
+    stdin_open: true
     volumes:
-      - .:/myapp:cached
-      - public-data:/myapp/public
-      - tmp-data:/myapp/tmp
-      - log-data:/myapp/log
+      # 開発環境のみsync-volumeを使用
+      # - .:/myapp:cached
+      - sync-volume:/myapp
     ports:
       - "3000:3000"
     depends_on:
       - db
     environment:
-      - "SELENIUM_DRIVER_URL=http://selenium_chrome:4444/wd/hub"
+      SELENIUM_DRIVER_URL: http://selenium_chrome:4444/wd/hub
+    networks:
+      default:
+        aliases:
+          - app.local
 
   web:
     build:
       context: containers/nginx
-    env_file:
-      - ./environments/common.env
     volumes:
-      - public-data:/myapp/public
-      - tmp-data:/myapp/tmp
+      # - ./public:/myapp/public:cached
+      # - ./tmp/sockets:/myapp/tmp/sockets
+      - sync-volume:/myapp
     ports:
       - 80:80
     depends_on:
@@ -47,12 +49,11 @@ services:
 
   selenium_chrome:
     image: selenium/standalone-chrome-debug
+    shm_size: 2g
     logging:
       driver: none
 
-# 名前付きボリューム: ホストOSの“/var/lib/docker/volumes”
 volumes:
-  public-data:
-  tmp-data:
-  log-data:
   db-data:
+  sync-volume:
+    external: true

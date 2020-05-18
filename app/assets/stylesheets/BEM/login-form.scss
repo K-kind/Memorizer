@@ -1,0 +1,122 @@
+@import 'application';
+
+.login-form {
+  display: none;
+  width: 350px;
+  padding: 20px 45px;
+  border-radius: 3px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  background-color: #FFF;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  $grayColor: #7994A7;
+  .field_with_errors {
+    width: 100%;
+  }
+  &__heading {
+    font-size: 18px;
+    margin-bottom: 25px;
+  }
+  %__field {
+    display: block;
+    margin-top: 20px;
+    width: 100%;
+    height: 40px;
+    border-radius: 3px;
+    font-size: 14px;
+  }
+  &__field {
+    @extend %__field;
+    padding-left: 10px;
+    &--submit {
+      @extend %__field;
+      background-color: $theme-color;
+      color: #FFF;
+      cursor: pointer;
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+  %__slim {
+    margin-top: 20px;
+    input {
+      width: 100%;
+      height: 34px;
+      padding-left: 10px;
+      border-radius: 3px;
+      font-size: 14px;
+    }
+  }
+  &__slim {
+    @extend %__slim;
+    &--submit {
+      @extend %__slim;
+      input {
+        background-color: $theme-color;
+        color: #FFF;
+        cursor: pointer;
+        &:hover {
+          opacity: 0.9;
+        }
+      }
+    }
+  }
+  &__select {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding-left: 10px;
+    border-radius: 3px;
+    font-size: 14px;
+    margin-top: 20px;
+  }
+  &__check {
+    font-size: 12px;
+    padding-top: 8px;
+    &--label {
+      padding-left: 4px;
+      color: $grayColor;
+    }
+  }
+  &__text {
+    font-size: 12px;
+    text-align: center;
+    padding-top: 4px;
+    color: $grayColor;
+  }
+  &__separator {
+    border-bottom: 1px solid #CCC;
+    margin-top: 28px;
+    position: relative;
+  }
+  &__or {
+    font-size: 12px;
+    position: absolute;
+    left: 90px;
+    bottom: -10px;
+    padding: 0 20px;
+    background-color: #FFF;
+    color: $grayColor;
+  }
+  &__toggle {
+    font-size: 12px;
+    margin-top: 24px;
+    color: $grayColor;
+  }
+  &__closer {
+    color: $grayColor;
+    position: absolute;
+    right: 14px;
+    top: 10px;
+    cursor: pointer;
+    font-size: 18px!important;
+  }
+  &__error {
+    font-size: 13px;
+    color: #E75252;
+  }
+}

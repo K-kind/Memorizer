@@ -1,0 +1,8 @@
+h1 管理者ログイン
+
+= form_with url: admin_login_path, local: true do |f|
+  = f.label :email
+  = f.email_field :email, value: params[:email]
+  = f.label :password
+  = f.password_field :password
+  = f.submit 'ログイン'

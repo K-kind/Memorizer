@@ -39,10 +39,16 @@ Rails.application.configure do
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
+  host = 'localhost'
+  Rails.application.routes.default_url_options[:host] = host
+  config.action_mailer.default_url_options = { host: host }
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
   # Raises error for missing translations.
   # config.action_view.raise_on_missing_translations = true
+
+  # system spec でsessionを扱う
+  config.middleware.use RackSessionAccess::Middleware
 end

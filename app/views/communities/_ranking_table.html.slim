@@ -1,0 +1,27 @@
+table.community-ranking-container__table
+  thead
+    tr
+      th 順位
+      th ユーザー
+      - if type == 'learn'
+        th 単語学習数
+      - else
+        th いいね獲得数
+      th レベル
+  tbody
+    - users.each_with_index do |user, index|
+      - if user == current_user
+        - tr_class = 'community-ranking-container__my-tr'
+      tr class="#{tr_class}"
+        td= index + 1 + @ranking
+        td= user.name
+        - if type == 'learn'
+          td= user.learned_contents.all_or_weekly(period).count
+        - else
+          td= user.passive_favorites.all_or_weekly(period).count
+        td= user.level
+
+- if type == 'learn'
+  = paginate users, remote: true, params: { learn: 1 }
+- else
+  = paginate users, remote: true

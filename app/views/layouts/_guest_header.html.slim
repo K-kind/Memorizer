@@ -1,0 +1,18 @@
+header.header
+  .container
+    .header-left
+      = link_to about_path do
+        = image_tag 'logo.png', class: 'header-left__logo'
+    ul.header-right
+      li.header-right__list
+        = link_to new_learn_path, class: 'header-right__new-link' do
+          = fa_icon 'edit lg'
+      li.header-right__list
+        = link_to 'ログイン', '#', id: 'login-link', class: 'header-right__guest-link'
+      li.header-right__list
+        = link_to '新規登録', about_path, class: 'signup-link header-right__guest-link'
+= render 'shared/login_form'
+#signup-modal
+  = render 'shared/signup_form'
+
+#password-reset-area

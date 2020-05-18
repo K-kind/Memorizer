@@ -1,0 +1,6 @@
+| $('#later-list-modal').html('#{escape_javascript(render 'shared/later_list')}');
+- unless @sub_type == 'always'
+  | $('#later_list_word').focus();
+  | if (!$('#overlay').length) {
+  |   $('#later-list-modal').append('<div class="overlay" id="later-overlay">');
+  | }

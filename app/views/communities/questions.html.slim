@@ -1,0 +1,15 @@
+.community-questions-container
+  h1.community-questions-container__heading
+    i.fas.fa-users'
+    |  みんなの問題
+
+  .community-questions-container__top
+    #question-search
+      = render 'community_search', url: communities_questions_path
+  .community-questions-container__main
+    #community-questions-table
+      = render 'community_questions_table'
+
+/ 問題から戻ってきた時
+- if params[:back]
+  = link_to '', communities_questions_path(question_back_params(session[:question_back])), remote: true, id: 'hidden_link'

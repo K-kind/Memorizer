@@ -1,0 +1,30 @@
+.login-form id='login-form'
+  = fa_icon 'times', class: 'login-form__closer'
+  h2.login-form__heading ログイン
+  .login-form__error
+  = form_with url: login_path do |f|
+    = f.email_field :email, value: params[:email], placeholder: 'メールアドレス', autocomplete: 'email', class: 'login-form__field', id: 'email-form'
+    = f.password_field :password, placeholder: 'パスワード', autocomplete: 'current-password', class: 'login-form__field'
+    .login-form__check
+      = f.check_box :remember_me
+      = f.label :remember_me, 'ログイン状態を保持する', class: 'login-form__check--label'
+
+    = f.submit 'ログイン', class: 'login-form__field--submit'
+    p.login-form__text パスワードを忘れた場合は#{link_to 'こちら', new_password_reset_path, remote: true}
+
+  .login-form__separator
+    span.login-form__or または
+
+  .login-icon
+    = link_to '/auth/twitter', method: :post, class: 'login-icon__btn--twitter' do
+      i class='fab fa-twitter fa-lg'
+    = link_to '/auth/google_oauth2', method: :post, class: 'login-icon__btn--google' do
+      i class='fab fa-google fa-lg'
+    = link_to '/auth/facebook', method: :post, class: 'login-icon__btn--facebook' do
+      i class='fab fa-facebook-f fa-lg'
+  = form_with url: sessions_sns_remember_path, id: 'onclick-form' do |f|
+    .login-form__check
+      = f.check_box :sns_remember, class: 'onclick-select'
+      = f.label :sns_remember, 'ログイン状態を保持する', class: 'login-form__check--label'
+
+  p.login-form__toggle アカウントをお持ちでないですか？ #{link_to '新規登録', '#', id: 'signup-toggler'}

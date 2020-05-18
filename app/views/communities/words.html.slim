@@ -1,0 +1,17 @@
+.community-words-container
+  h1.community-words-container__heading
+    i.fas.fa-users'
+    |  単語ライブラリー
+
+  .community-words-container__left
+    .community-words-container__search
+      = render 'community_search', url: communities_words_path
+
+    #community-words-table
+      = render 'community_words_table'
+  .community-words-container__right
+    .community-words-container__webster
+      #webster-field
+        = link_to 'https://www.merriam-webster.com/', target: '_blank', rel: 'noopener' do
+          = image_tag 'Merriam-Webster-logo.png', class: 'merriam-logo'
+      #default-word-link

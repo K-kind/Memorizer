@@ -1,0 +1,14 @@
+@import 'BEM/mixin';
+
+.user-skill-modal {
+  &__message {
+    margin-bottom: 10px;
+  }
+  &__submit {
+    text-align: center;
+    margin-top: 10px;
+    input {
+      @include submit-btn;
+    }
+  }
+}
