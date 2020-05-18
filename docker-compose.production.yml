@@ -10,7 +10,7 @@ services:
       bundle exec rails assets:precompile &&
       bundle exec puma -C config/puma.rb"
     volumes:
-      - public-data:myapp/public
+      - public-data:/myapp/public
       - socket-data:/myapp/tmp/sockets
 
   web:
@@ -18,7 +18,7 @@ services:
       context: containers/nginx
     volumes:
       - .:/myapp
-      - public-data:myapp/public
+      - public-data:/myapp/public
       - socket-data:/myapp/tmp/sockets
     ports:
       - 80:80
