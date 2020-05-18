@@ -29,7 +29,15 @@ unless user.calendars.find_by(calendar_date: Time.zone.today + 6)
     calendar ||= user.calendars.create!(
       calendar_date: old_date + 1, created_at: Time.zone.yesterday
     )
+    updated_review_date = learned_content.review_date + 1
+    unless user.calendars.find_by(calendar_date: updated_review_date)
+      user.calendars.create!(
+        calendar_date: updated_review_date,
+        created_at: Time.zone.yesterday
+      )
+    end
     learned_content.update!(
+      review_date: updated_review_date,
       calendar_id: calendar.id,
       created_at: learned_content.created_at + 1.day
     )
