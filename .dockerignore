@@ -1,0 +1,9 @@
+/tmp/cache/*
+/tmp/screenshots
+/log
+/vendor/bundle
+/node_modules
+/public/assets
+/public/packs
+/public/packs-test
+/.docker-sync

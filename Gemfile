@@ -11,6 +11,7 @@ gem 'mysql2', '>= 0.4.4'
 gem 'puma', '~> 4.3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
+gem 'sassc', '>= 2.3.0'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 gem 'webpacker', '~> 4.0'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
@@ -39,6 +40,9 @@ group :development, :test do
   gem 'rspec-retry'
   gem 'factory_bot_rails'
   gem 'faker'
+
+  # consoleを見やすくする
+  gem 'awesome_rails_console'
 end
 
 group :development do
@@ -49,12 +53,6 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'spring-commands-rspec'
-  # Capistrano
-  # gem 'capistrano'
-  # gem 'capistrano-bundler'
-  # gem 'capistrano-rails'
-  # gem 'capistrano-rbenv'
-  # gem 'capistrano3-puma'
 end
 
 group :test do
@@ -89,10 +87,6 @@ gem 'fullcalendar-rails'
 gem 'levenshtein'
 gem 'trigram'
 gem 'unirest'
-
-# consoleを便利にする
-gem 'awesome_rails_console'
-gem 'pry-rails'
 
 # 外部連携
 gem 'aws-ses'
