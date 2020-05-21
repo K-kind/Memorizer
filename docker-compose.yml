@@ -10,20 +10,13 @@ services:
       - "3306:3306"
 
   app:
-    build:
-      context: .
-    # command: >
-    #   bash -c "bundle install &&
-    #   tail -f log/development.log"
-    command: >
-      bash -c "bundle install &&
-      bundle exec puma -C config/puma.rb"
+    image: memorizer_app
     tty: true
     stdin_open: true
     volumes:
-      # 開発環境のみsync-volumeを使用
-      # - .:/myapp:cached
       - sync-volume:/myapp
+      - node-data:/myapp/node_modules
+      - bundle-data:/myapp/vendor/bundle
     ports:
       - "3000:3000"
     depends_on:
@@ -39,8 +32,6 @@ services:
     build:
       context: containers/nginx
     volumes:
-      # - ./public:/myapp/public:cached
-      # - ./tmp/sockets:/myapp/tmp/sockets
       - sync-volume:/myapp
     ports:
       - 80:80
@@ -55,5 +46,7 @@ services:
 
 volumes:
   db-data:
+  node-data:
+  bundle-data:
   sync-volume:
     external: true
