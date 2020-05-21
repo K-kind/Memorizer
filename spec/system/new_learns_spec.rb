@@ -141,7 +141,7 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
       find('.image-save-btn', match: :first).click
     end
 
-    # leadの画像も保存
+    # save the image for 'lead'
     find('.consulted-word-lead').click
     find('#pixabay-link', text: '"lead"').click
     within '#images-result' do
