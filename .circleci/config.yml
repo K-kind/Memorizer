@@ -32,6 +32,11 @@ commands:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
+orbs:
+  aws-cli: circleci/aws-cli@1.0.0
+  aws-ecr: circleci/aws-ecr@6.8.2
+  aws-ecs: circleci/aws-ecs@1.1.0
+
 jobs:
   rubocop:
     executor: test-build-executor
@@ -57,11 +62,57 @@ jobs:
       - store_artifacts:
           path: tmp/screenshots/
 
+  # webとappの2つのコンテナを最新にする
+  # 環境変数のAWS_ECR_ACCOUNT_URL、AWS_ACCESS_KEY_ID、AWS_SECRET_ACCESS_KEYはデフォルトで使われる
+  deploy-service-update:
+    executor: aws-cli/default
+    steps:
+      - aws-cli/install
+      - aws-cli/setup:
+          aws-region: AWS_REGION
+      - aws-ecs/update-task-definition:
+          family: "memorizer-task"
+          container-image-name-updates: "container=web,tag=${CIRCLE_SHA1}"
+      - aws-ecs/update-task-definition:
+          family: "memorizer-task"
+          container-image-name-updates: "container=app,tag=${CIRCLE_SHA1}"
+      - aws-ecs/update-service:
+          family: "memorizer-task"
+          cluster-name: "memorizer-cluster3"
+          service-name: "memorizer-service"
+          force-new-deployment: true
+
 workflows:
   version: 2.1
-  rubocop_rspec:
+  check-and-deploy:
     jobs:
       - rubocop
       - rspec:
           requires:
             - rubocop
+      - aws-ecr/build-and-push-image:
+          name: build-and-push-image1
+          create-repo: true
+          path: ./containers/nginx/
+          repo: memorizer_web
+          tag: "${CIRCLE_SHA1}"
+          requires:
+            - rspec
+          filters:
+            branches:
+              only: master
+      - aws-ecr/build-and-push-image:
+          name: build-and-push-image2
+          create-repo: true
+          extra-build-args: --target production --build-arg KEY=$RAILS_MASTER_KEY
+          repo: memorizer_app
+          tag: "${CIRCLE_SHA1}"
+          requires:
+            - rspec
+          filters:
+            branches:
+              only: master
+      - deploy-service-update:
+          requires:
+            - build-and-push-image1
+            - build-and-push-image2

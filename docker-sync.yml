@@ -3,3 +3,5 @@ version: '2'
 syncs:
   sync-volume:
     src: '.'
+    sync_userid: '1000'
+    watch_excludes: ['./node_modules', './vendor/bundle']

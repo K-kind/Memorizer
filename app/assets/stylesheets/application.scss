@@ -91,8 +91,14 @@ p {
 .dictionary-field, .thesaurus-field {
   max-width: 550px;
   li {
-    list-style: disc;
     margin-left: 20px;
+  }
+  li::before {
+    content: '\2022';
+    color: #76cfcf;
+    font-size: 0.8em;
+    padding: 0 10px 0 0;
+    text-shadow: 1px 1px 2px black;
   }
   p, span, li {
     font-size: 16px;

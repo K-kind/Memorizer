@@ -1,0 +1,10 @@
+/tmp/cache/*
+/tmp/screenshots
+/tmp/sockets/puma.sock
+/log
+/vendor/bundle
+/node_modules
+/public/assets
+/public/packs
+/public/packs-test
+/.docker-sync
