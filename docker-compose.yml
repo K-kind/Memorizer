@@ -11,6 +11,7 @@ services:
 
   app:
     image: memorizer_app
+    command: tail -f /dev/null
     tty: true
     stdin_open: true
     volumes:

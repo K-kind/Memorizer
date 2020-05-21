@@ -10,14 +10,16 @@ FROM ruby:2.6.5 AS base
 COPY --from=nodejs /tmp/node /opt/node
 ENV PATH /opt/node/bin:$PATH
 
-#cron
+#cron sudo
 RUN apt-get update -qq \
   && apt-get install -y cron \
+                        sudo \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
 RUN useradd -m -u 1000 rails
 RUN mkdir /myapp && chown rails /myapp
+RUN echo 'rails ALL=(ALL) NOPASSWD: /usr/sbin/service' >> /etc/sudoers.d/rails
 USER rails
 
 # yarn
@@ -28,17 +30,14 @@ WORKDIR /myapp
 ENV TZ Asia/Tokyo
 COPY --chown=rails Gemfile Gemfile.lock package.json yarn.lock /myapp/
 
-# bundle config
-RUN bundle config path '.cache/bundle'
-
-CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
+RUN bundle config path ".cache/bundle"
 
 FROM base as develop
 RUN --mount=type=cache,uid=1000,target=/myapp/.cache/bundle \
   bundle install && \
   mkdir -p vendor && \
   cp -ar .cache/bundle vendor/bundle
-RUN bundle config path 'vendor/bundle'
+RUN bundle config path "vendor/bundle"
 
 # yarn install
 RUN --mount=type=cache,uid=1000,target=/myapp/.cache/node_modules \
@@ -46,17 +45,16 @@ RUN --mount=type=cache,uid=1000,target=/myapp/.cache/node_modules \
   cp -ar .cache/node_modules node_modules
 COPY --chown=rails . /myapp
 
+CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
+
 FROM base as production
 ENV RAILS_ENV production
-# RUN bundle config without 'development test' \
-#   && bundle config specific_platform 'x86_64-linux' \
-#   && bundle config build.sassc --disable-march-tune-native
-RUN bundle config without 'development test'
+RUN bundle config without "development test"
 RUN --mount=type=cache,uid=1000,target=/myapp/.cache/bundle \
   bundle install && \
   mkdir -p vendor && \
   cp -ar .cache/bundle vendor/bundle
-RUN bundle config path 'vendor/bundle'
+RUN bundle config path "vendor/bundle"
 
 # yarn install
 RUN --mount=type=cache,uid=1000,target=/myapp/.cache/node_modules \
@@ -66,3 +64,6 @@ RUN --mount=type=cache,uid=1000,target=/myapp/.cache/node_modules \
 COPY --chown=rails . /myapp
 # precompile
 RUN --mount=type=cache,uid=1000,target=/myapp/tmp/cache bin/rails assets:precompile
+
+ENTRYPOINT ["./docker-entrypoint.sh"]
+CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
