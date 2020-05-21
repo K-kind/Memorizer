@@ -48,6 +48,8 @@ COPY --chown=rails . /myapp
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
 
 FROM base as production
+ARG KEY
+ENV RAILS_MASTER_KEY $KEY
 ENV RAILS_ENV production
 RUN bundle config without "development test"
 RUN --mount=type=cache,uid=1000,target=/myapp/.cache/bundle \

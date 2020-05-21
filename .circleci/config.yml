@@ -104,7 +104,7 @@ workflows:
       - aws-ecr/build-and-push-image:
           name: build-and-push-image2
           create-repo: true
-          extra-build-args: --target production
+          extra-build-args: --target production --build-arg KEY=$RAILS_MASTER_KEY
           repo: memorizer_app
           tag: "${CIRCLE_SHA1}"
       #     requires:
