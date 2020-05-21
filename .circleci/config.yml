@@ -86,27 +86,27 @@ workflows:
   version: 2.1
   check-and-deploy:
     jobs:
-      - rubocop
-      - rspec:
-          requires:
-            - rubocop
-      - aws-ecr/build-and-push-image:
-          name: build-and-push-image1
-          create-repo: true
-          path: ./containers/nginx/
-          repo: memorizer_web
-          tag: "${CIRCLE_SHA1}"
-          requires:
-            - rspec
+      # - rubocop
+      # - rspec:
+      #     requires:
+      #       - rubocop
+      # - aws-ecr/build-and-push-image:
+      #     name: build-and-push-image1
+      #     create-repo: true
+      #     path: ./containers/nginx/
+      #     repo: memorizer_web
+      #     tag: "${CIRCLE_SHA1}"
+      #     requires:
+      #       - rspec
       #     filters:
       #       branches:
       #         only: master
-      # - aws-ecr/build-and-push-image:
-      #     name: build-and-push-image2
-      #     create-repo: true
-      #     extra-build-args: --target production
-      #     repo: memorizer_app
-      #     tag: "${CIRCLE_SHA1}"
+      - aws-ecr/build-and-push-image:
+          name: build-and-push-image2
+          create-repo: true
+          extra-build-args: --target production
+          repo: memorizer_app
+          tag: "${CIRCLE_SHA1}"
       #     requires:
       #       - rspec
       #     filters:
