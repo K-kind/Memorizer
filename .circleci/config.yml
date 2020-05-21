@@ -67,7 +67,6 @@ jobs:
   deploy-service-update:
     executor: aws-cli/default
     steps:
-      - aws-cli/install
       - aws-cli/setup:
           aws-region: AWS_REGION
       - aws-ecs/update-task-definition:
