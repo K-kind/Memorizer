@@ -37,6 +37,7 @@ RSpec.describe 'Sign in', type: :system, retry: 3 do
   end
 
   describe 'Sign in', js: true do
+    include ActiveJob::TestHelper
     let!(:user) { create(:user, password: 'valid_password') }
 
     before do
@@ -89,22 +90,24 @@ RSpec.describe 'Sign in', type: :system, retry: 3 do
       ActionMailer::Base.deliveries.clear
       click_on 'こちら'
 
-      # 無効なメールアドレス
-      within '.password-reset' do
-        fill_in 'email', with: 'invalid@example.com'
-        click_button 'メール送信'
-      end
-      wait_for_css_appear('.flash__danger') do
-        expect(page).to have_content 'メールアドレスが見つかりません。'
-      end
+      perform_enqueued_jobs do
+        # 無効なメールアドレス
+        within '.password-reset' do
+          fill_in 'email', with: 'invalid@example.com'
+          click_button 'メール送信'
+        end
+        wait_for_css_appear('.flash__danger') do
+          expect(page).to have_content 'メールアドレスが見つかりません。'
+        end
 
-      # 有効なメールアドレス
-      within '.password-reset' do
-        fill_in 'email', with: user.email
-        click_button 'メール送信'
-      end
-      wait_for_css_appear('.flash__notice') do
-        expect(page).to have_content 'パスワード再設定用のメールを送信しました。'
+        # 有効なメールアドレス
+        within '.password-reset' do
+          fill_in 'email', with: user.email
+          click_button 'メール送信'
+        end
+        wait_for_css_appear('.flash__notice') do
+          expect(page).to have_content 'パスワード再設定用のメールを送信しました。'
+        end
       end
 
       expect(ActionMailer::Base.deliveries.size).to eq(1)

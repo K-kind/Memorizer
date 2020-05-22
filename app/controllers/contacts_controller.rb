@@ -13,7 +13,7 @@ class ContactsController < ApplicationController
       if @new_contact.save
         flash[:notice] = 'お問い合わせ内容を送信しました。'
         current_user.notifications.create!(contact_id: @new_contact.id, to_admin: true)
-        current_user.send_notification_email(@new_contact)
+        current_user.send_notification_email_to_admin(@new_contact)
         format.html { redirect_to contacts_url }
       else
         format.js { render 'error' }

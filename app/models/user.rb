@@ -84,15 +84,15 @@ class User < ApplicationRecord
   end
 
   def send_activation_email
-    UserMailer.account_activation(self).deliver_now
+    UserMailer.account_activation(self, activation_token).deliver_later
   end
 
   def send_password_reset_email
-    UserMailer.password_reset(self).deliver_now
+    UserMailer.password_reset(self, reset_token).deliver_later
   end
 
-  def send_notification_email(contact = nil)
-    NotificationMailer.user_notification(self, contact).deliver_now
+  def send_notification_email_to_admin(contact = nil)
+    NotificationMailer.user_notification_to_admin(self, contact).deliver_later
   end
 
   def level_up?(added_exp)

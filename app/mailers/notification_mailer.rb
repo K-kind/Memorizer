@@ -1,5 +1,5 @@
 class NotificationMailer < ApplicationMailer
-  def user_notification(user, contact = nil)
+  def user_notification_to_admin(user, contact = nil)
     @user = user
     @contact = contact
     type = contact ? 'お問い合わせ' : '新規登録'

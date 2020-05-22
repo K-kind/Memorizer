@@ -1,5 +1,4 @@
 /tmp/cache/*
-/tmp/screenshots
 /tmp/sockets/puma.sock
 /log
 /vendor/bundle
