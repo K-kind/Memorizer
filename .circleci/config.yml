@@ -79,7 +79,6 @@ jobs:
           family: "memorizer-task"
           cluster-name: "memorizer-cluster3"
           service-name: "memorizer-service"
-          force-new-deployment: true
 
 workflows:
   version: 2.1

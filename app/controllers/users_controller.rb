@@ -6,7 +6,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @new_user.save
         @new_user.send_activation_email
-        @new_user.send_notification_email
+        @new_user.send_notification_email_to_admin
         @new_user.notifications.create(to_admin: true, action: 1)
         flash[:notice] = '仮登録完了メールを送信しました。ご確認ください。'
         format.html { redirect_to about_url }

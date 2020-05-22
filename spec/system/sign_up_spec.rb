@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe 'Sign up', type: :system, js: true, retry: 3 do
+  include ActiveJob::TestHelper
   let!(:user_skill) { create(:user_skill) }
   let!(:admin) { create(:admin) } # 管理者メール用
 
@@ -30,19 +31,21 @@ describe 'Sign up', type: :system, js: true, retry: 3 do
   context 'with valid attributes' do
     it 'creates a unactivated user and sends an activation email' do
       ActionMailer::Base.deliveries.clear
-      expect {
-        visit about_path
-        within 'header' do
-          click_on '新規登録'
-        end
-        fill_in 'name-form', with: 'テストユーザー'
-        fill_in 'user_email', with: 'user@memorizer.tech'
-        fill_in 'user_password', with: 'password'
-        fill_in 'user_password_confirmation', with: 'password'
-        select user_skill.skill, from: 'user_user_skill_id'
-        click_button 'commit'
-        wait_for_css_appear('.flash__notice')
-      }.to change(User, :count).by(1)
+      perform_enqueued_jobs do
+        expect {
+          visit about_path
+          within 'header' do
+            click_on '新規登録'
+          end
+          fill_in 'name-form', with: 'テストユーザー'
+          fill_in 'user_email', with: 'user@memorizer.tech'
+          fill_in 'user_password', with: 'password'
+          fill_in 'user_password_confirmation', with: 'password'
+          select user_skill.skill, from: 'user_user_skill_id'
+          click_button 'commit'
+          wait_for_css_appear('.flash__notice')
+        }.to change(User, :count).by(1)
+      end
 
       expect(page).to have_content '仮登録完了メールを送信しました。ご確認ください。'
       expect(ActionMailer::Base.deliveries.size).to eq(2)
