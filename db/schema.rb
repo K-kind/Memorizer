@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_16_132830) do
+ActiveRecord::Schema.define(version: 2020_05_22_193544) do
 
   create_table "action_text_rich_texts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name", null: false
@@ -168,6 +168,7 @@ ActiveRecord::Schema.define(version: 2020_05_16_132830) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "word"
     t.string "image"
+    t.string "thumbnail_url"
     t.index ["learned_content_id"], name: "index_related_images_on_learned_content_id"
   end
 

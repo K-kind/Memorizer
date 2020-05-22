@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'New Learn', type: :system, retry: 3 do
+  include ActiveJob::TestHelper
   let(:user) { create(:user) }
   before do
     create(:word_category)
@@ -154,10 +155,12 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
     end
 
     # Save
-    expect {
-      click_button 'Save'
-      expect(page).to have_selector('.flash__notice', text: '学習が記録されました。')
-    }.to change(user.learned_contents, :count).by(1)
+    perform_enqueued_jobs do
+      expect {
+        click_button 'Save'
+        expect(page).to have_selector('.flash__notice', text: '学習が記録されました。')
+      }.to change(user.learned_contents, :count).by(1)
+    end
 
     expect(current_path).to eq learn_path(user.learned_contents.last)
 
@@ -218,7 +221,9 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
       expect(page).to have_selector('img[alt="image of yellow"]')
     end
 
-    click_button 'Save'
+    perform_enqueued_jobs do
+      click_button 'Save'
+    end
 
     expect(page).to have_selector('.flash__notice', text: '学習内容が更新されました。')
     expect(current_path).to eq learn_path(user.learned_contents.last)
