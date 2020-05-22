@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Images', type: :system, js: true, vcr: { cassette_name: 'apis' }, retry: 3 do
+  include ActiveJob::TestHelper
   let(:user) { create(:user) }
   let(:other_user) { create(:user) }
   before do
@@ -9,7 +10,7 @@ RSpec.describe 'Images', type: :system, js: true, vcr: { cassette_name: 'apis' }
     actual_sign_in_as user
   end
 
-  it 'related images appear in the question page and can be downloaded' do
+  it 'related images appear in the question page and can be downloaded', :perform_enqueued_jobs do
     # make a content with a image
     visit new_learn_path
     fill_in 'word', with: 'lead'
