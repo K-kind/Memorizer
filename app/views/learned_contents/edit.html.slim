@@ -27,9 +27,10 @@
         = f.select :related_word, @word_array, {}, { id: 'related_word', multiple: true ,class: 'hidden' }
         .learn-grid-container__saved-images
           - @learned_content.related_images&.each do |related_image|
+            - image_url = related_image.image.url || related_image.thumbnail_url
             span class="saved-image saved-image-#{related_image.id}"
-              = link_to related_image.image.url, target: '_blank', rel: 'noopener', class: 'pixabay-image' do
-                = image_tag related_image.image.url, alt: "image of #{related_image.word}", height: '100'
+              = link_to image_url, target: '_blank', rel: 'noopener', class: 'pixabay-image' do
+                = image_tag image_url, alt: "image of #{related_image.word}", height: '100'
                 = link_to '', related_image_path(related_image), method: :delete, remote: true, class: 'fas fa-times image-unsave-times__s3'
         - @learned_content.questions.each_with_index do |question, index|
           - if index == 0

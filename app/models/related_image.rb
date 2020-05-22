@@ -3,5 +3,8 @@ class RelatedImage < ApplicationRecord
   mount_uploader :image, ImageUploader
 
   validates :word, presence: true
-  validates :image, presence: true
+
+  def upload_large_image(image_url)
+    update!(remote_image_url: image_url)
+  end
 end

@@ -37,22 +37,26 @@ class LearnedContent < ApplicationRecord
     @till_next_review ||= (review_date - Time.zone.today).to_i
   end
 
-  def create_related_images(related_image_array)
+  def create_temporary_related_images(related_image_array)
+    # related_image_arrayの1つ目は空、updateの場合も新しく保存された画像のみを含む
     related_image_array.each_with_index do |related_image, index|
-      next if index.zero? # 配列1つ目は空
+      next if index.zero?
 
       image_links = related_image.split(' ') # [0]大画像リンク、[1]サムネリンク、[2]word
-      self.related_images.create!(remote_image_url: image_links[0], word: image_links[2])
+      new_image = self.related_images.create!(thumbnail_url: image_links[1], word: image_links[2])
+      RelatedImagesUploadJob.perform_later(related_image: new_image, image_url: image_links[0])
     end
   end
 
   def create_related_words(related_word_array)
-    self.related_words.destroy_all
+    self.related_words.destroy_all # updateの場合はresetしてから
     related_word_array.each_with_index do |related_word, index|
-      unless index.zero? || self.word_definition.word == related_word
-        word_definition_id = WordDefinition.find_by(word: related_word).id
-        self.related_words.create!(word_definition_id: word_definition_id)
-      end
+      # related_word_arrayの1つ目は空
+      # main wordの場合を除く
+      next if index.zero? || self.word_definition.word == related_word
+
+      word_definition_id = WordDefinition.find_by(word: related_word).id
+      self.related_words.create!(word_definition_id: word_definition_id)
     end
   end
 

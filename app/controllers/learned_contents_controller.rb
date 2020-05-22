@@ -41,7 +41,7 @@ class LearnedContentsController < ApplicationController
     respond_to do |format|
       if @learned_content.valid? && valid_question
         @learned_content.save
-        @learned_content.create_related_images(params[:learned_content][:related_image])
+        @learned_content.create_temporary_related_images(params[:learned_content][:related_image])
         @learned_content.create_related_words(params[:learned_content][:related_word])
         calculate_level(5)
         current_user.set_calendar_to_review(@learned_content.review_date)
@@ -110,7 +110,7 @@ class LearnedContentsController < ApplicationController
     respond_to do |format|
       if @learned_content.valid? && valid_question
         @learned_content.save
-        @learned_content.create_related_images(params[:learned_content][:related_image])
+        @learned_content.create_temporary_related_images(params[:learned_content][:related_image])
         @learned_content.create_related_words(params[:learned_content][:related_word])
         flash[:notice] = '学習内容が更新されました。'
         format.html { redirect_to learn_url(@learned_content) }
