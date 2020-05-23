@@ -14,6 +14,9 @@ require('chartkick')
 require('chart.js')
 import $ from 'jquery';
 import 'fullcalendar';
+import '@fullcalendar/daygrid/main.css';
+import '@fullcalendar/core/main.css';
+
 // import '../src/application.scss';
 // const images = require.context('../images/', true);
 

@@ -72,7 +72,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'carrierwave'
 gem 'dotenv-rails'
-# gem 'font-awesome-rails'
 gem 'html2slim'
 gem 'jquery-rails'
 gem 'kaminari'
@@ -81,8 +80,6 @@ gem 'slim-rails'
 
 # 機能用gem
 gem 'chartkick'
-gem 'fullcalendar-rails'
-# gem 'momentjs-rails'
 gem 'levenshtein'
 gem 'trigram'
 gem 'unirest'
