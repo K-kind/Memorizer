@@ -13,7 +13,8 @@ class LearnedContent < ApplicationRecord
 
   after_create :set_first_cycle
 
-  validates :content, presence: true, length: { maximum: 3000 }
+  validates :content, length: { maximum: 3000 }
+  # validates :is_public, inclusion: { in: [false] }, if: :imported?
 
   scope :to_review_today, -> { where('review_date <= ?', Time.zone.today) }
   scope :to_review_this_day,
@@ -95,6 +96,20 @@ class LearnedContent < ApplicationRecord
     questions.each do |q|
       q.destroy if q.question.blank? && q.answer.blank?
     end
+  end
+
+  def copy_content_to(user, calendar_today)
+    user.learned_contents.create!(
+      user_id: user.id,
+      calendar_id: calendar_today.id,
+      word_definition_id: word_definition_id,
+      word_category_id: word_category_id,
+      content: content,
+      imported_from: id,
+      imported: true,
+      is_public: false,
+      completed: false
+    )
   end
 
   def duplicate_children_to(learned_content)
