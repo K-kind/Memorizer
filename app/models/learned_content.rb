@@ -14,7 +14,7 @@ class LearnedContent < ApplicationRecord
   after_create :set_first_cycle
 
   validates :content, length: { maximum: 3000 }
-  # validates :is_public, inclusion: { in: [false] }, if: :imported?
+  validate :validate_public_when_imported
 
   scope :to_review_today, -> { where('review_date <= ?', Time.zone.today) }
   scope :to_review_this_day,
@@ -32,6 +32,12 @@ class LearnedContent < ApplicationRecord
   ransacker :favorites_count do
     query = '(SELECT COUNT(favorites.learned_content_id) FROM favorites WHERE favorites.learned_content_id = learned_contents.id GROUP BY favorites.learned_content_id)'
     Arel.sql(query)
+  end
+
+  def validate_public_when_imported
+    return unless imported? && is_public?
+
+    errors.add(:base, 'ダウンロードされたコンテンツは公開できません。')
   end
 
   def till_next_review

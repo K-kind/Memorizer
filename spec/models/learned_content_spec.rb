@@ -4,7 +4,11 @@ RSpec.describe LearnedContent, type: :model do
   describe 'learned_contentの作成や削除' do
     let(:user) { create(:user) }
     let(:word_definition) { create(:word_definition) }
-    let(:learned_content) { build(:learned_content, word_definition_id: word_definition.id) }
+    let(:learned_content) {
+      build(:learned_content,
+            word_definition_id: word_definition.id,
+            user: user)
+    }
 
     it 'learned_contentが有効であること' do
       expect(learned_content).to be_valid
@@ -30,14 +34,21 @@ RSpec.describe LearnedContent, type: :model do
       expect(learned_content).to be_invalid
     end
 
-    it 'contentがないlearned_contentは無効であること' do
+    it 'contentがないlearned_contentも有効であること' do
       learned_content.content = nil
-      expect(learned_content).to be_invalid
+      expect(learned_content).to be_valid
     end
 
     it 'contentが3001文字以上ならば無効であること' do
       learned_content.content = 'a' * 3001
       expect(learned_content).to be_invalid
+    end
+
+    it 'importedがtrueならばis_public:trueは無効であること' do
+      learned_content.imported = true
+      learned_content.is_public = true
+      learned_content.valid?
+      expect(learned_content.errors[:base]).to include('ダウンロードされたコンテンツは公開できません。')
     end
 
     it '関連付けられたquestionsが削除されること' do

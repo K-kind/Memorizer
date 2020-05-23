@@ -4,7 +4,7 @@ class CommunitiesController < ApplicationController
   before_action :no_always_dictionary, only: [:words]
 
   def words
-    @q = LearnedContent.where(is_public: true, imported: false).ransack(params[:q])
+    @q = LearnedContent.where(is_public: true).ransack(params[:q])
     @learned_contents = @q.result.includes(:word_category, user: :user_skill).latest.page(params[:page])
     respond_to do |format|
       format.html
@@ -13,7 +13,7 @@ class CommunitiesController < ApplicationController
   end
 
   def questions
-    @q = LearnedContent.where(is_public: true, imported: false).ransack(params[:q])
+    @q = LearnedContent.where(is_public: true).ransack(params[:q])
     @q.sorts = 'created_at desc' if @q.sorts.empty?
     @learned_contents = @q.result.includes(:word_category, user: :user_skill).page(params[:page])
     session[:question_back] = params unless params[:back]
