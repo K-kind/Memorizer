@@ -112,16 +112,24 @@ class LearnedContent < ApplicationRecord
     )
   end
 
-  def duplicate_children_to(learned_content)
-    ['related_image', 'related_word', 'question'].each do |model|
-      send("#{model}s").each do |object|
-        duplicated = object.dup
-        duplicated.learned_content = learned_content
-        if model == 'related_image'
-          duplicated.image = object.image.file
-        end
+  def duplicate_children_to(new_content)
+    %w[related_word question].each do |original_model|
+      send("#{original_model}s").each do |original_object|
+        duplicated = original_object.dup
+        duplicated.learned_content = new_content
         duplicated.save!
       end
+    end
+
+    # related_imagesの処理だけ例外が多いので分ける
+    related_images.each do |original_image|
+      new_image = new_content.related_images.create!(
+        word: original_image.word,
+        thumbnail_url: original_image.image.url
+      )
+      # importedされたrelated_imageに、元の画像のurlをアップロード
+      RelatedImagesUploadJob.perform_later(related_image: new_image,
+                                           image_url: original_image.image.url)
     end
   end
 
