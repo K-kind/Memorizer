@@ -14,7 +14,7 @@
       = link_to 'https://www.merriam-webster.com/', target: '_blank', rel: 'noopener' do
         = image_tag 'Merriam-Webster-logo.png', class: 'merriam-logo'
   .learn-grid-container__study
-    = fa_icon 'edit', class: 'learn-grid-container__edit-icon'
+    i.fa.fa-edit.learn-grid-container__edit-icon
     .learn-grid-container__study-field
       = form_with model: @learned_content, url: learns_path do |f|
         .learn-grid-container__select

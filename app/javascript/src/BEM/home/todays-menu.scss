@@ -1,0 +1,16 @@
+@import 'BEM/mixin';
+.todays-menu {
+  @include white-box;
+  margin-top: 30px;
+  max-height: 300px;
+  min-height: 150px;
+  overflow-y: scroll;
+  padding-top: 2px;
+  &__question {
+    @include text-overflow;
+    line-height: 1.4em;
+  }
+  &__heading {
+    padding: 8px 0;
+  }
+}

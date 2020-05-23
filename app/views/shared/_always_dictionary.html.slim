@@ -1,5 +1,5 @@
 #always-modal
-  = fa_icon 'times', class: 'login-form__closer'
+  i.fa.fa-times.login-form__closer
   .new-word-search
     = form_with url: result_path, class: 'new-word-search__form' do |f|
       = f.text_field :word, placeholder: 'Search for a word...', class: 'new-word-search__input'
