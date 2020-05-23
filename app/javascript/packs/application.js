@@ -42,7 +42,6 @@ $(document).on('turbolinks:load', function () {
   //       $('.community-menu').fadeOut('fast');
   //     }, 3000);
   // });
-  
   $('.header-right__toggler--user').on('click', function () {
     $('.user-menu').fadeToggle('fast');
     $('.community-menu').fadeOut('fast');

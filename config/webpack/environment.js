@@ -8,5 +8,4 @@ environment.plugins.prepend('Provide',
         Rails: ['@rails/ujs']
     })
 )
-
 module.exports = environment
