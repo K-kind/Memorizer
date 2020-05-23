@@ -1,0 +1,20 @@
+.dictionary-word-lists {
+  background-color: $thesaurus-color;
+  padding-left: 2px;
+}
+.thesaurus-word-lists {
+  background-color: $thesaurus-color;
+  padding-left: 2px;
+  padding-top: 3px;
+}
+.dictionary-word-tab, .thesaurus-word-tab {
+  cursor: pointer;
+  background-color: #ddd;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+  padding: 3px 5px 1px;
+  display: inline-block;
+  margin-right: 5px;
+  margin-top: 3px;
+  color: #3e3e3e;
+}

@@ -10,4 +10,14 @@
   padding: 20px 45px;
   border-radius: 3px;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  &__message {
+    margin-bottom: 10px;
+  }
+  &__submit {
+    text-align: center;
+    margin-top: 10px;
+    input {
+      @include submit-btn;
+    }
+  }
 }

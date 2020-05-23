@@ -1,0 +1,164 @@
+%__chart-link {
+  @include submit-btn;
+  border: none;
+  padding: 5px 10px;
+}
+.my-page-container {
+  width: 95%;
+  margin: 0 auto 25px;
+  &__heading {
+    margin: 30px 0 10px;
+  }
+  &__top {
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  &__user-info {
+    @include white-box;
+    display: inline-block;
+    width: 48%;
+  }
+  &__user-level {
+    @include white-box;
+    display: inline-block;
+    width: 48%;
+    vertical-align: top;
+  }
+  &__table {
+    @include table2;
+    th, td {
+      height: 47px;
+    }
+  }
+  &__form {
+    display: none;
+    input, select {
+      padding: 2px 5px;
+    }
+  }
+  &__btns {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  &__edit-btn {
+    @include submit-btn;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  &__cancel-btn {
+    display: none;
+  }
+  &__submit-btn {
+    @include submit-btn;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: none;
+  }
+  &__destroy-btn {
+    @include destroy-btn;
+    padding-top: 5px;
+  }
+  &__email-form {
+    width: 80%;
+  }
+  &__select {
+    font-size: 14px;
+  }
+  &__level-table {
+    @include table2;
+    th {
+      width: 50%;
+      .fa {
+        color: white;
+      }
+    }
+  }
+  &__ranking {
+    margin-left: 10px;
+  }
+  &__bottom {
+    @include white-box;
+  }
+  &__heading-bottom {
+    margin: 40px 0 8px;
+    font-weight: bold;
+  }
+  &__settings {
+    @include white-box;
+    display: flex;
+    justify-content: space-between;
+  }
+  &__template-heading {
+    margin-bottom: 10px;
+  }
+  &__template-submit {
+    text-align: center;
+    margin-top: 15px;
+    input {
+      @include submit-btn;
+    }
+  }
+  &__settings-left {
+    width: 525px;
+  }
+  &__settings-right {
+    width: 45%;
+  }
+  &__cycle-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    max-height: 220px;
+  }
+  &__cycle-field {
+    margin-bottom: 5px;
+    width: 40%;
+  }
+  &__cycle-form {
+    width: 45px;
+    text-align: center;
+    padding: 2px, 0;
+    margin-left: 2px;
+  }
+  &__add-cycle-btn {
+    margin-left: 24px;
+    @include submit-btn;
+    border: none;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding: 2px 8px;
+  }
+  &__destroy-cycle-btn {
+    margin-left: 6px;
+    @include destroy-btn;
+    border: none;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding: 2px 8px;
+  }
+  &__default-cycle {
+    text-align: right;
+  }
+  &__cycle-notion {
+    margin: 10px 0;
+    font-size: 14px;
+  }
+  &__chart-links {
+    margin-top: 4px;
+    padding-left: 8px;
+    text-align: left;
+  }
+  &__chart-link {
+    &--prev {
+      @extend %__chart-link;
+      
+    }
+    &--next {
+      @extend %__chart-link;
+
+      margin-left: 20px;
+    }
+  }
+}
