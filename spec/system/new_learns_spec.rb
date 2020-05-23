@@ -83,8 +83,8 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
     expect {
       # without Q nor A
       click_button 'Save'
-      expect(page).to have_selector('.error-message__list', text: '学習内容を入力してください')
       expect(page).to have_selector('.error-message__list', text: '1つ以上の問題を入力してください')
+      expect(page).to_not have_selector('.error-message__list', text: '学習内容を入力してください')
 
       # only with Q
       find('#learned_content_content').set('I learned the word star.')

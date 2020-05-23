@@ -142,19 +142,6 @@ class User < ApplicationRecord
     notifications.create!
   end
 
-  def import_content(original_content, calendar_today)
-    learned_contents.create!(
-      word_definition_id: original_content.word_definition_id,
-      word_category_id: original_content.word_category_id,
-      calendar_id: calendar_today.id,
-      imported_from: original_content.id,
-      imported: true,
-      is_public: false,
-      completed: false,
-      content: original_content.content
-    )
-  end
-
   def set_calendar_to_review(review_date)
     calendars.find_or_create_by!(calendar_date: review_date)
   end

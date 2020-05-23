@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+# 画像は含まないコンテンツをダウンロードするテスト
 RSpec.describe 'import contents', type: :system, js: true, vcr: { cassette_name: 'apis' } do
   let(:owner) { create(:user, :skill_900) }
   let(:user) { create(:user) }

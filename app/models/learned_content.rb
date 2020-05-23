@@ -13,7 +13,8 @@ class LearnedContent < ApplicationRecord
 
   after_create :set_first_cycle
 
-  validates :content, presence: true, length: { maximum: 3000 }
+  validates :content, length: { maximum: 3000 }
+  validate :validate_public_when_imported
 
   scope :to_review_today, -> { where('review_date <= ?', Time.zone.today) }
   scope :to_review_this_day,
@@ -31,6 +32,12 @@ class LearnedContent < ApplicationRecord
   ransacker :favorites_count do
     query = '(SELECT COUNT(favorites.learned_content_id) FROM favorites WHERE favorites.learned_content_id = learned_contents.id GROUP BY favorites.learned_content_id)'
     Arel.sql(query)
+  end
+
+  def validate_public_when_imported
+    return unless imported? && is_public?
+
+    errors.add(:base, 'ダウンロードされたコンテンツは公開できません。')
   end
 
   def till_next_review
@@ -97,16 +104,38 @@ class LearnedContent < ApplicationRecord
     end
   end
 
-  def duplicate_children_to(learned_content)
-    ['related_image', 'related_word', 'question'].each do |model|
-      send("#{model}s").each do |object|
-        duplicated = object.dup
-        duplicated.learned_content = learned_content
-        if model == 'related_image'
-          duplicated.image = object.image.file
-        end
+  def copy_content_to(user, calendar_today)
+    user.learned_contents.create!(
+      user_id: user.id,
+      calendar_id: calendar_today.id,
+      word_definition_id: word_definition_id,
+      word_category_id: word_category_id,
+      content: content,
+      imported_from: id,
+      imported: true,
+      is_public: false,
+      completed: false
+    )
+  end
+
+  def duplicate_children_to(new_content)
+    %w[related_word question].each do |original_model|
+      send("#{original_model}s").each do |original_object|
+        duplicated = original_object.dup
+        duplicated.learned_content = new_content
         duplicated.save!
       end
+    end
+
+    # related_imagesの処理だけ例外が多いので分ける
+    related_images.each do |original_image|
+      new_image = new_content.related_images.create!(
+        word: original_image.word,
+        thumbnail_url: original_image.image.url
+      )
+      # importedされたrelated_imageに、元の画像のurlをアップロード
+      RelatedImagesUploadJob.perform_later(related_image: new_image,
+                                           image_url: original_image.image.url)
     end
   end
 

@@ -41,12 +41,12 @@ RSpec.describe 'Images', type: :system, js: true, vcr: { cassette_name: 'apis' }
 
     # download the content
     expect(page).to have_selector('img[alt="image of lead"]')
-    perform_enqueued_jobs do
-      expect {
+    expect {
+      perform_enqueued_jobs do
         click_link 'Download'
-        expect(page).to have_selector('.flash__notice', text: '学習コンテンツをダウンロードしました。')
-      }.to change(RelatedImage, :count).by(1)
-    end
+      end
+      expect(page).to have_selector('.flash__notice', text: '学習コンテンツをダウンロードしました。')
+    }.to change(RelatedImage, :count).by(1)
     find('a', text: 'lead').click
 
     # destroy the content
