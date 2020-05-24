@@ -49,13 +49,13 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - memorizer-webpack-{{ checksum "tmp/cache/webpacker" }}
+            - memorizer-webpack-{{ checksum "tmp/cache/webpacker/last-compilation-digest-development" }}
             - memorizer-webpack-
       - run:
           name: Webpack compilation in the test environment
           command: NODE_ENV=test bin/webpack
       - save_cache:
-          key: memorizer-webpack-{{ checksum "tmp/cache/webpacker" }}
+          key: memorizer-webpack-{{ checksum "tmp/cache/webpacker/last-compilation-digest-development" }}
           paths:
             - ~./public/packs-test
 
