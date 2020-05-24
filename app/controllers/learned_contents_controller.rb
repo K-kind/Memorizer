@@ -103,7 +103,7 @@ class LearnedContentsController < ApplicationController
   def update
     @learned_content.word_definition = WordDefinition.find_by(word: params[:learned_content][:main_word])
     @learned_content.temporary_images = params[:learned_content][:related_image]
-    @learned_content.attributes= learned_content_params
+    @learned_content.attributes = learned_content_params
     respond_to do |format|
       if @learned_content.save(context: :self_learn)
         @learned_content.create_temporary_related_images

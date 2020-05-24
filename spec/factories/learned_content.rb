@@ -10,7 +10,7 @@ FactoryBot.define do
 
   trait :with_question do
     after(:build) do |content|
-      content.questions<< build(:question, learned_content: content)
+      content.questions << build(:question, learned_content: content)
     end
   end
 end

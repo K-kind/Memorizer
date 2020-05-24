@@ -6,8 +6,8 @@ RSpec.describe LearnedContent, type: :model do
     let(:word_definition) { create(:word_definition) }
     let(:learned_content) {
       create(:learned_content,
-            word_definition_id: word_definition.id,
-            user: user)
+             word_definition_id: word_definition.id,
+             user: user)
     }
     let(:learned_content_with_question) { create(:learned_content, :with_question) }
 
