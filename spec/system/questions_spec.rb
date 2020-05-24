@@ -67,6 +67,8 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     find_link('Question').click
     expect(page).to_not have_link('Finish')
     expect(page).to_not have_content 'No.'
+    find('a', text: 'Hint').click
+    expect(page).to have_selector('.question-box__hint', text: 'T******* ******')
     fill_in 'A:', with: 'Tommorow answer'
     click_button 'Submit'
 
@@ -99,6 +101,8 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     3.times do |n|
       expect(page).to have_content "Learn1 Q#{n + 1}"
       within all('.question-box')[n] do
+        find('a', text: 'Hint').click
+        expect(page).to have_selector('.question-box__hint', text: 'l*** *')
         fill_in 'A:', with: "lead #{n + 1}"
       end
     end
@@ -136,6 +140,8 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     3.times do |n|
       expect(page).to have_content "Learn2 Q#{n + 1}"
       within all('.question-box')[n] do
+        find('a', text: 'Hint').click
+        expect(page).to have_selector('.question-box__hint', text: 'l*** ****** *** **** *')
         case n
         when 0
           fill_in 'A:', with: 'long answer for lead 1'

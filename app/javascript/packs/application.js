@@ -434,6 +434,12 @@ $(document).on('turbolinks:load', function () {
   $('.help__drop-toggle').click(function () {
     $(this).parent().find('.help__drop-down').slideToggle('fast');
   });
+
+  // hint
+  $('.question-box__hint-link').click(function () {
+    $(this).hide();
+    $(this).parent().find('.question-box__hint').slideDown('fast');
+  });
 });
 
 // カレンダーイベントクリックで、modal表示用リンクを生成してクリックする

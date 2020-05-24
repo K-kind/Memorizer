@@ -1,6 +1,7 @@
 .question-box {
   @include white-box;
   margin-bottom: 20px;
+  position: relative;
   &:nth-last-of-type(1) {
     margin-bottom: 0;
   }
@@ -16,5 +17,14 @@
   &__answer {
     text-align: right;
     margin-top: 10px;
+  }
+  &__hint-link {
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    cursor: pointer;
+  }
+  &__hint {
+    text-align: right;
   }
 }
