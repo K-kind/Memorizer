@@ -80,37 +80,10 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
 
     expect(user.consulted_words.count).to eq 3
 
-    expect {
-      # without Q nor A
-      click_button 'Save'
-      expect(page).to have_selector('.error-message__list', text: '1つ以上の問題を入力してください')
-      expect(page).to_not have_selector('.error-message__list', text: '学習内容を入力してください')
-
-      # only with Q
-      find('#learned_content_content').set('I learned the word star.')
-      fill_in 'Question 1', with: 'Question about star'
-      click_button 'Save'
-      sleep(1)
-      expect(page).to_not have_selector('.error-message__list', text: '学習内容を入力してください')
-      expect(page).to have_selector('.error-message__list', text: '答えを入力してください')
-
-      # only with A
-      fill_in 'Question 1', with: ' '
-      fill_in 'Answer 1', with: 'Answer for Q1'
-      click_button 'Save'
-      sleep(1)
-      expect(page).to have_selector('.error-message__list', text: '問題を入力してください')
-
-      # with Q & A and only Q2
-      fill_in 'Question 1', with: 'Question about star'
-      find('a', text: 'more').click
-      find_field('Question 2').fill_in with: 'Another Question'
-      click_button 'Save'
-      sleep(1.5)
-      expect(page).to have_selector('.error-message__list', text: '答えを入力してください')
-    }.to change(user.learned_contents, :count).by(0)
-
     # それぞれ値を設定
+    fill_in 'Question 1', with: 'Question about star'
+    fill_in 'Answer 1', with: 'Answer for Q1'
+    fill_in 'Question 2', with: 'Another Question'
     find_field('Answer 2').fill_in with: 'Answer for Q2'
     select 'star', from: 'Main word:'
     select 'Science', from: 'Category:'
