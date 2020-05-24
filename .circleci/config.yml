@@ -17,8 +17,8 @@ executors:
     working_directory: ~/memorizer
 
 commands:
-  install-and-caching:
-    description: "bundle install and yarn install and caching"
+  bundle-installation:
+    description: "checkout and bundle installation and caching"
     steps:
       - checkout
       - restore_cache:
@@ -26,11 +26,38 @@ commands:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
             - v1-dependencies-
       - run: bundle install --jobs=4 --retry=3 --path vendor/bundle
-      - run: yarn install
       - save_cache:
           paths:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+
+  yarn-installation:
+    description: "yarn installation and caching"
+    steps:
+      - restore_cache:
+          keys:
+            - memorizer-yarn-{{ checksum "yarn.lock" }}
+            - memorizer-yarn-
+      - run: yarn install
+      - save_cache:
+          key: memorizer-yarn-{{ checksum "yarn.lock" }}
+          paths:
+            - ~./node_modules
+
+  webpack-compilation-in-test:
+    description: "webpack compilation and caching"
+    steps:
+      - restore_cache:
+          keys:
+            - memorizer-webpack-{{ checksum "tmp/cache/webpacker" }}
+            - memorizer-webpack-
+      - run:
+          name: Webpack compilation in the test environment
+          command: NODE_ENV=test bin/webpack
+      - save_cache:
+          key: memorizer-webpack-{{ checksum "tmp/cache/webpacker" }}
+          paths:
+            - ~./public/packs-test
 
 orbs:
   aws-cli: circleci/aws-cli@1.0.0
@@ -41,7 +68,7 @@ jobs:
   rubocop:
     executor: test-build-executor
     steps:
-      - install-and-caching
+      - bundle-installation
       - run:
           name: Rubocop
           command: bundle exec rubocop
@@ -49,7 +76,9 @@ jobs:
   rspec:
     executor: test-build-executor
     steps:
-      - install-and-caching
+      - bundle-installation
+      - yarn-installation
+      - webpack-compilation-in-test
       - run:
           name: Wait for DB
           command: |
