@@ -28,21 +28,6 @@ commands:
           paths:
             - ./node_modules
 
-  webpack-compilation-in-test:
-    description: "webpack compilation and caching"
-    steps:
-      - restore_cache:
-          keys:
-            - v1-webpack-{{ .Revision }}
-            - v1-webpack-
-      - run:
-          name: Webpack compilation in the test environment
-          command: NODE_ENV=test bin/webpack
-      - save_cache:
-          key: v1-webpack-{{ .Revision }}
-          paths:
-            - ./public/packs-test
-
 orbs:
   aws-cli: circleci/aws-cli@1.0.0
   aws-ecr: circleci/aws-ecr@6.8.2
@@ -77,7 +62,6 @@ jobs:
     steps:
       - bundle-installation
       - yarn-installation
-      - webpack-compilation-in-test
       - run:
           name: Wait for DB
           command: |
@@ -86,7 +70,7 @@ jobs:
             bundle exec rake db:schema:load
       - run:
           name: Rspec
-          command: bundle exec rspec
+          command: bin/rspec
       - store_artifacts:
           path: tmp/screenshots/
 
