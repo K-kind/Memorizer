@@ -2,7 +2,7 @@ header.header
   .container
     .header-left
       = link_to root_path do
-        = image_tag 'logo.png', class: 'header-left__logo'
+        = image_pack_tag 'logo.png', class: 'header-left__logo'
     ul.header-right
       - if current_user.notifications.unchecked.user_notify.any?
         li.header-right__list

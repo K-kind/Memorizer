@@ -21,7 +21,7 @@
       .api-info
       #webster-field
         = link_to 'https://www.merriam-webster.com/', target: '_blank', rel: 'noopener' do
-            = image_tag 'Merriam-Webster-logo.png', class: 'merriam-logo'
+            = image_pack_tag 'Merriam-Webster-logo.png', class: 'merriam-logo'
     .about-container__step-right--first
       .about-container__inner-text
         h2.about-container__step-heading Merriam-Webster's Dictionary
@@ -43,11 +43,11 @@
         p.about-container__text オリジナルのクイズを作って復習することで、より記憶に定着しやすくなります。
         p.about-container__text また、#{link_to 'Pixabay.com', 'https://pixabay.com/', target: '_blank', rel: 'noopener'}から単語に関連する画像を取得し、一緒に覚えることができます。
     .about-container__step-right--second
-      = image_tag 'Answer-capture', class: 'about-container__capture'
+      = image_pack_tag 'Answer-capture.png', class: 'about-container__capture'
 
   .about-container__third
     .about-container__step-left--third
-      = image_tag 'calendar', class: 'about-container__capture'
+      = image_pack_tag 'calendar.png', class: 'about-container__capture'
     .about-container__step-right--third
       .about-container__inner-text
         h2.about-container__step-heading 分散学習、モチベーション
