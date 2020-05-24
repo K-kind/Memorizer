@@ -20,6 +20,7 @@ RSpec.describe 'Validation for learning', type: :system, js: true, vcr: { casset
       page.all('.image-save-btn')[2].click
       page.all('.image-save-btn')[3].click
       click_button 'Save'
+      sleep(1)
       expect(page).to have_selector('.error-message__list', text: '画像は3枚まで保存できます。')
 
       find('.image-unsave-times', match: :first).click

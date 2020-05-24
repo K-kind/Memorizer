@@ -83,6 +83,7 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
     # それぞれ値を設定
     fill_in 'Question 1', with: 'Question about star'
     fill_in 'Answer 1', with: 'Answer for Q1'
+    find('.add-next-box', text: 'more').click
     fill_in 'Question 2', with: 'Another Question'
     find_field('Answer 2').fill_in with: 'Answer for Q2'
     select 'star', from: 'Main word:'
