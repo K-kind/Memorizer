@@ -38,7 +38,7 @@ class LearnedContentsController < ApplicationController
     @learned_content.calendar = @calendar_today
     @learned_content.temporary_images = params[:learned_content][:related_image]
     respond_to do |format|
-      if @learned_content.save
+      if @learned_content.save(context: :self_learn)
         @learned_content.create_temporary_related_images
         @learned_content.create_related_words(params[:learned_content][:related_word])
         calculate_level(5)
@@ -103,8 +103,9 @@ class LearnedContentsController < ApplicationController
   def update
     @learned_content.word_definition = WordDefinition.find_by(word: params[:learned_content][:main_word])
     @learned_content.temporary_images = params[:learned_content][:related_image]
+    @learned_content.attributes= learned_content_params
     respond_to do |format|
-      if @learned_content.update(learned_content_params)
+      if @learned_content.save(context: :self_learn)
         @learned_content.create_temporary_related_images
         @learned_content.create_related_words(params[:learned_content][:related_word])
         flash[:notice] = '学習内容が更新されました。'

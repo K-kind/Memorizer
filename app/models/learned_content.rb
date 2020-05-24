@@ -14,8 +14,8 @@ class LearnedContent < ApplicationRecord
   validate :validate_word_definition
   validates :content, length: { maximum: 3000 }
   validate :validate_public_when_imported
-  validate :validate_questions
-  validate :validate_related_images
+  validate :validate_questions, on: :self_learn
+  validate :validate_related_images, on: :self_learn
 
   after_create :set_first_cycle
   attr_accessor :temporary_images
@@ -60,7 +60,7 @@ class LearnedContent < ApplicationRecord
 
   def validate_related_images
     # @temporary_imagesは配列の1つ目が空
-    return if related_images.length + @temporary_images.length - 1 <= 3
+    return if related_images.length + temporary_images&.length.to_i - 1 <= 3
 
     errors.add(:base, '画像は3枚まで保存できます。')
   end
