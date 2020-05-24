@@ -75,9 +75,7 @@
     background-color: #F9FBFE;
   }
   &__saved-images {
-    max-height: 110px;
-    overflow-y: scroll;
-    margin: 14px 0 10px;
+    margin: 14px 0 8px;
     .saved-image {
       padding: 0 3px 8px 0;
       display: inline-block;
@@ -88,36 +86,36 @@
     }
   }
   &__question {
-    margin-top: 20px;
+    margin-bottom: 20px;
     position: relative;
     padding-top: 10px;
     padding: 10px;
     background-color: #F9FBFE;
     border-radius: 3px;
     border: 1px solid $thesaurus-color;
-    &--first {
-      margin-top: 0;
-      padding-top: 15px;
-    }
   }
   .remove-question-box {
     float: right;
     margin-top: 5px;
+    cursor: pointer;
   }
   .add-next-box {
     float: right;
     margin-top: 5px;
     margin-right: 10px;
     text-decoration: none;
-  }
-  &__question-type {
-    position: absolute;
-    top: 2px;
-    right: 5px;
-    .question-type-select {
-      font-size: 14px;
-      cursor: pointer;
+    cursor: pointer;
+    i {
+      font-size: 12px;
+      margin-right: 3px;
     }
+  }
+  &__quick-question {
+    position: absolute;
+    top: 6px;
+    right: 11px;
+    font-size: 14px;
+    cursor: pointer;
   }
   &__question-area {
     width: 100%;
@@ -137,7 +135,7 @@
     font-size: 16px;
   }
   &__subtle {
-    padding: 15px 0;
+    padding: 5px 0 15px;
     display: flex;
     justify-content: space-evenly;
   }

@@ -26,30 +26,33 @@
         = f.select :related_image, [], {}, { id: 'related_image', multiple: true ,class: 'hidden' }
         = f.select :related_word, [], {}, { id: 'related_word', multiple: true ,class: 'hidden' }
         .learn-grid-container__saved-images
-        .learn-grid-container__question.learn-grid-container__question--first.clearfix
+        .learn-grid-container__question.clearfix
+          a.learn-grid-container__quick-question#quick-question Quick
           = f.fields_for :questions, @new_question do |qf|
-            .learn-grid-container__question-type
-              = qf.select :question_type, [['Free', 0], ['Image', 1], ['Simple', 2]], {}, { class: 'question-type-select'}
             = qf.label :question, 'Question 1', class: 'learn-grid-container__question-label'
-            = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 3
+            = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 4
             = qf.label :answer, 'Answer 1', class: 'learn-grid-container__answer-label'
             = qf.text_field :answer, class: 'learn-grid-container__answer-field', autocomplete: 'off'
-          a.add-next-box.fas.fa-chevron-circle-down href='#'  more
-        .learn-grid-container__question.clearfix.hidden#second-box
+          a.add-next-box
+            i.fas.fa-chevron-circle-down
+            | more
+        .learn-grid-container__question.clearfix.hidden
           = f.fields_for :questions, @new_question do |qf|
             = qf.label :question, 'Question 2', class: 'learn-grid-container__question-label'
-            = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 3
+            = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 4
             = qf.label :answer, 'Answer 2', class: 'learn-grid-container__answer-label'
             = qf.text_field :answer, class: 'learn-grid-container__answer-field', autocomplete: 'off'
-          a.remove-question-box.fas.fa-trash-alt href='#'
-          a.add-next-box.fas.fa-chevron-circle-down href='#'  more
-        .learn-grid-container__question.clearfix.hidden#third-box
+          a.remove-question-box.fas.fa-trash-alt
+          a.add-next-box
+            i.fas.fa-chevron-circle-down
+            | more
+        .learn-grid-container__question.clearfix.hidden
           = f.fields_for :questions, @new_question do |qf|
             = qf.label :question, 'Question 3', class: 'learn-grid-container__question-label'
-            = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 3
+            = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 4
             = qf.label :answer, 'Answer 3', class: 'learn-grid-container__answer-label'
             = qf.text_field :answer, class: 'learn-grid-container__answer-field', autocomplete: 'off'
-          a.remove-question-box.fas.fa-trash-alt href='#'
+          a.remove-question-box.fas.fa-trash-alt
         .learn-grid-container__subtle
           .learn-grid-container__category
             = f.label :word_category_id, 'Category:'
