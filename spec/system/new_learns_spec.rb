@@ -81,6 +81,7 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
     expect(user.consulted_words.count).to eq 3
 
     # それぞれ値を設定
+    find('#learned_content_content').set('I learned the word star.')
     fill_in 'Question 1', with: 'Question about star'
     fill_in 'Answer 1', with: 'Answer for Q1'
     find('.add-next-box', text: 'more').click
