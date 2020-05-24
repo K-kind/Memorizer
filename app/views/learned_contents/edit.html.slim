@@ -12,9 +12,9 @@
   .learn-grid-container__webster
     #webster-field
       = link_to 'https://www.merriam-webster.com/', target: '_blank', rel: 'noopener' do
-        = image_tag 'Merriam-Webster-logo.png', class: 'merriam-logo'
+        = image_pack_tag 'Merriam-Webster-logo.png', class: 'merriam-logo'
   .learn-grid-container__study
-    = fa_icon 'edit', class: 'learn-grid-container__edit-icon'
+    i.fa.fa-edit.learn-grid-container__edit-icon
     .learn-grid-container__study-field
       = form_with model:@learned_content, url: learn_path do |f|
         .learn-grid-container__select
@@ -68,7 +68,7 @@
 .learn-grid-container__pixabay
   .pixabay-btn
   = link_to 'https://pixabay.com/', target: '_blank', rel: 'noopener' do
-    = image_tag 'pixabay-logo.png', class: 'pixabay-logo'
+    = image_pack_tag 'pixabay-logo.png', class: 'pixabay-logo'
   #images-result
 
 .learn-grid-container__edit-links

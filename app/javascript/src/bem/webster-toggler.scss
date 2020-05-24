@@ -1,0 +1,22 @@
+.webster-toggler {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 3px;
+  a {
+    cursor: pointer;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    padding: 5px;
+    text-align: center;
+    width: 49.8%;
+    display: inline-block;
+    font-weight: bold;
+    background-color: #DDD;
+    color: #3e3e3e;
+  }
+  .active-toggler {
+    background-color: $thesaurus-color;
+    color: #FFF;
+    cursor: default;
+  }
+}

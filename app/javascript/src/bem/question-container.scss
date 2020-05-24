@@ -1,0 +1,63 @@
+.question-container {
+  width: 60%;
+  margin: 0 auto;
+  &__question-num {
+    text-align: right;
+    padding-bottom: 2px;
+  }
+  &__exit {
+    text-align: right;
+  }
+  &__submit {
+    margin: 20px 0;
+    text-align: center;
+    position: relative;
+  }
+  &__btn {
+    @include submit-btn;
+    &--review {
+      @include submit-btn;
+      font-size: 18px;
+    }
+    &--next {
+      @include submit-btn;
+      margin-right: 15px;
+    }
+  }
+  &__icon {
+    padding-right: 8px;
+    font-size: 14px;
+  }
+  &__links {
+    text-align: right;
+    margin: 10px 0;
+  }
+  &__favorite {
+    display: inline-block;
+    position: absolute;
+    top: 6px;
+    left: 0;
+  }
+  &__finish-btn {
+    @include submit-btn;
+    padding-left: 9px;
+    padding-right: 9px;
+  }
+}
+
+#excellent {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -75%);
+  strong {
+    font-size: 96px;
+    font-family: 'Fugaz One', cursive;
+    border-top: 6px solid #ff0000;
+    border-bottom: 6px solid #ff0000;
+    background: -webkit-linear-gradient(rgb(255, 185, 185), #ff0000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}

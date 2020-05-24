@@ -1,5 +1,5 @@
 .later-list-container
-  = fa_icon 'times', class: 'later-modal-closer closer'
+  i.fa.fa-times.later-modal-closer.closer
   h3.later-list-container__heading あとで学習する
   .later-list-container__top
     = form_with model: @new_list do |f|
@@ -10,6 +10,6 @@
     - @later_lists.each do |later_list|
       li.later-list-container__list
         = link_to later_list_path(id: later_list.id, page: params[:page]), method: :delete, remote: true, class: 'later-list-container__word-delete' do
-          = fa_icon 'times'
+          i.fa.fa-times
         = link_to later_list.word, new_learn_path(default_word: later_list.word)
   = paginate @later_lists, remote: true, :params => { :controller => 'later_lists', :action => 'index' }

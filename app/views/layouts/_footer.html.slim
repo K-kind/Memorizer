@@ -12,10 +12,10 @@ footer.footer
       .footer-right
         - if logged_in?
           = link_to later_lists_path, remote: true, class: 'footer-right__link' do
-            = fa_icon 'bookmark lg'
+            i.fa.fa-bookmark.fa-lg
         - unless @no_always_dictionary
           = link_to homes_always_dictionary_path, remote: true, class: 'footer-right__link' do
-            = fa_icon 'search lg'
-  
+            i.fa.fa-search.fa-lg
+
   - if logged_in?
     #later-list-modal
