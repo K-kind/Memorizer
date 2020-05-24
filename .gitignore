@@ -15,7 +15,6 @@
 !/tmp/pids/.keep
 !/tmp/sockets/.keep
 !/tmp/cache/.keep
-!/tmp/cache/webpacker/last-compilation-digest-development
 
 # Ignore uploaded files in development.
 /storage/*
