@@ -103,7 +103,7 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
 
       # with Q & A and only Q2
       fill_in 'Question 1', with: 'Question about star'
-      click_on 'more'
+      find('a', text: 'more').click
       find_field('Question 2').fill_in with: 'Another Question'
       click_button 'Save'
       sleep(1.5)
@@ -116,8 +116,8 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
     select 'Science', from: 'Category:'
     choose 'Private'
 
-    # Simpleを選択
-    select 'Simple', from: 'learned_content_questions_attributes_0_question_type'
+    # Quick question
+    find('a', text: 'Quick').click
     expect(page).to have_field 'Question 1',
                                with: /burning gas and that look like points of light in the night sky/
     expect(page).to have_field 'Answer 1', with: 'star'
