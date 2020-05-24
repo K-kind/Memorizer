@@ -1,20 +1,4 @@
 version: 2.1
-executors:
-  test-build-executor:
-    docker:
-      - image: circleci/ruby:2.6.5-node-browsers-legacy
-        environment:
-          RAILS_ENV: test
-          MYSQL_PASSWORD: ''
-          MYSQL_HOST: 127.0.0.1
-          SELENIUM_DRIVER_URL: http://localhost:4444/wd/hub
-      - image: circleci/mysql:5.7
-        environment:
-          MYSQL_DATABASE: myapp_test
-          MYSQL_ROOT_HOST: '%'
-          MYSQL_ALLOW_EMPTY_PASSWORD: true
-      - image: selenium/standalone-chrome-debug
-    working_directory: ~/memorizer
 
 commands:
   bundle-installation:
@@ -66,7 +50,9 @@ orbs:
 
 jobs:
   rubocop:
-    executor: test-build-executor
+    docker:
+      - image: circleci/ruby:2.6.5-node-browsers-legacy
+    working_directory: ~/memorizer
     steps:
       - bundle-installation
       - run:
@@ -74,7 +60,20 @@ jobs:
           command: bundle exec rubocop
 
   rspec:
-    executor: test-build-executor
+    docker:
+      - image: circleci/ruby:2.6.5-node-browsers-legacy
+        environment:
+          RAILS_ENV: test
+          MYSQL_PASSWORD: ''
+          MYSQL_HOST: 127.0.0.1
+          SELENIUM_DRIVER_URL: http://localhost:4444/wd/hub
+      - image: circleci/mysql:5.7
+        environment:
+          MYSQL_DATABASE: myapp_test
+          MYSQL_ROOT_HOST: '%'
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
+      - image: selenium/standalone-chrome-debug
+    working_directory: ~/memorizer
     steps:
       - bundle-installation
       - yarn-installation
