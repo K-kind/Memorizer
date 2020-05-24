@@ -179,11 +179,7 @@
     margin-bottom: 15px;
   }
   &__saved-images--show {
-    @include white-box;
-    padding: 0;
-    max-height: 110px;
-    overflow-y: scroll;
-    margin-bottom: 15px;
+    margin: 10px 0;
   }
   &__saved-image {
     display: inline-block;
@@ -197,6 +193,7 @@
     background-color: #F9FBFE;
     padding-top: 8px;
     padding-bottom: 8px;
+    margin-bottom: 10px;
     max-height: 185px;
     overflow-y: scroll;
     h3 {
