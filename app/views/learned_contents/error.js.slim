@@ -1,2 +1,6 @@
 | $('#loading').hide();
 | $('#learn-error').html('#{escape_javascript(render 'shared/error_messages', object: @learned_content)}');
+| $('.error-message__list').eq(0).append('<i class="fa fa-times learn-grid-container__error-hide"></i>');
+| $('.learn-grid-container__error-hide').click(function() {
+|   $(this).parent().parent().remove();
+| });

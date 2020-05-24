@@ -55,7 +55,7 @@
   &__study-field {
     border-radius: 3px;
     background-color: #FFF;
-    padding: 16px 10px 10px 10px;
+    padding: 14px 10px 10px 10px;
   }
   &__select {
     padding-bottom: 15px;
@@ -156,9 +156,11 @@
   }
   &__submit {
     text-align: center;
-    padding: 10px 0 20px;
+    padding: 10px 0 15px;
     input {
       @include submit-btn;
+      font-size: 16px;
+      padding: 5px 11px;
     }
   }
   &__main-word {
@@ -211,7 +213,14 @@
   &__back-btn {
     @include submit-btn;
   }
+  &__error-hide {
+    display: inline-block;
+    cursor: pointer;
+    margin-top: 2px;
+    margin-left: 7px;
+  }
 }
+
 #images-result {
   max-height: 320px;
   overflow-y: scroll;
