@@ -42,20 +42,20 @@ commands:
       - save_cache:
           key: memorizer-yarn-{{ checksum "yarn.lock" }}
           paths:
-            - ~./node_modules
+            - ./node_modules
 
   webpack-compilation-in-test:
     description: "webpack compilation and caching"
     steps:
       - restore_cache:
           keys:
-            - memorizer-webpack-{{ checksum "tmp/cache/webpacker/last-compilation-digest-development" }}
+            - memorizer-webpack-{{ .Revision }}
             - memorizer-webpack-
       - run:
           name: Webpack compilation in the test environment
           command: NODE_ENV=test bin/webpack
       - save_cache:
-          key: memorizer-webpack-{{ checksum "tmp/cache/webpacker/last-compilation-digest-development" }}
+          key: memorizer-webpack-{{ .Revision }}
           paths:
             - ~./public/packs-test
 

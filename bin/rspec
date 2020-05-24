@@ -1,4 +1,11 @@
 #!/usr/bin/env ruby
+
+# 明示されない限り、webpackをコンパイルする
+unless ENV['NO_COMPILE'] == '1'
+  puts 'compiling..'
+  `NODE_ENV=test bin/webpack`
+end
+
 begin
   load File.expand_path('../spring', __FILE__)
 rescue LoadError => e
