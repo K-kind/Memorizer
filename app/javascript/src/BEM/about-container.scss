@@ -1,127 +1,127 @@
-%__link {
-  @include submit-btn;
-  width: 178px;
-  text-align: center;
-}
+// %__link {
+//   @include submit-btn;
+//   width: 178px;
+//   text-align: center;
+// }
 
-.about-container {
-  z-index: 1;
-  position: relative;
-  &__top {
-    background-color: #FFF;
-    margin: 40px auto 44px;
-    border-radius: 3px;
-    padding: 20px 30px;
-    width: 507px;
-  }
-  &__image {
-    width: 100%;
-    height: 423px;
-    margin-top: 50px;
-    position: absolute;
-  }
-  &__heading {
-    margin-bottom: 15px;
-  }
-  &__steps {
-    margin: 15px 0;
-  }
-  &__list-heading {
-    margin-bottom: 5px;
-  }
-  &__list {
-    list-style: disc;
-    margin-left: 20px;
-    line-height: 1.8;
-  }
-  &__top-links {
-    margin: 10px 0 15px;
-    display: flex;
-    justify-content: space-between;
-    &--study {
-      margin: 10px 0 15px;
-      text-align: center;
-    }
-  }
-  &__link {
-    &--test {
-      @extend %__link;
-      @include green-btn;
-      padding: 7px 0 !important;
-    }
-    &--signup {
-      @extend %__link;
-    }
-  }
-  &__first {
-    padding: 20px 0;
-    border-bottom: 2px solid #ccc;
-  }
-  &__step-heading {
-    margin-bottom: 10px;
-  }
-  &__text {
-    line-height: 1.6;
-    margin-bottom: 10px;
-  }
-  %__step-both {
-    display: inline-block;
-    width: 50%;
-    vertical-align: top;
-  }
-  &__step-left {
-    @extend %__step-both;
-    &--first {
-      @extend %__step-both;
-      #webster-field {
-        height: auto;
-        min-height: 300px;
-      }
-    }
-    &--second {
-      @extend %__step-both;
-      padding-top: 20px;
-    }
-    &--third {
-      @extend %__step-both;
-      text-align: center;
-    }
-  }
-  &__step-right {
-    @extend %__step-both;
-    &--first {
-      @extend %__step-both;
-      padding-top: 20px;
-    }
-    &--second {
-      @extend %__step-both;
-      text-align: center;
-    }
-    &--third {
-      @extend %__step-both;
-      padding-top: 20px;
-    }
-  }
-  &__inner-text {
-    width: 80%;
-    margin: 20px auto;
-  }
-  &__second {
-    padding: 20px 0;
-    border-bottom: 2px solid #ccc;
-  }
-  &__capture {
-    height: 300px;
-  }
-  &__third {
-    padding: 20px 0;
-  }
-  &__bottom-links {
-    width: 400px;
-    display: flex;
-    margin: 0 auto 20px;
-    justify-content: space-evenly;
-  }
-  &__bottom-signup {
-  }
-}
+// .about-container {
+//   z-index: 1;
+//   position: relative;
+//   &__top {
+//     background-color: #FFF;
+//     margin: 40px auto 44px;
+//     border-radius: 3px;
+//     padding: 20px 30px;
+//     width: 507px;
+//   }
+//   &__image {
+//     width: 100%;
+//     height: 423px;
+//     margin-top: 50px;
+//     position: absolute;
+//   }
+//   &__heading {
+//     margin-bottom: 15px;
+//   }
+//   &__steps {
+//     margin: 15px 0;
+//   }
+//   &__list-heading {
+//     margin-bottom: 5px;
+//   }
+//   &__list {
+//     list-style: disc;
+//     margin-left: 20px;
+//     line-height: 1.8;
+//   }
+//   &__top-links {
+//     margin: 10px 0 15px;
+//     display: flex;
+//     justify-content: space-between;
+//     &--study {
+//       margin: 10px 0 15px;
+//       text-align: center;
+//     }
+//   }
+//   &__link {
+//     &--test {
+//       @extend %__link;
+//       @include green-btn;
+//       padding: 7px 0 !important;
+//     }
+//     &--signup {
+//       @extend %__link;
+//     }
+//   }
+//   &__first {
+//     padding: 20px 0;
+//     border-bottom: 2px solid #ccc;
+//   }
+//   &__step-heading {
+//     margin-bottom: 10px;
+//   }
+//   &__text {
+//     line-height: 1.6;
+//     margin-bottom: 10px;
+//   }
+//   %__step-both {
+//     display: inline-block;
+//     width: 50%;
+//     vertical-align: top;
+//   }
+//   &__step-left {
+//     @extend %__step-both;
+//     &--first {
+//       @extend %__step-both;
+//       #webster-field {
+//         height: auto;
+//         min-height: 300px;
+//       }
+//     }
+//     &--second {
+//       @extend %__step-both;
+//       padding-top: 20px;
+//     }
+//     &--third {
+//       @extend %__step-both;
+//       text-align: center;
+//     }
+//   }
+//   &__step-right {
+//     @extend %__step-both;
+//     &--first {
+//       @extend %__step-both;
+//       padding-top: 20px;
+//     }
+//     &--second {
+//       @extend %__step-both;
+//       text-align: center;
+//     }
+//     &--third {
+//       @extend %__step-both;
+//       padding-top: 20px;
+//     }
+//   }
+//   &__inner-text {
+//     width: 80%;
+//     margin: 20px auto;
+//   }
+//   &__second {
+//     padding: 20px 0;
+//     border-bottom: 2px solid #ccc;
+//   }
+//   &__capture {
+//     height: 300px;
+//   }
+//   &__third {
+//     padding: 20px 0;
+//   }
+//   &__bottom-links {
+//     width: 400px;
+//     display: flex;
+//     margin: 0 auto 20px;
+//     justify-content: space-evenly;
+//   }
+//   &__bottom-signup {
+//   }
+// }

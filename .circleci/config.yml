@@ -36,11 +36,11 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - memorizer-yarn-{{ checksum "yarn.lock" }}
-            - memorizer-yarn-
+            - v1-yarn-{{ checksum "yarn.lock" }}
+            - v1-yarn-
       - run: yarn install
       - save_cache:
-          key: memorizer-yarn-{{ checksum "yarn.lock" }}
+          key: v1-yarn-{{ checksum "yarn.lock" }}
           paths:
             - ./node_modules
 
@@ -49,15 +49,15 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - memorizer-webpack-{{ .Revision }}
-            - memorizer-webpack-
+            - v1-webpack-{{ .Revision }}
+            - v1-webpack-
       - run:
           name: Webpack compilation in the test environment
           command: NODE_ENV=test bin/webpack
       - save_cache:
-          key: memorizer-webpack-{{ .Revision }}
+          key: v1-webpack-{{ .Revision }}
           paths:
-            - ~./public/packs-test
+            - ./public/packs-test
 
 orbs:
   aws-cli: circleci/aws-cli@1.0.0
