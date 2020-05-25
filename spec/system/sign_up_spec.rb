@@ -50,7 +50,7 @@ describe 'Sign up', type: :system, js: true, retry: 3 do
       expect(page).to have_content '仮登録完了メールを送信しました。ご確認ください。'
       expect(ActionMailer::Base.deliveries.size).to eq(2)
 
-      click_on 'ログイン'
+      find('#login-link').click
       fill_in 'email-form', with: 'user@memorizer.tech'
       fill_in 'password', with: 'password'
       click_button 'commit'

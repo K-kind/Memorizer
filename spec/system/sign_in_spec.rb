@@ -43,7 +43,7 @@ RSpec.describe 'Sign in', type: :system, retry: 3 do
     before do
       visit about_path
       within 'header' do
-        click_on 'ログイン'
+        find('#login-link').click
       end
     end
 
