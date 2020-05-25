@@ -1,5 +1,3 @@
 | $('#consulted-word-table').html('#{escape_javascript(render 'consulted_words')}');
 - if @message
-  | $('#flash-box').html('<div class="flash__notice">#{@message}</div>');
-  | $('#flash-box').fadeIn();
-  | setTimeout("$('#flash-box').fadeOut('slow')", 2400);
+  | setFlash('notice', "#{@message}");
