@@ -12,10 +12,10 @@ ENV PATH /opt/node/bin:$PATH
 
 #cron sudo
 RUN apt-get update -qq \
-  && apt-get install -y cron \
-                        sudo \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
+    && apt-get install -y cron \
+                          sudo \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN useradd -m -u 1000 rails
 RUN mkdir /myapp && chown rails /myapp
@@ -34,15 +34,15 @@ RUN bundle config path ".cache/bundle"
 
 FROM base as develop
 RUN --mount=type=cache,uid=1000,target=/myapp/.cache/bundle \
-  bundle install && \
-  mkdir -p vendor && \
-  cp -ar .cache/bundle vendor/bundle
+    bundle install && \
+    mkdir -p vendor && \
+    cp -ar .cache/bundle vendor/bundle
 RUN bundle config path "vendor/bundle"
 
 # yarn install
 RUN --mount=type=cache,uid=1000,target=/myapp/.cache/node_modules \
-  yarn install --modules-folder .cache/node_modules && \
-  cp -ar .cache/node_modules node_modules
+    yarn install --modules-folder .cache/node_modules && \
+    cp -ar .cache/node_modules node_modules
 COPY --chown=rails . /myapp
 
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
@@ -53,19 +53,21 @@ ENV RAILS_MASTER_KEY $KEY
 ENV RAILS_ENV production
 RUN bundle config without "development test"
 RUN --mount=type=cache,uid=1000,target=/myapp/.cache/bundle \
-  bundle install && \
-  mkdir -p vendor && \
-  cp -ar .cache/bundle vendor/bundle
+    bundle install && \
+    mkdir -p vendor && \
+    cp -ar .cache/bundle vendor/bundle
 RUN bundle config path "vendor/bundle"
 
 # yarn install
 RUN --mount=type=cache,uid=1000,target=/myapp/.cache/node_modules \
-  yarn install --modules-folder .cache/node_modules && \
-  cp -ar .cache/node_modules node_modules
+    yarn install --modules-folder .cache/node_modules && \
+    cp -ar .cache/node_modules node_modules
 
 COPY --chown=rails . /myapp
 # precompile
-RUN --mount=type=cache,uid=1000,target=/myapp/tmp/cache bin/rails assets:precompile
+RUN NODE_ENV=production bin/webpack
+# RUN --mount=type=cache,uid=1000,target=/myapp/tmp/cache/webpacker \
+    # NODE_ENV=production bin/webpack
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
