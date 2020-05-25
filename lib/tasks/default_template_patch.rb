@@ -2,5 +2,7 @@
 User.find_each do |user|
   next if user.learn_templates.any?
 
-  user.set_default_template_ja
+  user.learn_templates.create!(
+    content: LearnTemplate::DEFAULT_JA
+  )
 end

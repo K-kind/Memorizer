@@ -173,9 +173,8 @@ class User < ApplicationRecord
   end
 
   def set_default_template_ja
-    default_template = LearnTemplate::DEFAULT_JA
     learn_templates.create!(
-      content: default_template
+      content: LearnTemplate::DEFAULT_JA
     )
   end
 end
