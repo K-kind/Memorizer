@@ -12,9 +12,9 @@
   .learn-grid-container__webster
     #webster-field
       = link_to 'https://www.merriam-webster.com/', target: '_blank', rel: 'noopener' do
-        = image_tag 'Merriam-Webster-logo.png', class: 'merriam-logo'
+        = image_pack_tag 'Merriam-Webster-logo.png', class: 'merriam-logo'
   .learn-grid-container__study
-    = fa_icon 'edit', class: 'learn-grid-container__edit-icon'
+    i.fa.fa-edit.learn-grid-container__edit-icon
     .learn-grid-container__study-field
       = form_with model: @learned_content, url: learns_path do |f|
         .learn-grid-container__select
@@ -26,30 +26,33 @@
         = f.select :related_image, [], {}, { id: 'related_image', multiple: true ,class: 'hidden' }
         = f.select :related_word, [], {}, { id: 'related_word', multiple: true ,class: 'hidden' }
         .learn-grid-container__saved-images
-        .learn-grid-container__question.learn-grid-container__question--first.clearfix
+        .learn-grid-container__question.clearfix
+          a.learn-grid-container__quick-question#quick-question Quick
           = f.fields_for :questions, @new_question do |qf|
-            .learn-grid-container__question-type
-              = qf.select :question_type, [['Free', 0], ['Image', 1], ['Simple', 2]], {}, { class: 'question-type-select'}
             = qf.label :question, 'Question 1', class: 'learn-grid-container__question-label'
-            = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 3
+            = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 4
             = qf.label :answer, 'Answer 1', class: 'learn-grid-container__answer-label'
             = qf.text_field :answer, class: 'learn-grid-container__answer-field', autocomplete: 'off'
-          a.add-next-box.fas.fa-chevron-circle-down href='#'  more
-        .learn-grid-container__question.clearfix.hidden#second-box
+          a.add-next-box
+            i.fas.fa-chevron-circle-down
+            | more
+        .learn-grid-container__question.clearfix.hidden
           = f.fields_for :questions, @new_question do |qf|
             = qf.label :question, 'Question 2', class: 'learn-grid-container__question-label'
-            = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 3
+            = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 4
             = qf.label :answer, 'Answer 2', class: 'learn-grid-container__answer-label'
             = qf.text_field :answer, class: 'learn-grid-container__answer-field', autocomplete: 'off'
-          a.remove-question-box.fas.fa-trash-alt href='#'
-          a.add-next-box.fas.fa-chevron-circle-down href='#'  more
-        .learn-grid-container__question.clearfix.hidden#third-box
+          a.remove-question-box.fas.fa-trash-alt
+          a.add-next-box
+            i.fas.fa-chevron-circle-down
+            | more
+        .learn-grid-container__question.clearfix.hidden
           = f.fields_for :questions, @new_question do |qf|
             = qf.label :question, 'Question 3', class: 'learn-grid-container__question-label'
-            = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 3
+            = qf.text_area :question, class: 'learn-grid-container__question-area', rows: 4
             = qf.label :answer, 'Answer 3', class: 'learn-grid-container__answer-label'
             = qf.text_field :answer, class: 'learn-grid-container__answer-field', autocomplete: 'off'
-          a.remove-question-box.fas.fa-trash-alt href='#'
+          a.remove-question-box.fas.fa-trash-alt
         .learn-grid-container__subtle
           .learn-grid-container__category
             = f.label :word_category_id, 'Category:'
@@ -65,7 +68,7 @@
 .learn-grid-container__pixabay
   .pixabay-btn
   = link_to 'https://pixabay.com/', target: '_blank', rel: 'noopener' do
-    = image_tag 'pixabay-logo.png', class: 'pixabay-logo'
+    = image_pack_tag 'pixabay-logo.png', class: 'pixabay-logo'
   #images-result
 
 - if @default_word

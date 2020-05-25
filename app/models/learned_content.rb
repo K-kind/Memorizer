@@ -6,14 +6,19 @@ class LearnedContent < ApplicationRecord
   has_many :favorites, dependent: :destroy
   belongs_to :user
   belongs_to :word_category
-  belongs_to :word_definition
+  belongs_to :word_definition, optional: true
   belongs_to :calendar
   has_rich_text :content
   accepts_nested_attributes_for :questions
 
-  after_create :set_first_cycle
+  validate :validate_word_definition
+  validates :content, length: { maximum: 3000 }
+  validate :validate_public_when_imported
+  validate :validate_questions, on: :self_learn
+  validate :validate_related_images, on: :self_learn
 
-  validates :content, presence: true, length: { maximum: 3000 }
+  after_create :set_first_cycle
+  attr_accessor :temporary_images
 
   scope :to_review_today, -> { where('review_date <= ?', Time.zone.today) }
   scope :to_review_this_day,
@@ -33,26 +38,57 @@ class LearnedContent < ApplicationRecord
     Arel.sql(query)
   end
 
+  def validate_word_definition
+    return unless word_definition_id.nil?
+
+    errors.add(:base, '1つ以上の単語を検索してください。')
+  end
+
+  def validate_public_when_imported
+    return unless imported? && is_public?
+
+    errors.add(:base, 'ダウンロードされたコンテンツは公開できません。')
+  end
+
+  def validate_questions
+    return if questions.any? do |question|
+      !question.question.blank? || !question.answer.blank?
+    end
+
+    errors.add(:base, '1つ以上の問題を入力してください。')
+  end
+
+  def validate_related_images
+    # @temporary_imagesは配列の1つ目が空
+    return if related_images.length + temporary_images&.length.to_i - 1 <= 3
+
+    errors.add(:base, '画像は3枚まで保存できます。')
+  end
+
   def till_next_review
     @till_next_review ||= (review_date - Time.zone.today).to_i
   end
 
-  def create_related_images(related_image_array)
-    related_image_array.each_with_index do |related_image, index|
-      next if index.zero? # 配列1つ目は空
+  def create_temporary_related_images
+    # @temporary_imagesの1つ目は空であり、updateの場合も新しく保存された画像のみを含む
+    @temporary_images.each_with_index do |related_image, index|
+      next if index.zero?
 
       image_links = related_image.split(' ') # [0]大画像リンク、[1]サムネリンク、[2]word
-      self.related_images.create!(remote_image_url: image_links[0], word: image_links[2])
+      new_image = self.related_images.create!(thumbnail_url: image_links[1], word: image_links[2])
+      RelatedImagesUploadJob.perform_later(related_image: new_image, image_url: image_links[0])
     end
   end
 
   def create_related_words(related_word_array)
-    self.related_words.destroy_all
+    self.related_words.destroy_all # updateの場合はresetしてから
     related_word_array.each_with_index do |related_word, index|
-      unless index.zero? || self.word_definition.word == related_word
-        word_definition_id = WordDefinition.find_by(word: related_word).id
-        self.related_words.create!(word_definition_id: word_definition_id)
-      end
+      # related_word_arrayの1つ目は空
+      # main wordの場合を除く
+      next if index.zero? || self.word_definition.word == related_word
+
+      word_definition_id = WordDefinition.find_by(word: related_word).id
+      self.related_words.create!(word_definition_id: word_definition_id)
     end
   end
 
@@ -87,22 +123,38 @@ class LearnedContent < ApplicationRecord
     favorites.find_by(user_id: user.id).present?
   end
 
-  def filter_valid_questions
-    questions.each do |q|
-      q.destroy if q.question.blank? && q.answer.blank?
-    end
+  def copy_content_to(user, calendar_today)
+    user.learned_contents.create!(
+      user_id: user.id,
+      calendar_id: calendar_today.id,
+      word_definition_id: word_definition_id,
+      word_category_id: word_category_id,
+      content: content,
+      imported_from: id,
+      imported: true,
+      is_public: false,
+      completed: false
+    )
   end
 
-  def duplicate_children_to(learned_content)
-    ['related_image', 'related_word', 'question'].each do |model|
-      send("#{model}s").each do |object|
-        duplicated = object.dup
-        duplicated.learned_content = learned_content
-        if model == 'related_image'
-          duplicated.image = object.image.file
-        end
+  def duplicate_children_to(new_content)
+    %w[related_word question].each do |original_model|
+      send("#{original_model}s").each do |original_object|
+        duplicated = original_object.dup
+        duplicated.learned_content = new_content
         duplicated.save!
       end
+    end
+
+    # related_imagesの処理だけ例外が多いので分ける
+    related_images.each do |original_image|
+      new_image = new_content.related_images.create!(
+        word: original_image.word,
+        thumbnail_url: original_image.image.url
+      )
+      # importedされたrelated_imageに、元の画像のurlをアップロード
+      RelatedImagesUploadJob.perform_later(related_image: new_image,
+                                           image_url: original_image.image.url)
     end
   end
 

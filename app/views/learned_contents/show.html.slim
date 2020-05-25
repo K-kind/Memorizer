@@ -2,9 +2,9 @@
   .learn-grid-container__webster
     #webster-field
       = link_to 'https://www.merriam-webster.com/', target: '_blank', rel: 'noopener' do
-        = image_tag 'Merriam-Webster-logo.png', class: 'merriam-logo'
+        = image_pack_tag 'Merriam-Webster-logo.png', class: 'merriam-logo'
   .learn-grid-container__study--show
-    = fa_icon 'book-open', class: 'learn-grid-container__edit-icon'
+    i.fa.fa-book-open.learn-grid-container__edit-icon
     .learn-grid-container__study-field
       .learn-grid-container__main-word
         strong.learn-grid-container__main-word-show < #{@word} >
@@ -12,10 +12,11 @@
         == @learned_content.content
       - if @learned_content.related_images.any?
         .learn-grid-container__saved-images--show
-          - @learned_content.related_images&.each do |related_image|
+          - @learned_content.related_images.each do |related_image|
+            - image_url = related_image.image.url || related_image.thumbnail_url
             = content_tag(:span, class: 'learn-grid-container__saved-image') do
-              = link_to related_image.image.url, target: '_blank', rel: 'noopener' do
-                = image_tag related_image.image.url, alt: "image of #{related_image.word}"
+              = link_to image_url, target: '_blank', rel: 'noopener' do
+                = image_tag image_url, alt: "image of #{related_image.word}"
       .learn-grid-container__question--show
         - @learned_content.questions.each_with_index do |question, index|
           h3 Q#{index + 1}

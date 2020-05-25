@@ -7,4 +7,10 @@ FactoryBot.define do
     calendar
     review_date { Time.zone.today + 1 }
   end
+
+  trait :with_question do
+    after(:build) do |content|
+      content.questions << build(:question, learned_content: content)
+    end
+  end
 end

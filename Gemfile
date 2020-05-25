@@ -10,7 +10,7 @@ gem 'mysql2', '>= 0.4.4'
 # Use Puma as the app server
 gem 'puma', '~> 4.3'
 # Use SCSS for stylesheets
-gem 'sass-rails', '>= 6'
+# gem 'sass-rails', '>= 6'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 gem 'webpacker', '~> 4.0'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
@@ -72,7 +72,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'carrierwave'
 gem 'dotenv-rails'
-gem 'font-awesome-rails'
 gem 'html2slim'
 gem 'jquery-rails'
 gem 'kaminari'
@@ -81,8 +80,6 @@ gem 'slim-rails'
 
 # 機能用gem
 gem 'chartkick'
-gem 'fullcalendar-rails'
-# gem 'momentjs-rails'
 gem 'levenshtein'
 gem 'trigram'
 gem 'unirest'

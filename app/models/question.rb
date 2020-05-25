@@ -1,10 +1,11 @@
 class Question < ApplicationRecord
   belongs_to :learned_content
-  attr_accessor :my_answer
-  attr_accessor :similarity
   validates :question, presence: true, length: { maximum: 1000 }, if: :answer?
   validates :answer, presence: true, length: { maximum: 255 }, if: :question?
   validates :my_answer, presence: true, length: { maximum: 255 }, on: :question
+  after_validation :remove_empty_set
+  attr_accessor :my_answer
+  attr_accessor :similarity
 
   # Levenshtein距離は順番に左右される
   # Trigramは多少順番が異なっても評価される
@@ -19,5 +20,11 @@ class Question < ApplicationRecord
                 0
               end
     self.similarity = levenshtein > trigram ? levenshtein : trigram
+  end
+
+  private
+
+  def remove_empty_set
+    destroy if question.blank? && answer.blank?
   end
 end

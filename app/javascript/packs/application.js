@@ -2,7 +2,8 @@
 // present in this directory. You're encouraged to place your actual application logic in
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
-
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 require('@rails/ujs').start()
 require('turbolinks').start()
 require('@rails/activestorage').start()
@@ -12,17 +13,26 @@ require('trix')
 require('@rails/actiontext')
 require('chartkick')
 require('chart.js')
-import $ from 'jquery';
+// import $ from 'jquery';
 import 'fullcalendar';
+import '@fullcalendar/daygrid/main.css';
+import '@fullcalendar/core/main.css';
+import '../src/application.scss';
 
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
 // or the `imagePath` JavaScript helper below.
 //
-// const images = require.context('../images', true)
+const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
 $(document).on('turbolinks:load', function () {
+  // dsabled-btnがあればdisabledにしておく
+  $('.disabled-btn').prop('disabled', true);
+  $('.disabled-btn').click(function () {
+    return false;
+  })
+
   $('.header-right__toggler--community').on('click', function () {
     $('.community-menu').fadeToggle('fast');
     $('.user-menu').fadeOut('fast');
@@ -42,7 +52,6 @@ $(document).on('turbolinks:load', function () {
   //       $('.community-menu').fadeOut('fast');
   //     }, 3000);
   // });
-  
   $('.header-right__toggler--user').on('click', function () {
     $('.user-menu').fadeToggle('fast');
     $('.community-menu').fadeOut('fast');
@@ -62,7 +71,7 @@ $(document).on('turbolinks:load', function () {
   //     $('.user-menu').fadeOut('fast');
   //   }, 3000);
   // });
-  
+
   $('#login-link').on('click', function () {
     $('#login-form').fadeIn('fast');
     $('body').append('<div id="overlay">');
@@ -150,7 +159,7 @@ $(document).on('turbolinks:load', function () {
     $(this).parent().find('.thesaurus-toggler').removeClass('active-toggler');
     return false;
   });
-  
+
   $(document).on('click', '.thesaurus-toggler', function () {
     let word = $(this).parent().attr('data-word');
     let $parentField = $(`.word-field-${word}`);
@@ -289,45 +298,36 @@ $(document).on('turbolinks:load', function () {
     $(`.word-field-${word}`).remove();
     $(this).parent().remove();
   });
-  
+
   // 新規学習時の問題boxの動的な追加、削除
   $(document).on('click', '.add-next-box', function () {
-    $(this).parent().next().slideDown();
     $(this).hide();
-    return false;
+    $(this).parent().next().slideDown('fast');
   });
   $(document).on('click', '.remove-question-box', function () {
     $(this).parent().find('input[type="text"], textarea').val('');
     $(this).parent().slideUp();
     $(this).parent().prev().find('.add-next-box').show();
-    return false;
   });
 
-  // 問題のタイプごとの処理
-  $('.question-type-select').change(function () {
+  // 問題のタイプQuick
+  $('#quick-question').click(function () {
     let $question = $('#learned_content_questions_attributes_0_question');
     let $answer = $('#learned_content_questions_attributes_0_answer');
     let word = $('#learned_content_main_word').find('option:selected').val();
-    if ($(this).find('option:selected').val() == 0) {
-      $question.val(``);
-      $answer.val(``);
-    } else if ($(this).find('option:selected').val() == 1) {
-      if ($question.val() == '') {
-        $question.val('[Image] What is the word related to those images?');
-      } else {
-        let original = $question.val();
-        $question.val(`[Image] ${original}`);
-      }
-      if ($answer.val() == '') {
-        $answer.val(`${word}`);
-      }
-    } else if ($(this).find('option:selected').val() == 2) {
+
+    if ($(this).text() === 'Quick' && word !== undefined) {
+      $(this).text('Delete')
       let definition1 = $(`[data-word="${word}"][data-type="definition"]`).eq(0).text();
       let definition2 = $(`[data-word="${word}"][data-type="definition"]`).eq(1).text();
       let definition3 = $(`[data-word="${word}"][data-type="definition"]`).eq(2).text();
       let definition = definition1 + '\n' + definition2 + '\n' + definition3
       $question.val(`[Definition]\n${definition}`);
       $answer.val(`${word}`);
+    } else {
+      $(this).text('Quick')
+      $question.val('');
+      $answer.val('');
     }
   });
 
@@ -338,7 +338,7 @@ $(document).on('turbolinks:load', function () {
     function clearCalendar() {
       $('#calendar').html('');
     };
-    
+
     $(document).on('turbolinks:load', function () {
       eventCalendar();
     });
@@ -346,7 +346,7 @@ $(document).on('turbolinks:load', function () {
 
     $('#calendar').fullCalendar({
       events: '/top.json',
-      eventClick: function(event) { 
+      eventClick: function(event) {
         CalendarPartial(event.start);
         return false;
       } ,
@@ -396,28 +396,49 @@ $(document).on('turbolinks:load', function () {
     $('.my-page-container__cancel-btn').show();
     $('.my-page-container__submit-btn').show();
   })
-  
-  // サイクル設定フォーム
+
+  // サイクル更新ボタンからdisabledを外す
+  // サイクル設定更新と追加は一緒にできない
   $(document).on('change', '.my-page-container__cycle-form', function () {
+    $('#cycle-edit').find('.disabled-btn')
+                    .removeClass('disabled-btn')
+                    .prop('disabled', false)
+                    .off('click'); // return false を解除
     $('#add-cycle-btn').prop('disabled', true).addClass('disabled-btn');
   });
-  
-  $('#flash-box').fadeIn();
-  setTimeout("$('#flash-box').fadeOut('slow')", 2400);
-  
-  $(document).on('click', '#flash-box', function () {
-    $(this).remove();
+
+  // 学習設定のボタンからdisabledを外す
+  $(document).on('input', '#learn_template_content', function() {
+    $('#template-edit').find('.disabled-btn')
+                        .removeClass('disabled-btn')
+                        .prop('disabled', false)
+                        .off('click');
+  });
+
+  // ページ遷移後にflashがある場合 flashTimeoutsはviewで定義
+  if ($('#flash-box div').length) {
+    let $flashBox = $('#flash-box');
+    clearTimeout(flashTimeouts[0]);
+
+    $flashBox.fadeIn();
+    flashTimeouts.shift();
+    flashTimeouts.push(setTimeout(() => $flashBox.fadeOut('slow'), 2400));
+  }
+
+  // flashをクリックして消す
+  // $(document).on('click', '#flash-box', function () {
+  $('#flash-box').click(function () {
+    $(this).html('');
+  });
+
+  $(document).on('ajax:error', function() {
+    alert('通信エラーが発生しました。ページを読み直してからもう一度お試しください。')
   });
 
   $('#hidden-user-skill-link').fadeIn();
 
   // 1つ目の問題にフォーカス
   $('#learned_content_questions_attributes_0_my_answer').focus();
-
-  $('.disabled-btn').prop('disabled', true);
-  $('.disabled-btn').click(function () {
-    return false;
-  })
 
   $('#excellent').fadeIn();
   setTimeout(function () {
@@ -430,6 +451,12 @@ $(document).on('turbolinks:load', function () {
 
   $('.help__drop-toggle').click(function () {
     $(this).parent().find('.help__drop-down').slideToggle('fast');
+  });
+
+  // hint
+  $('.question-box__hint-link').click(function () {
+    $(this).hide();
+    $(this).parent().find('.question-box__hint').slideDown('fast');
   });
 });
 

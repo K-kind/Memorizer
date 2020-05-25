@@ -93,6 +93,5 @@ RSpec.configure do |config|
   # Kernel.srand config.seed
 
   config.filter_run focus: true
-  config.filter_run_excluding slow: true
   config.run_all_when_everything_filtered = true
 end

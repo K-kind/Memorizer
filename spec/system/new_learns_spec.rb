@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'New Learn', type: :system, retry: 3 do
+  include ActiveJob::TestHelper
   let(:user) { create(:user) }
   before do
     create(:word_category)
@@ -79,44 +80,19 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
 
     expect(user.consulted_words.count).to eq 3
 
-    expect {
-      # without Q nor A
-      click_button 'Save'
-      expect(page).to have_selector('.error-message__list', text: '学習内容を入力してください')
-      expect(page).to have_selector('.error-message__list', text: '1つ以上の問題を入力してください')
-
-      # only with Q
-      find('#learned_content_content').set('I learned the word star.')
-      fill_in 'Question 1', with: 'Question about star'
-      click_button 'Save'
-      sleep(1)
-      expect(page).to_not have_selector('.error-message__list', text: '学習内容を入力してください')
-      expect(page).to have_selector('.error-message__list', text: '答えを入力してください')
-
-      # only with A
-      fill_in 'Question 1', with: ' '
-      fill_in 'Answer 1', with: 'Answer for Q1'
-      click_button 'Save'
-      sleep(1)
-      expect(page).to have_selector('.error-message__list', text: '問題を入力してください')
-
-      # with Q & A and only Q2
-      fill_in 'Question 1', with: 'Question about star'
-      click_on 'more'
-      find_field('Question 2').fill_in with: 'Another Question'
-      click_button 'Save'
-      sleep(1.5)
-      expect(page).to have_selector('.error-message__list', text: '答えを入力してください')
-    }.to change(user.learned_contents, :count).by(0)
-
     # それぞれ値を設定
+    find('#learned_content_content').set('I learned the word star.')
+    fill_in 'Question 1', with: 'Question about star'
+    fill_in 'Answer 1', with: 'Answer for Q1'
+    find('.add-next-box', text: 'more').click
+    fill_in 'Question 2', with: 'Another Question'
     find_field('Answer 2').fill_in with: 'Answer for Q2'
     select 'star', from: 'Main word:'
     select 'Science', from: 'Category:'
     choose 'Private'
 
-    # Simpleを選択
-    select 'Simple', from: 'learned_content_questions_attributes_0_question_type'
+    # Quick question
+    find('a', text: 'Quick').click
     expect(page).to have_field 'Question 1',
                                with: /burning gas and that look like points of light in the night sky/
     expect(page).to have_field 'Answer 1', with: 'star'
@@ -154,10 +130,12 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
     end
 
     # Save
-    expect {
-      click_button 'Save'
-      expect(page).to have_selector('.flash__notice', text: '学習が記録されました。')
-    }.to change(user.learned_contents, :count).by(1)
+    perform_enqueued_jobs do
+      expect {
+        click_button 'Save'
+        expect(page).to have_selector('.flash__notice', text: '学習が記録されました。')
+      }.to change(user.learned_contents, :count).by(1)
+    end
 
     expect(current_path).to eq learn_path(user.learned_contents.last)
 
@@ -218,7 +196,9 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
       expect(page).to have_selector('img[alt="image of yellow"]')
     end
 
-    click_button 'Save'
+    perform_enqueued_jobs do
+      click_button 'Save'
+    end
 
     expect(page).to have_selector('.flash__notice', text: '学習内容が更新されました。')
     expect(current_path).to eq learn_path(user.learned_contents.last)

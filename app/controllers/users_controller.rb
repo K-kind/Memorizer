@@ -6,7 +6,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @new_user.save
         @new_user.send_activation_email
-        @new_user.send_notification_email
+        @new_user.send_notification_email_to_admin
         @new_user.notifications.create(to_admin: true, action: 1)
         flash[:notice] = '仮登録完了メールを送信しました。ご確認ください。'
         format.html { redirect_to about_url }
@@ -23,7 +23,7 @@ class UsersController < ApplicationController
     day = @prev ? Time.zone.today.prev_month(@prev) : Time.zone.today
     @new_learn_chart = current_user.calendars.learn_chart('learned_contents', day)
     @reviewed_chart = current_user.calendars.learn_chart('review_histories', day)
-    @learn_template = current_user.learn_templates.first || current_user.learn_templates.build
+    @learn_template = current_user.learn_templates.last
     respond_to do |format|
       format.html
       format.js

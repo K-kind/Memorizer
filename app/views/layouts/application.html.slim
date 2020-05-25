@@ -5,11 +5,13 @@ html
       | Memorizer
     = csrf_meta_tags
     = csp_meta_tag
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    / = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    / = javascript_packs_with_chunks_tag 'application', 'data-turbolinks-track': 'reload'
     link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.6.3/css/all.css'
     link href='https://fonts.googleapis.com/css?family=Noto+Sans+JP|Fugaz+One&display=swap' rel='stylesheet'
-    = favicon_link_tag('favicon.ico')
+    = favicon_pack_tag('favicon.ico')
   body
     - if logged_in?
       = render 'layouts/logged_in_header'
@@ -19,10 +21,22 @@ html
     - else
       = render 'layouts/guest_header'
     - if controller.controller_name == 'homes' && controller.action_name == 'about'
-      = image_tag 'books', class: 'about-container__image'
+      = image_pack_tag 'books.jpg', class: 'about-container__image'
     .main
       .container
-        #flash-box.hidden
+        #flash-box
           = render 'shared/flash'
         = yield
     = render 'layouts/footer'
+    script
+      | flashTimeouts = [];
+
+      | setFlash = function(key, message) {
+      |   let $flashBox = $('#flash-box');
+      |   clearTimeout(flashTimeouts[0]);
+
+      |   $flashBox.html(`<div class="flash__${key}">${message}</div>`);
+      |   $flashBox.fadeIn();
+      |   flashTimeouts.shift();
+      |   flashTimeouts.push(setTimeout(function() {$flashBox.fadeOut('slow')}, 2400));
+      | };

@@ -19,6 +19,7 @@ services:
       - bundle-data:/myapp/vendor/bundle
     ports:
       - "3000:3000"
+      - "3035:3035" # webpack dev server
     depends_on:
       - db
     environment:

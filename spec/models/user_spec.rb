@@ -85,6 +85,18 @@ RSpec.describe User, type: :model do
       expect(user.authenticated?(:remember, '')).to be_falsey
     end
 
+    it '新規登録時にデフォルトのサイクルが5つ作られること' do
+      user.cycles.destroy_all
+      user.save
+      expect(user.cycles.count).to eq 5
+    end
+
+    it '新規登録時にデフォルトの学習テンプレートが作られること' do
+      user.learn_templates.destroy_all
+      user.save
+      expect(user.learn_templates.count).to eq 1
+    end
+
     it '関連付けられたlearned_content, review_historyが削除されること' do
       user.save
       learned_content = create(:learned_content, user: user)
@@ -113,8 +125,12 @@ RSpec.describe User, type: :model do
 
     it '関連付けられたlearn_templateが削除されること' do
       user.save
-      create(:learn_template, user: user)
       expect { user.destroy }.to change { LearnTemplate.count }.by(-1)
+    end
+
+    it '関連付けられたcyclesが削除されること' do
+      user.save
+      expect { user.destroy }.to change { Cycle.count }.by(-5)
     end
   end
 end

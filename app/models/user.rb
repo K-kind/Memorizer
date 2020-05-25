@@ -19,6 +19,7 @@ class User < ApplicationRecord
   before_save   :downcase_email, unless: :uid?
   before_create :create_activation_digest
   after_create  :set_default_cycle
+  after_create  :set_default_template_ja
 
   validates :name, presence: true, length: { maximum: 20 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
@@ -84,15 +85,15 @@ class User < ApplicationRecord
   end
 
   def send_activation_email
-    UserMailer.account_activation(self).deliver_now
+    UserMailer.account_activation(user: self, user_activation_token: activation_token).deliver_later
   end
 
   def send_password_reset_email
-    UserMailer.password_reset(self).deliver_now
+    UserMailer.password_reset(user: self, user_reset_token: reset_token).deliver_later
   end
 
-  def send_notification_email(contact = nil)
-    NotificationMailer.user_notification(self, contact).deliver_now
+  def send_notification_email_to_admin(contact = nil)
+    NotificationMailer.user_notification_to_admin(user: self, contact: contact).deliver_later
   end
 
   def level_up?(added_exp)
@@ -142,25 +143,12 @@ class User < ApplicationRecord
     notifications.create!
   end
 
-  def import_content(original_content, calendar_today)
-    learned_contents.create!(
-      word_definition_id: original_content.word_definition_id,
-      word_category_id: original_content.word_category_id,
-      calendar_id: calendar_today.id,
-      imported_from: original_content.id,
-      imported: true,
-      is_public: false,
-      completed: false,
-      content: original_content.content
-    )
-  end
-
   def set_calendar_to_review(review_date)
     calendars.find_or_create_by!(calendar_date: review_date)
   end
 
   def rollback_to_default_cycle
-    [1, 7, 16, 35, 62].each_with_index do |cycle, index|
+    Cycle::DEFAULT_CYCLES.each_with_index do |cycle, index|
       new_cycle = cycles.find_by(times: index)
       new_cycle.update!(cycle: cycle)
     end
@@ -179,8 +167,14 @@ class User < ApplicationRecord
   end
 
   def set_default_cycle
-    [1, 7, 16, 35, 62].each_with_index do |cycle, index|
+    Cycle::DEFAULT_CYCLES.each_with_index do |cycle, index|
       cycles.create!(times: index, cycle: cycle)
     end
+  end
+
+  def set_default_template_ja
+    learn_templates.create!(
+      content: LearnTemplate::DEFAULT_JA
+    )
   end
 end

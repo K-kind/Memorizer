@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_16_132830) do
+ActiveRecord::Schema.define(version: 2020_05_25_044211) do
 
   create_table "action_text_rich_texts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name", null: false
@@ -106,7 +106,6 @@ ActiveRecord::Schema.define(version: 2020_05_16_132830) do
 
   create_table "learn_templates", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.text "content"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_learn_templates_on_user_id"
@@ -158,7 +157,6 @@ ActiveRecord::Schema.define(version: 2020_05_16_132830) do
     t.string "answer"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "question_type", default: 0
     t.index ["learned_content_id"], name: "index_questions_on_learned_content_id"
   end
 
@@ -168,6 +166,7 @@ ActiveRecord::Schema.define(version: 2020_05_16_132830) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "word"
     t.string "image"
+    t.string "thumbnail_url"
     t.index ["learned_content_id"], name: "index_related_images_on_learned_content_id"
   end
 

@@ -1,6 +1,50 @@
 version: 2.1
-executors:
-  test-build-executor:
+
+commands:
+  bundle-installation:
+    description: "checkout and bundle installation and caching"
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            - v1-dependencies-
+      - run: bundle install --jobs=4 --retry=3 --path vendor/bundle
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+
+  yarn-installation:
+    description: "yarn installation and caching"
+    steps:
+      - restore_cache:
+          keys:
+            - v1-yarn-{{ checksum "yarn.lock" }}
+            - v1-yarn-
+      - run: yarn install
+      - save_cache:
+          key: v1-yarn-{{ checksum "yarn.lock" }}
+          paths:
+            - ./node_modules
+
+orbs:
+  aws-cli: circleci/aws-cli@1.0.0
+  aws-ecr: circleci/aws-ecr@6.8.2
+  aws-ecs: circleci/aws-ecs@1.1.0
+
+jobs:
+  rubocop:
+    docker:
+      - image: circleci/ruby:2.6.5-node-browsers-legacy
+    working_directory: ~/memorizer
+    steps:
+      - bundle-installation
+      - run:
+          name: Rubocop
+          command: bundle exec rubocop
+
+  rspec:
     docker:
       - image: circleci/ruby:2.6.5-node-browsers-legacy
         environment:
@@ -15,41 +59,9 @@ executors:
           MYSQL_ALLOW_EMPTY_PASSWORD: true
       - image: selenium/standalone-chrome-debug
     working_directory: ~/memorizer
-
-commands:
-  install-and-caching:
-    description: "bundle install and yarn install and caching"
     steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            - v1-dependencies-
-      - run: bundle install --jobs=4 --retry=3 --path vendor/bundle
-      - run: yarn install
-      - save_cache:
-          paths:
-            - ./vendor/bundle
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-
-orbs:
-  aws-cli: circleci/aws-cli@1.0.0
-  aws-ecr: circleci/aws-ecr@6.8.2
-  aws-ecs: circleci/aws-ecs@1.1.0
-
-jobs:
-  rubocop:
-    executor: test-build-executor
-    steps:
-      - install-and-caching
-      - run:
-          name: Rubocop
-          command: bundle exec rubocop
-
-  rspec:
-    executor: test-build-executor
-    steps:
-      - install-and-caching
+      - bundle-installation
+      - yarn-installation
       - run:
           name: Wait for DB
           command: |
@@ -58,7 +70,7 @@ jobs:
             bundle exec rake db:schema:load
       - run:
           name: Rspec
-          command: bundle exec rspec
+          command: bin/rspec
       - store_artifacts:
           path: tmp/screenshots/
 
@@ -79,7 +91,6 @@ jobs:
           family: "memorizer-task"
           cluster-name: "memorizer-cluster3"
           service-name: "memorizer-service"
-          force-new-deployment: true
 
 workflows:
   version: 2.1

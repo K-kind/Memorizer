@@ -2,20 +2,20 @@ header.header
   .container
     .header-left
       = link_to root_path do
-        = image_tag 'logo.png', class: 'header-left__logo'
+        = image_pack_tag 'logo.png', class: 'header-left__logo'
     ul.header-right
       - if current_user.notifications.unchecked.user_notify.any?
         li.header-right__list
           = link_to contacts_path, class: 'header-right__envelope' do
-            = fa_icon 'envelope lg'
+            i.fa.fa-envelope.fa-lg
             = current_user.notifications.unchecked.user_notify.count
       li.header-right__list
         = link_to new_learn_path, class: 'header-right__new-link' do
-          = fa_icon 'edit lg'
+          i.fa.fa-edit.fa-lg
       li.header-right__list
         a.header-right__toggler--community href='#'
-          = fa_icon 'users lg'
-          = fa_icon 'caret-down'
+          i.fa.fa-users.fa-lg
+          i.fa.fa-caret-down
         ul.community-menu
           li.community-menu__list
             = link_to 'みんなの問題', communities_questions_path
@@ -26,7 +26,7 @@ header.header
       li.header-right__list
         a.header-right__toggler--user href='#'
           | #{current_user.name}(Lv.#{current_user.level})
-          = fa_icon 'caret-down'
+          i.fa.fa-caret-down
         ul.user-menu
           li.user-menu__list
             = link_to 'マイページ', user_path
