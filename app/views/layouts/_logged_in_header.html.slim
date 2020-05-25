@@ -13,18 +13,18 @@ header.header
         = link_to new_learn_path, class: 'header-right__new-link' do
           i.fa.fa-edit.fa-lg
       li.header-right__list
-        a.header-right__toggler--community href='#'
+        a.header-right__toggler--community
           i.fa.fa-users.fa-lg
           i.fa.fa-caret-down
         ul.community-menu
           li.community-menu__list
-            = link_to 'みんなの問題', communities_questions_path
+            = link_to '問題を探す', communities_questions_path
           li.community-menu__list
             = link_to '単語を探す', communities_words_path
           li.community-menu__list
             = link_to 'ランキング', communities_ranking_path
       li.header-right__list
-        a.header-right__toggler--user href='#'
+        a.header-right__toggler--user
           | #{current_user.name}(Lv.#{current_user.level})
           i.fa.fa-caret-down
         ul.user-menu
