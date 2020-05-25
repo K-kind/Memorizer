@@ -396,11 +396,23 @@ $(document).on('turbolinks:load', function () {
     $('#add-cycle-btn').prop('disabled', true).addClass('disabled-btn');
   });
 
-  $('#flash-box').fadeIn();
-  setTimeout("$('#flash-box').fadeOut('slow')", 2400);
+  // ページ遷移後にflashがある場合 flashTimeoutsはviewで定義
+  if ($('#flash-box div').length) {
+    let $flashBox = $('#flash-box');
+    clearTimeout(flashTimeouts[0]);
 
+    $flashBox.fadeIn();
+    flashTimeouts.shift();
+    flashTimeouts.push(setTimeout(() => $flashBox.fadeOut('slow'), 2400));
+  }
+
+  // flashをクリックして消す
   $(document).on('click', '#flash-box', function () {
-    $(this).remove();
+    $(this).html('');
+  });
+
+  $(document).on('ajax:error', function() {
+    alert('通信エラーが発生しました。ページを読み直してからもう一度お試しください。')
   });
 
   $('#hidden-user-skill-link').fadeIn();

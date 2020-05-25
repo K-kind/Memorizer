@@ -24,7 +24,19 @@ html
       = image_pack_tag 'books.jpg', class: 'about-container__image'
     .main
       .container
-        #flash-box.hidden
+        #flash-box
           = render 'shared/flash'
         = yield
     = render 'layouts/footer'
+    script
+      | const flashTimeouts = [];
+
+      | const setFlash = function(key, message) {
+      |   let $flashBox = $('#flash-box');
+      |   clearTimeout(flashTimeouts[0]);
+
+      |   $flashBox.html(`<div class="flash__${key}">${message}</div>`);
+      |   $flashBox.fadeIn();
+      |   flashTimeouts.shift();
+      |   flashTimeouts.push(setTimeout(function() {$flashBox.fadeOut('slow')}, 2400));
+      | };

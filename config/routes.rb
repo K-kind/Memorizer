@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   resources :contacts,            only: [:index, :create, :destroy]
   resources :consulted_words,     only: [:index, :destroy]
   resources :later_lists,         only: [:index, :create, :destroy]
-  resources :learn_templates,     only: [:create, :update, :show]
+  resources :learn_templates,     only: [:update, :show]
   resources :password_resets,     only: [:new, :create, :edit, :update]
   resources :related_images,      only: [:destroy]
   resources :learns, controller: :learned_contents do

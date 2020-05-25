@@ -2,7 +2,9 @@ class CyclesController < ApplicationController
   before_action :logged_in_user
 
   def set
-    @message = '復習サイクルを更新しました。' if current_user.update(cycle_params)
+    return unless current_user.update(cycle_params)
+
+    @message = '復習サイクルを更新しました。'
   end
 
   def new
