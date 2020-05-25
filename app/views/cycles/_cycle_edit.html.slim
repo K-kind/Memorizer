@@ -19,6 +19,6 @@
   p.my-page-container__cycle-notion
     | ※変更は次の復習後から反映されます。
   .my-page-container__template-submit
-    = f.submit
+    = f.submit nil, class: 'disabled-btn'
   .my-page-container__default-cycle
     = link_to 'デフォルトに戻す', default_cycles_path, remote: true, method: :post, id: 'default-cycle-btn'

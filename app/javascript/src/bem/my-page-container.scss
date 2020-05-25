@@ -87,6 +87,7 @@
   }
   &__settings {
     @include white-box;
+    padding-bottom: 5px;
     display: flex;
     justify-content: space-between;
   }
@@ -99,6 +100,17 @@
     input {
       @include submit-btn;
     }
+  }
+  &__template-default {
+    margin: 4px 0 10px;
+  }
+  &__template-default-link {
+    @include submit-btn;
+    border: none;
+    height: 22px;
+    line-height: 22px;
+    padding: 0 8px;
+    margin: 4px 6px 0 0;
   }
   &__settings-left {
     width: 525px;
@@ -153,12 +165,14 @@
   &__chart-link {
     &--prev {
       @extend %__chart-link;
-      
     }
     &--next {
       @extend %__chart-link;
 
       margin-left: 20px;
     }
+  }
+  &__home-back {
+    text-align: right;
   }
 }

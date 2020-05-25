@@ -29,9 +29,9 @@ html
         = yield
     = render 'layouts/footer'
     script
-      | const flashTimeouts = [];
+      | flashTimeouts = [];
 
-      | const setFlash = function(key, message) {
+      | setFlash = function(key, message) {
       |   let $flashBox = $('#flash-box');
       |   clearTimeout(flashTimeouts[0]);
 
