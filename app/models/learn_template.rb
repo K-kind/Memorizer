@@ -3,7 +3,7 @@ class LearnTemplate < ApplicationRecord
   has_rich_text :content
   validates :content, length: { maximum: 2000 }
 
-  DEFAULT_JA =  <<~"TRIX"
+  DEFAULT_JA = <<~"TRIX".freeze
     <h1>意味</h1>
     <ol><li> </li></ol>
     <h1>例文</h1>
@@ -14,7 +14,7 @@ class LearnTemplate < ApplicationRecord
     <ul><li> </li></ul>
   TRIX
 
-  DEFAULT_EN =  <<~"TRIX"
+  DEFAULT_EN = <<~"TRIX".freeze
     <h1>Definition</h1>
     <ol><li> </li></ol>
     <h1>Examples</h1>
