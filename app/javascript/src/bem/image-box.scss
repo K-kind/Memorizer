@@ -1,6 +1,7 @@
 .image-box {
   margin: 10px 0;
   &__image {
+    cursor: zoom-in;
     &:nth-of-type(2n - 1) {
       padding-right: 8px;
       height: 150px;

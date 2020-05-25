@@ -188,6 +188,7 @@
     padding: 0 8px 8px 0;
     img {
       height: 110px;
+      cursor: zoom-in;
     }
   }
   &__question--show {
@@ -201,6 +202,9 @@
     h3 {
       font-size: 16px;
     }
+  }
+  &__to-question {
+    text-align: right;
   }
   &__answer-show {
     padding: 5px 0 10px;
