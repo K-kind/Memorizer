@@ -23,8 +23,9 @@ import '../src/application.scss';
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
 // or the `imagePath` JavaScript helper below.
 //
-const images = require.context('../images', true)
+const images = require.context('../images', true);
 // const imagePath = (name) => images(name, true)
+const headerTimeouts = [];
 
 $(document).on('turbolinks:load', function () {
   // dsabled-btnがあればdisabledにしておく
@@ -33,44 +34,32 @@ $(document).on('turbolinks:load', function () {
     return false;
   })
 
-  $('.header-right__toggler--community').on('click', function () {
-    $('.community-menu').fadeToggle('fast');
-    $('.user-menu').fadeOut('fast');
-    setTimeout(function () {
-      $('.community-menu').fadeOut();
-    }, 3500);
-    return false;
-  });
   $(window).scroll(function () {
     $('.community-menu').fadeOut();
-  });
-  // $('.header-right__toggler--community').hover(function () {
-  //   $('.community-menu').fadeIn('fast');
-  //   $('.user-menu').fadeOut('fast');
-  // }, function() {
-  //     setTimeout(function () {
-  //       $('.community-menu').fadeOut('fast');
-  //     }, 3000);
-  // });
-  $('.header-right__toggler--user').on('click', function () {
-    $('.user-menu').fadeToggle('fast');
-    $('.community-menu').fadeOut('fast');
-    setTimeout(function () {
-      $('.user-menu').fadeOut();
-    }, 3500);
-    return false;
-  });
-  $(window).scroll(function () {
     $('.user-menu').fadeOut();
   });
-  // $('.header-right__toggler--user').hover(function () {
-  //   $('.user-menu').fadeIn('fast');
-  //   $('.community-menu').fadeOut('fast');
-  // }, function() {
-  //   setTimeout(function () {
-  //     $('.user-menu').fadeOut('fast');
-  //   }, 3000);
-  // });
+
+  $('.header-right__toggler--community, .community-menu').hover(function () {
+    clearTimeout(headerTimeouts[0]);
+    $('.community-menu').fadeIn('fast');
+    $('.user-menu').fadeOut('fast');
+    headerTimeouts.shift();
+  }, function() {
+      headerTimeouts.push(
+        setTimeout(() => $('.community-menu').fadeOut('fast'), 2400)
+      );
+  });
+
+  $('.header-right__toggler--user, .user-menu').hover(function () {
+    clearTimeout(headerTimeouts[0]);
+    $('.user-menu').fadeIn('fast');
+    $('.community-menu').fadeOut('fast');
+    headerTimeouts.shift();
+  }, function() {
+    headerTimeouts.push(
+      setTimeout(() => $('.user-menu').fadeOut('fast'), 2400)
+    );
+  });
 
   $('#login-link').on('click', function () {
     $('#login-form').fadeIn('fast');

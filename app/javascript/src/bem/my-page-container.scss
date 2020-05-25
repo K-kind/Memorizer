@@ -64,7 +64,9 @@
     width: 80%;
   }
   &__select {
+    display: inline-block;
     font-size: 14px;
+    height: 28px;
   }
   &__level-table {
     @include table2;
