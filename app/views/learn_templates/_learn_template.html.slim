@@ -2,3 +2,11 @@
   = f.rich_text_area :content
   .my-page-container__template-submit
     = f.submit
+.my-page-container__template-default
+  span デフォルトに設定
+  = link_to '日本語',\
+            default_learn_template_path(@learn_template, params: { lang: 'ja' }),\
+            method: :post, remote: true
+  = link_to 'English',\
+            default_learn_template_path(@learn_template, params: { lang: 'en' }),\
+            method: :post, remote: true

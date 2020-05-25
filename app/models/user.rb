@@ -95,6 +95,13 @@ class User < ApplicationRecord
     NotificationMailer.user_notification_to_admin(user: self, contact: contact).deliver_later
   end
 
+  def set_default_template_ja
+    default_template = LearnTemplate::DEFAULT_JA
+    learn_templates.create!(
+      content: default_template
+    )
+  end
+
   def level_up?(added_exp)
     update(exp: (exp + added_exp))
     return unless Level.find_by!(level: level).threshold <= exp

@@ -8,6 +8,7 @@ class UsersController < ApplicationController
         @new_user.send_activation_email
         @new_user.send_notification_email_to_admin
         @new_user.notifications.create(to_admin: true, action: 1)
+        @new_user.set_default_template
         flash[:notice] = '仮登録完了メールを送信しました。ご確認ください。'
         format.html { redirect_to about_url }
       else
