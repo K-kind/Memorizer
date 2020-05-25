@@ -19,6 +19,7 @@ class User < ApplicationRecord
   before_save   :downcase_email, unless: :uid?
   before_create :create_activation_digest
   after_create  :set_default_cycle
+  after_create  :set_default_template_ja
 
   validates :name, presence: true, length: { maximum: 20 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
@@ -147,7 +148,7 @@ class User < ApplicationRecord
   end
 
   def rollback_to_default_cycle
-    [1, 7, 16, 35, 62].each_with_index do |cycle, index|
+    Cycle::DEFAULT_CYCLES.each_with_index do |cycle, index|
       new_cycle = cycles.find_by(times: index)
       new_cycle.update!(cycle: cycle)
     end
@@ -166,8 +167,14 @@ class User < ApplicationRecord
   end
 
   def set_default_cycle
-    [1, 7, 16, 35, 62].each_with_index do |cycle, index|
+    Cycle::DEFAULT_CYCLES.each_with_index do |cycle, index|
       cycles.create!(times: index, cycle: cycle)
     end
+  end
+
+  def set_default_template_ja
+    learn_templates.create!(
+      content: LearnTemplate::DEFAULT_JA
+    )
   end
 end

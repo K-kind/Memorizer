@@ -1,4 +1,12 @@
 = form_with model: @learn_template do |f|
   = f.rich_text_area :content
   .my-page-container__template-submit
-    = f.submit
+    = f.submit nil, class: 'disabled-btn'
+.my-page-container__template-default
+  p デフォルトに設定
+  = link_to '日本語',\
+            default_learn_template_path(@learn_template, params: { lang: 'ja' }),\
+            method: :post, remote: true, class: 'my-page-container__template-default-link'
+  = link_to 'English',\
+            default_learn_template_path(@learn_template, params: { lang: 'en' }),\
+            method: :post, remote: true, class: 'my-page-container__template-default-link'

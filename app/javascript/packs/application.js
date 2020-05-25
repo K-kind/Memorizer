@@ -27,6 +27,12 @@ const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
 $(document).on('turbolinks:load', function () {
+  // dsabled-btnがあればdisabledにしておく
+  $('.disabled-btn').prop('disabled', true);
+  $('.disabled-btn').click(function () {
+    return false;
+  })
+
   $('.header-right__toggler--community').on('click', function () {
     $('.community-menu').fadeToggle('fast');
     $('.user-menu').fadeOut('fast');
@@ -391,27 +397,48 @@ $(document).on('turbolinks:load', function () {
     $('.my-page-container__submit-btn').show();
   })
 
-  // サイクル設定フォーム
+  // サイクル更新ボタンからdisabledを外す
+  // サイクル設定更新と追加は一緒にできない
   $(document).on('change', '.my-page-container__cycle-form', function () {
+    $('#cycle-edit').find('.disabled-btn')
+                    .removeClass('disabled-btn')
+                    .prop('disabled', false)
+                    .off('click'); // return false を解除
     $('#add-cycle-btn').prop('disabled', true).addClass('disabled-btn');
   });
 
-  $('#flash-box').fadeIn();
-  setTimeout("$('#flash-box').fadeOut('slow')", 2400);
+  // 学習設定のボタンからdisabledを外す
+  $(document).on('input', '#learn_template_content', function() {
+    $('#template-edit').find('.disabled-btn')
+                        .removeClass('disabled-btn')
+                        .prop('disabled', false)
+                        .off('click');
+  });
 
-  $(document).on('click', '#flash-box', function () {
-    $(this).remove();
+  // ページ遷移後にflashがある場合 flashTimeoutsはviewで定義
+  if ($('#flash-box div').length) {
+    let $flashBox = $('#flash-box');
+    clearTimeout(flashTimeouts[0]);
+
+    $flashBox.fadeIn();
+    flashTimeouts.shift();
+    flashTimeouts.push(setTimeout(() => $flashBox.fadeOut('slow'), 2400));
+  }
+
+  // flashをクリックして消す
+  // $(document).on('click', '#flash-box', function () {
+  $('#flash-box').click(function () {
+    $(this).html('');
+  });
+
+  $(document).on('ajax:error', function() {
+    alert('通信エラーが発生しました。ページを読み直してからもう一度お試しください。')
   });
 
   $('#hidden-user-skill-link').fadeIn();
 
   // 1つ目の問題にフォーカス
   $('#learned_content_questions_attributes_0_my_answer').focus();
-
-  $('.disabled-btn').prop('disabled', true);
-  $('.disabled-btn').click(function () {
-    return false;
-  })
 
   $('#excellent').fadeIn();
   setTimeout(function () {

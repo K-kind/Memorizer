@@ -29,6 +29,7 @@ class LearnedContentsController < ApplicationController
     @learned_content = LearnedContent.new
     @new_question = @learned_content.questions.build
     @default_word = params[:default_word]
+    # ゲストユーザーの場合はnil
     @template = current_user&.learn_templates&.last
   end
 
