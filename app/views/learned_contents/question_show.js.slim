@@ -1,3 +1,2 @@
 | $('#calendar-modal').html('#{escape_javascript(render('question_modal', learned_content: @learned_content))}');
-| $('body').append('<div id="overlay">');
-| $('#question-modal').fadeIn('fast');
+| $('#question-modal, #overlay').fadeIn(100);

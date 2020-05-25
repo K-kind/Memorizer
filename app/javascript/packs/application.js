@@ -62,49 +62,32 @@ $(document).on('turbolinks:load', function () {
   });
 
   $('#login-link').on('click', function () {
-    $('#login-form').fadeIn('fast');
-    $('body').append('<div id="overlay">');
+    $('#login-form, #overlay').fadeIn('fast');
     $('#email-form').focus();
-    return false;
   });
 
   $('.signup-link').on('click', function () {
-    $('#signup-form').fadeIn('fast');
-    $('body').append('<div id="overlay">');
+    $('#signup-form, #overlay').fadeIn('fast');
     $('#name-form').focus();
-    return false;
   });
 
   $(document).on('click', '.login-form__closer', function () {
-    $('.login-form, #always-modal, #question-modal').fadeOut('fast');
-    setTimeout(() => {
-      $('#overlay').remove();
-    }, 100);
-    return false;
+    $('.login-form, #always-modal, #question-modal, #overlay').fadeOut('fast');
   });
 
   $(document).on('click', '.later-modal-closer, #later-overlay', function () {
     $('#later-list-modal').html('');
-    setTimeout(() => {
-      $('#later-overlay').remove();
-    }, 100);
-    return false;
+    $('#later-overlay').fadeOut('fast');
   });
 
   $(document).on('click', '.reset-modal-closer, #reset-overlay', function () {
     $('#password-reset-area').html('');
-    setTimeout(() => {
-      $('#reset-overlay').remove();
-    }, 100);
-    return false;
+    $('#reset-overlay').fadeOut('fast');
   });
 
-  $(document).on('click', '#overlay', function () {
-    $('.login-form, #always-modal, #question-modal').fadeOut('fast');
+  $('#overlay').click(function () {
+    $('.login-form, #always-modal, #question-modal, #overlay').fadeOut('fast');
     $('#later-list-modal').html('');
-    setTimeout(() => {
-      $(this).remove();
-    }, 100);
   });
 
   $(document).on('click', '#login-toggler', function () {
