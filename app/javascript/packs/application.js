@@ -73,6 +73,7 @@ $(document).on('turbolinks:load', function () {
 
   $(document).on('click', '.login-form__closer', function () {
     $('.login-form, #always-modal, #question-modal, #overlay').fadeOut('fast');
+    $('#release-note-modal').html('');
   });
 
   $(document).on('click', '.later-modal-closer, #later-overlay', function () {
@@ -93,7 +94,7 @@ $(document).on('turbolinks:load', function () {
 
   $('#overlay').click(function () {
     $('.login-form, #always-modal, #question-modal, #overlay').fadeOut('fast');
-    $('#later-list-modal').html('');
+    $('#later-list-modal, #release-note-modal').html('');
   });
 
   $(document).on('click', '#login-toggler', function () {

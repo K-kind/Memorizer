@@ -1,17 +1,21 @@
-.contact
-  h1 リリースノート
-  table.consulted-container__table
-    thead
-      tr
-        th バージョン
-        th リリース日
-    tbody
-      - @release_notes.each do |release_note|
+.release-note
+  h1.release-note__heading リリースノート
+
+  .release-note__container
+    table.release-note__table
+      thead
         tr
-          td= link_to release_note.version, admin_release_note_path(release_note)
-          td= release_note.release_date
+          th バージョン
+          th リリース日
+      tbody
+        - @release_notes.each do |release_note|
+          tr
+            td= link_to release_note.version, release_note_path(release_note), remote: true
+            td= release_note.release_date
 
     = paginate @release_notes
 
-  h2 New リリース
-  = render 'form', object: @new_release, url: admin_release_notes_path
+  .home-back
+    = link_to '< HOME', root_path
+
+#release-note-modal

@@ -1,0 +1,9 @@
+.release-note__modal
+  i.fa.fa-times.login-form__closer
+  h3 リリースノート
+  ul.release-note__show-ul
+    li バージョン: #{@release_note.version}
+    li リリース日: #{@release_note.release_date}
+    li
+      .release-note__content
+        = simple_format @release_note.content

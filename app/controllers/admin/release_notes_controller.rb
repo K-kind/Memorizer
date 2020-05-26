@@ -13,6 +13,7 @@ class Admin::ReleaseNotesController < AdminController
   def create
     @new_release = ReleaseNote.new
     @new_release = ReleaseNote.new(release_note_params)
+    @new_release.set_release_date
     if @new_release.save
       flash[:notice] = 'リリースノートを発行しました。'
       redirect_to admin_release_note_url(@new_release)
@@ -23,7 +24,9 @@ class Admin::ReleaseNotesController < AdminController
   end
 
   def update
-    if @release_note.update(release_note_params)
+    @release_note.attributes = release_note_params
+    @release_note.set_release_date
+    if @release_note.save
       flash[:notice] = 'リリースノートを変更しました。'
       redirect_to admin_release_note_url(@release_note)
     else

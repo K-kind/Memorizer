@@ -7,7 +7,6 @@ class ReleaseNote < ApplicationRecord
   attr_accessor :year
   attr_accessor :month
   attr_accessor :day
-  before_validation :set_release_date, on: [:create, :update]
 
   scope :latest, -> { order(release_date: :desc) }
 
@@ -16,8 +15,6 @@ class ReleaseNote < ApplicationRecord
     @month = release_date&.month
     @day = release_date&.day
   end
-
-  private
 
   def set_release_date
     self.release_date = Date.new(year.to_i, month.to_i, day.to_i)
