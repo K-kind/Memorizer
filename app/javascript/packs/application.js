@@ -23,8 +23,9 @@ import '../src/application.scss';
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
 // or the `imagePath` JavaScript helper below.
 //
-const images = require.context('../images', true)
+const images = require.context('../images', true);
 // const imagePath = (name) => images(name, true)
+const headerTimeouts = [];
 
 $(document).on('turbolinks:load', function () {
   // dsabled-btnがあればdisabledにしておく
@@ -33,89 +34,66 @@ $(document).on('turbolinks:load', function () {
     return false;
   })
 
-  $('.header-right__toggler--community').on('click', function () {
-    $('.community-menu').fadeToggle('fast');
-    $('.user-menu').fadeOut('fast');
-    setTimeout(function () {
-      $('.community-menu').fadeOut();
-    }, 3500);
-    return false;
-  });
   $(window).scroll(function () {
     $('.community-menu').fadeOut();
-  });
-  // $('.header-right__toggler--community').hover(function () {
-  //   $('.community-menu').fadeIn('fast');
-  //   $('.user-menu').fadeOut('fast');
-  // }, function() {
-  //     setTimeout(function () {
-  //       $('.community-menu').fadeOut('fast');
-  //     }, 3000);
-  // });
-  $('.header-right__toggler--user').on('click', function () {
-    $('.user-menu').fadeToggle('fast');
-    $('.community-menu').fadeOut('fast');
-    setTimeout(function () {
-      $('.user-menu').fadeOut();
-    }, 3500);
-    return false;
-  });
-  $(window).scroll(function () {
     $('.user-menu').fadeOut();
   });
-  // $('.header-right__toggler--user').hover(function () {
-  //   $('.user-menu').fadeIn('fast');
-  //   $('.community-menu').fadeOut('fast');
-  // }, function() {
-  //   setTimeout(function () {
-  //     $('.user-menu').fadeOut('fast');
-  //   }, 3000);
-  // });
+
+  $('.header-right__toggler--community, .community-menu').hover(function () {
+    clearTimeout(headerTimeouts[0]);
+    $('.community-menu').fadeIn('fast');
+    $('.user-menu').fadeOut('fast');
+    headerTimeouts.shift();
+  }, function() {
+      headerTimeouts.push(
+        setTimeout(() => $('.community-menu').fadeOut('fast'), 2400)
+      );
+  });
+
+  $('.header-right__toggler--user, .user-menu').hover(function () {
+    clearTimeout(headerTimeouts[0]);
+    $('.user-menu').fadeIn('fast');
+    $('.community-menu').fadeOut('fast');
+    headerTimeouts.shift();
+  }, function() {
+    headerTimeouts.push(
+      setTimeout(() => $('.user-menu').fadeOut('fast'), 2400)
+    );
+  });
 
   $('#login-link').on('click', function () {
-    $('#login-form').fadeIn('fast');
-    $('body').append('<div id="overlay">');
+    $('#login-form, #overlay').fadeIn('fast');
     $('#email-form').focus();
-    return false;
   });
 
   $('.signup-link').on('click', function () {
-    $('#signup-form').fadeIn('fast');
-    $('body').append('<div id="overlay">');
+    $('#signup-form, #overlay').fadeIn('fast');
     $('#name-form').focus();
-    return false;
   });
 
   $(document).on('click', '.login-form__closer', function () {
-    $('.login-form, #always-modal, #question-modal').fadeOut('fast');
-    setTimeout(() => {
-      $('#overlay').remove();
-    }, 100);
-    return false;
+    $('.login-form, #always-modal, #question-modal, #overlay').fadeOut('fast');
   });
 
   $(document).on('click', '.later-modal-closer, #later-overlay', function () {
+    // always-modalの上にかぶせる時だけlater-overlay
+    // それ以外の時はoverlay
     $('#later-list-modal').html('');
-    setTimeout(() => {
-      $('#later-overlay').remove();
-    }, 100);
-    return false;
+    if ($('#later-overlay').is(':hidden')) {
+      $('#overlay').fadeOut('fast');
+    } else {
+      $('#later-overlay').fadeOut('fast');
+    }
   });
 
   $(document).on('click', '.reset-modal-closer, #reset-overlay', function () {
     $('#password-reset-area').html('');
-    setTimeout(() => {
-      $('#reset-overlay').remove();
-    }, 100);
-    return false;
+    $('#reset-overlay').fadeOut('fast');
   });
 
-  $(document).on('click', '#overlay', function () {
-    $('.login-form, #always-modal, #question-modal').fadeOut('fast');
+  $('#overlay').click(function () {
+    $('.login-form, #always-modal, #question-modal, #overlay').fadeOut('fast');
     $('#later-list-modal').html('');
-    setTimeout(() => {
-      $(this).remove();
-    }, 100);
   });
 
   $(document).on('click', '#login-toggler', function () {

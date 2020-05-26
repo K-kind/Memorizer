@@ -41,12 +41,14 @@
   .my-page-container__settings
     .my-page-container__settings-left
       h3.my-page-container__template-heading 学習テンプレート
+      p.my-page-container__template-text 学習画面のメモ欄用のテンプレートです。
       #template-edit
         = render 'learn_templates/learn_template'
     .my-page-container__settings-right
       h3.my-page-container__template-heading 復習サイクル
+      p.my-page-container__template-text 次の復習までの日数を設定することができます。
       #cycle-edit
         = render 'cycles/cycle_edit'
 
-.my-page-container__home-back
-  = link_to 'ホームへ', root_path
+.home-back
+  = link_to '< HOME', root_path

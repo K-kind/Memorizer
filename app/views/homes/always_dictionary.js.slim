@@ -1,6 +1,6 @@
+/ apendすることで、消しても残る
 | if (!$('#always-modal').length) {
 |   $('body').append('#{escape_javascript(render 'shared/always_dictionary')}');
 | }
-| $('body').append('<div id="overlay">');
-| $('#always-modal').fadeIn();
+| $('#always-modal, #overlay').fadeIn();
 | $('#word').focus();

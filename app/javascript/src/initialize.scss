@@ -21,6 +21,9 @@ a {
   color: #999;
   text-decoration: none;
 }
+input {
+  border: 1px solid #999;
+}
 label, input[type='checkbox'] {
   cursor: pointer;
 }
@@ -55,7 +58,8 @@ p {
 #learned_content_content li {
   list-style: inherit;
 }
-#overlay, .overlay {
+.overlay {
+  display: none;
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 2;
   position: fixed;
@@ -65,11 +69,13 @@ p {
   width: 100%;
   cursor: pointer;
 }
-#reset-overlay {
+#reset-overlay, #later-overlay {
   background-color: rgba(0, 0, 0, 0.3);
   z-index: 5;
 }
-
+#no-click-overlay {
+  cursor: not-allowed;
+}
 .dictionary-field, .thesaurus-field {
   max-width: 550px;
   li {

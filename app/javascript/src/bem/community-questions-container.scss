@@ -1,7 +1,14 @@
 .community-questions-container {
   margin-bottom: 20px;
   &__heading {
-    margin: 20px 0;
+    margin-top: 20px;
+  }
+  &__heading-top {
+    display: inline-block;
+    margin: 0 30px 20px 0;
+  }
+  &__heading-text {
+    display: inline-block;
   }
   &__table {
     @include table;

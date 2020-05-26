@@ -18,6 +18,8 @@
               = link_to image_url, target: '_blank', rel: 'noopener' do
                 = image_tag image_url, alt: "image of #{related_image.word}"
       .learn-grid-container__question--show
+        .learn-grid-container__to-question
+          = link_to '> Question Page', question_learn_path(@learned_content)
         - @learned_content.questions.each_with_index do |question, index|
           h3 Q#{index + 1}
           = simple_format question.question

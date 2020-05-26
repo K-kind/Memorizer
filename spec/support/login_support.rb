@@ -7,7 +7,7 @@ module LoginSupport
 
   def actual_sign_in_as(user)
     visit about_path
-    click_on 'ログイン'
+    find('#login-link').click
     fill_in 'email-form', with: user.email
     fill_in 'password', with: user.password
     click_button 'ログイン'

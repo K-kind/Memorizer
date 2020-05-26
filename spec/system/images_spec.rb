@@ -27,7 +27,7 @@ RSpec.describe 'Images', type: :system, js: true, vcr: { cassette_name: 'apis' }
     end
 
     # login as other user
-    click_link 'テストユーザー'
+    find('a', text: 'テストユーザー').click
     find('a', text: 'ログアウト').click
     actual_sign_in_as other_user
 

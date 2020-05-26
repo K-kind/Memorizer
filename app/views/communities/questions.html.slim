@@ -1,7 +1,10 @@
 .community-questions-container
-  h1.community-questions-container__heading
-    i.fas.fa-users
-    |  みんなの問題
+  .community-questions-container__heading
+    h1.community-questions-container__heading-top
+      i.fas.fa-users
+      |  みんなの問題
+    p.community-questions-container__heading-text
+      | 他のユーザーが作成した問題を解いて、気に入った問題をダウンロードしましょう。
 
   .community-questions-container__top
     #question-search
@@ -9,6 +12,10 @@
   .community-questions-container__main
     #community-questions-table
       = render 'community_questions_table'
+
+
+  .home-back
+    = link_to '< HOME', root_path
 
 / 問題から戻ってきた時
 - if params[:back]

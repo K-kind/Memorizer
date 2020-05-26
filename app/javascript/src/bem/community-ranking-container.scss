@@ -2,6 +2,14 @@
   width: 70%;
   margin:20px auto;
   &__heading {
+    margin-top: 20px;
+  }
+  &__heading-top {
+    display: inline-block;
+    margin: 0 30px 10px 0;
+  }
+  &__heading-text {
+    display: inline-block;
   }
   &__table {
     @include table;
@@ -16,6 +24,7 @@
     display: inline-block;
     select {
       height: 28px;
+      padding: 0 10px;
     }
   }
   &__my-tr {

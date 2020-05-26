@@ -153,6 +153,7 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
       end
     end
     click_button 'Submit'
+    sleep(1)
     aggregate_failures do
       expect(page).to_not have_selector 'strong', text: 'Excellent!'
       expect(page).to have_selector '.answer-box__similarity--blue', text: '100%'
