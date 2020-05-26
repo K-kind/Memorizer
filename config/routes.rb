@@ -52,7 +52,10 @@ Rails.application.routes.draw do
     delete  '/logout',    to: 'sessions#destroy'
     resources :learns, only: [:index, :show, :destroy], controller: :learned_contents
     resources :users, only: [:index, :destroy, :show] do
-      resources :contacts, only: [:create, :destroy]
+      resources :contacts, only: [:create, :destroy] do
+        post :check, on: :collection
+      end
     end
+    resources :contacts, only: [:index]
   end
 end
