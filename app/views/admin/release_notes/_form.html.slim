@@ -8,6 +8,7 @@
       |  example: 1.2.0
     br
     div
+      div リリース日:
       = f.label :year, '年: '
       = f.number_field :year, value: (object.year || Time.zone.today.year)
       = f.label :month, ' 月: '
