@@ -1,7 +1,20 @@
 .contact__form-box
-  = form_with model: object, url: admin_release_notes_path, local: true do |f|
+  = form_with model: object, url: url, local: true do |f|
     = render 'shared/error_messages', object: f.object
 
+    div
+      = f.label :version
+      = f.text_field :version
+      |  example: 1.2.0
+    br
+    div
+      = f.label :year, '年: '
+      = f.number_field :year, value: (object.year || Time.zone.today.year)
+      = f.label :month, ' 月: '
+      = f.number_field :month, value: (object.month || Time.zone.today.month)
+      = f.label :day, ' 日: '
+      = f.number_field :day, value: (object.day || Time.zone.today.day)
+    br
     = f.label :content
     = f.text_area :content, class: 'contact__textarea', rows: '6'
 
