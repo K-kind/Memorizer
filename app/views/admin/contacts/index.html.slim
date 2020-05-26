@@ -1,0 +1,14 @@
+h1 問合せ一覧
+
+table.consulted-container__table
+  thead
+    tr
+      th ユーザー名
+      th 通知日
+  tbody
+    - @notifications.each do |notification|
+      tr
+        td= link_to notification.user.name, admin_user_path(notification.user)
+        td= notification.created_at
+
+  = paginate @notifications

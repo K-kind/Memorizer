@@ -1,17 +1,36 @@
 h1 ユーザー一覧
-
+p 正規ユーザー数: #{User.where(is_test_user: false).count - 15}人
 - if @unckecked_notifications.any?
   h2 通知
-  ul
-    - @unckecked_notifications.each do |notification|
-      li= link_to notification.user.name, admin_user_path(notification.user)
-div
-  table
+  table.consulted-container__table
     thead
       tr
         th ユーザー名
+        th 通知日
+        th タイプ
+    tbody
+      - @unckecked_notifications.each do |notification|
+        tr
+          td= link_to notification.user.name, admin_user_path(notification.user)
+          td= notification.created_at
+          td= notification.action == 0 ? 'お問い合わせ' : '新規登録'
 
+  = paginate @unckecked_notifications
+
+div
+  table.consulted-container__table
+    thead
+      tr
+        th ユーザー名
+        th 登録日
+        th 有効化日
+        th 最終活動日
     tbody
       - @users.each do |user|
         tr
           td= link_to user.name, admin_user_path(user)
+          td= user.created_at
+          td= user.activated_at
+          td= user.calendars.last&.created_at
+
+  = paginate @users

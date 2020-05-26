@@ -1,13 +1,9 @@
 .footer-left {
   float: left;
   padding-top: 7px;
+  margin-left: 16px;
   &__list {
     line-height: 1.8;
-  }
-  a {
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
+    list-style: disc;
   }
 }
