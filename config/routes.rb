@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   resources :later_lists,         only: [:index, :create, :destroy]
   resources :password_resets,     only: [:new, :create, :edit, :update]
   resources :related_images,      only: [:destroy]
+  resources :release_notes,       only: [:index, :show]
   resources :learn_templates,     only: [:update, :show] do
     post :default, on: :member
   end

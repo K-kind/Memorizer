@@ -16,3 +16,16 @@ html
           = render 'shared/flash'
         = yield
     = render 'layouts/admin_footer'
+
+    script
+      | flashTimeouts = [];
+
+      | setFlash = function(key, message) {
+      |   let $flashBox = $('#flash-box');
+      |   clearTimeout(flashTimeouts[0]);
+
+      |   $flashBox.html(`<div class="flash__${key}">${message}</div>`);
+      |   $flashBox.fadeIn();
+      |   flashTimeouts.shift();
+      |   flashTimeouts.push(setTimeout(function() {$flashBox.fadeOut('slow')}, 2400));
+      | };

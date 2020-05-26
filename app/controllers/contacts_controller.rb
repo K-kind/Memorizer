@@ -15,7 +15,8 @@ class ContactsController < ApplicationController
         current_user.notifications.create!(
           contact_id: @new_contact.id,
           action: 0,
-          to_admin: true)
+          to_admin: true
+        )
         current_user.send_notification_email_to_admin(@new_contact)
         format.html { redirect_to contacts_url }
       else
