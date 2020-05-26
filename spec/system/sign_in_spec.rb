@@ -76,7 +76,7 @@ RSpec.describe 'Sign in', type: :system, retry: 3 do
         # 2回連続でドロップダウンボタンを押すとすぐに消えてしまう
         find('.my-page-container__heading', match: :first).click
         within 'header' do
-          click_on "#{user.name}(Lv.#{user.level})"
+          find('a', text: "#{user.name}(Lv.#{user.level})").click
           click_on 'ログアウト'
         end
         expect(current_path).to eq about_path

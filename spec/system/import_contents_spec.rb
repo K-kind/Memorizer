@@ -32,7 +32,7 @@ RSpec.describe 'import contents', type: :system, js: true, vcr: { cassette_name:
     expect(page).to have_content '本日の学習:0'
     expect(page).to_not have_content 'Q about lead'
     find('.header-right__toggler--community').click
-    find('.community-menu__list', text: 'みんなの問題').click
+    find('.community-menu__list', text: '問題を探す').click
 
     expect(page).to have_content 'Q about lead'
     expect(page).to have_content 'TOEIC900点相当'
