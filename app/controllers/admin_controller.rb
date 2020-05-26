@@ -1,5 +1,6 @@
 class AdminController < ApplicationController
   include Admin::SessionsHelper
+  before_action :logged_in_admin
 
   private
 

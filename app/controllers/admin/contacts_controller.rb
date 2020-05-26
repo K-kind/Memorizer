@@ -1,4 +1,4 @@
-class Admin::ContactsController < ApplicationController
+class Admin::ContactsController < AdminController
   before_action :set_user, only: [:create, :destroy, :check]
 
   def create
