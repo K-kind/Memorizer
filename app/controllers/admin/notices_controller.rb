@@ -1,6 +1,7 @@
 class Admin::NoticesController < AdminController
   def index
-    @notices = Notice.order(created_at: :desc).page(params[:page]).per(6)
+    # ユーザーページにはlastでid検索するため、idでorder
+    @notices = Notice.order(id: :desc).page(params[:page]).per(6)
     @new_notice = Notice.new
   end
 
@@ -11,7 +12,7 @@ class Admin::NoticesController < AdminController
       flash[:notice] = 'お知らせを発行しました。'
       redirect_to admin_notices_path
     else
-      @notices = Notice.order(created_at: :desc).page(params[:page]).per(6)
+      @notices = Notice.order(id: :desc).page(params[:page]).per(6)
       render 'index'
     end
   end
@@ -26,6 +27,6 @@ class Admin::NoticesController < AdminController
   private
 
   def notice_params
-    params.require(:notice).permit(:content, :type, :year, :month, :day, :oclock)
+    params.require(:notice).permit(:content, :notice_type, :year, :month, :day, :oclock)
   end
 end

@@ -3,7 +3,7 @@ class CreateNotices < ActiveRecord::Migration[6.0]
     create_table :notices do |t|
       t.text :content
       t.datetime :expiration
-      t.integer :type
+      t.integer :notice_type
 
       t.timestamps
     end

@@ -19,8 +19,8 @@
         = f.number_field :oclock, value: (f.object.oclock || 24)
       br
       div
-        = f.label :type
-        = f.number_field :type
+        = f.label :notice_type
+        = f.number_field :notice_type
       br
       = f.label :content
       = f.text_area :content, class: 'contact__textarea', rows: '6'
@@ -36,7 +36,7 @@
       = simple_format notice.content
       br
       div 有効期限: #{notice.expiration}
-      div タイプ: #{notice.type}
+      div タイプ: #{notice.notice_type}
 
       = link_to '削除', admin_notice_path(notice),\
                         method: :delete,

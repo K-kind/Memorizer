@@ -143,7 +143,7 @@ ActiveRecord::Schema.define(version: 2020_05_26_101307) do
   create_table "notices", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.text "content"
     t.datetime "expiration"
-    t.integer "type"
+    t.integer "notice_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

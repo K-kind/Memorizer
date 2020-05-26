@@ -16,6 +16,10 @@
         = link_to 'テストユーザーで体験！', sessions_test_login_path, class: 'about-container__link--test'
         a.signup-link.about-container__link--signup 新規登録！
 
+  - if @notice && @notice.expiration > Time.zone.now
+    .notice__about
+      = simple_format @notice.content
+
   .about-container__first
     .about-container__step-left--first
       .api-info
