@@ -76,8 +76,14 @@ $(document).on('turbolinks:load', function () {
   });
 
   $(document).on('click', '.later-modal-closer, #later-overlay', function () {
+    // always-modalの上にかぶせる時だけlater-overlay
+    // それ以外の時はoverlay
     $('#later-list-modal').html('');
-    $('#later-overlay').fadeOut('fast');
+    if ($('#later-overlay').is(':hidden')) {
+      $('#overlay').fadeOut('fast');
+    } else {
+      $('#later-overlay').fadeOut('fast');
+    }
   });
 
   $(document).on('click', '.reset-modal-closer, #reset-overlay', function () {

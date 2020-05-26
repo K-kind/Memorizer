@@ -124,13 +124,13 @@ RSpec.describe 'import contents', type: :system, js: true, vcr: { cassette_name:
       change(Question, :count).by(-1).and \
         change(RelatedWord, :count).by(-1)
 
-    click_link 'テストユーザー'
+    find('a', text: 'テストユーザー').click
     find('a', text: 'ログアウト').click
 
     # 元の問題作成者で確認
     actual_sign_in_as owner
-    click_link 'テストユーザー'
-    find('a', text: '問題一覧').click
+    find('a', text: 'テストユーザー').click
+    find('a', text: '学習履歴').click
 
     expect(page).to have_content 'Q about lead'
     within 'tbody tr:first-child' do # いいね数

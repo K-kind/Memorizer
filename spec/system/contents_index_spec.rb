@@ -60,9 +60,9 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
 
   it 'contents can be sorted and reserved' do
     # 問題一覧
-    click_link 'テストユーザー'
+    find('a', text: 'テストユーザー').click
     sleep(0.2)
-    find('a', text: '問題一覧').click
+    find('a', text: '学習履歴').click
     # 作成日順
     expect(page).to have_content '2021/01/15'
     click_link '作成日'
@@ -152,7 +152,7 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
 
     # みんなの問題
     find('.header-right__toggler--community').click
-    find('.community-menu__list', text: 'みんなの問題').click
+    find('.community-menu__list', text: '問題を探す').click
 
     # 作成日順
     expect(page).to have_selector('tr:first-child td:nth-child(5)', text: '2021/01/15')
@@ -222,12 +222,12 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     expect(page).to have_content '2021/01/15'
 
     # user_900でログイン（他人の問題をダウンロードした後の挙動を知るため）
-    click_link 'テストユーザー'
+    find('a', text: 'テストユーザー').click
     sleep(0.2)
     find('a', text: 'ログアウト').click
     actual_sign_in_as user_900
     find('.header-right__toggler--community').click
-    find('.community-menu__list', text: 'みんなの問題').click
+    find('.community-menu__list', text: '問題を探す').click
     sleep(0.3)
     expect(page).to have_select('スキルで探す:', selected: 'All')
     expect(page).to have_select('カテゴリーで探す:', selected: 'All')
@@ -283,7 +283,7 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
 
     # ナビバーから戻るとセッションは残っていない
     find('.header-right__toggler--community').click
-    find('.community-menu__list', text: 'みんなの問題').click
+    find('.community-menu__list', text: '問題を探す').click
     sleep(0.3)
     expect(page).to have_select('スキルで探す:', selected: 'All')
     expect(page).to have_select('カテゴリーで探す:', selected: 'All')

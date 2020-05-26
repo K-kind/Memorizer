@@ -68,7 +68,7 @@ RSpec.describe 'Sign in', type: :system, retry: 3 do
         end
 
         within 'header' do
-          click_on "#{user.name}(Lv.#{user.level})"
+          find('a', text: "#{user.name}(Lv.#{user.level})").click
           click_on 'マイページ'
         end
         expect(current_path).to eq user_path
