@@ -1,3 +1,7 @@
+- if @notice && @notice.expiration > Time.zone.now
+  .notice
+    = simple_format @notice.content
+
 .home-left
   .home-top
     span.home-top__span

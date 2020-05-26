@@ -8,9 +8,12 @@ class HomesController < ApplicationController
   def top
     current_user.calendars.find_or_create_by!(calendar_date: Time.zone.today)
     @calendars = current_user.calendars
+    @notice = Notice.last
   end
 
-  def about; end
+  def about
+    @notice = Notice.last
+  end
 
   def calendar
     date = params[:date]

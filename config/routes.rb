@@ -58,6 +58,7 @@ Rails.application.routes.draw do
       end
     end
     resources :contacts, only: [:index]
+    resources :notices, only: [:index, :create, :destroy]
     resources :release_notes, only: [:index, :create, :update, :destroy, :show]
   end
 end
