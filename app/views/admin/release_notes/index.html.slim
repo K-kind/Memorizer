@@ -1,0 +1,17 @@
+.contact
+  h1 リリースノート
+  table.consulted-container__table
+    thead
+      tr
+        th バージョン
+        th リリース日
+    tbody
+      - @release_notes.each do |release_note|
+        tr
+          td= link_to release_note.version, admin_release_note_path(release_note)
+          td= release_note.release_date
+
+    = paginate @release_notes
+
+  h2 New リリース
+  = render 'form', object: @new_release

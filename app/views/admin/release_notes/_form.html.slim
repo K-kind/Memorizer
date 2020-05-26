@@ -1,0 +1,9 @@
+.contact__form-box
+  = form_with model: object, url: admin_release_notes_path, local: true do |f|
+    = render 'shared/error_messages', object: f.object
+
+    = f.label :content
+    = f.text_area :content, class: 'contact__textarea', rows: '6'
+
+    .contact__submit
+      = f.submit '発行する', class: 'contact__submit-btn'
