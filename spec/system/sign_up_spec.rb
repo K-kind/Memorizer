@@ -10,9 +10,8 @@ describe 'Sign up', type: :system, js: true, retry: 3 do
       expect {
         visit about_path
         within 'header' do
-          find('a', text: '新規登録')
+          find('a', text: '新規登録').click
         end
-        sleep(2)
         fill_in 'name-form', with: ''
         fill_in 'user_email', with: 'user@invalid'
         fill_in 'user_password', with: 'foo'
@@ -36,9 +35,8 @@ describe 'Sign up', type: :system, js: true, retry: 3 do
         expect {
           visit about_path
           within 'header' do
-            find('a', text: '新規登録')
+            find('a', text: '新規登録').click
           end
-          sleep(2)
           fill_in 'name-form', with: 'テストユーザー'
           fill_in 'user_email', with: 'user@memorizer.tech'
           fill_in 'user_password', with: 'password'
