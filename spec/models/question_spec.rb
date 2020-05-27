@@ -39,8 +39,8 @@ RSpec.describe Question, type: :model do
       expect(question).to be_invalid
     end
 
-    it 'context: :questionではmy_answerがなければ無効であること' do
-      expect(question).to be_invalid(:question)
+    it 'context: :questionではmy_answerがなくても有効であること' do
+      expect(question).to be_valid(:question)
     end
 
     it 'context: :questionで255文字以内のmy_answerは有効であること' do
