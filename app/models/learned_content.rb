@@ -38,6 +38,25 @@ class LearnedContent < ApplicationRecord
             ).group(:id)
         }
 
+  scope :with_reviewed_count,
+        -> {
+          left_joins(:review_histories)
+            .select(
+              'learned_contents.*,
+              COUNT(distinct review_histories.id) AS reviewed_count'
+            ).group(:id)
+        }
+
+  scope :word_search_for,
+        ->(word_definition_ids) {
+          left_joins(:related_words)
+            .where(
+              'learned_contents.word_definition_id IN (?) OR
+              related_words.word_definition_id IN (?)',
+              word_definition_ids, word_definition_ids
+            ).group(:id)
+        }
+
   scope :all_or_weekly, ->(weekly) do
     if weekly
       where('created_at >= ?', Time.current.beginning_of_week)
