@@ -20,11 +20,13 @@ class LearnedContent < ApplicationRecord
   after_create :set_first_cycle
   attr_accessor :temporary_images
 
+  scope :latest, -> { order(created_at: 'DESC') }
   scope :to_review_today, -> { where('review_date <= ?', Time.zone.today) }
   scope :to_review_this_day,
         ->(date) { where('review_date = ? AND review_date >= ?', date, Time.zone.today) }
+  scope :for_q_and_words,
+        -> { includes([:word_definition, :questions, { related_words: :word_definition }]) }
   scope :review_date_asc, -> { order(review_date: 'ASC') }
-  scope :latest, -> { order(created_at: 'DESC') }
   scope :all_or_weekly, ->(weekly) do
     if weekly
       where('created_at >= ?', Time.current.beginning_of_week)

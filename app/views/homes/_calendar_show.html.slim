@@ -3,56 +3,49 @@
   h2.home-calendar__show-heading
     | <#{calendar.calendar_date.strftime('%Y/%m/%d')}の学習>
   - if calendar.calendar_date == Time.zone.today
+    - to_review_list = current_user.learned_contents\
+                                   .to_review_today\
+                                   .for_q_and_words
+  - else
+    - to_review_list = current_user.learned_contents\
+                                   .to_review_this_day(calendar.calendar_date)\
+                                   .for_q_and_words
+  - if to_review_list.any?
     .home-calendar__show-box
       h3 復習すべき問題
       ul
-        - current_user.learned_contents.to_review_today.each do |to_review|
+        - to_review_list.each do |to_review|
           li
             | ・
             = link_to to_review.questions.first.question, \
                       question_show_learn_path(to_review, type: 'question'), \
                       remote: true, class: 'question-view'
-            = link_to to_review.word_definition.word, \
+            = link_to words_of(to_review), \
                       question_show_learn_path(to_review, type: 'question'), \
                       remote: true, class: 'word-view hidden'
-  - else
-    - to_review_list = current_user.learned_contents.to_review_this_day(calendar.calendar_date)
-    - if to_review_list.any?
-      .home-calendar__show-box
-        h3 復習すべき問題
-        ul
-          - to_review_list.each do |to_review|
-            li
-              | ・
-              = link_to to_review.questions.first.question, \
-                        question_show_learn_path(to_review, type: 'question'), \
-                        remote: true, class: 'question-view'
-              = link_to to_review.word_definition.word, \
-                        question_show_learn_path(to_review, type: 'question'), \
-                        remote: true, class: 'word-view hidden'
   - if calendar.learned_contents.any?
     .home-calendar__show-box
       h3 新規学習した問題
       ul
-        - calendar.learned_contents.each do |learned_content|
+        - calendar.learned_contents.for_q_and_words.each do |learned_content|
           li
             | ・
             = link_to learned_content.questions.first.question, \
                       question_show_learn_path(learned_content, type: 'question'), \
                       remote: true, class: 'question-view'
-            = link_to learned_content.word_definition.word, \
+            = link_to words_of(learned_content), \
                       question_show_learn_path(learned_content, type: 'question'), \
                       remote: true, class: 'word-view hidden'
   - if calendar.review_histories.any?
     .home-calendar__show-box
       h3 復習した問題
       ul
-        - calendar.review_histories.each do |review_history|
+        - calendar.review_histories.for_q_and_words.each do |review_history|
           li
             | ・
             = link_to review_history.learned_content.questions.first.question, \
                       question_show_learn_path(review_history.learned_content, type: 'question'), \
                       remote: true, class: 'question-view'
-            = link_to review_history.learned_content.word_definition.word, \
+            = link_to words_of(review_history.learned_content), \
                       question_show_learn_path(review_history.learned_content, type: 'question'), \
                       remote: true, class: 'word-view hidden'

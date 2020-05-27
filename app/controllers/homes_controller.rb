@@ -16,13 +16,13 @@ class HomesController < ApplicationController
                   .learned_contents
                   .includes([:word_definition,
                              :questions,
-                             {related_words: :word_definition}])
+                             { related_words: :word_definition }])
     @contents_to_review_today =
       current_user.learned_contents
                   .to_review_today
                   .includes([:word_definition,
                              :questions,
-                             {related_words: :word_definition}])
+                             { related_words: :word_definition }])
   end
 
   def calendar
@@ -31,21 +31,16 @@ class HomesController < ApplicationController
                   .a_month_old
                   .left_joins(:learned_contents)
                   .joins(
-                    'LEFT OUTER JOIN learned_contents
-                    AS to_do_contents
-                    ON to_do_contents.review_date =
-                    calendars.calendar_date'
+                    'LEFT OUTER JOIN learned_contents AS to_do_contents
+                    ON to_do_contents.review_date = calendars.calendar_date'
                   )
                   .left_joins(:review_histories)
                   .select(
                     'calendars.id,
                     calendars.calendar_date,
-                    COUNT(distinct learned_contents.id)
-                    AS contents_count,
-                    COUNT(distinct to_do_contents.id)
-                    AS to_do_count,
-                    COUNT(distinct review_histories.id)
-                    AS reviews_count'
+                    COUNT(distinct learned_contents.id) AS contents_count,
+                    COUNT(distinct to_do_contents.id) AS to_do_count,
+                    COUNT(distinct review_histories.id) AS reviews_count'
                   ).group(:id)
   end
 
