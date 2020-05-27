@@ -1,0 +1,45 @@
+.consulted-container
+  h2 お知らせ作成
+  .contact__form-box
+    = form_with model: @new_notice, url: admin_notices_path, local: true do |f|
+      = render 'shared/error_messages', object: f.object
+
+      div
+        div 有効期限:
+        = f.label :year, '年: '
+        = f.number_field :year, value: (f.object.year || Time.zone.today.year)
+        br
+        = f.label :month, '月: '
+        = f.number_field :month, value: (f.object.month || Time.zone.today.month)
+        br
+        = f.label :day, '日: '
+        = f.number_field :day, value: (f.object.day || Time.zone.today.day)
+        br
+        = f.label :day, '時: '
+        = f.number_field :oclock, value: (f.object.oclock || 24)
+      br
+      div
+        = f.label :notice_type
+        = f.number_field :notice_type
+      br
+      = f.label :content
+      = f.text_area :content, class: 'contact__textarea', rows: '6'
+
+      .contact__submit
+        = f.submit '発行する', class: 'contact__submit-btn'
+
+  h2 お知らせ一覧
+  - @notices.each do |notice|
+    .contact__form-box
+      - if notice.expiration > Time.zone.now
+        h2 「現在表示中のお知らせです。」
+      = simple_format notice.content
+      br
+      div 有効期限: #{notice.expiration}
+      div タイプ: #{notice.notice_type}
+
+      = link_to '削除', admin_notice_path(notice),\
+                        method: :delete,
+                        data: { confirm: '本当にお知らせを削除しますか？'}
+
+  = paginate @notices

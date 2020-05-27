@@ -1,13 +1,13 @@
 Rails.application.routes.draw do
   root    'homes#top'
+  get     '/calendar',  to: 'homes#calendar' # カレンダーjson用
+  get     '/date/:id',  to: 'homes#date' # カレンダーの1日
+  get     '/about',     to: 'homes#about'
+  get     '/help',      to: 'homes#help'
+  get     'homes/always_dictionary'
   get     'communities/words'
   get     'communities/questions'
   get     'communities/ranking'
-  get     '/top',       to: 'homes#top' # カレンダーjson用
-  get     '/homes/calendar', as: 'calendar'
-  get     'homes/always_dictionary'
-  get     '/about',     to: 'homes#about'
-  get     '/help',      to: 'homes#help'
   post    '/login',     to: 'sessions#create'
   delete  '/logout',    to: 'sessions#destroy'
   get     '/auth/failure',             to: 'sessions#auth_failure'
@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   resources :later_lists,         only: [:index, :create, :destroy]
   resources :password_resets,     only: [:new, :create, :edit, :update]
   resources :related_images,      only: [:destroy]
+  resources :release_notes,       only: [:index, :show]
   resources :learn_templates,     only: [:update, :show] do
     post :default, on: :member
   end
@@ -52,7 +53,12 @@ Rails.application.routes.draw do
     delete  '/logout',    to: 'sessions#destroy'
     resources :learns, only: [:index, :show, :destroy], controller: :learned_contents
     resources :users, only: [:index, :destroy, :show] do
-      resources :contacts, only: [:create, :destroy]
+      resources :contacts, only: [:create, :destroy] do
+        post :check, on: :collection
+      end
     end
+    resources :contacts, only: [:index]
+    resources :notices, only: [:index, :create, :destroy]
+    resources :release_notes, only: [:index, :create, :update, :destroy, :show]
   end
 end

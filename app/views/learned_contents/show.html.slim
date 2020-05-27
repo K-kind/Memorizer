@@ -18,6 +18,8 @@
               = link_to image_url, target: '_blank', rel: 'noopener' do
                 = image_tag image_url, alt: "image of #{related_image.word}"
       .learn-grid-container__question--show
+        .learn-grid-container__to-question
+          = link_to '> Question Page', question_learn_path(@learned_content)
         - @learned_content.questions.each_with_index do |question, index|
           h3 Q#{index + 1}
           = simple_format question.question
@@ -57,6 +59,9 @@
   - elsif session[:question_back]
     .learn-show-bottom__today
       = link_to 'Next', communities_questions_path(back: 1), class: 'learn-show-bottom__finish'
+  - else
+    .learn-show-bottom__today
+      = link_to ' Another word', new_learn_path, class: 'learn-show-bottom__another fa fa-edit'
 
 / メイン単語の辞書を表示
 = link_to '', result_path(word: @word, type: 'show_main', learned_content_id: params[:id]), method: :post, remote: true, id: 'hidden_link'

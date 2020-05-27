@@ -5,14 +5,27 @@ html
       | Memorizer Admin
     = csrf_meta_tags
     = csp_meta_tag
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
-    = favicon_link_tag('favicon.ico')
+    = favicon_pack_tag('favicon.ico')
   body
     = render 'layouts/admin_header'
     .main
       .container
-        #flash-box.hidden
+        #flash-box
           = render 'shared/flash'
         = yield
     = render 'layouts/admin_footer'
+
+    script
+      | flashTimeouts = [];
+
+      | setFlash = function(key, message) {
+      |   let $flashBox = $('#flash-box');
+      |   clearTimeout(flashTimeouts[0]);
+
+      |   $flashBox.html(`<div class="flash__${key}">${message}</div>`);
+      |   $flashBox.fadeIn();
+      |   flashTimeouts.shift();
+      |   flashTimeouts.push(setTimeout(function() {$flashBox.fadeOut('slow')}, 2400));
+      | };

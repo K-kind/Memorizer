@@ -14,7 +14,11 @@
     - else
       .about-container__top-links
         = link_to 'テストユーザーで体験！', sessions_test_login_path, class: 'about-container__link--test'
-        = link_to '新規登録！', '#', class: 'signup-link about-container__link--signup'
+        a.signup-link.about-container__link--signup 新規登録！
+
+  - if @notice && @notice.expiration > Time.zone.now
+    .notice__about
+      = simple_format @notice.content
 
   .about-container__first
     .about-container__step-left--first
@@ -59,4 +63,4 @@
     = link_to '単語を学習する', new_learn_path, class: 'about-container__link--signup'
   - else
     = link_to 'テストユーザーで体験！', sessions_test_login_path, class: 'about-container__link--test'
-    = link_to '新規登録！', '#', class: 'signup-link about-container__link--signup'
+    a.signup-link.about-container__link--signup 新規登録！

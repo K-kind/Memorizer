@@ -4,6 +4,9 @@ class Calendar < ApplicationRecord
   belongs_to :user
   validates :calendar_date, uniqueness: { scope: :user_id }
 
+  scope :a_month_old,
+        -> { where('calendar_date > ?', Time.zone.today - 1.month) }
+
   class << self
     def learn_chart(new_or_review, day)
       (day.prev_month..day).to_a.map do |d|

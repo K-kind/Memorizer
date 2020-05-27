@@ -1,0 +1,36 @@
+.fc-sun {
+  background-color: mistyrose;
+}
+.fc-sat {
+  background-color: azure;
+}
+.fc-day-header {
+  background-color: #FFEFD5;
+}
+.fc-today {
+  background-color: #FFFFAA!important;
+  border-color: #DDD!important;
+}
+.fc-day-top {
+  text-align: right;
+}
+.fc-day-number {
+  display: inline-block;
+  margin: 1px 5px 0 0;
+}
+
+.fc-header-toolbar {
+  margin-bottom: 1.1em!important;
+}
+.fc-right {
+  button {
+    cursor: pointer;
+    background-color: #ddd;
+    border: 1px solid #999;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}

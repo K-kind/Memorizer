@@ -2,12 +2,14 @@ footer.footer
   .container
     ul.footer-left
       li.footer-left__list
-        = link_to 'Memorizerについて', about_path
-      li.footer-left__list
         = link_to 'ヘルプ', help_path
       - if logged_in?
         li.footer-left__list
           = link_to 'お問い合わせ', contacts_path
+      li.footer-left__list
+        = link_to 'リリースノート', release_notes_path
+      li.footer-left__list
+        = link_to 'Memorizerについて', about_path
     - unless !logged_in? && @no_always_dictionary
       .footer-right
         - if logged_in?

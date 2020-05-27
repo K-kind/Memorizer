@@ -30,8 +30,9 @@ RSpec.describe 'Validation for learning', type: :system, js: true, vcr: { casset
     end
 
     it 'validation for questions' do
+      sleep(0.3)
       click_button 'Save'
-      sleep(1)
+      sleep(2.5)
       expect(page).to have_selector('.error-message__list', count: 2)
       expect(page).to have_selector('.error-message__list', text: '1つ以上の単語を検索してください。')
       expect(page).to have_selector('.error-message__list', text: '1つ以上の問題を入力してください。')

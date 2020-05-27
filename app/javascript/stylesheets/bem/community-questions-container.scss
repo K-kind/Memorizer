@@ -1,16 +1,25 @@
 .community-questions-container {
   margin-bottom: 20px;
   &__heading {
-    margin: 20px 0;
+    margin-top: 20px;
+  }
+  &__heading-top {
+    vertical-align: top;
+    display: inline-block;
+    margin: 0 30px 20px 0;
+  }
+  &__heading-text {
+    display: inline-block;
+    padding-top: 10px;
   }
   &__table {
     @include table;
   }
   &__question-td {
-    width: 400px;
+    width: 530px;
   }
   &__question {
-    width: 400px;
+    width: 530px;
     @include text-overflow;
     padding: 0 10px;
     text-align: left;
@@ -34,4 +43,7 @@
   .onclick-select {
     width: 130px;
   }
+}
+#community-questions-table {
+  position: relative;
 }

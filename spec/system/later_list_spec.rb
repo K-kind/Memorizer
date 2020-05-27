@@ -19,8 +19,8 @@ RSpec.describe 'later_list', type: :system, js: true, vcr: { cassette_name: 'api
     expect(page).to have_selector('.page', text: '2')
 
     # overlay
-    expect(page).to have_selector('#later-overlay')
-    find('#later-overlay').click
+    expect(page).to have_selector('#overlay')
+    find('#overlay').click
     expect(page).to_not have_content 'あとで学習する'
     find('.fa.fa-bookmark').click
 

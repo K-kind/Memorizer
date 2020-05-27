@@ -10,7 +10,7 @@ describe 'Sign up', type: :system, js: true, retry: 3 do
       expect {
         visit about_path
         within 'header' do
-          click_on '新規登録'
+          find('a', text: '新規登録').click
         end
         fill_in 'name-form', with: ''
         fill_in 'user_email', with: 'user@invalid'
@@ -35,7 +35,7 @@ describe 'Sign up', type: :system, js: true, retry: 3 do
         expect {
           visit about_path
           within 'header' do
-            click_on '新規登録'
+            find('a', text: '新規登録').click
           end
           fill_in 'name-form', with: 'テストユーザー'
           fill_in 'user_email', with: 'user@memorizer.tech'
@@ -50,7 +50,7 @@ describe 'Sign up', type: :system, js: true, retry: 3 do
       expect(page).to have_content '仮登録完了メールを送信しました。ご確認ください。'
       expect(ActionMailer::Base.deliveries.size).to eq(2)
 
-      click_on 'ログイン'
+      find('#login-link').click
       fill_in 'email-form', with: 'user@memorizer.tech'
       fill_in 'password', with: 'password'
       click_button 'commit'

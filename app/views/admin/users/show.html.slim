@@ -8,3 +8,6 @@ h1 #{@user.name}さんの詳細
 
 #contact-form
   = render 'contacts/contact_form'
+
+- if @user.notifications.admin_notify.unchecked.any?
+  = link_to 'チェックする', check_admin_user_contacts_path(@user), method: :post

@@ -2,7 +2,7 @@ class Question < ApplicationRecord
   belongs_to :learned_content
   validates :question, presence: true, length: { maximum: 1000 }, if: :answer?
   validates :answer, presence: true, length: { maximum: 255 }, if: :question?
-  validates :my_answer, presence: true, length: { maximum: 255 }, on: :question
+  validates :my_answer, length: { maximum: 255 }, on: :question
   after_validation :remove_empty_set
   attr_accessor :my_answer
   attr_accessor :similarity

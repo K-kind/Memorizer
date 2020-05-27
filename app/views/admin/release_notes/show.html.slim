@@ -1,0 +1,15 @@
+h1 リリースノート
+ul
+  li バージョン: #{@release_note.version}
+  li リリース日: #{@release_note.release_date}
+  li
+    = simple_format @release_note.content
+
+div
+  h2 編集
+  = render 'form', object: @release_note, url: admin_release_note_path(@release_note)
+
+div
+  = link_to '削除', admin_release_note_path(@release_note),\
+                    method: :delete,\
+                    data: { confirm: '本当に削除しますか?' }
