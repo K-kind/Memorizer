@@ -16,10 +16,10 @@
     @include table;
   }
   &__question-td {
-    width: 400px;
+    width: 530px;
   }
   &__question {
-    width: 400px;
+    width: 530px;
     @include text-overflow;
     padding: 0 10px;
     text-align: left;
@@ -43,4 +43,7 @@
   .onclick-select {
     width: 130px;
   }
+}
+#community-questions-table {
+  position: relative;
 }
