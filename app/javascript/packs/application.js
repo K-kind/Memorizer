@@ -391,4 +391,19 @@ $(document).on('turbolinks:load', function () {
     $(this).hide();
     $(this).parent().find('.question-box__hint').slideDown('fast');
   });
+
+  $(document).on('click', '.q-w-toggler', function() {
+    let $parent = $(this).parent();
+    if ($(this).hasClass('to-word')) {
+      $parent.find('.question-view').addClass('hidden');
+      $parent.find('.word-view').removeClass('hidden');
+      $(this).toggleClass('to-word')
+             .text(' Question');
+    } else {
+      $parent.find('.question-view').removeClass('hidden');
+      $parent.find('.word-view').addClass('hidden');
+      $(this).toggleClass('to-word')
+              .text(' Word');
+    }
+  });
 });

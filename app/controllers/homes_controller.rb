@@ -1,4 +1,5 @@
 class HomesController < ApplicationController
+  include HomesHelper
   protect_from_forgery except: :date
   before_action :logged_in_user, only: [:top, :calendar, :date]
   before_action :confirm_user_skill, only: [:top]
@@ -8,6 +9,7 @@ class HomesController < ApplicationController
   def top
     current_user.calendars.find_or_create_by!(calendar_date: Time.zone.today)
     @notice = Notice.last
+    @learned_contents_today = learned_contents_today
   end
 
   def calendar

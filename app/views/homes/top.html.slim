@@ -16,7 +16,7 @@
     span.home-top__span
       i.fa.fa-edit.fa-lg.home-top__icon
       | 本日の学習:
-      span.home-top__count= learned_contents_today.count
+      span.home-top__count= @learned_contents_today.count
     = link_to '単語を学習', new_learn_path, class: 'home-top__start--bottom'
 
   .home-calendar
@@ -26,16 +26,22 @@
   ul.todays-menu
     h3.todays-menu__heading 本日の復習
     - if contents_to_review_today.any?
-      - contents_to_review_today.each do |content|
-        / li.todays-menu__question ・#{link_to content.questions.first.question, question_learn_path(content, today: 1)}
-        li.todays-menu__question ・#{link_to content.questions.first.question, question_show_learn_path(content, type: 'question'), remote: true}
+      ul.q-w-toggler__ul
+        a.fas.fa-exchange-alt.q-w-toggler.q-w-toggler__top.to-word  Word
+        - contents_to_review_today.each do |content|
+          li.todays-menu__question.question-view ・#{link_to content.questions.first.question, question_show_learn_path(content, type: 'question'), remote: true}
+          li.todays-menu__question.word-view.hidden ・#{link_to content.word_definition.word, question_show_learn_path(content, type: 'question'), remote: true}
     - elsif reviewed_count_today != 0
-      p 復習完了!
+      p 完了しました。
     - else
       p 復習するコンテンツがありません。
     h3.todays-menu__heading 本日の学習
-    - learned_contents_today.each do |new_content|
-      li.todays-menu__question ・#{link_to new_content.questions.first.question, question_show_learn_path(new_content, type: 'question'), remote: true}
+    - if @learned_contents_today.any?
+      ul.q-w-toggler__ul
+        a.fas.fa-exchange-alt.q-w-toggler.q-w-toggler__top.to-word  Word
+        - @learned_contents_today.each do |new_content|
+          li.todays-menu__question.question-view ・#{link_to new_content.questions.first.question, question_show_learn_path(new_content, type: 'question'), remote: true}
+          li.todays-menu__question.word-view.hidden ・#{link_to new_content.word_definition.word, question_show_learn_path(new_content, type: 'question'), remote: true}
 
   #calendar-show
 
