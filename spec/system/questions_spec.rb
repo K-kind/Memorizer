@@ -178,7 +178,7 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     expect(page).to have_content '本日の復習:2/2'
     expect(page).to have_content '完了しました'
     sleep(1)
-    click_on 'To do: 2' # カレンダー
+    find('.fc-title', text: 'To do: 2') # カレンダー
     within '#calendar-show' do
       expect(page).to have_content 'Learn1 Q1'
       expect(page).to have_content 'Tommorow question'
