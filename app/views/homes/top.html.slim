@@ -27,7 +27,8 @@
     h3.todays-menu__heading 本日の復習
     - if contents_to_review_today.any?
       - contents_to_review_today.each do |content|
-        li.todays-menu__question ・#{link_to content.questions.first.question, question_learn_path(content, today: 1)}
+        / li.todays-menu__question ・#{link_to content.questions.first.question, question_learn_path(content, today: 1)}
+        li.todays-menu__question ・#{link_to content.questions.first.question, question_show_learn_path(content, type: 'question'), remote: true}
     - elsif reviewed_count_today != 0
       p 復習完了!
     - else

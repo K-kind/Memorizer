@@ -4,11 +4,13 @@
     margin-top: 20px;
   }
   &__heading-top {
+    vertical-align: top;
     display: inline-block;
     margin: 0 30px 20px 0;
   }
   &__heading-text {
     display: inline-block;
+    padding-top: 10px;
   }
   &__table {
     @include table;

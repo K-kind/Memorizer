@@ -29,12 +29,11 @@ $(document).on('turbolinks:load', function () {
       events: '/calendar.json',
       eventClick: function(event) {
         CalendarPartial(event.calendar_id);
-        // return false;
       } ,
       //カレンダー上部を年月で表示させる
-      titleFormat: 'YYYY年 M月',
+      // titleFormat: 'YYYY年 M月',
       //曜日を日本語表示
-      dayNamesShort: ['日', '月', '火', '水', '木', '金', '土'],
+      // dayNamesShort: ['日', '月', '火', '水', '木', '金', '土'],
       //ボタンのレイアウト
       header: {
           left: '',
@@ -42,14 +41,14 @@ $(document).on('turbolinks:load', function () {
           right: 'today prev,next'
       },
       buttonText: {
-          prev: '前月',
-          next: '翌月',
-          prevYear: '前年',
-          nextYear: '翌年',
-          today: '今日',
-          month: '月',
-          week: '週',
-          day: '日'
+          prev: 'prev',
+          next: 'next',
+          // prevYear: '前年',
+          // nextYear: '翌年',
+          // today: '今日',
+          // month: '月',
+          // week: '週',
+          // day: '日'
       },
       //イベントの時間表示を２４時間に
       timeFormat: "HH:mm",
