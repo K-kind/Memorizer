@@ -47,6 +47,9 @@ class LearnedContent < ApplicationRecord
             ).group(:id)
         }
 
+  scope :community_ransack_select,
+        -> { includes(:word_category, user: :user_skill) }
+
   scope :word_search_for,
         ->(word_definition_ids) {
           left_joins(:related_words)
