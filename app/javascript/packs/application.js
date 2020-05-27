@@ -394,12 +394,6 @@ $(document).on('turbolinks:load', function () {
 
   $(document).on('click', '.q-w-toggler', function() {
     let $parent = $(this).parent();
-    // let $parent;
-    // if ($(this).hasClass('q-w-toggler__table')) {
-    //   $parent = $(this).parent().parent().parent().parent();
-    // } else {
-    //   $parent = $(this).parent();
-    // }
     if ($(this).hasClass('to-word')) {
       $parent.find('.question-view').addClass('hidden');
       $parent.find('.word-view').removeClass('hidden');
