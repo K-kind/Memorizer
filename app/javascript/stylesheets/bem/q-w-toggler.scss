@@ -10,9 +10,13 @@
     position: relative;
   }
   &__top {
-    @extend %q-w-toggler;
     position: absolute;
     right: 8px;
     top: -24px;
+  }
+  &__calendar {
+    position: absolute;
+    right: 27px;
+    top: 21px;
   }
 }

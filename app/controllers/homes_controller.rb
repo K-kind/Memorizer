@@ -10,6 +10,8 @@ class HomesController < ApplicationController
     current_user.calendars.find_or_create_by!(calendar_date: Time.zone.today)
     @notice = Notice.last
     @learned_contents_today = learned_contents_today
+    @reviewed_count_today = reviewed_count_today
+    @contents_to_review_today = contents_to_review_today
   end
 
   def calendar

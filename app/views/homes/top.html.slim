@@ -7,11 +7,11 @@
     span.home-top__span
       i.fas.fa-book-open.home-top__icon
       | 本日の復習:
-      span.home-top__count #{reviewed_count_today}
+      span.home-top__count #{@reviewed_count_today}
       | /
-      span.home-top__count #{contents_to_review_today.count + reviewed_count_today}
-    - if contents_to_review_today.count > 0
-      = link_to '復習スタート', question_learn_path(contents_to_review_today.review_date_asc.first, today: 1), class: 'home-top__start--top'
+      span.home-top__count #{@contents_to_review_today.count + @reviewed_count_today}
+    - if @contents_to_review_today.count > 0
+      = link_to '復習スタート', question_learn_path(@contents_to_review_today.review_date_asc.first, today: 1), class: 'home-top__start--top'
   .home-top
     span.home-top__span
       i.fa.fa-edit.fa-lg.home-top__icon
@@ -25,13 +25,13 @@
 .home-right
   ul.todays-menu
     h3.todays-menu__heading 本日の復習
-    - if contents_to_review_today.any?
+    - if @contents_to_review_today.any?
       ul.q-w-toggler__ul
         a.fas.fa-exchange-alt.q-w-toggler.q-w-toggler__top.to-word  Word
-        - contents_to_review_today.each do |content|
+        - @contents_to_review_today.each do |content|
           li.todays-menu__question.question-view ・#{link_to content.questions.first.question, question_show_learn_path(content, type: 'question'), remote: true}
           li.todays-menu__question.word-view.hidden ・#{link_to content.word_definition.word, question_show_learn_path(content, type: 'question'), remote: true}
-    - elsif reviewed_count_today != 0
+    - elsif @reviewed_count_today != 0
       p 完了しました。
     - else
       p 復習するコンテンツがありません。
