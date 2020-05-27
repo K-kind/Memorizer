@@ -392,6 +392,8 @@ $(document).on('turbolinks:load', function () {
     $(this).parent().find('.question-box__hint').slideDown('fast');
   });
 
+  // question words 切り替え
+  $(document).off('click', '.q-w-toggler');
   $(document).on('click', '.q-w-toggler', function() {
     let $parent = $(this).parent();
     if ($(this).hasClass('to-word')) {

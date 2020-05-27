@@ -21,12 +21,23 @@ class LearnedContent < ApplicationRecord
   attr_accessor :temporary_images
 
   scope :latest, -> { order(created_at: 'DESC') }
+  scope :review_date_asc, -> { order(review_date: 'ASC') }
   scope :to_review_today, -> { where('review_date <= ?', Time.zone.today) }
   scope :to_review_this_day,
         ->(date) { where('review_date = ? AND review_date >= ?', date, Time.zone.today) }
+
   scope :for_q_and_words,
         -> { includes([:word_definition, :questions, { related_words: :word_definition }]) }
-  scope :review_date_asc, -> { order(review_date: 'ASC') }
+
+  scope :with_favorites_count,
+        -> {
+          left_joins(:favorites)
+            .select(
+              'learned_contents.*,
+              COUNT(distinct favorites.id) AS favorites_count'
+            ).group(:id)
+        }
+
   scope :all_or_weekly, ->(weekly) do
     if weekly
       where('created_at >= ?', Time.current.beginning_of_week)
