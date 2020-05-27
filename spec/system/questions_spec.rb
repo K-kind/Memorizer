@@ -158,7 +158,7 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     sleep(1)
     aggregate_failures do
       expect(page).to_not have_selector 'strong', text: 'Excellent!'
-      sleep(1)
+      sleep(2)
       expect(page).to have_selector '.answer-box__similarity--blue', text: '100%'
       expect(page).to have_selector '.answer-box__similarity--black', text: '54%'
       expect(page).to have_selector '.answer-box__similarity--red', text: '0%'
@@ -177,6 +177,7 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     visit root_path
     expect(page).to have_content '本日の復習:2/2'
     expect(page).to have_content '完了しました'
+    sleep(1)
     click_on 'To do: 2' # カレンダー
     within '#calendar-show' do
       expect(page).to have_content 'Learn1 Q1'
