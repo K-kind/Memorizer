@@ -23,13 +23,20 @@ user.update!(exp: 0, level: 1)
 
 # 次の日になった時
 unless user.calendars.find_by(calendar_date: Time.zone.today + 6)
-  user.learned_contents.each do |learned_content|
+  user.learned_contents.each.with_index(1) do |learned_content, index|
     old_date = learned_content.calendar.calendar_date
     calendar = user.calendars.find_by(calendar_date: old_date + 1)
     calendar ||= user.calendars.create!(
       calendar_date: old_date + 1, created_at: Time.zone.yesterday
     )
-    updated_review_date = learned_content.review_date + 1
+    # 1, 6, 7の問題は上でreview_dateが今日に更新されているため
+    updated_review_date =
+      case index
+      when 1, 6, 7
+        learned_content.review_date
+      else
+        learned_content.review_date + 1
+      end
     unless user.calendars.find_by(calendar_date: updated_review_date)
       user.calendars.create!(
         calendar_date: updated_review_date,

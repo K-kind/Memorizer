@@ -52,14 +52,16 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     aggregate_failures do
       expect(page).to have_content '本日の復習:0/2'
       expect(page).to have_content '本日の学習:1'
-      expect(page).to have_selector 'h3:nth-child(1)', text: '本日の復習'
-      expect(page).to have_selector 'li:nth-child(2)', text: 'Learn1 Q1'
-      expect(page).to have_selector 'li:nth-child(3)', text: 'Learn2 Q1'
-      expect(page).to have_selector 'h3:nth-child(4)', text: '本日の学習'
-      expect(page).to have_selector 'li:nth-child(5)', text: 'Tommorow question'
+      within('.todays-menu') do
+        expect(page).to have_selector 'h3:nth-child(1)', text: '本日の復習'
+        expect(page).to have_selector 'ul:nth-child(2) li', text: 'Learn1 Q1'
+        expect(page).to have_selector 'ul:nth-child(2) li', text: 'Learn2 Q1'
+        expect(page).to have_selector 'h3:nth-child(3)', text: '本日の学習'
+        expect(page).to have_selector 'ul:nth-child(4) li', text: 'Tommorow question'
 
-      expect(page).to_not have_content '復習完了!'
-      expect(page).to_not have_content '復習するコンテンツがありません。'
+        expect(page).to_not have_content '完了しました'
+        expect(page).to_not have_content '復習するコンテンツがありません。'
+      end
     end
 
     # 明日の復習予定の問題（本日の復習が残っている状態）
@@ -156,6 +158,7 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     sleep(1)
     aggregate_failures do
       expect(page).to_not have_selector 'strong', text: 'Excellent!'
+      sleep(2)
       expect(page).to have_selector '.answer-box__similarity--blue', text: '100%'
       expect(page).to have_selector '.answer-box__similarity--black', text: '54%'
       expect(page).to have_selector '.answer-box__similarity--red', text: '0%'
@@ -173,8 +176,10 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     # 明日の復習予定は2つ（元々のものと、againに指定したもの）
     visit root_path
     expect(page).to have_content '本日の復習:2/2'
-    expect(page).to have_content '復習完了!'
-    click_on '復習予定: 2' # カレンダー
+    expect(page).to have_content '完了しました'
+    sleep(1)
+    find('.fc-title', text: 'To do: 2').click # カレンダー
+    sleep(1)
     within '#calendar-show' do
       expect(page).to have_content 'Learn1 Q1'
       expect(page).to have_content 'Tommorow question'
@@ -209,9 +214,11 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     visit root_path
     aggregate_failures do
       expect(page).to have_content '本日の復習:2/4'
-      expect(page).to have_selector 'h3:nth-child(1)', text: '本日の復習'
-      expect(page).to have_selector 'li:nth-child(2)', text: 'Learn1 Q1'
-      expect(page).to have_selector 'li:nth-child(3)', text: 'Tommorow question'
+      within('.todays-menu') do
+        expect(page).to have_selector 'h3:nth-child(1)', text: '本日の復習'
+        expect(page).to have_selector 'ul:nth-child(2) li', text: 'Learn1 Q1'
+        expect(page).to have_selector 'ul:nth-child(2) li', text: 'Tommorow question'
+      end
     end
   end
 end

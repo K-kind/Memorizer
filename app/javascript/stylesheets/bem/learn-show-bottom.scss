@@ -39,6 +39,11 @@
     padding-left: 10px;
     padding-right: 10px;
   }
+  &__another {
+    @include submit-btn;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
   .again-form {
     display: inline-block;
   }

@@ -22,4 +22,12 @@ module LearnedContentsHelper
   def test_content_class(learned_content)
     'disabled-btn' if learned_content.is_test?
   end
+
+  def words_of(learned_content)
+    learned_content
+      .related_words
+      .inject(learned_content.word_definition.word) do |words, related_word|
+        words + ', ' + related_word.word_definition.word
+      end
+  end
 end

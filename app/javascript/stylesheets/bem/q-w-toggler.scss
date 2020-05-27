@@ -1,0 +1,27 @@
+%q-w-toggler {
+  @include submit-btn;
+  border: none;
+  padding: 4px;
+  font-size: 12px;
+}
+.q-w-toggler {
+  @extend %q-w-toggler;
+  &__ul {
+    position: relative;
+  }
+  &__top {
+    position: absolute;
+    right: 8px;
+    top: -24px;
+  }
+  &__calendar {
+    position: absolute;
+    right: 27px;
+    top: 21px;
+  }
+  &__table {
+    position: absolute;
+    top: 14px;
+    left: 20px;
+  }
+}

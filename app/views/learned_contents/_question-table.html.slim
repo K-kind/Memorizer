@@ -1,3 +1,4 @@
+a.fas.fa-exchange-alt.q-w-toggler.q-w-toggler__table.to-word  Word
 table.question-table
   thead
     tr
@@ -12,7 +13,12 @@ table.question-table
       tr
         td.question-table__question-td
           .question-table__question
-            = link_to learned_content.questions.first.question, question_show_learn_path(learned_content, type: 'question'), remote: true, class: ''
+            = link_to learned_content.questions.first.question, \
+                      question_show_learn_path(learned_content, type: 'question'), \
+                      remote: true, class: 'question-view'
+            = link_to words_of(learned_content), \
+                      question_show_learn_path(learned_content, type: 'question'), \
+                      remote: true, class: 'word-view hidden'
         td= link_to learned_content.review_histories.count, question_show_learn_path(learned_content, type: 'reviewd_times'), remote: true
         td
           - if learned_content.completed?

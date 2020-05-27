@@ -1,6 +1,5 @@
 .my-questions-container {
-  width: 90%;
-  margin: 20px auto;
+  margin: 20px 0;
   &__search {
     margin-top: 10px;
     select {
@@ -31,4 +30,9 @@
   &__search-div {
     margin-top: 5px;
   }
+}
+
+// q-w-toggler用
+#question-table-area {
+  position: relative;
 }

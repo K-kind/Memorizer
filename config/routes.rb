@@ -1,13 +1,13 @@
 Rails.application.routes.draw do
   root    'homes#top'
+  get     '/calendar',  to: 'homes#calendar' # カレンダーjson用
+  get     '/date/:id',  to: 'homes#date' # カレンダーの1日
+  get     '/about',     to: 'homes#about'
+  get     '/help',      to: 'homes#help'
+  get     'homes/always_dictionary'
   get     'communities/words'
   get     'communities/questions'
   get     'communities/ranking'
-  get     '/top',       to: 'homes#top' # カレンダーjson用
-  get     '/homes/calendar', as: 'calendar'
-  get     'homes/always_dictionary'
-  get     '/about',     to: 'homes#about'
-  get     '/help',      to: 'homes#help'
   post    '/login',     to: 'sessions#create'
   delete  '/logout',    to: 'sessions#destroy'
   get     '/auth/failure',             to: 'sessions#auth_failure'

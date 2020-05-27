@@ -2,12 +2,12 @@
   @include table;
   margin-top: 10px;
   &__question {
-    width: 350px;
+    width: 530px;
     @include text-overflow;
     padding: 0 10px;
     text-align: left;
   }
   &__question-td {
-    width: 350px;
+    width: 530px;
   }
 }
