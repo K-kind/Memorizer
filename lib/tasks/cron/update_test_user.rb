@@ -21,6 +21,11 @@
 # user.reset_test_notification
 # user.update!(exp: 0, level: 1)
 
+
+test_admin_email = Rails.application.credentials.dig(:seed, :test_admin_email)
+test_admin = User.find_by(email: test_admin_email)
+User.where('is_test_user = ? AND email != ?', true, test_admin_email).each do |user|
+end
 # 次の日になった時
 unless user.calendars.find_by(calendar_date: Time.zone.today + 6)
   user.learned_contents.each.with_index(1) do |learned_content, index|

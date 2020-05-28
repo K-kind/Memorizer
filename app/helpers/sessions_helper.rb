@@ -5,8 +5,7 @@ module SessionsHelper
 
   def test_log_in(user)
     user.set_test_logged_in
-    # user.reset_test_data_now_or(30.minutes)
-    user.reset_test_data_now_or(1.minutes)
+    user.reset_test_data_now_or(30.minutes)
     session[:test_user_id] = user.test_logged_in_by
   end
 
