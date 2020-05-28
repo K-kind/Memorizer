@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'About_page', type: :system do
+  include ActiveJob::TestHelper
   let(:user) { create(:user) }
 
   describe 'test-user-login button and sign-up button' do
@@ -24,7 +25,7 @@ RSpec.describe 'About_page', type: :system do
     end
   end
 
-  it 'test users are availavle', :js do
+  it 'test users are availavle', perform_enqueued_jobs: true, js: true do
     test_user = create(:user, email: 'test_user1@memorizer.tech',
                               name: 'テストユーザー1')
     allow(User).to receive(:find_by).and_return(test_user)
