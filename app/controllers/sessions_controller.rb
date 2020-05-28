@@ -59,8 +59,7 @@ class SessionsController < ApplicationController
 
   def test_login
     test_users = User.where('test_logged_in_at IS NOT NULL AND test_logged_in_by IS NULL')
-                     .order(test_logged_in_at: :asc)
-    user = test_users.first
+    user = test_users.order(test_logged_in_at: :asc).first
     if user
       test_log_in user
       flash[:notice] = "#{user.name}でログインしました。テストデータは30分間後にリセットされます。"

@@ -1,71 +1,14 @@
-# number = (Time.zone.now.min / 10).floor # 分の10の位を取得
-# if number == 5
-#   user_number = 0
-# else
-#   user_number = number + 1
-# end
-# user = User.find_by(email: "test_user#{user_number}@memorizer.tech")
-# %w[review_histories consulted_words later_lists calendars].each do |objects|
-#   user.send(objects).where("#{objects}.created_at >= ?", Time.zone.now - 12.hours).destroy_all
-# end
-# user.learned_contents.where(is_test: false).destroy_all
-# user.rollback_to_default_cycle
-# user.learned_contents.each.with_index(1) do |learned_content, index|
-#   # 1, 6, 7問目は本日復習ができる
-#   learned_content.update!(review_date: Time.zone.today) if index.in?([1, 6, 7])
-# end
-# test_admin = User.find_by(email: Rails.application.credentials.dig(:seed, :test_admin_email))
-# user.favorites.destroy_all
-# user.reset_test_words(test_admin)
-# user.reset_test_contacts(test_admin)
-# user.reset_test_notification
-# user.update!(exp: 0, level: 1)
-
-
-test_admin_email = Rails.application.credentials.dig(:seed, :test_admin_email)
-test_admin = User.find_by(email: test_admin_email)
-User.where('is_test_user = ? AND email != ?', true, test_admin_email).each do |user|
+class User
+  include TestUserContent
 end
-# 次の日になった時
-unless user.calendars.find_by(calendar_date: Time.zone.today + 6)
-  user.learned_contents.each.with_index(1) do |learned_content, index|
-    old_date = learned_content.calendar.calendar_date
-    calendar = user.calendars.find_by(calendar_date: old_date + 1)
-    calendar ||= user.calendars.create!(
-      calendar_date: old_date + 1, created_at: Time.zone.yesterday
-    )
-    # 1, 6, 7の問題はreview_dateを今日に固定する
-    updated_review_date =
-      case index
-      when 1, 6, 7
-        Time.zone.today
-      else
-        learned_content.review_date + 1
-      end
-    unless user.calendars.find_by(calendar_date: updated_review_date)
-      user.calendars.create!(
-        calendar_date: updated_review_date,
-        created_at: Time.zone.yesterday
-      )
-    end
-    learned_content.update!(
-      review_date: updated_review_date,
-      calendar_id: calendar.id,
-      created_at: learned_content.created_at + 1.day
-    )
 
-    # review_history 実際は1つだけ
-    learned_content.review_histories.each do |review_history|
-      old_reviewed_date = review_history.calendar.calendar_date
-      review_calendar = user.calendars.find_by(calendar_date: old_reviewed_date + 1)
-      review_calendar ||= user.calendars.create!(
-        calendar_date: old_reviewed_date + 1, created_at: Time.zone.yesterday
-      )
-      review_history.update!(
-        calendar_id: review_calendar.id,
-        created_at: review_history.created_at + 1.day
-      )
+# UpdateTestUser.newで実行される
+class UpdateTestUser < CronJob
+  def exec
+    test_admin_email = Rails.application.credentials.dig(:seed, :test_admin_email)
+    test_admin = User.find_by(email: test_admin_email)
+    User.where('is_test_user = ? AND email != ?', true, test_admin_email).each do |user|
+      user.update_test_content_time
     end
   end
-  user.calendars.find_by(calendar_date: Time.zone.today - 9)&.destroy
 end

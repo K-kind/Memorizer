@@ -107,4 +107,57 @@ module TestUserContent
     # test_logged_in_at
     update!(test_logged_in_at: Time.zone.now)
   end
+
+  def update_test_content_time
+    if test_logged_in_by # ログイン中なら30分後に再度
+      RepeatTestUserUpdateJob.set(wait: 30.minutes).perform_later(self)
+      return
+    end
+
+    puts "[ユーザー#{name}をアップデート中です。]"
+    today = Time.zone.today
+    yesterday = Time.zone.yesterday
+    return if calendars.find_by(calendar_date: today + 6)
+
+    learned_contents.each.with_index(1) do |learned_content, index|
+      old_date = learned_content.calendar.calendar_date
+      calendar = calendars.find_by(calendar_date: old_date + 1)
+      calendar ||= calendars.create!(
+        calendar_date: old_date + 1, created_at: yesterday
+      )
+      # 1, 6, 7の問題はreview_dateを今日に固定する
+      updated_review_date =
+        case index
+        when 1, 6, 7
+          today
+        else
+          learned_content.review_date + 1
+        end
+      unless calendars.find_by(calendar_date: updated_review_date)
+        calendars.create!(
+          calendar_date: updated_review_date,
+          created_at: yesterday
+        )
+      end
+      learned_content.update!(
+        review_date: updated_review_date,
+        calendar_id: calendar.id,
+        created_at: learned_content.created_at + 1.day
+      )
+
+      # review_history 実際は1つだけ
+      learned_content.review_histories.each do |review_history|
+        old_reviewed_date = review_history.calendar.calendar_date
+        review_calendar = calendars.find_by(calendar_date: old_reviewed_date + 1)
+        review_calendar ||= calendars.create!(
+          calendar_date: old_reviewed_date + 1, created_at: yesterday
+        )
+        review_history.update!(
+          calendar_id: review_calendar.id,
+          created_at: review_history.created_at + 1.day
+        )
+      end
+    end
+    calendars.find_by(calendar_date: today - 9)&.destroy
+  end
 end
