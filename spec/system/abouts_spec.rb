@@ -31,8 +31,9 @@ RSpec.describe 'About_page', type: :system do
     allow(User).to receive(:find_by).and_return(test_user)
     visit about_path
     click_link 'テストユーザーで体験！', match: :first
+    sleep(1)
     aggregate_failures do
-      expect(page).to have_content "#{test_user.name}でログインしました。データは1時間ごとにリセットされます。"
+      expect(page).to have_selector('.flash__notice', text: "#{test_user.name}でログインしました。データは1時間ごとにリセットされます。")
       expect(page).to have_content '本日の学習'
       expect(page).to have_content "#{test_user.name}(Lv.1)"
     end
