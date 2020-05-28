@@ -6,9 +6,7 @@ end
 class UpdateTestUser < CronJob
   def exec
     test_admin_email = Rails.application.credentials.dig(:seed, :test_admin_email)
-    test_admin = User.find_by(email: test_admin_email)
-    User.where('is_test_user = ? AND email != ?', true, test_admin_email).each do |user|
-      user.update_test_content_time
-    end
+    User.where('is_test_user = ? AND email != ?', true, test_admin_email)
+        .each(&:update_test_content_time)
   end
 end

@@ -18,6 +18,7 @@ module TestUserContent
     calendars.destroy_all
     contents_to_copy = test_admin.learned_contents.last(7)
     raise 'lack of test admin contents' unless contents_to_copy.count == 7
+
     today = Time.zone.today
     yesterday = today - 1
 
