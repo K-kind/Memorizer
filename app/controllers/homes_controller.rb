@@ -20,9 +20,11 @@ class HomesController < ApplicationController
   end
 
   def calendar
+    start_date = params[:start]
+    end_date = params[:end]
     @calendars = current_user.calendars
-                             .a_month_old
-                             .with_contents_and_reviews
+                             .between_dates(start_date, end_date)
+                             .with_contents_and_reviews(current_user.id)
   end
 
   def about
