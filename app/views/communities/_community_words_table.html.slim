@@ -6,11 +6,17 @@ table.community-words-container__table
   tbody
     - @learned_contents.each do |learned_content|
       tr
-        td= link_to result_path(word: learned_content.word_definition.word, sub_type: 'default_word'), method: :post, remote: true do
+        td= link_to result_path(\
+                      word: learned_content.word_definition.word,\
+                      sub_type: 'default_word'\
+                    ), method: :post, remote: true do
           - learned_content.word_definition.word
         td
-          - learned_content.related_words.limit(5).each_with_index do |related_word, index|
-            = link_to result_path(word: related_word.word_definition.word, sub_type: 'default_word'), method: :post, remote: true do
+          - learned_content.related_words.each_with_index do |related_word, index|
+            = link_to result_path(\
+                        word: related_word.word_definition.word,\
+                        sub_type: 'default_word'\
+                      ), method: :post, remote: true do
               - related_word.word_definition.word
             - if index != learned_content.related_words.length - 1
               | , 

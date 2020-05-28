@@ -10,9 +10,9 @@ module HomesHelper
     current_user.learned_contents.to_review_today
   end
 
-  def learned_contents_today
-    current_user.calendars
-                .find_by(calendar_date: Time.zone.today)
-                .learned_contents
-  end
+  # def learned_contents_today
+  #   current_user.calendars
+  #               .find_by(calendar_date: Time.zone.today)
+  #               .learned_contents
+  # end
 end

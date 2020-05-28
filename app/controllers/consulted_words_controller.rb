@@ -19,6 +19,9 @@ class ConsultedWordsController < ApplicationController
   private
 
   def set_consulted_words
-    @consulted_words = current_user.consulted_words.order(id: 'DESC').page(params[:page])
+    @consulted_words = current_user.consulted_words
+                                   .includes(:word_definition)
+                                   .order(id: 'DESC')
+                                   .page(params[:page])
   end
 end

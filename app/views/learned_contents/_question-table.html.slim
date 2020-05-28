@@ -19,7 +19,9 @@ table.question-table
             = link_to words_of(learned_content), \
                       question_show_learn_path(learned_content, type: 'question'), \
                       remote: true, class: 'word-view hidden'
-        td= link_to learned_content.review_histories.count, question_show_learn_path(learned_content, type: 'reviewd_times'), remote: true
+        td= link_to learned_content.reviewed_count, \
+                    question_show_learn_path(learned_content, type: 'reviewd_times'), \
+                    remote: true
         td
           - if learned_content.completed?
             | 完了!
@@ -32,7 +34,7 @@ table.question-table
           - if learned_content.imported?
             | -
           - else
-            = learned_content.favorites.count
+            = learned_content.favorites_count
         td= learned_content.created_at.strftime('%Y/%m/%d')
 
 = paginate @learned_contents, remote: true

@@ -20,11 +20,46 @@ class LearnedContent < ApplicationRecord
   after_create :set_first_cycle
   attr_accessor :temporary_images
 
+  scope :latest, -> { order(created_at: 'DESC') }
+  scope :review_date_asc, -> { order(review_date: 'ASC') }
   scope :to_review_today, -> { where('review_date <= ?', Time.zone.today) }
   scope :to_review_this_day,
         ->(date) { where('review_date = ? AND review_date >= ?', date, Time.zone.today) }
-  scope :review_date_asc, -> { order(review_date: 'ASC') }
-  scope :latest, -> { order(created_at: 'DESC') }
+
+  scope :for_q_and_words,
+        -> { includes([:word_definition, :questions, { related_words: :word_definition }]) }
+
+  scope :with_favorites_count,
+        -> {
+          left_joins(:favorites)
+            .select(
+              'learned_contents.*,
+              COUNT(distinct favorites.id) AS favorites_count'
+            ).group(:id)
+        }
+
+  scope :with_reviewed_count,
+        -> {
+          left_joins(:review_histories)
+            .select(
+              'learned_contents.*,
+              COUNT(distinct review_histories.id) AS reviewed_count'
+            ).group(:id)
+        }
+
+  scope :community_ransack_select,
+        -> { includes(:word_category, user: :user_skill) }
+
+  scope :word_search_for,
+        ->(word_definition_ids) {
+          left_joins(:related_words)
+            .where(
+              'learned_contents.word_definition_id IN (?) OR
+              related_words.word_definition_id IN (?)',
+              word_definition_ids, word_definition_ids
+            ).group(:id)
+        }
+
   scope :all_or_weekly, ->(weekly) do
     if weekly
       where('created_at >= ?', Time.current.beginning_of_week)
