@@ -107,6 +107,10 @@ class User < ApplicationRecord
     consulted_words.find_or_create_by!(word_definition_id: word_definition.id)
   end
 
+  def set_test_data_reset_job
+    TestUserLogoutJob.perform_later(self)
+  end
+
   def reset_test_words(test_admin)
     if consulted_words.count < test_admin.consulted_words.count
       test_admin.consulted_words.each do |consulted_word|
