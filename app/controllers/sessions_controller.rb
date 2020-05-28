@@ -62,7 +62,7 @@ class SessionsController < ApplicationController
                      .order(test_logged_in_at: :asc)
     user = test_users.first
     if user
-      user.set_test_data_reset_job
+      test_log_in user
       flash[:notice] = "#{user.name}でログインしました。データは30分間有効です。"
       redirect_back_or root_url
     else

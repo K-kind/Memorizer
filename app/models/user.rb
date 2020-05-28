@@ -107,8 +107,13 @@ class User < ApplicationRecord
     consulted_words.find_or_create_by!(word_definition_id: word_definition.id)
   end
 
-  def set_test_data_reset_job
-    TestUserLogoutJob.perform_later(self)
+  def set_test_logged_in
+    hash = SecureRandom.hex(20)
+    update!(test_logged_in_by: hash, test_logged_in_at: Time.zone.now)
+  end
+
+  def reset_test_data_now_or(duration = nil)
+    TestUserLogoutJob.set(wait: duration).perform_later(self, test_logged_in_by)
   end
 
   def reset_test_words(test_admin)
