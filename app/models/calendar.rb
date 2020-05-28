@@ -9,7 +9,7 @@ class Calendar < ApplicationRecord
           start_date, end_date)
   }
 
-  scope :with_contents_and_reviews, -> (content_user_id){
+  scope :with_contents_and_reviews, ->(content_user_id) {
     left_joins(:learned_contents)
       .joins(
         'LEFT OUTER JOIN learned_contents AS to_do_contents
