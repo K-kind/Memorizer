@@ -63,11 +63,13 @@ class SessionsController < ApplicationController
     user = test_users.first
     if user
       test_log_in user
-      flash[:notice] = "#{user.name}でログインしました。データは30分間有効です。"
+      flash[:notice] = "#{user.name}でログインしました。テストデータは30分間後にリセットされます。"
       redirect_back_or root_url
+      AddTestUserJob.perform_later if test_users.count < 2
     else
-      flash[:danger] = '申し訳ございません。ただ今テストユーザーが全て使用中です。しばらくお待ちいただいた後、もう一度お試しください。'
+      flash[:danger] = '申し訳ありません。テストユーザーが不足しています。準備ができるまでしばらくお待ちください。'
       redirect_to about_url
+      AddTestUserJob.perform_later
     end
   end
 end

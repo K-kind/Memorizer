@@ -1,5 +1,5 @@
 class User
-  include ResetTestContent
+  include TestUserContent
 end
 
 # rails r ResetAllTestContent.newで走る

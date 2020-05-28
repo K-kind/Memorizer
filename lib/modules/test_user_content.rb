@@ -1,4 +1,15 @@
-module ResetTestContent
+module TestUserContent
+  def add_test_user
+    test_user_id = where(is_test_user: true).count - 1 # test_adminの分
+    create!(
+      name: "テストユーザー#{test_user_id}",
+      email: "test_user#{test_user_id}@memorizer.tech",
+      password: Rails.application.credentials.dig(:seed, :test_password),
+      is_test_user: true,
+      user_skill_id: UserSkill.fifth.id
+    ) # test_logged_in_atは下のreset_test_contentで初期値入力
+  end
+
   def reset_test_content
     # テスト管理ユーザーの直近7問や他データをコピー
     test_admin_email = Rails.application.credentials.dig(:seed, :test_admin_email)
@@ -92,5 +103,8 @@ module ResetTestContent
     # notification
     notifications.destroy_all
     notifications.create!
+
+    # test_logged_in_at
+    update!(test_logged_in_at: Time.zone.now)
   end
 end
