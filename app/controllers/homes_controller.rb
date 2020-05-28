@@ -9,13 +9,20 @@ class HomesController < ApplicationController
   def top
     current_user.calendars.find_or_create_by!(calendar_date: Time.zone.today)
     @notice = Notice.last
-    @learned_contents_today = learned_contents_today
     @reviewed_count_today = reviewed_count_today
-    @contents_to_review_today = contents_to_review_today
+    @learned_contents_today = current_user.calendars
+                                          .find_by(calendar_date: Time.zone.today)
+                                          .learned_contents
+                                          .for_q_and_words
+    @contents_to_review_today = current_user.learned_contents
+                                            .to_review_today
+                                            .for_q_and_words
   end
 
   def calendar
-    @calendars = current_user.calendars.a_month_old
+    @calendars = current_user.calendars
+                             .a_month_old
+                             .with_contents_and_reviews
   end
 
   def about

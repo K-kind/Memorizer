@@ -12,11 +12,15 @@ class LearnedContentsController < ApplicationController
   def index
     @q = current_user.learned_contents.ransack(params[:q])
     @q.sorts = 'created_at desc' if @q.sorts.empty?
-    @learned_contents = @q.result.includes(:word_category)
+    @learned_contents = @q.result
+                          .for_q_and_words
+                          .includes(:word_category)
+                          .with_favorites_count
+                          .with_reviewed_count
     @word = params[:word]
     unless @word.blank?
-      word_definition = WordDefinition.find_by(word: @word)
-      @learned_contents = @learned_contents.left_joins(:related_words).where('learned_contents.word_definition_id = ? OR related_words.word_definition_id = ?', word_definition.id, word_definition.id).distinct
+      word_definition_ids = WordDefinition.where('word LIKE ?', "%#{@word}%").pluck(:id)
+      @learned_contents = @learned_contents.word_search_for(word_definition_ids)
     end
     @learned_contents = @learned_contents.page(params[:page])
     respond_to do |format|

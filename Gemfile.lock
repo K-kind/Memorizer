@@ -75,6 +75,9 @@ GEM
     bootsnap (1.4.5)
       msgpack (~> 1.0)
     builder (3.2.4)
+    bullet (6.1.0)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.11)
     byebug (11.0.1)
     capybara (3.32.1)
       addressable
@@ -519,6 +522,7 @@ GEM
       unf_ext
     unf_ext (0.0.7.6)
     unicode-display_width (1.6.0)
+    uniform_notifier (1.13.0)
     unirest (1.0.8)
       addressable
       json
@@ -556,6 +560,7 @@ DEPENDENCIES
   aws-ses
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.4.2)
+  bullet
   byebug
   capybara (>= 2.15)
   carrierwave
