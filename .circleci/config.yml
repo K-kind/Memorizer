@@ -51,7 +51,6 @@ jobs:
           RAILS_ENV: test
           MYSQL_PASSWORD: ''
           MYSQL_HOST: 127.0.0.1
-          REDIS_URL: redis://localhost:6379
           SELENIUM_DRIVER_URL: http://localhost:4444/wd/hub
       - image: circleci/mysql:5.7
         environment:
@@ -59,7 +58,6 @@ jobs:
           MYSQL_ROOT_HOST: '%'
           MYSQL_ALLOW_EMPTY_PASSWORD: true
       - image: selenium/standalone-chrome-debug
-      - image: circleci/redis
     working_directory: ~/memorizer
     steps:
       - bundle-installation
@@ -70,9 +68,6 @@ jobs:
             dockerize -wait tcp://127.0.0.1:3306 -timeout 120s
             bundle exec rake db:create
             bundle exec rake db:schema:load
-      - run:
-          name: Start sidekiq
-          command: bundle exec sidekiq -C config/sidekiq.yml
       - run:
           name: Rspec
           command: bin/rspec
