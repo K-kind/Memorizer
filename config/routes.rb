@@ -61,4 +61,7 @@ Rails.application.routes.draw do
     resources :notices, only: [:index, :create, :destroy]
     resources :release_notes, only: [:index, :create, :update, :destroy, :show]
   end
+
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/admin/sidekiq', :constraints => AdminConstraint.new
 end

@@ -69,6 +69,8 @@ Rails.application.configure do
   # dockerのIPを許可
   config.web_console.whitelisted_ips = %w[127.0.0.1 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16]
 
+  config.active_job.queue_adapter = :sidekiq
+
   # bullet gem
   # config.after_initialize do
   #   Bullet.enable = true # Bulletプラグインを有効

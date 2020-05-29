@@ -20,6 +20,10 @@ module Myapp
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
-    config.autoload_paths += Dir["#{config.root}/lib/modules", "#{config.root}/lib/tasks/cron", "#{config.root}/lib/tasks/operation"]
+    config.autoload_paths += Dir[
+      "#{config.root}/lib/modules",
+      "#{config.root}/lib/classes",
+      "#{config.root}/lib/tasks/cron",
+      "#{config.root}/lib/tasks/operation"]
   end
 end
