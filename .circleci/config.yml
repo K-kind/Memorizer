@@ -74,7 +74,6 @@ jobs:
       - store_artifacts:
           path: tmp/screenshots/
 
-  # webとappの2つのコンテナを最新にする
   # 環境変数のAWS_ECR_ACCOUNT_URL、AWS_ACCESS_KEY_ID、AWS_SECRET_ACCESS_KEYはデフォルトで使われる
   deploy-service-update:
     executor: aws-cli/default
@@ -88,12 +87,13 @@ jobs:
           family: "memorizer-task"
           container-image-name-updates: "container=app,tag=${CIRCLE_SHA1}"
       - aws-ecs/update-task-definition:
-          family: "memorizer-task"
-          container-image-name-updates: "container=sidekiq,tag=${CIRCLE_SHA1}"
+          family: "memorizer-cron-task"
+          container-image-name-updates: "container=cron-worker,tag=${CIRCLE_SHA1}"
       - aws-ecs/update-service:
           family: "memorizer-task"
           cluster-name: "memorizer-cluster"
           service-name: "memorizer-service"
+          container-image-name-updates: "container=sidekiq,tag=${CIRCLE_SHA1}"
 
 workflows:
   version: 2.1
@@ -125,7 +125,7 @@ workflows:
           filters:
             branches:
               only: master
-      # - deploy-service-update:
-      #     requires:
-      #       - build-and-push-image1
-      #       - build-and-push-image2
+      - deploy-service-update:
+          requires:
+            - build-and-push-image1
+            - build-and-push-image2

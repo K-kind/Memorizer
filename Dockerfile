@@ -10,16 +10,8 @@ FROM ruby:2.6.5 AS base
 COPY --from=nodejs /tmp/node /opt/node
 ENV PATH /opt/node/bin:$PATH
 
-#cron sudo
-RUN apt-get update -qq \
-    && apt-get install -y cron \
-                          sudo \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
 RUN useradd -m -u 1000 rails
 RUN mkdir /myapp && chown rails /myapp
-RUN echo 'rails ALL=(ALL) NOPASSWD: /usr/sbin/service' >> /etc/sudoers.d/rails
 USER rails
 
 # yarn
@@ -69,5 +61,4 @@ RUN NODE_ENV=production bin/webpack
 # RUN --mount=type=cache,uid=1000,target=/myapp/tmp/cache/webpacker \
     # NODE_ENV=production bin/webpack
 
-ENTRYPOINT ["./docker-entrypoint.sh"]
-CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
+CMD ["/docker-startup.sh"]
