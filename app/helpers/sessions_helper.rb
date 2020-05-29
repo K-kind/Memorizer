@@ -1,12 +1,14 @@
 module SessionsHelper
   def log_in(user)
     session[:user_id] = user.id
+    session.delete(:test_user_id)
   end
 
   def test_log_in(user)
     user.set_test_logged_in
     user.reset_test_data_now_or(30.minutes)
     session[:test_user_id] = user.test_logged_in_by
+    session.delete(:user_id)
   end
 
   def remember(user)
@@ -41,8 +43,8 @@ module SessionsHelper
 
   def log_out
     if @current_user.test_logged_in_by
-      session.delete(:test_user_id)
       @current_user.reset_test_data_now_or(nil)
+      session.delete(:test_user_id)
     else
       forget(@current_user)
       session.delete(:user_id)
