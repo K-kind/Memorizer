@@ -24,7 +24,7 @@ services:
       - db
       - redis
     environment:
-      REDIS_URL: redis://redis:6379
+      REDIS_URL: redis
       SELENIUM_DRIVER_URL: http://selenium_chrome:4444/wd/hub
     networks:
       default:
@@ -36,7 +36,7 @@ services:
     command: bundle exec sidekiq -C config/sidekiq.yml # logfileの設定
     environment:
       # RAILS_ENV: development
-      REDIS_URL: redis://redis:6379 # config/initializers/sidekiq.rb
+      REDIS_URL: redis # config/initializers/sidekiq.rb
     volumes:
       - sync-volume:/myapp
       - node-data:/myapp/node_modules
