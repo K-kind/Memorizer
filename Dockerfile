@@ -61,4 +61,4 @@ RUN NODE_ENV=production bin/webpack
 # RUN --mount=type=cache,uid=1000,target=/myapp/tmp/cache/webpacker \
     # NODE_ENV=production bin/webpack
 
-CMD ["/docker-startup.sh"]
+CMD ["./docker-startup.sh"]
