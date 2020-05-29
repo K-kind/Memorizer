@@ -1,5 +1,3 @@
-require 'sidekiq/web'
-
 Rails.application.routes.draw do
   root    'homes#top'
   get     '/calendar',  to: 'homes#calendar' # カレンダーjson用
@@ -18,8 +16,6 @@ Rails.application.routes.draw do
   get     'sessions/test_login'
   post    '/result',     to: 'searches#result'
   post    '/pixabay',    to: 'searches#pixabay'
-
-  mount Sidekiq::Web => '/sidekiq'
 
   resources :account_activations, only: [:edit]
   resources :contacts,            only: [:index, :create, :destroy]
@@ -65,4 +61,7 @@ Rails.application.routes.draw do
     resources :notices, only: [:index, :create, :destroy]
     resources :release_notes, only: [:index, :create, :update, :destroy, :show]
   end
+
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/admin/sidekiq', :constraints => AdminConstraint.new
 end

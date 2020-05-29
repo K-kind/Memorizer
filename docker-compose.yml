@@ -33,8 +33,7 @@ services:
 
   sidekiq:
     image: memorizer_app:latest
-    # command: bundle exec sidekiq
-    command: tail -f /dev/null
+    command: bundle exec sidekiq -C config/sidekiq.yml # logfileの設定
     environment:
       # RAILS_ENV: development
       REDIS_URL: redis://redis:6379 # config/initializers/sidekiq.rb

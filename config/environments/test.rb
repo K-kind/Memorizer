@@ -51,4 +51,6 @@ Rails.application.configure do
 
   # system spec でsessionを扱う
   config.middleware.use RackSessionAccess::Middleware
+
+  config.active_job.queue_adapter = :sidekiq
 end

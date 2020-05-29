@@ -1,4 +1,5 @@
 class ApplicationJob < ActiveJob::Base
+  sidekiq_options retry: 3
   # Automatically retry jobs that encountered a deadlock
   # retry_on ActiveRecord::Deadlocked
 
