@@ -4,25 +4,26 @@ class Calendar < ApplicationRecord
   belongs_to :user
   validates :calendar_date, uniqueness: { scope: :user_id }
 
-  scope :a_month_old,
-        -> { where('calendar_date > ?', Time.zone.today - 1.month) }
+  scope :between_dates, ->(start_date, end_date) {
+    where('calendar_date >= ? AND calendar_date <= ?',
+          start_date, end_date)
+  }
 
-  scope :with_contents_and_reviews,
-        -> {
-          left_joins(:learned_contents)
-            .joins(
-              'LEFT OUTER JOIN learned_contents AS to_do_contents
-              ON to_do_contents.review_date = calendars.calendar_date'
-            )
-            .left_joins(:review_histories)
-            .select(
-              'calendars.id,
-              calendars.calendar_date,
-              COUNT(distinct learned_contents.id) AS contents_count,
-              COUNT(distinct to_do_contents.id) AS to_do_count,
-              COUNT(distinct review_histories.id) AS reviews_count'
-            ).group(:id)
-        }
+  scope :with_contents_and_reviews, ->(content_user_id) {
+    left_joins(:learned_contents)
+      .joins(
+        'LEFT OUTER JOIN learned_contents AS to_do_contents
+        ON to_do_contents.review_date = calendars.calendar_date'
+      )
+      .left_joins(:review_histories)
+      .select(
+        "calendars.id,
+        calendars.calendar_date,
+        COUNT(distinct learned_contents.id) AS contents_count,
+        COUNT(to_do_contents.user_id = #{content_user_id} OR NULL) AS to_do_count,
+        COUNT(distinct review_histories.id) AS reviews_count"
+      ).group(:id)
+  }
 
   class << self
     def learn_chart(new_or_review, day)

@@ -58,10 +58,17 @@ class SessionsController < ApplicationController
   end
 
   def test_login
-    number = (Time.zone.now.min / 10).floor # 分の10の位を取得
-    user = User.find_by(email: "test_user#{number}@memorizer.tech")
-    log_in user
-    flash[:notice] = "#{user.name}でログインしました。データは1時間ごとにリセットされます。"
-    redirect_back_or root_url
+    test_users = User.where('test_logged_in_at IS NOT NULL AND test_logged_in_by IS NULL')
+    user = test_users.order(test_logged_in_at: :asc).first
+    if user
+      test_log_in user
+      flash[:notice] = "#{user.name}でログインしました。テストデータは30分間後にリセットされます。"
+      redirect_back_or root_url
+      AddTestUserJob.perform_later if test_users.count < 2
+    else
+      flash[:danger] = '申し訳ありません。テストユーザーが不足しています。準備ができるまでしばらくお待ちください。'
+      redirect_to about_url
+      AddTestUserJob.perform_later
+    end
   end
 end

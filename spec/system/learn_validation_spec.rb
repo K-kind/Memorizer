@@ -25,7 +25,7 @@ RSpec.describe 'Validation for learning', type: :system, js: true, vcr: { casset
 
       find('.image-unsave-times', match: :first).click
       click_button 'Save'
-      sleep(1)
+      sleep(2)
       expect(page).to_not have_selector('.error-message__list', text: '画像は3枚まで保存できます。')
     end
 
@@ -101,6 +101,7 @@ RSpec.describe 'Validation for learning', type: :system, js: true, vcr: { casset
 
       # 4 images
       click_button 'Save'
+      sleep(1)
       expect(page).to have_selector('.error-message__list', text: '画像は3枚まで保存できます。')
       expect(page).to have_selector('.error-message__list', count: 1)
 
