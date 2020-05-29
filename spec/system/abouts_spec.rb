@@ -1,6 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe 'About_page', type: :system do
+RSpec.describe 'About_page', type: :system, retry: 3 do
+  include ActiveJob::TestHelper
   let(:user) { create(:user) }
 
   describe 'test-user-login button and sign-up button' do
@@ -24,14 +25,15 @@ RSpec.describe 'About_page', type: :system do
     end
   end
 
-  it 'test users are availavle', :js do
+  it 'test users are availavle', perform_enqueued_jobs: true, js: true do
     test_user = create(:user, email: 'test_user1@memorizer.tech',
-                              name: 'テストユーザー1')
-    allow(User).to receive(:find_by).and_return(test_user)
+                              name: 'テストユーザー1',
+                              test_logged_in_at: Time.zone.now)
     visit about_path
     click_link 'テストユーザーで体験！', match: :first
+    sleep(1)
     aggregate_failures do
-      expect(page).to have_content "#{test_user.name}でログインしました。データは1時間ごとにリセットされます。"
+      expect(page).to have_selector('.flash__notice', text: "#{test_user.name}でログインしました。")
       expect(page).to have_content '本日の学習'
       expect(page).to have_content "#{test_user.name}(Lv.1)"
     end

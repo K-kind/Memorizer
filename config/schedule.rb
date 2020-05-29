@@ -32,7 +32,12 @@ env :PATH, ENV['PATH']
 #   runner 'lib/tasks/set_date.rb', :environment_variable => 'RAILS_ENV'
 # end
 
-every '*/10 * * * *' do # 0分 10分 ..
+# every '*/10 * * * *' do # 0分 10分 ..
+#   command 'echo `date`'
+#   runner 'lib/tasks/update_test_user.rb', :environment_variable => 'RAILS_ENV'
+# end
+
+every '0 0,12 * * *' do # 毎日0時, 12時
   command 'echo `date`'
-  runner 'lib/tasks/update_test_user.rb', :environment_variable => 'RAILS_ENV'
+  runner 'UpdateTestUser.new', :environment_variable => 'RAILS_ENV'
 end

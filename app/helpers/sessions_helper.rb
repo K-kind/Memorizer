@@ -3,6 +3,12 @@ module SessionsHelper
     session[:user_id] = user.id
   end
 
+  def test_log_in(user)
+    user.set_test_logged_in
+    user.reset_test_data_now_or(30.minutes)
+    session[:test_user_id] = user.test_logged_in_by
+  end
+
   def remember(user)
     user.remember
     cookies.permanent.signed[:user_id] = user.id
@@ -18,6 +24,8 @@ module SessionsHelper
 
       log_in user
       @current_user = user
+    elsif (test_user_id = session[:test_user_id])
+      @current_user ||= User.find_by(test_logged_in_by: test_user_id)
     end
   end
 
@@ -32,8 +40,13 @@ module SessionsHelper
   end
 
   def log_out
-    forget(current_user)
-    session.delete(:user_id)
+    if @current_user.test_logged_in_by
+      session.delete(:test_user_id)
+      @current_user.reset_test_data_now_or(nil)
+    else
+      forget(@current_user)
+      session.delete(:user_id)
+    end
     @current_user = nil
   end
 
