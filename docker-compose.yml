@@ -10,7 +10,7 @@ services:
       - "3306:3306"
 
   app:
-    image: memorizer_app
+    image: memorizer_app:latest
     tty: true
     stdin_open: true
     volumes:
@@ -22,12 +22,40 @@ services:
       - "3035:3035" # webpack dev server
     depends_on:
       - db
+      - redis
     environment:
+      REDIS_URL: redis://redis:6379
       SELENIUM_DRIVER_URL: http://selenium_chrome:4444/wd/hub
     networks:
       default:
         aliases:
-          - app.local
+          - app.local # rspec appが予約語のため
+
+  sidekiq:
+    image: memorizer_app:latest
+    # command: bundle exec sidekiq
+    command: tail -f /dev/null
+    environment:
+      # RAILS_ENV: development
+      REDIS_URL: redis://redis:6379 # config/initializers/sidekiq.rb
+    volumes:
+      - sync-volume:/myapp
+      - node-data:/myapp/node_modules
+      - bundle-data:/myapp/vendor/bundle
+    depends_on:
+      - db
+      - app
+      - redis
+
+  redis:
+    image: redis:5.0.9-alpine
+    command: redis-server
+    volumes:
+      - redis-data:/data
+    ports:
+      - 6379
+    logging:
+      driver: none
 
   web:
     build:
@@ -49,5 +77,6 @@ volumes:
   db-data:
   node-data:
   bundle-data:
+  redis-data:
   sync-volume:
     external: true
