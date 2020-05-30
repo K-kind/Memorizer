@@ -2,6 +2,19 @@ $theme-color: #197fd8;
 $error-color: #e75252;
 $dictionary-color: #E7F5F5;
 $thesaurus-color: #497C95;
+
+$breakpoints: (
+  'sm': 'screen and (max-width: 479px)',
+  'md': 'screen and (max-width: 767px)',
+  'lg': 'screen and (max-width: 1199px)',
+) !default;
+
+@mixin mq($breakpoint: sm) {
+  @media #{map-get($breakpoints, $breakpoint)} {
+    @content;
+  }
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
