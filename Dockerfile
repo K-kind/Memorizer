@@ -60,7 +60,7 @@ RUN yarn install
 
 COPY --chown=rails . /myapp
 # precompile
-RUN bundle exec webpacker:compile
+RUN bin/rails webpacker:compile
 # RUN --mount=type=cache,uid=1000,target=/myapp/tmp/cache/webpacker \
     # NODE_ENV=production bin/webpack
 
