@@ -17,12 +17,24 @@
   }
   &__question-td {
     width: 530px;
+    @include mq() {
+      width: 280px;
+    }
+    @include mq(sm) {
+      width: 100px;
+    }
   }
   &__question {
     width: 530px;
     @include text-overflow;
     padding: 0 10px;
     text-align: left;
+    @include mq() {
+      width: 280px;
+    }
+    @include mq(sm) {
+      width: 100px;
+    }
   }
   &__top {
     margin-bottom: 10px;

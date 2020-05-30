@@ -23,5 +23,8 @@
     position: absolute;
     top: 14px;
     left: 20px;
+    @include mq(sm) {
+      top: 4px;
+    }
   }
 }
