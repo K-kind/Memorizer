@@ -18,6 +18,9 @@
   &__show {
     display: flex;
     margin-top: 25px;
+    @include mq() {
+      display: block;
+    }
   }
   &__webster {
     width: 50%;
