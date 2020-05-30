@@ -1,12 +1,22 @@
 .community-ranking-container {
   width: 70%;
   margin:20px auto;
+  @include mq() {
+    width: 100%;
+    margin-top: 5px;
+  }
   &__heading {
     margin-top: 20px;
+    @include mq() {
+      margin-top: 5px;
+    }
   }
   &__heading-top {
     display: inline-block;
     margin: 0 30px 10px 0;
+    @include mq() {
+      font-size: 26px;
+    }
   }
   &__heading-text {
     display: inline-block;

@@ -14,11 +14,17 @@
     display: inline-block;
     width: 45%;
     vertical-align: top;
+    @include mq() {
+      width: 100%;
+    }
   }
   &__right {
     display: inline-block;
     width: 55%;
     margin-top: 6px;
+    @include mq() {
+      width: 100%;
+    }
   }
   &__webster {
     width: 95%;

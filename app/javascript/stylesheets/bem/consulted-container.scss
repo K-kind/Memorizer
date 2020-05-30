@@ -1,22 +1,39 @@
 .consulted-container {
   width: 95%;
   margin: 0 auto;
+  @include mq() {
+    width: 100%;
+  }
   &__heading {
     margin: 20px 0;
+    @include mq() {
+      margin: 5px 0 15px;
+      font-size: 26px;
+    }
   }
   &__left {
     display: inline-block;
     width: 45%;
     vertical-align: top;
+    @include mq() {
+      width: 100%;
+      margin-bottom: 10px;
+    }
   }
   &__right {
     display: inline-block;
     width: 55%;
+    @include mq() {
+      width: 100%;
+    }
   }
   &__table {
     @include table;
     width: 95%;
     margin-right: auto;
+    @include mq() {
+      width: 100%;
+    }
     th, td {
       padding-top: 9px !important;
       padding-bottom: 9px !important;
