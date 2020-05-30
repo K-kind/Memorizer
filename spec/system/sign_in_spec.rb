@@ -42,7 +42,7 @@ RSpec.describe 'Sign in', type: :system, retry: 3 do
 
     before do
       visit about_path
-      within 'header' do
+      within '.header-right' do
         find('#login-link').click
       end
     end
@@ -67,7 +67,7 @@ RSpec.describe 'Sign in', type: :system, retry: 3 do
           expect(current_path).to eq root_path
         end
 
-        within 'header' do
+        within '.header-right' do
           find('a', text: "#{user.name}(Lv.#{user.level})").click
           click_on 'マイページ'
         end
@@ -75,7 +75,7 @@ RSpec.describe 'Sign in', type: :system, retry: 3 do
 
         # 2回連続でドロップダウンボタンを押すとすぐに消えてしまう
         find('.my-page-container__heading', match: :first).click
-        within 'header' do
+        within '.header-right' do
           find('a', text: "#{user.name}(Lv.#{user.level})").click
           click_on 'ログアウト'
         end

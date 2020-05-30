@@ -1,4 +1,7 @@
 .home-right {
   display: inline-block;
   width: 40%;
+  @include mq() {
+    width: 100%;
+  }
 }
