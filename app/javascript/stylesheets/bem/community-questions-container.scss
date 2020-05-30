@@ -2,27 +2,50 @@
   margin-bottom: 20px;
   &__heading {
     margin-top: 20px;
+    @include mq() {
+      margin-top: 5px;
+    }
   }
   &__heading-top {
     vertical-align: top;
     display: inline-block;
     margin: 0 30px 20px 0;
+    @include mq() {
+      margin-bottom: 8px;
+      font-size: 26px;
+    }
   }
   &__heading-text {
     display: inline-block;
     padding-top: 10px;
+    @include mq() {
+      margin-bottom: 10px;
+      padding-top: 0;
+    }
   }
   &__table {
     @include table;
   }
   &__question-td {
     width: 530px;
+    @include mq() {
+      width: 280px;
+    }
+    @include mq(sm) {
+      width: 100px;
+    }
   }
   &__question {
     width: 530px;
     @include text-overflow;
     padding: 0 10px;
     text-align: left;
+    @include mq() {
+      width: 280px;
+    }
+    @include mq(sm) {
+      width: 100px;
+    }
   }
   &__top {
     margin-bottom: 10px;

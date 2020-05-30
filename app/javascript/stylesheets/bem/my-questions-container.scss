@@ -1,5 +1,11 @@
 .my-questions-container {
   margin: 20px 0;
+  @include mq() {
+    margin-top: 5px;
+    h1 {
+      font-size: 26px;
+    }
+  }
   &__search {
     margin-top: 10px;
     select {

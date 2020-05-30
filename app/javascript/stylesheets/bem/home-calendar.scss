@@ -1,6 +1,9 @@
 .home-calendar {
   @include white-box;
   margin-bottom: 20px;
+  @include mq() {
+    padding: 10px 2px;
+  }
   &__show {
     @include white-box;
     padding: 12px 20px 5px;

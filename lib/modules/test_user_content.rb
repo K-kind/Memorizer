@@ -112,10 +112,11 @@ module TestUserContent
   def update_test_content_time
     if test_logged_in_by # ログイン中なら30分後に再度
       RepeatTestUserUpdateJob.set(wait: 30.minutes).perform_later(self)
+      Rails.logger.debug "[CRON]ユーザー#{name}は現在ログイン中です。"
       return
     end
 
-    puts "[ユーザー#{name}をアップデート中です。]"
+    Rails.logger.debug "[CRON]ユーザー#{name}をアップデート中です。"
     today = Time.zone.today
     yesterday = Time.zone.yesterday
     return if calendars.find_by(calendar_date: today + 6)

@@ -13,6 +13,9 @@
     @include text-field;
     width: 400px;
     margin-left: 5px;
+    @include mq() {
+      width: 80%;
+    }
   }
   &__answer {
     text-align: right;

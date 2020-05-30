@@ -4,8 +4,8 @@
       i.fas.fa-crown
       |  ランキング
     p.community-ranking-container__heading-text
-      | 週間ランキングの期間は「#{Time.zone.now.beginning_of_week.strftime('%m/%d %H:%M')} 〜
-      |  #{Time.zone.now.end_of_week.strftime('%m/%d %H:%M')}」です。
+      | 週間ランキングの期間は「#{I18n.l Time.zone.now.beginning_of_week, format: :full_date} 〜
+      |  #{I18n.l Time.zone.now.end_of_week, format: :full_date}」です。
   .community-ranking-container__word
     .community-ranking-container__word-top
       h2.community-ranking-container__word-heading 単語学習数

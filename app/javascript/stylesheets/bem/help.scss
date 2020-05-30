@@ -1,14 +1,25 @@
 .help {
   margin: 25px 0;
   line-height: 1.7;
+  @include mq() {
+    margin-top: 5px;
+  }
   p {
     line-height: 1.7;
   }
   img {
     border: 1.5px solid #aaa;
+    @include mq() {
+      max-width: 100%;
+      height: auto;
+    }
   }
   &__heading {
     margin-bottom: 15px;
+    font-size: 26px;
+    @include mq() {
+      margin-bottom: 10px;
+    }
   }
   &__li {
     list-style: disc;
@@ -32,12 +43,19 @@
     width: 40%;
     vertical-align: top;
     margin-left: 20px;
+    @include mq() {
+      width: 100%;
+      margin-left: 0;
+    }
   }
   &__text {
     @extend %__text;
     &--cycle {
       @extend %__text;
       width: 65%!important;
+      @include mq() {
+        width: 100%!important;
+      }
     }
   }
   &__question {

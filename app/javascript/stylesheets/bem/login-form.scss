@@ -11,6 +11,12 @@
   transform: translate(-50%, -50%);
   z-index: 3;
   $grayColor: #7994A7;
+  @include mq() {
+    z-index: 4;
+    padding: 15px 40px;
+    top: 5px;
+    transform: translate(-50%, 0);
+  }
   .field_with_errors {
     width: 100%;
   }

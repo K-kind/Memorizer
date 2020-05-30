@@ -11,9 +11,16 @@
   &::-webkit-scrollbar {
     display: none;
   }
+  @include mq() {
+    width: 100%;
+    height: 450px;
+  }
 }
 .webster-field {
   &__always {
     max-height: 590px;
+    @include mq() {
+      max-height: 400px;
+    }
   }
 }

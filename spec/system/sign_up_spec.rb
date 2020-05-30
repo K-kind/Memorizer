@@ -9,7 +9,7 @@ describe 'Sign up', type: :system, js: true, retry: 3 do
     it 'shows error messages and does not create a user' do
       expect {
         visit about_path
-        within 'header' do
+        within '.header-right' do
           find('a', text: '新規登録').click
         end
         fill_in 'name-form', with: ''
@@ -34,7 +34,7 @@ describe 'Sign up', type: :system, js: true, retry: 3 do
       perform_enqueued_jobs do
         expect {
           visit about_path
-          within 'header' do
+          within '.header-right' do
             find('a', text: '新規登録').click
           end
           fill_in 'name-form', with: 'テストユーザー'

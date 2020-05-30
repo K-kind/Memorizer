@@ -312,11 +312,12 @@ $(document).on('turbolinks:load', function () {
     }
   });
 
+  $(document).off('change', '.onclick-select');
   $(document).on('change', '.onclick-select', function () {
     Rails.fire($('#onclick-form')[0], 'submit');
   });
 
-  $(document).on('change', '.favo-onclick-select', function () {
+  $('.favo-onclick-select').change(function () {
     Rails.fire($('#favo-onclick-form')[0], 'submit');
   });
 
@@ -407,5 +408,10 @@ $(document).on('turbolinks:load', function () {
       $(this).toggleClass('to-word')
               .text(' Word');
     }
+  });
+
+  $('#header-menu').click(function() {
+    $('#header-dropdown').slideToggle('fast');
+    $(this).toggleClass('fa fa-times');
   });
 });
