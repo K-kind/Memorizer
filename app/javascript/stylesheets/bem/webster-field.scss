@@ -19,5 +19,8 @@
 .webster-field {
   &__always {
     max-height: 590px;
+    @include mq() {
+      max-height: 400px;
+    }
   }
 }
