@@ -73,7 +73,7 @@ RSpec.describe 'Validation for learning', type: :system, js: true, vcr: { casset
       find('.add-next-box', text: 'more').click
       find_field('Question 2').fill_in with: 'Another Question'
       click_button 'Save'
-      sleep(1.5)
+      sleep(2.5)
       expect(page).to have_selector('.error-message__list', text: '答えを入力してください')
       expect(page).to have_selector('.error-message__list', count: 1)
     end
