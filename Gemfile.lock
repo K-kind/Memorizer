@@ -59,6 +59,11 @@ GEM
       zeitwerk (~> 2.2)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
+    asset_sync (2.11.0)
+      activemodel (>= 4.1.0)
+      fog-core
+      mime-types (>= 2.99)
+      unf
     ast (2.4.0)
     awesome_print (1.8.0)
     awesome_rails_console (0.4.4)
@@ -565,6 +570,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  asset_sync
   awesome_rails_console
   aws-ses
   bcrypt (~> 3.1.7)
