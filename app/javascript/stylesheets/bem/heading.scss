@@ -1,4 +1,8 @@
 .heading {
   margin-top: 20px;
   margin-bottom: 10px;
+  @include mq() {
+    font-size: 26px;
+    margin-top: 5px;
+  }
 }

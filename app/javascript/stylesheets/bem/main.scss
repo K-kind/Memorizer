@@ -2,5 +2,8 @@
   background-color: #F9FBFE;
   padding-top: 52px;
   padding-bottom: 20px;
-  min-height: 720px;
+  min-height: 700px;
+  @include mq() {
+    padding: 10px 0;
+  }
 }

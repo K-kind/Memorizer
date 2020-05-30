@@ -1,8 +1,16 @@
 .contact {
   width: 70%;
   margin: 20px auto;
+  @include mq() {
+    margin-top: 8px;
+    width: 100%;
+  }
   &__heading {
     margin-bottom: 15px;
+    @include mq() {
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
   }
   &__box {
   }

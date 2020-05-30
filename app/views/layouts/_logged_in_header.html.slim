@@ -3,36 +3,38 @@ header.header
     .header-left
       = link_to root_path do
         = image_pack_tag 'logo.png', class: 'header-left__logo'
-    ul.header-right
-      - if current_user.notifications.unchecked.user_notify.any?
-        li.header-right__list
-          = link_to contacts_path, class: 'header-right__envelope' do
-            i.fa.fa-envelope.fa-lg
-            = current_user.notifications.unchecked.user_notify.count
-      li.header-right__list
-        = link_to new_learn_path, class: 'header-right__new-link' do
-          i.fa.fa-edit.fa-lg
-      li.header-right__list
-        a.header-right__toggler--community
-          i.fa.fa-users.fa-lg
-          i.fa.fa-caret-down
-        ul.community-menu
-          li.community-menu__list
-            = link_to '問題を探す', communities_questions_path
-          li.community-menu__list
-            = link_to '単語を探す', communities_words_path
-          li.community-menu__list
-            = link_to 'ランキング', communities_ranking_path
-      li.header-right__list
-        a.header-right__toggler--user
-          | #{current_user.name}(Lv.#{current_user.level})
-          i.fa.fa-caret-down
-        ul.user-menu
-          li.user-menu__list
-            = link_to 'マイページ', user_path
-          li.user-menu__list
-            = link_to '学習履歴', learns_path
-          li.user-menu__list
-            = link_to '検索履歴', consulted_words_path
-          li.user-menu__list
-            = link_to 'ログアウト', logout_path, method: :delete
+
+ul.header-right.clearfix#header-dropdown
+  - if current_user.notifications.unchecked.user_notify.any?
+    li.header-right__list
+      = link_to contacts_path, class: 'header-right__envelope' do
+        i.fa.fa-envelope.fa-lg
+        = current_user.notifications.unchecked.user_notify.count
+  li.header-right__list
+    = link_to new_learn_path, class: 'header-right__new-link' do
+      i.fa.fa-edit.fa-lg
+  li.header-right__list
+    a.header-right__toggler--community
+      i.fa.fa-users.fa-lg
+      i.fa.fa-caret-down
+    ul.community-menu
+      li.community-menu__list
+        = link_to '問題を探す', communities_questions_path
+      li.community-menu__list
+        = link_to '単語を探す', communities_words_path
+      li.community-menu__list
+        = link_to 'ランキング', communities_ranking_path
+  li.header-right__list
+    a.header-right__toggler--user
+      | #{current_user.name}(Lv.#{current_user.level})
+      i.fa.fa-caret-down
+    ul.user-menu
+      li.user-menu__list
+        = link_to 'マイページ', user_path
+      li.user-menu__list
+        = link_to '学習履歴', learns_path
+      li.user-menu__list
+        = link_to '検索履歴', consulted_words_path
+      li.user-menu__list
+        = link_to 'ログアウト', logout_path, method: :delete
+a.fas.fa-bars.header__menu#header-menu

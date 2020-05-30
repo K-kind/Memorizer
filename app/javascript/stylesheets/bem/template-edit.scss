@@ -1,3 +1,6 @@
 #template-edit {
   width: 502px;
+  @include mq() {
+    width: 100%;
+  }
 }

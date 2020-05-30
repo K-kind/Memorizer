@@ -234,7 +234,7 @@
       am: 午前
       formats:
         default: "%Y年%m月%d日(%a) %H時%M分%S秒 %z"
+        full_date: "%m/%d(%a) %H:%M"
         long: "%Y/%m/%d %H:%M"
         short: "%m/%d %H:%M"
       pm: 午後
-  

@@ -6,8 +6,20 @@
     @include text-overflow;
     padding: 0 10px;
     text-align: left;
+    @include mq() {
+      width: 280px;
+    }
+    @include mq(sm) {
+      width: 100px;
+    }
   }
   &__question-td {
     width: 530px;
+    @include mq() {
+      width: 280px;
+    }
+    @include mq(sm) {
+      width: 100px;
+    }
   }
 }

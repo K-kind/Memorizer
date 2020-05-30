@@ -6,24 +6,40 @@
 .my-page-container {
   width: 95%;
   margin: 0 auto 25px;
+  @include mq() {
+    width: 100%;
+  }
   &__heading {
     margin: 30px 0 10px;
+    @include mq() {
+      margin: 10px 0;
+    }
   }
   &__top {
     padding-bottom: 10px;
     display: flex;
     justify-content: space-between;
+    @include mq() {
+      display: block;
+    }
   }
   &__user-info {
     @include white-box;
     display: inline-block;
     width: 48%;
+    @include mq() {
+      width: 100%;
+    }
   }
   &__user-level {
     @include white-box;
     display: inline-block;
     width: 48%;
     vertical-align: top;
+    @include mq() {
+      width: 100%;
+      margin-top: 10px;
+    }
   }
   &__table {
     @include table2;
@@ -92,6 +108,9 @@
     padding-bottom: 5px;
     display: flex;
     justify-content: space-between;
+    @include mq() {
+      display: block;
+    }
   }
   &__template-heading {
     margin-bottom: 8px;
@@ -119,9 +138,16 @@
   }
   &__settings-left {
     width: 525px;
+    @include mq() {
+      width: 100%;
+    }
   }
   &__settings-right {
     width: 45%;
+    @include mq() {
+      width: 100%;
+      margin-top: 25px;
+    }
   }
   &__cycle-container {
     display: flex;
