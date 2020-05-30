@@ -44,20 +44,23 @@ ARG KEY
 ENV RAILS_MASTER_KEY $KEY
 ENV RAILS_ENV production
 RUN bundle config without "development test"
-RUN --mount=type=cache,uid=1000,target=/myapp/.cache/bundle \
-    bundle install && \
-    mkdir -p vendor && \
-    cp -ar .cache/bundle vendor/bundle
 RUN bundle config path "vendor/bundle"
+RUN bundle install
+# RUN --mount=type=cache,uid=1000,target=/myapp/.cache/bundle \
+#     bundle install && \
+#     mkdir -p vendor && \
+#     cp -ar .cache/bundle vendor/bundle
+# RUN bundle config path "vendor/bundle"
 
 # yarn install
-RUN --mount=type=cache,uid=1000,target=/myapp/.cache/node_modules \
-    yarn install --modules-folder .cache/node_modules && \
-    cp -ar .cache/node_modules node_modules
+# RUN --mount=type=cache,uid=1000,target=/myapp/.cache/node_modules \
+#     yarn install --modules-folder .cache/node_modules && \
+#     cp -ar .cache/node_modules node_modules
+RUN yarn install
 
 COPY --chown=rails . /myapp
 # precompile
-RUN NODE_ENV=production bin/webpack
+RUN bundle exec webpacker:compile
 # RUN --mount=type=cache,uid=1000,target=/myapp/tmp/cache/webpacker \
     # NODE_ENV=production bin/webpack
 

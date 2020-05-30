@@ -90,6 +90,7 @@ gem 'unirest'
 gem 'whenever'
 
 # 外部連携
+gem 'asset_sync'
 gem 'aws-ses'
 gem 'fog'
 gem 'omniauth'
