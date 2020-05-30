@@ -22,3 +22,8 @@
 .trix-button-group--file-tools {
   display: none!important;
 }
+.trix-button {
+  @include mq() {
+    font-size: 13px!important;
+  }
+}

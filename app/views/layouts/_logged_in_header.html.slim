@@ -1,4 +1,9 @@
-a.fas.fa-bars.header__menu#header-menu
+header.header
+  .container
+    .header-left
+      = link_to root_path do
+        = image_pack_tag 'logo.png', class: 'header-left__logo'
+
 ul.header-right.clearfix#header-dropdown
   - if current_user.notifications.unchecked.user_notify.any?
     li.header-right__list
@@ -32,8 +37,4 @@ ul.header-right.clearfix#header-dropdown
         = link_to '検索履歴', consulted_words_path
       li.user-menu__list
         = link_to 'ログアウト', logout_path, method: :delete
-header.header
-  .container
-    .header-left
-      = link_to root_path do
-        = image_pack_tag 'logo.png', class: 'header-left__logo'
+a.fas.fa-bars.header__menu#header-menu

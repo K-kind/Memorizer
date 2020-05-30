@@ -312,11 +312,12 @@ $(document).on('turbolinks:load', function () {
     }
   });
 
+  $(document).off('change', '.onclick-select');
   $(document).on('change', '.onclick-select', function () {
     Rails.fire($('#onclick-form')[0], 'submit');
   });
 
-  $(document).on('change', '.favo-onclick-select', function () {
+  $('.favo-onclick-select').change(function () {
     Rails.fire($('#favo-onclick-form')[0], 'submit');
   });
 

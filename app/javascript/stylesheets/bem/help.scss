@@ -53,6 +53,9 @@
     &--cycle {
       @extend %__text;
       width: 65%!important;
+      @include mq() {
+        width: 100%!important;
+      }
     }
   }
   &__question {
