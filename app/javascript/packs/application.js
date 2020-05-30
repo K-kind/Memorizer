@@ -411,5 +411,6 @@ $(document).on('turbolinks:load', function () {
 
   $('#header-menu').click(function() {
     $('#header-dropdown').slideToggle('fast');
+    $(this).toggleClass('fa fa-times');
   });
 });

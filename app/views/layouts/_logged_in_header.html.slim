@@ -1,5 +1,5 @@
 a.fas.fa-bars.header__menu#header-menu
-ul.header-right#header-dropdown
+ul.header-right.clearfix#header-dropdown
   - if current_user.notifications.unchecked.user_notify.any?
     li.header-right__list
       = link_to contacts_path, class: 'header-right__envelope' do

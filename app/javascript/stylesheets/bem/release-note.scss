@@ -1,8 +1,15 @@
 .release-note {
   width: 60%;
   margin: 0 auto;
+  @include mq() {
+    width: 100%;
+  }
   &__heading {
     margin: 20px 0;
+    @include mq() {
+      margin: 8px 0 12px;
+      font-size: 26px;
+    }
   }
   &__table {
     @include table;
@@ -22,6 +29,10 @@
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 3;
+    @include mq() {
+      width: 90%;
+      padding: 15px 10px;
+    }
   }
   &__show-ul {
     margin: 10px 0;
