@@ -408,4 +408,8 @@ $(document).on('turbolinks:load', function () {
               .text(' Word');
     }
   });
+
+  $('#header-menu').click(function() {
+    $('#header-dropdown').slideToggle('fast');
+  });
 });

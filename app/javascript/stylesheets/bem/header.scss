@@ -1,8 +1,22 @@
 .header {
   height: 52px;
   width: 100%;
-  box-shadow: 0 1px 4px rgba(0, 0, 0 , 0.3);
+  filter: drop-shadow(0 1px 4px rgba(0,0,0,0.3));
   position: fixed;
   z-index: 2;
   background-color: #FFF;
+  @include mq(md) {
+    position: static;
+  }
+  &__menu {
+    display: none!important;
+    position: fixed;
+    z-index: 4;
+    top: 13px;
+    right: 13px;
+    font-size: 24px;
+    @include mq(md) {
+      display: inline-block!important;
+    }
+  }
 }
