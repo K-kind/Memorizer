@@ -8,4 +8,5 @@ CarrierWave.configure do |config|
 
   config.fog_directory = 'memorizer-image'
   config.cache_storage = :fog unless Rails.env.test?
+  config.asset_host = 'https://cdn.memorizer.tech'
 end
