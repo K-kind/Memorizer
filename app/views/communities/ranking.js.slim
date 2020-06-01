@@ -1,4 +1,4 @@
 - if @learn
-  | $('#ranking-table').html('#{escape_javascript(render 'ranking_table', users: @learn_users, period: @learn_period, type: 'learn')}');
+  | $('#ranking-table').html('#{escape_javascript(render 'ranking_table', users: @learn_users, period: @learn_period, type: 'learns')}');
 - else
-  | $('#favo-ranking-table').html('#{escape_javascript(render 'ranking_table', users: @favorite_users, period: @favorite_period, type: 'favorite')}');
+  | $('#favo-ranking-table').html('#{escape_javascript(render 'ranking_table', users: @favorite_users, period: @favorite_period, type: 'favorites')}');
