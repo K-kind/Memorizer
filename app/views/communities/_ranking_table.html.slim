@@ -20,6 +20,12 @@ table.community-ranking-container__table
         - else
           td= user.passive_favorites.all_or_weekly(period).count
         td= user.level
+    - (10 - (length = users.length)).times do |n|
+      tr
+        td= length + n + 1
+        td &nbsp;
+        td &nbsp;
+        td &nbsp;
 
 - if type == 'learn'
   = paginate users, remote: true, params: { learn: 1 }
