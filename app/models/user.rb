@@ -31,6 +31,27 @@ class User < ApplicationRecord
   validates :user_skill, presence: true, unless: :uid?
 
   scope :regular, -> { where(is_test_user: false) }
+  scope :with_contents_ranking, -> {
+    regular
+      .joins(:learned_contents)
+      .select(
+        'users.*,
+        COUNT(learned_contents.id) AS learns_count'
+      ).group(:user_id)
+      .order('count(`learned_contents`.`id`) desc')
+  }
+  scope :with_favorites_ranking, -> {
+    regular
+      .joins(learned_contents: :favorites)
+      .select(
+        'users.*,
+        COUNT(favorites.id) AS favorites_count'
+      ).group('users.id')
+      .order('count(`favorites`.`id`) desc')
+  }
+  scope :with_weekly_ranking, ->(ranking_type) {
+    where("#{ranking_type}.created_at >= ?", Time.current.beginning_of_week)
+  }
 
   class << self
     def digest(string)

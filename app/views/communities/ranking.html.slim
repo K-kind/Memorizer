@@ -12,7 +12,7 @@
       = form_with url: communities_ranking_path, method: :get, id: 'onclick-form', class: 'community-ranking-container__word-form' do |f|
         = f.select :learn_period, ['週間', '総合'], {}, class: 'onclick-select'
     #ranking-table
-      = render 'ranking_table', users: @learn_users, period: @learn_period, type: 'learn'
+      = render 'ranking_table', users: @learn_users, period: @learn_period, type: 'learns'
 
   .community-ranking-container__word
     .community-ranking-container__word-top
@@ -20,7 +20,7 @@
       = form_with url: communities_ranking_path, method: :get, id: 'favo-onclick-form', class: 'community-ranking-container__word-form' do |f|
         = f.select :favorite_period, ['週間', '総合'], {}, class: 'favo-onclick-select'
     #favo-ranking-table
-      = render 'ranking_table', users: @favorite_users, period: @favorite_period, type: 'favorite'
+      = render 'ranking_table', users: @favorite_users, period: @favorite_period, type: 'favorites'
 
   .home-back
     = link_to '< HOME', root_path
