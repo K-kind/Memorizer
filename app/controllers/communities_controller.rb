@@ -33,24 +33,22 @@ class CommunitiesController < ApplicationController
     @learn = true if params[:learn_period] || params[:learn]
     per = 10
     @ranking = params[:page] ? (params[:page].to_i - 1) * per : 0
-    if params[:learn_period] == '総合'
-      @learn_users = User.with_contents_ranking
+    @learn_users = if params[:learn_period] == '総合'
+                     User.with_contents_ranking
                          .page(params[:page]).per(per)
-    else
-      @learn_users = User.with_contents_ranking
+                   else
+                     User.with_contents_ranking
                          .with_weekly_ranking(:learned_contents)
                          .page(params[:page]).per(per)
-      @learn_period = true
-    end
-    if params[:favorite_period] == '総合'
-      @favorite_users = User.with_favorites_ranking
+                   end
+    @favorite_users = if params[:favorite_period] == '総合'
+                        User.with_favorites_ranking
                             .page(params[:page]).per(per)
-    else
-      @favorite_users = User.with_favorites_ranking
+                      else
+                        User.with_favorites_ranking
                             .with_weekly_ranking(:favorites)
                             .page(params[:page]).per(per)
-      @favorite_period = true
-    end
+                      end
     respond_to do |format|
       format.html
       format.js
