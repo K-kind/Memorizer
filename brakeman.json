@@ -1,0 +1,164 @@
+{
+  "scan_info": {
+    "app_path": "/myapp",
+    "rails_version": "6.0.2.1",
+    "security_warnings": 0,
+    "start_time": "2020-06-03 00:53:00 +0900",
+    "end_time": "2020-06-03 00:53:03 +0900",
+    "duration": 2.1866199,
+    "checks_performed": [
+      "BasicAuth",
+      "BasicAuthTimingAttack",
+      "ContentTag",
+      "CookieSerialization",
+      "CreateWith",
+      "CrossSiteScripting",
+      "DefaultRoutes",
+      "Deserialize",
+      "DetailedExceptions",
+      "DigestDoS",
+      "DynamicFinders",
+      "EscapeFunction",
+      "Evaluation",
+      "Execute",
+      "FileAccess",
+      "FileDisclosure",
+      "FilterSkipping",
+      "ForgerySetting",
+      "HeaderDoS",
+      "I18nXSS",
+      "JRubyXML",
+      "JSONEncoding",
+      "JSONEntityEscape",
+      "JSONParsing",
+      "LinkTo",
+      "LinkToHref",
+      "MailTo",
+      "MassAssignment",
+      "MimeTypeDoS",
+      "ModelAttrAccessible",
+      "ModelAttributes",
+      "ModelSerialize",
+      "NestedAttributes",
+      "NestedAttributesBypass",
+      "NumberToCurrency",
+      "PageCachingCVE",
+      "PermitAttributes",
+      "QuoteTableName",
+      "Redirect",
+      "RegexDoS",
+      "Render",
+      "RenderDoS",
+      "RenderInline",
+      "ResponseSplitting",
+      "RouteDoS",
+      "SQL",
+      "SQLCVEs",
+      "SSLVerify",
+      "SafeBufferManipulation",
+      "SanitizeMethods",
+      "SelectTag",
+      "SelectVulnerability",
+      "Send",
+      "SendFile",
+      "SessionManipulation",
+      "SessionSettings",
+      "SimpleFormat",
+      "SingleQuotes",
+      "SkipBeforeFilter",
+      "SprocketsPathTraversal",
+      "StripTags",
+      "SymbolDoSCVE",
+      "TranslateBug",
+      "UnsafeReflection",
+      "ValidationRegex",
+      "WithoutProtection",
+      "XMLDoS",
+      "YAMLParsing"
+    ],
+    "number_of_controllers": 24,
+    "number_of_models": 22,
+    "number_of_templates": 66,
+    "ruby_version": "2.6.5",
+    "brakeman_version": "4.8.2"
+  },
+  "warnings": [
+
+  ],
+  "ignored_warnings": [
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "4e98ea0d19b3ec79dc1ba58d587f50226bafcc110676f0d6f3a7f0985e305bcf",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/calendar.rb",
+      "line": 23,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "left_joins(:learned_contents).joins(\"LEFT OUTER JOIN learned_contents AS to_do_contents\\n        ON to_do_contents.review_date = calendars.calendar_date\").left_joins(:review_histories).select(\"calendars.id,\\n        calendars.calendar_date,\\n        COUNT(distinct learned_contents.id) AS contents_count,\\n        COUNT(to_do_contents.user_id = #{content_user_id} OR NULL) AS to_do_count,\\n        COUNT(distinct review_histories.id) AS reviews_count\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Calendar",
+        "method": "with_contents_and_reviews"
+      },
+      "user_input": "content_user_id",
+      "confidence": "Medium"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "539cb696bb87a04d226269c93346870fe4ac60998a14cedde20c0be1274877f7",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/user.rb",
+      "line": 53,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "where(\"#{ranking_type}.created_at >= ?\", Time.current.beginning_of_week)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "User",
+        "method": "with_weekly_ranking"
+      },
+      "user_input": "ranking_type",
+      "confidence": "Medium"
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "a2ed133f9f984bf975dbc32219ceeb7810d54eb21de262487888b9ea9224003d",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/learned_contents/show.html.slim",
+      "line": 12,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "LearnedContent.find(params[:id]).content",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "LearnedContentsController",
+          "method": "show",
+          "line": 99,
+          "file": "app/controllers/learned_contents_controller.rb",
+          "rendered": {
+            "name": "learned_contents/show",
+            "file": "app/views/learned_contents/show.html.slim"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "learned_contents/show"
+      },
+      "user_input": null,
+      "confidence": "High"
+    }
+  ],
+  "errors": [
+
+  ],
+  "obsolete": [
+
+  ]
+}

@@ -57,7 +57,7 @@ $(document).on('turbolinks:load', function () {
       //イベントの文字色を変える
       eventTextColor: '#000000',
       // 月曜から
-      firstDay : 1
+      // firstDay : 1
     });
   }
 });

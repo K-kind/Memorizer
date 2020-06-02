@@ -1,5 +1,5 @@
 class ReleaseNote < ApplicationRecord
-  VALID_VERSION = /[\d]+.[\d]+.[\d]+/.freeze
+  VALID_VERSION = /\A[\d]+.[\d]+.[\d]+\Z/.freeze
   validates :content, length: { maximum: 3000 }, presence: true
   validates :version, presence: true, format: { with: VALID_VERSION }
   validates :release_date, presence: true
