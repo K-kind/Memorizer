@@ -5,22 +5,22 @@ class LearnTemplate < ApplicationRecord
 
   DEFAULT_JA = <<~"TRIX".freeze
     <h1>意味</h1>
-    <ol><li> </li></ol>
+    <ol><li></li></ol>
     <h1>例文</h1>
-    <ol><li> </li></ol>
+    <ol><li></li></ol>
     <h1>類義語</h1>
-    <ul><li> </li></ul>
+    <ul><li></li></ul>
     <h1>反意語</h1>
     <ul><li> </li></ul>
   TRIX
 
   DEFAULT_EN = <<~"TRIX".freeze
     <h1>Definition</h1>
-    <ol><li> </li></ol>
+    <ol><li></li></ol>
     <h1>Examples</h1>
-    <ol><li> </li></ol>
+    <ol><li></li></ol>
     <h1>Synonyms</h1>
-    <ul><li> </li></ul>
+    <ul><li></li></ul>
     <h1>Antonyms</h1>
     <ul><li> </li></ul>
   TRIX
