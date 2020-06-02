@@ -59,7 +59,7 @@ https://memorizer.tech
 - テスト、静的解析
   - rspec, capybara, factory_bot_rails, vcr
   - rubocop
-  - bullet
+  - brakeman, bullet
 - 画像アップロード
   - carrierwave, fog
 - ビューの補助機能
