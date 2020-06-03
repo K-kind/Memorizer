@@ -14,7 +14,6 @@ RUN useradd -m -u 1000 rails
 RUN mkdir /myapp && chown rails /myapp
 USER rails
 
-# yarn
 RUN curl -o- -L https://yarnpkg.com/install.sh | bash
 ENV PATH /home/rails/.yarn/bin:/home/rails/.config/yarn/global/node_modules/.bin:$PATH
 
@@ -31,7 +30,6 @@ RUN --mount=type=cache,uid=1000,target=/myapp/.cache/bundle \
     cp -ar .cache/bundle vendor/bundle
 RUN bundle config path "vendor/bundle"
 
-# yarn install
 RUN --mount=type=cache,uid=1000,target=/myapp/.cache/node_modules \
     yarn install --modules-folder .cache/node_modules && \
     cp -ar .cache/node_modules node_modules
@@ -43,25 +41,15 @@ FROM base as production
 ARG KEY
 ENV RAILS_MASTER_KEY $KEY
 ENV RAILS_ENV production
+
 RUN bundle config without "development test"
 RUN bundle config path "vendor/bundle"
 RUN bundle install
-# RUN --mount=type=cache,uid=1000,target=/myapp/.cache/bundle \
-#     bundle install && \
-#     mkdir -p vendor && \
-#     cp -ar .cache/bundle vendor/bundle
-# RUN bundle config path "vendor/bundle"
 
-# yarn install
-# RUN --mount=type=cache,uid=1000,target=/myapp/.cache/node_modules \
-#     yarn install --modules-folder .cache/node_modules && \
-#     cp -ar .cache/node_modules node_modules
 RUN yarn install
 
 COPY --chown=rails . /myapp
-# precompile
+
 RUN bin/rails webpacker:compile
-# RUN --mount=type=cache,uid=1000,target=/myapp/tmp/cache/webpacker \
-    # NODE_ENV=production bin/webpack
 
 CMD ["./docker-startup.sh"]

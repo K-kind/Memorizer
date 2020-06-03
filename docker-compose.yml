@@ -35,7 +35,6 @@ services:
     image: memorizer_app:latest
     command: bundle exec sidekiq -C config/sidekiq.yml # logfileの設定
     environment:
-      # RAILS_ENV: development
       REDIS_URL: redis # config/initializers/sidekiq.rb
     volumes:
       - sync-volume:/myapp
