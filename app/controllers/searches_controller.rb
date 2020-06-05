@@ -5,8 +5,8 @@ class SearchesController < ApplicationController
     @sub_type = params[:sub_type]
     @learned_content = LearnedContent.find(params[:learned_content_id]) if params[:learned_content_id]
     # 英数字、空白のみ検索
-    if @word =~ /^[\w\s]+$/ && !@word.blank?
-      @word = @word.gsub(/[\s]/, '_')
+    if @word =~ /^[\w]+[ ]*[\w]+$/ && !@word.blank?
+      @word = @word.gsub(/ /, '_')
       if (@word_definition = WordDefinition.find_by(word: @word))
         @dictionary_data = @word_definition.dictionary_data
         @thesaurus_data = @word_definition.thesaurus_data

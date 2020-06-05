@@ -7,11 +7,11 @@ header.header
 ul.header-right.clearfix#header-dropdown
   - if current_user.notifications.unchecked.user_notify.any?
     li.header-right__list
-      = link_to contacts_path, class: 'header-right__envelope' do
+      = link_to contacts_path, class: 'header-right__envelope', title: 'お問い合わせへの返信' do
         i.fa.fa-envelope.fa-lg
         = current_user.notifications.unchecked.user_notify.count
   li.header-right__list
-    = link_to new_learn_path, class: 'header-right__new-link' do
+    = link_to new_learn_path, class: 'header-right__new-link', title: '新規学習ページ' do
       i.fa.fa-edit.fa-lg
   li.header-right__list
     a.header-right__toggler--community

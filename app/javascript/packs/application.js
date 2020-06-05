@@ -372,7 +372,9 @@ $(document).on('turbolinks:load', function () {
   $('#hidden-user-skill-link').fadeIn();
 
   // 1つ目の問題にフォーカス
-  $('#learned_content_questions_attributes_0_my_answer').focus();
+  if (window.matchMedia('(min-width: 768px)').matches) {
+    $('#learned_content_questions_attributes_0_my_answer').focus();
+  }
 
   $('#excellent').fadeIn();
   setTimeout(function () {
