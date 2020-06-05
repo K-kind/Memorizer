@@ -169,7 +169,7 @@ $(document).on('turbolinks:load', function () {
   $(document).on('click', '#consult-submit', function () {
     let searchedWord = $('#word').val().replace(/[\s]/, '_');
     $('#erasor').show();
-    if ($('.word-field-' + searchedWord).length) {
+    if (searchedWord.indexOf("\"'") !== -1 && $('.word-field-' + searchedWord).length) {
       $('.word-field').addClass('hidden');
       $('.word-field-' + searchedWord).removeClass('hidden');
       $('.consulted-word').removeClass('active-word'); // 表示している単語ボタン
@@ -372,7 +372,9 @@ $(document).on('turbolinks:load', function () {
   $('#hidden-user-skill-link').fadeIn();
 
   // 1つ目の問題にフォーカス
-  $('#learned_content_questions_attributes_0_my_answer').focus();
+  if (window.matchMedia('(min-width: 768px)').matches) {
+    $('#learned_content_questions_attributes_0_my_answer').focus();
+  }
 
   $('#excellent').fadeIn();
   setTimeout(function () {
