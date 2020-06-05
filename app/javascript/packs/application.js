@@ -169,7 +169,7 @@ $(document).on('turbolinks:load', function () {
   $(document).on('click', '#consult-submit', function () {
     let searchedWord = $('#word').val().replace(/[\s]/, '_');
     $('#erasor').show();
-    if (searchedWord.indexOf("\"'") !== -1 && $('.word-field-' + searchedWord).length) {
+    if ($('.word-field-' + searchedWord).length) {
       $('.word-field').addClass('hidden');
       $('.word-field-' + searchedWord).removeClass('hidden');
       $('.consulted-word').removeClass('active-word'); // 表示している単語ボタン
