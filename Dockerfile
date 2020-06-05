@@ -2,9 +2,9 @@
 
 FROM ruby:2.6.5 AS nodejs
 WORKDIR /tmp
-RUN curl -LO https://nodejs.org/dist/v12.14.1/node-v12.14.1-linux-x64.tar.xz
-RUN tar xvf node-v12.14.1-linux-x64.tar.xz
-RUN mv node-v12.14.1-linux-x64 node
+RUN curl -LO https://nodejs.org/dist/v12.18.0/node-v12.18.0-linux-x64.tar.xz
+RUN tar xvf node-v12.18.0-linux-x64.tar.xz
+RUN mv node-v12.18.0-linux-x64 node
 
 FROM ruby:2.6.5 AS base
 COPY --from=nodejs /tmp/node /opt/node
