@@ -44,10 +44,10 @@ https://memorizer.tech
 
 ### インフラ
 - AWS
-  - コンテナ技術（ECS | ECR | ELB）
+  - コンテナ技術（ECS | ECR）
   - データベース（RDS | ElastiCache）
   - 静的ファイルホスティング（S3 | CloudFront）
-  - 基本インフラ（VPC | EC2 | Route53 | IAM）
+  - 基本インフラ（VPC | EC2 | ELB | Route53 | IAM）
   - メール送信（SES）
 - CircleCI
 - Docker | Docker Compose | docker-sync | BuildKit
