@@ -65,6 +65,8 @@
         #learn-error
         .learn-grid-container__submit
           = f.submit 'Save', class: "#{guest_class}", id: 'loading-needed'
+          - unless logged_in?
+            p.learn-grid-container__guest-text 学習内容保存にはログインが必要です。
 .learn-grid-container__pixabay
   .pixabay-btn
   = link_to 'https://pixabay.com/', target: '_blank', rel: 'noopener' do
