@@ -274,7 +274,7 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     sleep(0.3)
     click_link 'Download'
     sleep(0.2)
-    find('a', text: '"star"').click
+    find('a', text: 'star').click
     sleep(0.3)
     click_link 'Next'
     sleep(0.3)

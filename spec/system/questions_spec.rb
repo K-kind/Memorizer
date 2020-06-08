@@ -112,7 +112,7 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     aggregate_failures do
       expect(page).to have_selector 'strong', text: 'Excellent!'
       expect(page).to have_selector '.answer-box__similarity--blue', text: '100%', count: 3
-      expect(page).to have_link '"lead"'
+      expect(page).to have_link 'lead'
       expect(page).to have_link 'Next'
       expect(page).to have_link 'Finish'
       expect(page).to_not have_selector '.fas.fa-thumbs-up'
@@ -162,7 +162,7 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
       expect(page).to have_selector '.answer-box__similarity--blue', text: '100%'
       expect(page).to have_selector '.answer-box__similarity--black', text: '54%'
       expect(page).to have_selector '.answer-box__similarity--red', text: '0%'
-      expect(page).to have_link '"lead"'
+      expect(page).to have_link 'lead'
       expect(page).to_not have_link 'Next'
       expect(page).to have_link 'Finish'
       expect(page).to have_content '本日の復習は終了しました。'
