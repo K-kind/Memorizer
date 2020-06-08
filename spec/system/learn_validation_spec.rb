@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Validation for learning', type: :system, js: true, vcr: { cassette_name: 'apis' }, retry: 3, perform_enqueued_jobs: true do
+RSpec.describe 'Validation for learning', type: :system, js: true, vcr: { cassette_name: 'apis' }, retry: 3 do
   include ActiveJob::TestHelper
   let(:user) { create(:user) }
   before do
@@ -12,8 +12,10 @@ RSpec.describe 'Validation for learning', type: :system, js: true, vcr: { casset
 
   context 'in the new learn page' do
     it 'validation for numbers of images' do
-      fill_in 'word', with: 'lead'
-      click_button 'consult-submit'
+      perform_enqueued_jobs do
+        fill_in 'word', with: 'lead'
+        click_button 'consult-submit'
+      end
       find('#pixabay-link', text: 'lead').click
       page.all('.image-save-btn')[0].click
       page.all('.image-save-btn')[1].click
@@ -41,8 +43,10 @@ RSpec.describe 'Validation for learning', type: :system, js: true, vcr: { casset
       find('.learn-grid-container__error-hide').click
       expect(page).to_not have_selector('.error-message__list')
 
-      fill_in 'word', with: 'lead'
-      click_button 'consult-submit'
+      perform_enqueued_jobs do
+        fill_in 'word', with: 'lead'
+        click_button 'consult-submit'
+      end
       wait_for_css_appear '.dictionary-heading__word'
       click_button 'Save'
 
@@ -82,8 +86,10 @@ RSpec.describe 'Validation for learning', type: :system, js: true, vcr: { casset
   context 'in the edit page' do
     it 'validation for numbers of images' do
       # save a content
-      fill_in 'word', with: 'lead'
-      click_button 'consult-submit'
+      perform_enqueued_jobs do
+        fill_in 'word', with: 'lead'
+        click_button 'consult-submit'
+      end
       find('#pixabay-link', text: 'lead').click
       page.all('.image-save-btn')[0].click
 
@@ -113,8 +119,10 @@ RSpec.describe 'Validation for learning', type: :system, js: true, vcr: { casset
 
     it 'validation for questions' do
       # save a content with 3 questions
-      fill_in 'word', with: 'lead'
-      click_button 'consult-submit'
+      perform_enqueued_jobs do
+        fill_in 'word', with: 'lead'
+        click_button 'consult-submit'
+      end
 
       find_field('Question 1').fill_in with: 'Question 1'
       find_field('Answer 1').fill_in with: 'Answer 1'
