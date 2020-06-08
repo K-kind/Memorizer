@@ -14,9 +14,9 @@ table.community-ranking-container__table
         td= user.name
         td= user.send("#{type}_count")
         td= user.level
-    - (10 - (length = users.length)).times do |n|
+    - (10 - users.length).times do
       tr
-        td= length + n + 1 + @ranking
+        td &nbsp;
         td &nbsp;
         td &nbsp;
         td &nbsp;

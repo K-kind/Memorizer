@@ -15,7 +15,7 @@ https://memorizer.tech
 さらに、レベルアップや学習数ランキング等のモチベーションを維持するための機能も搭載しています。
 
 ## 工夫した点
-- 非同期通信、jQueryの活用
+- Ajax、jQueryの活用
 - あとで学習したい単語を保存するリストや、カスタマイズ可能な学習設定など、細かい機能の実装
 - レスポンシブ対応レイアウト
 - メール送信、画像アップロード等の重い処理を非同期で行うバックグラウンドジョブの活用
@@ -23,8 +23,8 @@ https://memorizer.tech
 - 体験用の初期データを持つ複数のテストユーザー（同時ログインにも対応）
 - フィードバックを重視するための、お問い合わせ受付と管理者への通知機能
 - 細部までカバーするE2Eテスト
-- DRYな設定、軽量なDocker Imageを模索したCI/CDパイプライン
-- 速度向上のためのCDN利用など、各種AWSサービスの活用
+- DRYな設定、軽量なDocker Imageでの最適化を目指したCI/CDパイプライン
+- 静的ファイルのCDN配信等、各種AWSサービスの活用
 - テンプレート付きのGitHub IssuesとPull requestsを活用した、擬似チーム開発
 
 ## 使用技術
@@ -36,37 +36,33 @@ https://memorizer.tech
 - Redis 5.0.9
 
 ### フロントエンド
-- HTML (slim)
-- Sass (BEM)
-- JavaScript, jQuery
+- HTML (slim) | Sass (BEM)
+- JavaScript | jQuery
 
-### エディター
-- VSCode
 
 ### インフラ
 - AWS
-  - コンテナ技術（ECS, ECR, ELB）
-  - データベース（RDS, ElastiCache）
-  - 静的ファイルホスティング（S3, CloudFront）
-  - 基本インフラ（VPC, EC2, Route53, IAM）
+  - コンテナ技術（ECS | ECR）
+  - データベース（RDS | ElastiCache）
+  - 静的ファイルホスティング（S3 | CloudFront）
+  - 基本インフラ（VPC | EC2 | ELB | Route53 | IAM）
   - メール送信（SES）
 - CircleCI
-- Docker, Docker Compose, docker-sync, BuildKit
+- Docker | Docker Compose | docker-sync | BuildKit
 
 <img width="1200" alt="インフラ構成図" src="https://user-images.githubusercontent.com/55728594/83349907-2543fa80-a373-11ea-9841-460694128064.jpg">
 
 ## 使用したgem等
 - テスト、静的解析
-  - rspec, capybara, factory_bot_rails, vcr
-  - rubocop
-  - brakeman, bullet
+  - rspec | capybara | factory_bot_rails | vcr
+  - rubocop | brakeman | bullet
 - 画像アップロード
-  - carrierwave, fog
+  - carrierwave | fog
 - ビューの補助機能
-  - ransack, kaminari
+  - ransack | kaminari
   - Action Text
 - javascriptライブラリ
-  - chartkick, fullcalendar-rails
+  - chartkick | fullcalendar-rails
 - メール送信、SNSログイン
   - aws-ses
   - omniauth

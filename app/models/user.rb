@@ -21,7 +21,7 @@ class User < ApplicationRecord
   after_create  :set_default_cycle
   after_create  :set_default_template_ja
 
-  validates :name, presence: true, length: { maximum: 20 }
+  validates :name, presence: true, length: { maximum: 12 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 255 },
                     unless: :uid?,
@@ -70,7 +70,7 @@ class User < ApplicationRecord
       name = auth[:info][:name]
 
       find_or_create_by!(provider: provider, uid: uid) do |user|
-        user.name = name
+        user.name = name[0..11]
         user.password = SecureRandom.hex(9) if user.password.nil?
       end
     end
@@ -124,8 +124,8 @@ class User < ApplicationRecord
     update(level: (level + 1))
   end
 
-  def save_consulted_word(word_definition)
-    consulted_words.find_or_create_by!(word_definition_id: word_definition.id)
+  def save_consulted_word(word_definition_id)
+    consulted_words.find_or_create_by!(word_definition_id: word_definition_id)
   end
 
   def set_test_logged_in
@@ -170,7 +170,8 @@ class User < ApplicationRecord
     return if notifications.where(checked: false, to_admin: false).any?
 
     notifications.destroy_all
-    notifications.create!
+    contact_id = contacts.where(from_admin: true).last.id
+    notifications.create!(contact_id: contact_id)
   end
 
   def set_calendar_to_review(review_date)

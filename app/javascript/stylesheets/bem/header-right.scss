@@ -1,3 +1,12 @@
+%__list {
+  margin-left: 5px;
+  position: relative;
+  float: left;
+  @include mq() {
+    display: inline-block;
+    float: unset;
+  }
+}
 .header-right {
   line-height: 52px;
   position: fixed;
@@ -16,12 +25,12 @@
     filter: drop-shadow(0 1px 4px rgba(0,0,0,0.3));
   }
   &__list {
-    margin-left: 5px;
-    position: relative;
-    float: left;
-    @include mq() {
-      display: inline-block;
-      float: unset;
+    @extend %__list;
+    &--top {
+      display: none;
+      @include mq() {
+        display: inline-block;
+      }
     }
   }
   &__envelope {
@@ -47,9 +56,23 @@
       font-size: 14px;
       text-decoration: none;
       @include header-btn;
+      @include mq() {
+        display: none;
+      }
+      &.mq-icon {
+        display: none;
+        margin-right: 18px;
+        @include mq() {
+          display: inline;
+        }
+      }
     }
   }
   &__guest-link {
+    @include header-btn;
+    text-decoration: none;
+  }
+  &__top-link {
     @include header-btn;
     text-decoration: none;
   }

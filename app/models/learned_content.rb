@@ -98,7 +98,8 @@ class LearnedContent < ApplicationRecord
   end
 
   def till_next_review
-    @till_next_review ||= (review_date - Time.zone.today).to_i
+    days_with_negative = (review_date - Time.zone.today).to_i
+    days_with_negative >= 0 ? days_with_negative : 0
   end
 
   def create_temporary_related_images

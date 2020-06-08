@@ -34,7 +34,7 @@ RSpec.describe 'Images', type: :system, js: true, vcr: { cassette_name: 'apis' }
     # go to the question page with image
     visit communities_questions_path
     find('a', text: 'Q about lead').click
-    find('a', text: 'Question').click
+    find('a', text: '回答する').click
     expect(page).to have_selector('img[alt="image of lead"]')
     fill_in 'A:', with: 'lead'
     click_button 'Submit'
