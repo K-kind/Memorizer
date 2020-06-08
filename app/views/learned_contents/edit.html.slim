@@ -42,13 +42,11 @@
 
         .learn-grid-container__subtle
           .learn-grid-container__category
-            = f.label :word_category_id
+            = f.label :word_category_id, 'Category:'
             = f.collection_select :word_category_id, @word_categories, :id, :category, {}, {class: ''}
           .learn-grid-container__public
-            = f.radio_button :is_public, true
-            = f.label :is_public, 'public', value: true
-            = f.radio_button :is_public, false
-            = f.label :is_public, 'private', value: false
+            = f.label :is_public, 'Public'
+            = f.check_box :is_public
         #learn-error
         .learn-grid-container__submit
           = f.submit 'Save', id: 'loading-needed'

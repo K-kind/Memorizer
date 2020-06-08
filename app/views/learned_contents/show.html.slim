@@ -41,7 +41,7 @@
     - if @learned_content.completed?
       span.till-next-day You have learned this word completely!
     - else
-      span.till-next-day Until next review: #{till_next_day(@learned_content.till_next_review)}
+      span.till-next-day 次の復習まで: #{@learned_content.till_next_review}日
   .learn-show-bottom__btns
     - if @original_content
       #favorite-partial
@@ -61,7 +61,7 @@
       = link_to 'Next', communities_questions_path(back: 1), class: 'learn-show-bottom__finish'
   - else
     .learn-show-bottom__today
-      = link_to ' Another word', new_learn_path, class: 'learn-show-bottom__another fa fa-edit'
+      = link_to ' 他の単語を学習', new_learn_path, class: 'learn-show-bottom__another fa fa-edit'
 
 / メイン単語の辞書を表示
 = link_to '', result_path(word: @word, type: 'show_main', learned_content_id: params[:id]), method: :post, remote: true, id: 'hidden_link'

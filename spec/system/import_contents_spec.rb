@@ -80,7 +80,7 @@ RSpec.describe 'import contents', type: :system, js: true, vcr: { cassette_name:
     # 元のコンテンツのページに飛んではいない
     expect(current_path).to_not eq learn_path(learned_content)
     expect(page).to have_content 'star'
-    expect(page).to have_content 'Until next review: 1 day'
+    expect(page).to have_content '次の復習まで: 1日 '
 
     expect {
       find('.fas.fa-thumbs-up.thumbs__gray').click
@@ -114,7 +114,7 @@ RSpec.describe 'import contents', type: :system, js: true, vcr: { cassette_name:
     click_link '"lead"'
 
     # ダウンロードした問題を削除
-    expect(page).to have_content 'Until next review: 1 day'
+    expect(page).to have_content '次の復習まで: 1日'
     expect {
       accept_alert do
         click_link 'Destroy'

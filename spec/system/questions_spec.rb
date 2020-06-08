@@ -83,7 +83,7 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     end
 
     click_link '"lead"'
-    expect(page).to have_content 'Until next review: 1 day'
+    expect(page).to have_content '次の復習まで: 1日'
     expect(page).to_not have_link 'Next'
     expect(page).to_not have_link 'Finish'
     expect(page).to_not have_content 'Again'
@@ -120,20 +120,20 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     end
 
     click_link '"lead"'
-    expect(page).to have_content 'Until next review: 7 days'
+    expect(page).to have_content '次の復習まで: 7日'
     expect(page).to have_link 'Next'
     expect(page).to have_link 'Finish'
     expect(page).to_not have_selector '.fas.fa-thumbs-up'
     aggregate_failures do
       check 'Again:'
       expect(page).to have_selector('.flash__notice', text: 'この問題をもう一度同じサイクルで復習します。')
-      expect(page).to have_content 'Until next review: 1 day'
+      expect(page).to have_content '次の復習まで: 1日'
       uncheck 'Again:'
       expect(page).to have_selector('.flash__notice', text: 'この問題は次の復習サイクルに進みます。')
-      expect(page).to have_content 'Until next review: 7 days'
+      expect(page).to have_content '次の復習まで: 7日'
       check 'Again:'
       expect(page).to have_selector('.flash__notice', text: 'この問題をもう一度同じサイクルで復習します。')
-      expect(page).to have_content 'Until next review: 1 day'
+      expect(page).to have_content '次の復習まで: 1日'
     end
     click_link 'Next'
 
@@ -169,7 +169,7 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     end
 
     click_link '"lead"'
-    expect(page).to have_content 'Until next review: 7 days'
+    expect(page).to have_content '次の復習まで: 7日'
     expect(page).to_not have_link 'Next'
     expect(page).to have_link 'Finish'
 
@@ -202,7 +202,7 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     end
 
     click_link '"lead"'
-    expect(page).to have_content 'Until next review: 1 day'
+    expect(page).to have_content '次の復習まで: 1日'
     expect(page).to_not have_link 'Next'
     expect(page).to_not have_link 'Finish'
     expect(page).to_not have_content 'Again'

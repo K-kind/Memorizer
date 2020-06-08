@@ -89,7 +89,7 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
     find_field('Answer 2').fill_in with: 'Answer for Q2'
     select 'star', from: 'Main word:'
     select 'Science', from: 'Category:'
-    choose 'Private'
+    uncheck 'Public'
 
     # Quick question
     find('a', text: 'Quick').click
@@ -100,7 +100,7 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
     within('.pixabay-btn') { click_on 'star' }
     within '#images-result' do
       # 画像を保存（星をつける）
-      expect(page).to have_selector('h4', text: 'Images for "star"')
+      expect(page).to have_selector('h4', text: 'starの画像')
       expect(page).to have_selector('img[alt="image of star"]')
       find('.image-save-btn', match: :first).click
       expect(page).to have_selector('.image-unsave-star')
@@ -121,7 +121,7 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
     find('.consulted-word-lead').click
     find('#pixabay-link', text: 'lead').click
     within '#images-result' do
-      expect(page).to have_selector('h4', text: 'Images for "lead"')
+      expect(page).to have_selector('h4', text: 'leadの画像')
       find('.image-save-btn', match: :first).click
     end
     within '.learn-grid-container__saved-images' do
@@ -152,17 +152,17 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
       expect(page).to have_selector('img[alt="image of lead"]')
     end
     expect(page).to have_selector('.active-word', text: 'star')
-    expect(page).to have_content 'Until next review: 1 day'
+    expect(page).to have_content '次の復習まで: 1日'
 
     # Privateなcontentは公開されない
     visit communities_questions_path
-    expect(page).not_to have_content '[Definition]'
+    expect(page).not_to have_content '次の意味'
     visit communities_words_path
     expect(page).not_to have_content 'star'
 
     # 自分の問題一覧には表示される
     visit learns_path
-    click_on '[Definition]'
+    click_on '次の意味'
     find('.question-modal__review-link').click
 
     click_on 'Edit'
@@ -184,7 +184,7 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
     fill_in 'Question 2', with: 'Question about yellow'
     fill_in 'Answer 2', with: 'The answer is yellow'
     select 'General', from: 'Word category'
-    choose 'public'
+    check 'Public'
 
     # starの画像を削除、yellowの画像を追加
     find('.image-unsave-times__s3', match: :first).click
@@ -218,7 +218,7 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
 
     # Publicなコンテンツは公開される
     visit communities_questions_path
-    expect(page).to have_content '[Definition]'
+    expect(page).to have_content '次の意味'
     visit communities_words_path
     expect(page).to have_content 'yellow'
     expect(page).to have_content 'lead'
@@ -235,7 +235,7 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
     # ダッシュボードに学習が表示される
     visit root_path
     expect(page).to have_selector('.home-top__count', text: '1')
-    click_on '[Definition]'
+    click_on '次の意味'
     find('.question-modal__review-link').click
 
     # destroy the learned content
@@ -243,10 +243,10 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
       click_on 'Destroy'
     end
     expect(page).to have_selector('.home-top__count', text: '0')
-    expect(page).to_not have_content '[Definition]'
+    expect(page).to_not have_content '次の意味'
 
     visit communities_questions_path
-    expect(page).not_to have_content '[Definition]'
+    expect(page).not_to have_content '次の意味'
     visit communities_words_path
     expect(page).not_to have_content 'yellow'
   end
