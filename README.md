@@ -23,8 +23,8 @@ https://memorizer.tech
 - 体験用の初期データを持つ複数のテストユーザー（同時ログインにも対応）
 - フィードバックを重視するための、お問い合わせ受付と管理者への通知機能
 - 細部までカバーするE2Eテスト
-- DRYな設定、軽量なDocker Imageを模索したCI/CDパイプライン
-- 速度向上のためのCDN利用など、各種AWSサービス
+- DRYな設定、軽量なDocker Imageでの最適化を目指したCI/CDパイプライン
+- 静的ファイルのCDN配信等、各種AWSサービスの活用
 - テンプレート付きのGitHub IssuesとPull requestsを活用した、擬似チーム開発
 
 ## 使用技術
@@ -39,8 +39,6 @@ https://memorizer.tech
 - HTML (slim) | Sass (BEM)
 - JavaScript | jQuery
 
-### エディター
-- VSCode
 
 ### インフラ
 - AWS
