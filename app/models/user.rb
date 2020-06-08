@@ -124,8 +124,8 @@ class User < ApplicationRecord
     update(level: (level + 1))
   end
 
-  def save_consulted_word(word_definition)
-    consulted_words.find_or_create_by!(word_definition_id: word_definition.id)
+  def save_consulted_word(word_definition_id)
+    consulted_words.find_or_create_by!(word_definition_id: word_definition_id)
   end
 
   def set_test_logged_in

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Validation for learning', type: :system, js: true, vcr: { cassette_name: 'apis' }, retry: 3 do
+RSpec.describe 'Validation for learning', type: :system, js: true, vcr: { cassette_name: 'apis' }, retry: 3, perform_enqueued_jobs: true do
   include ActiveJob::TestHelper
   let(:user) { create(:user) }
   before do
@@ -80,7 +80,7 @@ RSpec.describe 'Validation for learning', type: :system, js: true, vcr: { casset
   end
 
   context 'in the edit page' do
-    it 'validation for numbers of images', perform_enqueued_jobs: true do
+    it 'validation for numbers of images' do
       # save a content
       fill_in 'word', with: 'lead'
       click_button 'consult-submit'

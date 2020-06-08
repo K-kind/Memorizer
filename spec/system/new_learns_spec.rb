@@ -11,7 +11,7 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
     visit new_learn_path
   end
 
-  it 'a word can be learned', js: true, vcr: { cassette_name: 'apis' } do
+  it 'a word can be learned', js: true, vcr: { cassette_name: 'apis' }, perform_enqueued_jobs: true do
     # 無効な検索
     fill_in 'word', with: ' '
     click_button 'consult-submit'
@@ -130,12 +130,10 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
     end
 
     # Save
-    perform_enqueued_jobs do
-      expect {
-        click_button 'Save'
-        expect(page).to have_selector('.flash__notice', text: '学習が記録されました。')
-      }.to change(user.learned_contents, :count).by(1)
-    end
+    expect {
+      click_button 'Save'
+      expect(page).to have_selector('.flash__notice', text: '学習が記録されました。')
+    }.to change(user.learned_contents, :count).by(1)
 
     expect(current_path).to eq learn_path(user.learned_contents.last)
 
@@ -196,9 +194,7 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
       expect(page).to have_selector('img[alt="image of yellow"]')
     end
 
-    perform_enqueued_jobs do
-      click_button 'Save'
-    end
+    click_button 'Save'
 
     expect(page).to have_selector('.flash__notice', text: '学習内容が更新されました。')
     expect(current_path).to eq learn_path(user.learned_contents.last)
