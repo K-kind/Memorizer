@@ -21,7 +21,7 @@ class User < ApplicationRecord
   after_create  :set_default_cycle
   after_create  :set_default_template_ja
 
-  validates :name, presence: true, length: { maximum: 20 }
+  validates :name, presence: true, length: { maximum: 10 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 255 },
                     unless: :uid?,
@@ -70,7 +70,7 @@ class User < ApplicationRecord
       name = auth[:info][:name]
 
       find_or_create_by!(provider: provider, uid: uid) do |user|
-        user.name = name
+        user.name = name[0..9]
         user.password = SecureRandom.hex(9) if user.password.nil?
       end
     end

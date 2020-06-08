@@ -22,8 +22,13 @@ RSpec.describe User, type: :model do
       expect(user).to be_invalid
     end
 
-    it '20文字より長い名前は無効になること' do
-      user.name = 'a' * 21
+    it '10文字以下の名前は有効であること' do
+      user.name = 'a' * 10
+      expect(user).to be_valid
+    end
+
+    it '10文字より長い名前は無効になること' do
+      user.name = 'a' * 11
       expect(user).to be_invalid
     end
 
