@@ -1,3 +1,15 @@
 | $('#consulted-word-table').html('#{escape_javascript(render 'consulted_words')}');
+
+| $('.words-table-link').click(function() {
+|   var $word = $(this).text();
+|   var $wordTag = $(`.consulted-word-${$word}`);
+|   if ($wordTag.length) {
+|     if (!$wordTag.hasClass('active-word')) {
+|       $wordTag[0].click();
+|     }
+|     return false;
+|   }
+| });
+
 - if @message
   | setFlash('notice', "#{@message}");

@@ -12,50 +12,52 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
   end
 
   it 'a word can be learned', js: true, vcr: { cassette_name: 'apis' } do
-    # 無効な検索
-    fill_in 'word', with: ' '
-    click_button 'consult-submit'
-    expect(page).to have_selector('p', text: '" "は英語ではありません')
-
-    fill_in 'word', with: 'あいうえお'
-    click_button 'consult-submit'
-    expect(page).to have_selector('p', text: '"あいうえお"は英語ではありません')
-
-    fill_in 'word', with: 'mistaake'
-    click_button 'consult-submit'
-    expect(page).to have_selector('p', text: '"mistaake"の検索結果:0件')
-    expect(page).to have_selector('p', text: '"mistaake"と似た単語')
-    expect(page).to have_content 'mistake'
-
-    # 1つ目の単語を調べて、消す
-    fill_in 'word', with: 'temporary'
-    click_button 'consult-submit'
-    expect(page).to have_selector('.dictionary-heading__word', text: 'temporary')
-    find('.remove-word-btn').click
-    expect(page).to_not have_selector('.dictionary-heading__word', text: 'temporary')
-
-    # 2つ目の単語lead
-    expect {
-      fill_in 'word', with: 'lead'
+    perform_enqueued_jobs do
+      # 無効な検索
+      fill_in 'word', with: ' '
       click_button 'consult-submit'
-      expect(page).to have_selector('.dictionary-heading__word', text: 'lead')
-    }.to change(WordDefinition, :count).by(1)
+      expect(page).to have_selector('p', text: '" "は英語ではありません')
 
-    find('.thesaurus-toggler').click
-    find('.thesaurus-word-tab', text: 'noun').click
-    expect(page).to have_selector('.thesaurus-heading__word', text: 'lead')
-    expect(page).to have_selector('.word-class', text: 'noun')
-
-    expect(page).to have_selector('#pixabay-link', text: 'lead')
-
-    expect(page).to have_select('Main word:', selected: 'lead')
-
-    # 3つ目の単語starを検索
-    expect {
-      fill_in 'word', with: 'star'
+      fill_in 'word', with: 'あいうえお'
       click_button 'consult-submit'
-      expect(page).to have_selector('.dictionary-heading__word', text: 'star')
-    }.to change(WordDefinition, :count).by(1)
+      expect(page).to have_selector('p', text: '"あいうえお"は英語ではありません')
+
+      fill_in 'word', with: 'mistaake'
+      click_button 'consult-submit'
+      expect(page).to have_selector('p', text: '"mistaake"の検索結果:0件')
+      expect(page).to have_selector('p', text: '"mistaake"と似た単語')
+      expect(page).to have_content 'mistake'
+
+      # 1つ目の単語を調べて、消す
+      fill_in 'word', with: 'temporary'
+      click_button 'consult-submit'
+      expect(page).to have_selector('.dictionary-heading__word', text: 'temporary')
+      find('.remove-word-btn').click
+      expect(page).to_not have_selector('.dictionary-heading__word', text: 'temporary')
+
+      # 2つ目の単語lead
+      expect {
+        fill_in 'word', with: 'lead'
+        click_button 'consult-submit'
+        expect(page).to have_selector('.dictionary-heading__word', text: 'lead')
+      }.to change(WordDefinition, :count).by(1)
+
+      find('.thesaurus-toggler').click
+      find('.thesaurus-word-tab', text: 'noun').click
+      expect(page).to have_selector('.thesaurus-heading__word', text: 'lead')
+      expect(page).to have_selector('.word-class', text: 'noun')
+
+      expect(page).to have_selector('#pixabay-link', text: 'lead')
+
+      expect(page).to have_select('Main word:', selected: 'lead')
+
+      # 3つ目の単語starを検索
+      expect {
+        fill_in 'word', with: 'star'
+        click_button 'consult-submit'
+        expect(page).to have_selector('.dictionary-heading__word', text: 'star')
+      }.to change(WordDefinition, :count).by(1)
+    end
 
     find('.thesaurus-toggler').click
     find('.thesaurus-word-tab', text: 'adjective').click
@@ -130,12 +132,10 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
     end
 
     # Save
-    perform_enqueued_jobs do
-      expect {
-        click_button 'Save'
-        expect(page).to have_selector('.flash__notice', text: '学習が記録されました。')
-      }.to change(user.learned_contents, :count).by(1)
-    end
+    expect {
+      click_button 'Save'
+      expect(page).to have_selector('.flash__notice', text: '学習が記録されました。')
+    }.to change(user.learned_contents, :count).by(1)
 
     expect(current_path).to eq learn_path(user.learned_contents.last)
 
@@ -168,10 +168,12 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
     click_on 'Edit'
     expect(page).to have_selector('.dictionary-heading__word', text: 'star')
 
-    # 単語を追加
-    fill_in 'word', with: 'yellow'
-    click_button 'consult-submit'
-    expect(page).to have_selector('.dictionary-heading__word', text: 'yellow')
+    perform_enqueued_jobs do
+      # 単語を追加
+      fill_in 'word', with: 'yellow'
+      click_button 'consult-submit'
+      expect(page).to have_selector('.dictionary-heading__word', text: 'yellow')
+    end
 
     # 無効な編集
     fill_in 'Answer 2', with: ' '
@@ -196,9 +198,7 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
       expect(page).to have_selector('img[alt="image of yellow"]')
     end
 
-    perform_enqueued_jobs do
-      click_button 'Save'
-    end
+    click_button 'Save'
 
     expect(page).to have_selector('.flash__notice', text: '学習内容が更新されました。')
     expect(current_path).to eq learn_path(user.learned_contents.last)

@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Level', type: :system, js: true, vcr: { cassette_name: 'apis' }, retry: 3 do
   include LevelSet
+  include ActiveJob::TestHelper
   let(:user_skill) { create(:user_skill) }
   let(:user) { create(:user, user_skill: user_skill) }
   let(:other_user) { create(:user, user_skill: user_skill) }
@@ -45,11 +46,13 @@ RSpec.describe 'Level', type: :system, js: true, vcr: { cassette_name: 'apis' },
     # 新規学習 5exp
     set_exp(user: user, exp: 2)
     visit new_learn_path
-    fill_in 'word', with: 'lead'
-    click_button 'consult-submit'
-    find('#learned_content_content').set('I learned the word star.')
-    fill_in 'Question 1', with: 'Q about lead'
-    fill_in 'Answer 1', with: 'The answer is lead'
+    perform_enqueued_jobs do
+      fill_in 'word', with: 'lead'
+      click_button 'consult-submit'
+      find('#learned_content_content').set('I learned the word star.')
+      fill_in 'Question 1', with: 'Q about lead'
+      fill_in 'Answer 1', with: 'The answer is lead'
+    end
 
     expect {
       click_button 'Save'

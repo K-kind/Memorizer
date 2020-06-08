@@ -416,4 +416,16 @@ $(document).on('turbolinks:load', function () {
     $('#header-dropdown').slideToggle('fast');
     $(this).toggleClass('fa fa-times');
   });
+
+  // document.onが効かないため
+  $('.words-table-link').click(function() {
+    let $word = $(this).text();
+    let $wordTag = $(`.consulted-word-${$word}`);
+    if ($wordTag.length) {
+      if (!$wordTag.hasClass('active-word')) {
+        $wordTag.click();
+      }
+      return false;
+    }
+  });
 });

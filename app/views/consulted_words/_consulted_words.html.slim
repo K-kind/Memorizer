@@ -8,7 +8,7 @@ table.consulted-container__table
     - @consulted_words.each do |consulted_word|
       tr
         td.consulted-container__word-tr
-          = link_to result_path(word: consulted_word.word_definition.word, sub_type: 'default_word'), method: :post, remote: true do
+          = link_to result_path(word: consulted_word.word_definition.word, sub_type: 'default_word'), method: :post, remote: true, class: 'words-table-link' do
             = consulted_word.word_definition.word
         td= consulted_word.created_at.strftime('%Y/%m/%d')
         td= link_to '削除', consulted_word_path(consulted_word, page: params[:page]), method: :delete, remote: true, class: 'consulted-container__remove'
