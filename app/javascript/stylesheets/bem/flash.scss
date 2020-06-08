@@ -9,21 +9,25 @@
 %flash {
   padding: 15px 30px;
   border-radius: 4px;
-  border: 2px solid #448b44;
+  border: 1px solid #d6e9c6;
+  ;
   cursor: pointer;
   margin-bottom: 10px;
 }
 .flash {
   &__notice {
     @extend %flash;
-    background-color: palegreen;
-    color: #275327;
+    // background-color: palegreen;
+    // color: #275327;
+    background-color: #dff0d8;
+    color: #3c763d;
   }
   &__danger {
     @extend %flash;
-    background-color: #f79797;
-    color: #852828;
-    border-color: $error-color
+    background-color: #fabbbb;
+    color: #963535;
+    // border-color: $error-color
+    border-color: #f79090;
   }
   &__level_up {
     @extend %flash;
