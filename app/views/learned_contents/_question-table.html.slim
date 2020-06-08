@@ -25,10 +25,8 @@ table.question-table
         td
           - if learned_content.completed?
             | 完了!
-          -elsif learned_content.till_next_review >= 0
-            | #{learned_content.till_next_review}日
           - else
-            | 0日
+            | #{learned_content.till_next_review}日
         td= learned_content.word_category.category
         td
           - if learned_content.imported?

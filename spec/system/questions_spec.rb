@@ -125,13 +125,13 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     expect(page).to have_link 'Finish'
     expect(page).to_not have_selector '.fas.fa-thumbs-up'
     aggregate_failures do
-      check 'Again:'
+      check 'サイクルを進めない'
       expect(page).to have_selector('.flash__notice', text: 'この問題をもう一度同じサイクルで復習します。')
       expect(page).to have_content '次の復習まで: 1日'
-      uncheck 'Again:'
+      uncheck 'サイクルを進めない'
       expect(page).to have_selector('.flash__notice', text: 'この問題は次の復習サイクルに進みます。')
       expect(page).to have_content '次の復習まで: 7日'
-      check 'Again:'
+      check 'サイクルを進めない'
       expect(page).to have_selector('.flash__notice', text: 'この問題をもう一度同じサイクルで復習します。')
       expect(page).to have_content '次の復習まで: 1日'
     end

@@ -39,9 +39,14 @@
 .learn-show-bottom
   .learn-show-bottom__info
     - if @learned_content.completed?
-      span.till-next-day You have learned this word completely!
+      span.till-next-day この単語は完璧です！
     - else
       span.till-next-day 次の復習まで: #{@learned_content.till_next_review}日
+    - if @today == '1'
+      .learn-show-bottom__today
+        = form_with url: again_learn_path(@learned_content), id: 'onclick-form', class: 'again-form' do |f|
+          = f.label :again, 'サイクルを進めない'
+          = f.check_box :again, class: 'onclick-select'
   .learn-show-bottom__btns
     - if @original_content
       #favorite-partial
@@ -50,9 +55,6 @@
     = link_to 'Destroy', learn_path(@learned_content), class: "learn-show-bottom__destroy-btn  #{test_content_class(@learned_content)}", method: :delete, data: { confirm: '学習内容を削除してよろしいですか？' }
   - if @today == '1'
     .learn-show-bottom__today
-      = form_with url: again_learn_path(@learned_content), id: 'onclick-form', class: 'again-form' do |f|
-        = f.label :again, 'Again: '
-        = f.check_box :again, class: 'onclick-select'
       - if contents_to_review_today.any?
         = link_to 'Next', question_learn_path(contents_to_review_today.review_date_asc.first, today: 1), class: 'learn-show-bottom__next'
       = link_to 'Finish', root_path, class: 'learn-show-bottom__finish'
