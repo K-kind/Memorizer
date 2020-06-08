@@ -159,7 +159,7 @@ $(document).on('turbolinks:load', function () {
     $('.consulted-word').removeClass('active-word');
     $(this).addClass('active-word');
     if ($('#pixabay-link').length) { // 画像検索リンク
-      $('#pixabay-link').text(` "${clickedConsultedWord}"`);
+      $('#pixabay-link').text(` ${clickedConsultedWord}の画像`);
       $('#pixabay-link').attr('href', `/pixabay?word=${clickedConsultedWord}`);
     }
     return false;
@@ -303,7 +303,7 @@ $(document).on('turbolinks:load', function () {
       let definition2 = $(`[data-word="${word}"][data-type="definition"]`).eq(1).text();
       let definition3 = $(`[data-word="${word}"][data-type="definition"]`).eq(2).text();
       let definition = definition1 + '\n' + definition2 + '\n' + definition3
-      $question.val(`[Definition]\n${definition}`);
+      $question.val(`次の意味を持つ単語は？\n${definition}`);
       $answer.val(`${word}`);
     } else {
       $(this).text('Quick')

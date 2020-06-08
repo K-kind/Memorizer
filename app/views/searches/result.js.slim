@@ -1,6 +1,6 @@
 | $('.api-info').html('');
 | $('#images-result').html('');
-| $('.word-field').addClass('hidden'); 
+| $('.word-field').addClass('hidden');
 / 表示していた単語のボタンを灰色に
 | $('.consulted-word').removeClass('active-word');
 
@@ -14,7 +14,7 @@
   | $('.api-info').append('<p>#{@word_suggestion.join(', ')}</p>');
 - else
   | if ($('.pixabay-btn').length) {
-  |   $('.pixabay-btn').html('#{link_to " \"#{@word}\"", pixabay_path(word: @word), method: :post, remote: true, class:'far fa-images', id: "pixabay-link"}');
+  |   $('.pixabay-btn').html('#{link_to " #{@word}の画像", pixabay_path(word: @word), method: :post, remote: true, class:'far fa-images', id: "pixabay-link"}');
   | }
   / 調べた単語リストを作成
   | if (!$('#consulted-words').length) {
@@ -66,7 +66,7 @@
       / 変形
       - if container.dig('ins')
         | $('.#{dictionary_box} .dictionary-content').append("<p class='ins_#{@word}_#{container_index} word-sub-heading'></p>");
-      - container.dig('ins')&.each_with_index do |ins, ins_index| 
+      - container.dig('ins')&.each_with_index do |ins, ins_index|
         - if ins.dig('il')
           | $('.ins_#{@word}_#{container_index}').append("<span class='gray italic'>#{ins.dig('il')&.parse_tokens}</span>");
           | $('.ins_#{@word}_#{container_index}').append("<strong>#{ins.dig('if')&.parse_tokens} </strong>");
@@ -94,7 +94,7 @@
           - if child_sseq.dig(1, 'sgram')
             | $defHeading.append("<span>[<span class='gray'>#{child_sseq.dig(1, 'sgram')&.parse_tokens}</span>] </span>");
           | $defHeading.append("<span class='italic'>#{child_sseq.dig(1, 'sls')&.join(', ')&.parse_tokens}</span>");
-          - child_sseq.dig(1, 'dt')&.each_with_index do |dt, dt_index| 
+          - child_sseq.dig(1, 'dt')&.each_with_index do |dt, dt_index|
             / 1a : などの小見出し
             - if dt_index == 0 && dt.dig(0) == 'text'
               | $defHeading.append("<span data-type='definition' data-word='#{@word}'>#{dt.dig(1)&.parse_tokens}</span>");

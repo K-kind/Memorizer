@@ -5,6 +5,8 @@ header.header
         = image_pack_tag 'logo.png', class: 'header-left__logo'
 
 ul.header-right.clearfix#header-dropdown
+  li.header-right__list--top
+    = link_to 'TOP', root_path, class: 'header-right__top-link'
   li.header-right__list
     = link_to new_learn_path, class: 'header-right__new-link', title: '新規学習ページ' do
       i.fa.fa-edit.fa-lg

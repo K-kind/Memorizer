@@ -247,7 +247,7 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     # 問題ページから戻る
     click_link 'Technology Q'
     sleep(0.3)
-    click_link 'Question'
+    click_link '回答する'
     click_link 'Back'
     sleep(0.3)
     expect(page).to have_select('スキルで探す:', selected: 'TOEIC800点相当')
@@ -256,7 +256,7 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     # 回答ページから戻る
     click_link 'Technology Q'
     sleep(0.3)
-    click_link 'Question'
+    click_link '回答する'
     fill_in 'A:', with: 'answer'
     click_button 'Submit'
     sleep(0.2)
@@ -268,13 +268,13 @@ RSpec.describe 'Index of contents', type: :system, js: true, vcr: { cassette_nam
     # ダウンロードしたshowページから戻る
     click_link 'Technology Q'
     sleep(0.3)
-    click_link 'Question'
+    click_link '回答する'
     fill_in 'A:', with: 'answer'
     click_button 'Submit'
     sleep(0.3)
     click_link 'Download'
     sleep(0.2)
-    find('a', text: '"star"').click
+    find('a', text: 'star').click
     sleep(0.3)
     click_link 'Next'
     sleep(0.3)

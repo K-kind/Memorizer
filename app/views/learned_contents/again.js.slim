@@ -2,4 +2,4 @@
 - if @learned_content.completed?
   | $('.till-next-day').text('You have learned this word completely!');
 - else
-  | $('.till-next-day').text('Until next review: #{till_next_day(@learned_content.till_next_review)}');
+  | $('.till-next-day').text('次の復習まで: #{@learned_content.till_next_review}日');

@@ -25,7 +25,7 @@ RSpec.describe 'Always dictionary', type: :system, js: true, vcr: { cassette_nam
     expect(page).to_not have_select('Main word', selected: 'lead')
 
     # bookmark
-    find('.bookmark-default', text: 'lead').click
+    find('.bookmark-default', text: 'あとで学習').click
     expect(page).to have_selector('.later-list-container__list', text: 'lead')
     expect(page).to have_content 'あとで学習する'
     expect(page).to have_selector('#later-overlay')

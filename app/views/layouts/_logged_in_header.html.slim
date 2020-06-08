@@ -5,6 +5,8 @@ header.header
         = image_pack_tag 'logo.png', class: 'header-left__logo'
 
 ul.header-right.clearfix#header-dropdown
+  li.header-right__list--top
+    = link_to 'TOP', root_path, class: 'header-right__top-link'
   - if current_user.notifications.unchecked.user_notify.any?
     li.header-right__list
       = link_to contacts_path, class: 'header-right__envelope', title: 'お問い合わせへの返信' do
@@ -27,6 +29,9 @@ ul.header-right.clearfix#header-dropdown
   li.header-right__list
     a.header-right__toggler--user
       | #{current_user.name}(Lv.#{current_user.level})
+      i.fa.fa-caret-down
+    a.header-right__toggler--user.mq-icon
+      i.fas.fa-user.fa-lg
       i.fa.fa-caret-down
     ul.user-menu
       li.user-menu__list

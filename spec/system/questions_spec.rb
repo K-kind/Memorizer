@@ -66,7 +66,7 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
 
     # 明日の復習予定の問題（本日の復習が残っている状態）
     click_link 'Tommorow question'
-    find_link('Question').click
+    find_link('回答する').click
     expect(page).to_not have_link('Finish')
     expect(page).to_not have_content 'No.'
     find('a', text: 'Hint').click
@@ -82,8 +82,8 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
       expect(page).to_not have_content '本日の復習は終了しました。'
     end
 
-    click_link '"lead"'
-    expect(page).to have_content 'Until next review: 1 day'
+    click_link 'lead'
+    expect(page).to have_content '次の復習まで: 1日'
     expect(page).to_not have_link 'Next'
     expect(page).to_not have_link 'Finish'
     expect(page).to_not have_content 'Again'
@@ -112,28 +112,28 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     aggregate_failures do
       expect(page).to have_selector 'strong', text: 'Excellent!'
       expect(page).to have_selector '.answer-box__similarity--blue', text: '100%', count: 3
-      expect(page).to have_link '"lead"'
+      expect(page).to have_link 'lead'
       expect(page).to have_link 'Next'
       expect(page).to have_link 'Finish'
       expect(page).to_not have_selector '.fas.fa-thumbs-up'
       expect(page).to_not have_content '本日の復習は終了しました。'
     end
 
-    click_link '"lead"'
-    expect(page).to have_content 'Until next review: 7 days'
+    click_link 'lead'
+    expect(page).to have_content '次の復習まで: 7日'
     expect(page).to have_link 'Next'
     expect(page).to have_link 'Finish'
     expect(page).to_not have_selector '.fas.fa-thumbs-up'
     aggregate_failures do
-      check 'Again:'
+      check 'サイクルを進めない'
       expect(page).to have_selector('.flash__notice', text: 'この問題をもう一度同じサイクルで復習します。')
-      expect(page).to have_content 'Until next review: 1 day'
-      uncheck 'Again:'
+      expect(page).to have_content '次の復習まで: 1日'
+      uncheck 'サイクルを進めない'
       expect(page).to have_selector('.flash__notice', text: 'この問題は次の復習サイクルに進みます。')
-      expect(page).to have_content 'Until next review: 7 days'
-      check 'Again:'
+      expect(page).to have_content '次の復習まで: 7日'
+      check 'サイクルを進めない'
       expect(page).to have_selector('.flash__notice', text: 'この問題をもう一度同じサイクルで復習します。')
-      expect(page).to have_content 'Until next review: 1 day'
+      expect(page).to have_content '次の復習まで: 1日'
     end
     click_link 'Next'
 
@@ -162,14 +162,14 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
       expect(page).to have_selector '.answer-box__similarity--blue', text: '100%'
       expect(page).to have_selector '.answer-box__similarity--black', text: '54%'
       expect(page).to have_selector '.answer-box__similarity--red', text: '0%'
-      expect(page).to have_link '"lead"'
+      expect(page).to have_link 'lead'
       expect(page).to_not have_link 'Next'
       expect(page).to have_link 'Finish'
       expect(page).to have_content '本日の復習は終了しました。'
     end
 
-    click_link '"lead"'
-    expect(page).to have_content 'Until next review: 7 days'
+    click_link 'lead'
+    expect(page).to have_content '次の復習まで: 7日'
     expect(page).to_not have_link 'Next'
     expect(page).to have_link 'Finish'
 
@@ -189,7 +189,7 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     end
 
     # 明日の復習予定の問題（本日の復習が完了している状態）
-    find_link('Question').click
+    find_link('回答する').click
     expect(page).to_not have_link('Finish')
     expect(page).to_not have_content 'No.'
     fill_in 'A:', with: 'Tommorow answer'
@@ -201,8 +201,8 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
       expect(page).to_not have_content '本日の復習は終了しました。'
     end
 
-    click_link '"lead"'
-    expect(page).to have_content 'Until next review: 1 day'
+    click_link 'lead'
+    expect(page).to have_content '次の復習まで: 1日'
     expect(page).to_not have_link 'Next'
     expect(page).to_not have_link 'Finish'
     expect(page).to_not have_content 'Again'
