@@ -4,7 +4,9 @@ class ContactsController < ApplicationController
   def index
     @contacts = current_user.contacts.asc.page(params[:page]).per(6)
     @new_contact = Contact.new
-    current_user.notifications.user_notify.update(checked: true)
+    notifications = current_user.notifications.user_notify.unchecked
+    @new_contact_ids = notifications.pluck(:contact_id)
+    notifications.update_all(checked: true)
   end
 
   def create

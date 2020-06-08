@@ -2,7 +2,10 @@ ul.contact__box
   - @contacts.each do |contact|
     li.contact__list
       - if contact.from_admin?
-        h3.contact__list-heading 管理者からの返信
+        h3.contact__list-heading
+          | 管理者からの返信
+          - if @new_contact_ids && (contact.id.in? @new_contact_ids)
+            span.contact__new New
       - else
         h3.contact__list-heading お問い合わせ内容
       = simple_format contact.comment, class: 'contact__format'

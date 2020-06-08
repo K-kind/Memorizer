@@ -170,7 +170,8 @@ class User < ApplicationRecord
     return if notifications.where(checked: false, to_admin: false).any?
 
     notifications.destroy_all
-    notifications.create!
+    contact_id = contacts.where(from_admin: true).last.id
+    notifications.create!(contact_id: contact_id)
   end
 
   def set_calendar_to_review(review_date)
