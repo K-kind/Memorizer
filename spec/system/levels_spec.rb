@@ -98,7 +98,7 @@ RSpec.describe 'Level', type: :system, js: true, vcr: { cassette_name: 'apis' },
     set_exp(user: user, exp: 6)
     visit communities_questions_path
     find('a', text: 'Q of other_user').click
-    find('a', text: 'Question').click
+    find('a', text: '回答する').click
     fill_in 'A:', with: 'a' * 9 + 'b'
     expect {
       click_button 'Submit'
@@ -113,7 +113,7 @@ RSpec.describe 'Level', type: :system, js: true, vcr: { cassette_name: 'apis' },
     set_exp(user: user, exp: 6)
     visit learns_path
     find('a', text: 'Q for 90%').click
-    find('a', text: 'Question').click
+    find('a', text: '回答する').click
     fill_in 'A:', with: 'a' * 10
     expect {
       click_button 'Submit'

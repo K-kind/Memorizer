@@ -66,7 +66,7 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
 
     # 明日の復習予定の問題（本日の復習が残っている状態）
     click_link 'Tommorow question'
-    find_link('Question').click
+    find_link('回答する').click
     expect(page).to_not have_link('Finish')
     expect(page).to_not have_content 'No.'
     find('a', text: 'Hint').click
@@ -82,7 +82,7 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
       expect(page).to_not have_content '本日の復習は終了しました。'
     end
 
-    click_link '"lead"'
+    click_link 'lead'
     expect(page).to have_content '次の復習まで: 1日'
     expect(page).to_not have_link 'Next'
     expect(page).to_not have_link 'Finish'
@@ -119,7 +119,7 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
       expect(page).to_not have_content '本日の復習は終了しました。'
     end
 
-    click_link '"lead"'
+    click_link 'lead'
     expect(page).to have_content '次の復習まで: 7日'
     expect(page).to have_link 'Next'
     expect(page).to have_link 'Finish'
@@ -168,7 +168,7 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
       expect(page).to have_content '本日の復習は終了しました。'
     end
 
-    click_link '"lead"'
+    click_link 'lead'
     expect(page).to have_content '次の復習まで: 7日'
     expect(page).to_not have_link 'Next'
     expect(page).to have_link 'Finish'
@@ -189,7 +189,7 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
     end
 
     # 明日の復習予定の問題（本日の復習が完了している状態）
-    find_link('Question').click
+    find_link('回答する').click
     expect(page).to_not have_link('Finish')
     expect(page).to_not have_content 'No.'
     fill_in 'A:', with: 'Tommorow answer'
@@ -201,7 +201,7 @@ RSpec.describe 'Questions', type: :system, js: true, vcr: { cassette_name: 'apis
       expect(page).to_not have_content '本日の復習は終了しました。'
     end
 
-    click_link '"lead"'
+    click_link 'lead'
     expect(page).to have_content '次の復習まで: 1日'
     expect(page).to_not have_link 'Next'
     expect(page).to_not have_link 'Finish'

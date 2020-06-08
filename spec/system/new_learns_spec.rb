@@ -183,7 +183,7 @@ RSpec.describe 'New Learn', type: :system, retry: 3 do
     find('#learned_content_content').set('I learned the word yellow.')
     fill_in 'Question 2', with: 'Question about yellow'
     fill_in 'Answer 2', with: 'The answer is yellow'
-    select 'General', from: 'Word category'
+    select 'General', from: 'Category'
     check 'Public'
 
     # starの画像を削除、yellowの画像を追加

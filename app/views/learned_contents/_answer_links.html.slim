@@ -8,7 +8,7 @@
   - if @today == '1'
     = link_to learn_path(@learned_content, today: 1), class: 'question-container__btn--review' do
       i.fas.fa-book-open.question-container__icon
-      | "#{@learned_content.word_definition.word}"
+      | #{@learned_content.word_definition.word}を復習
   - else
     = link_to learn_path(@learned_content), class: 'question-container__btn--review' do
       i.fas.fa-book-open.question-container__icon

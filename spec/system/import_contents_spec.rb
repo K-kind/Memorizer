@@ -42,7 +42,7 @@ RSpec.describe 'import contents', type: :system, js: true, vcr: { cassette_name:
 
     click_link 'Q about lead'
     expect(page).to_not have_selector('a', text: 'Review')
-    click_link 'Question'
+    click_link '回答する'
 
     expect(page).to have_link('Back')
     fill_in 'A:', with: 'lead'
@@ -80,7 +80,7 @@ RSpec.describe 'import contents', type: :system, js: true, vcr: { cassette_name:
     # 元のコンテンツのページに飛んではいない
     expect(current_path).to_not eq learn_path(learned_content)
     expect(page).to have_content 'star'
-    expect(page).to have_content '次の復習まで: 1日 '
+    expect(page).to have_content '次の復習まで: 1日'
 
     expect {
       find('.fas.fa-thumbs-up.thumbs__gray').click
@@ -102,7 +102,7 @@ RSpec.describe 'import contents', type: :system, js: true, vcr: { cassette_name:
     visit communities_questions_path
     click_link 'Q about lead'
     expect(page).to have_selector('#question-modal')
-    click_link 'Question'
+    click_link '回答する'
 
     expect(page).to have_link 'Back'
     fill_in 'A:', with: 'lead'
