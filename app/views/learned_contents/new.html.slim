@@ -2,7 +2,7 @@
 
 .new-word-search
   = form_with url: result_path, class: 'new-word-search__form' do |f|
-    = f.text_field :word, placeholder: 'Search for a word...', autofocus: true, class: 'new-word-search__input'
+    = f.text_field :word, placeholder: 'Search for a word...', class: 'new-word-search__input'
     = f.hidden_field :type, value: 'main'
     span.new-word-search__eraser.fa.fa-times#erasor
     = button_tag type: 'submit', class: 'new-word-search__submit', id: 'consult-submit' do
@@ -84,13 +84,12 @@
     = image_pack_tag 'pixabay-logo.png', class: 'pixabay-logo'
   #images-result
 
+.home-back
+  = link_to '< HOME', root_path
+
 - if @default_word
   = link_to '', result_path(word: @default_word), method: :post, remote: true, id: 'hidden_link'
 
-- if @template
-  = link_to '', learn_template_path(@template), remote: true, id: 'hidden_template_link'
-
-.home-back
-  = link_to '< HOME', root_path
+= link_to '', learn_template_path(@template_id), remote: true, id: 'hidden_template_link'
 
 p#loading 学習内容を保存中です...
