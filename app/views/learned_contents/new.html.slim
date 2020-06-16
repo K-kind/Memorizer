@@ -13,6 +13,17 @@
 .learn-grid-container
   .learn-grid-container__webster
     #webster-field
+      - if !logged_in? || current_user.is_test_user?
+        ol.learn-grid-container__guide
+          i.far.fa-question-circle
+          li.learn-grid-container__guide-li
+            | 1. 上のフォームから英単語を検索します。
+          li.learn-grid-container__guide-li
+            | 2. 下に表示されるボタンをクリックして、単語に関連する画像を取得し、保存します。（任意）
+          li.learn-grid-container__guide-li
+            | 3. 単語の意味などをメモします。（任意）
+          li.learn-grid-container__guide-li
+            | 4. 単語に関する問題と答えを作成します。（必須）
       = link_to 'https://www.merriam-webster.com/', target: '_blank', rel: 'noopener' do
         = image_pack_tag 'Merriam-Webster-logo.png', class: 'merriam-logo'
   .learn-grid-container__study
