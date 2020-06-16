@@ -33,8 +33,13 @@ class LearnedContentsController < ApplicationController
     @learned_content = LearnedContent.new
     @new_question = @learned_content.questions.build
     @default_word = params[:default_word]
-    # ゲストユーザーの場合はnil
-    @template = current_user&.learn_templates&.last
+    if current_user
+      @template_id = current_user.learn_templates.last.id
+    else
+      test_admin_email = Rails.application.credentials.dig(:seed, :test_admin_email)
+      test_admin = User.find_by(email: test_admin_email)
+      @template_id = test_admin.learn_templates.last.id
+    end
   end
 
   def create

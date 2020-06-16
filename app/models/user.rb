@@ -167,8 +167,6 @@ class User < ApplicationRecord
   end
 
   def reset_test_notification
-    return if notifications.where(checked: false, to_admin: false).any?
-
     notifications.destroy_all
     contact_id = contacts.where(from_admin: true).last.id
     notifications.create!(contact_id: contact_id)

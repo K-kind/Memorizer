@@ -49,7 +49,7 @@
       top: 10px;
       right: 10px;
       @include mq(sm) {
-        height: 17px;
+        height: 14px;
       }
     }
   }
@@ -240,6 +240,26 @@
   }
   &__guest-text {
     padding-top: 6px;
+  }
+  &__guide {
+    width: 80%;
+    @include white-box;
+    background-color: #F9FBFE;
+    padding: 8px 30px;
+    position: absolute;
+    top: 75px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    z-index: -1;
+    .fa-question-circle {
+      position: absolute;
+      top: 10px;
+      left: 7px;
+    }
+  }
+  &__guide-li {
+    font-size: 14px;
   }
 }
 
