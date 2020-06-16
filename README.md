@@ -73,3 +73,6 @@ https://memorizer.tech
   - asset_sync
 - ジョブアダプター
   - sidekiq
+
+## ER図
+<img width="1200" alt="ER図" src="https://user-images.githubusercontent.com/55728594/84380296-12a6ac80-ac22-11ea-9935-252c80f16bf1.jpg">

@@ -127,6 +127,7 @@
   }
   &__template-default {
     margin: 4px 0 10px;
+    text-align: right;
   }
   &__template-default-link {
     @include submit-btn;
@@ -134,7 +135,7 @@
     height: 22px;
     line-height: 22px;
     padding: 0 8px;
-    margin: 4px 6px 0 0;
+    margin: 4px 0 0 6px;
   }
   &__settings-left {
     width: 525px;

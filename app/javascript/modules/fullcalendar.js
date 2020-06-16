@@ -53,7 +53,8 @@ $(document).on('turbolinks:load', function () {
       //イベントの時間表示を２４時間に
       timeFormat: "HH:mm",
       //イベントの色を変える
-      eventColor: '#63ceef',
+      eventColor: 'rgb(225, 243, 255)',
+      // eventColor: '#63ceef',
       //イベントの文字色を変える
       eventTextColor: '#000000',
       // 月曜から

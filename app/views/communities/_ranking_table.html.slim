@@ -1,10 +1,10 @@
 table.community-ranking-container__table
   thead
     tr
-      th 順位
-      th ユーザー
-      th= type == 'learns' ? '単語学習数' : 'いいね獲得数'
-      th レベル
+      th.community-ranking-container__th--1 順位
+      th.community-ranking-container__th--2 ユーザー
+      th.community-ranking-container__th--3 レベル
+      th.community-ranking-container__th--4= type == 'learns' ? '単語学習数' : 'いいね獲得数'
   tbody
     - users.each_with_index do |user, index|
       - if user == current_user
@@ -12,8 +12,8 @@ table.community-ranking-container__table
       tr class="#{tr_class}"
         td= index + 1 + @ranking
         td= user.name
-        td= user.send("#{type}_count")
         td= user.level
+        td= user.send("#{type}_count")
     - (10 - users.length).times do
       tr
         td &nbsp;

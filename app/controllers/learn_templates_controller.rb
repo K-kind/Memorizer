@@ -1,5 +1,5 @@
 class LearnTemplatesController < ApplicationController
-  before_action :logged_in_user
+  before_action :logged_in_user, only: [:update, :default]
   before_action :set_learn_template
 
   def update
