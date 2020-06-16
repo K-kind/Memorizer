@@ -1,3 +1,5 @@
+= provide(:title,  '新規学習')
+
 .new-word-search
   = form_with url: result_path, class: 'new-word-search__form' do |f|
     = f.text_field :word, placeholder: 'Search for a word...', autofocus: true, class: 'new-word-search__input'
