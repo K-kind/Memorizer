@@ -42,10 +42,10 @@ RSpec.describe 'Ranking', type: :system, js: true, retry: 3 do
     # No. of learns this week
     within '#ranking-table' do
       expect(page).to have_selector('tbody tr:first-child td:nth-child(2)', text: 'ユーザー15')
-      expect(page).to have_selector('tbody tr:first-child td:nth-child(3)', text: '15')
+      expect(page).to have_selector('tbody tr:first-child td:nth-child(4)', text: '15')
       paginate_and_wait 2
       # my ranking row
-      expect(page).to have_selector('.community-ranking-container__my-tr td:nth-child(3)', text: '1')
+      expect(page).to have_selector('.community-ranking-container__my-tr td:nth-child(4)', text: '1')
       expect(page).to_not have_content 'No content'
     end
 
@@ -54,7 +54,7 @@ RSpec.describe 'Ranking', type: :system, js: true, retry: 3 do
     wait_for_ajax
     within '#ranking-table' do
       expect(page).to have_selector('tbody tr:first-child td:nth-child(2)', text: 'テスター')
-      expect(page).to have_selector('.community-ranking-container__my-tr td:nth-child(3)', text: '17')
+      expect(page).to have_selector('.community-ranking-container__my-tr td:nth-child(4)', text: '17')
       paginate_and_wait 2
       expect(page).to_not have_content 'No content'
     end
@@ -62,10 +62,10 @@ RSpec.describe 'Ranking', type: :system, js: true, retry: 3 do
     # No. of favorites this week
     within '#favo-ranking-table' do
       expect(page).to have_selector('tbody tr:first-child td:nth-child(2)', text: 'ユーザー15')
-      expect(page).to have_selector('tbody tr:first-child td:nth-child(3)', text: '15')
+      expect(page).to have_selector('tbody tr:first-child td:nth-child(4)', text: '15')
       paginate_and_wait 2
       # my ranking row
-      expect(page).to have_selector('.community-ranking-container__my-tr td:nth-child(3)', text: '1')
+      expect(page).to have_selector('.community-ranking-container__my-tr td:nth-child(4)', text: '1')
       expect(page).to_not have_content 'No content'
     end
 
@@ -74,7 +74,7 @@ RSpec.describe 'Ranking', type: :system, js: true, retry: 3 do
     wait_for_ajax
     within '#favo-ranking-table' do
       expect(page).to have_selector('tbody tr:first-child td:nth-child(2)', text: 'テスター')
-      expect(page).to have_selector('.community-ranking-container__my-tr td:nth-child(3)', text: '17')
+      expect(page).to have_selector('.community-ranking-container__my-tr td:nth-child(4)', text: '17')
       paginate_and_wait 2
       expect(page).to_not have_content 'No content'
     end
